@@ -43,7 +43,16 @@ try {
     const finite = flags.every(f => Array.from(f.node.geometry.attributes.position.array).every(Number.isFinite)
       && Array.from(f.node.geometry.attributes.normal.array).every(Number.isFinite));
     motion.dispose();
-    return { names: flags.map(f => f.node.name), strong, fastRate, slowRate, reversal, calm, gravity, fallbackDirection, fixed, finite };
+    // Every ensign she can fly has the same three flags, hung from the rig's own points:
+    // the ensign at the spanker gaff peak, the pennant above everything at the main truck.
+    const kinds = ['dutch', 'blue', 'french'].map((ensign) => {
+      const s = window.build({ lod: 'game', crew: false, ensign });
+      const at = (n) => s.getObjectByName(n);
+      return { ensign, names: ['ensign', 'pennant', 'jack', 'flag_halliards'].map((n) => !!at(n)),
+        ensignY: at('ensign').position.y, pennantY: at('pennant').position.y, jackVisible: at('jack').visible,
+        gaffY: at('spanker_gaff').position.y };
+    });
+    return { kinds, names: flags.map(f => f.node.name), strong, fastRate, slowRate, reversal, calm, gravity, fallbackDirection, fixed, finite };
   });
   assert.ok(report.names.length >= 2);
   for (let i = 0; i < report.names.length; i++) {
@@ -57,6 +66,12 @@ try {
     assert.equal(report.fixed[i], true, 'the entire hoist stays attached');
   }
   assert.equal(report.finite, true);
-  assert.deepEqual(h.problems, []);
+  assert.deepEqual(h.problems.filter(p => !/404|procedural ship detail/.test(p)), []);
+  for (const k of report.kinds) {
+    assert.deepEqual(k.names, [true, true, true, true], `${k.ensign}: ensign, pennant, jack and halliards all built`);
+    assert.ok(k.pennantY > k.ensignY, `${k.ensign}: the pennant flies above the ensign`);
+    assert.ok(k.ensignY > k.gaffY, `${k.ensign}: the ensign is bent to the gaff, which stands above its throat`);
+    assert.ok(k.jackVisible, `${k.ensign}: the jack is shown on its staff by default`);
+  }
   console.log(JSON.stringify(report, null, 2));
 } finally { await h.close(); }

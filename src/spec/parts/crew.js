@@ -1,25 +1,32 @@
-// The watch on deck.
+// The watch on deck of a Dutch 74 of 1811.
 //
 // Nothing in this file is evidence about *this* ship, and it says so: every row is
 // graded RECONSTRUCTED or FICTIONAL. What it is evidence about is people — the height of
-// a British seaman in the 1790s is a well-recorded number, and it is the number that
-// decides whether the ship reads at her real size. A ship with no one on her has no
-// scale at all: she could be forty metres long or four, and the eye has nothing to
-// measure her against. That is most of why a model looks like a model.
+// a seaman of about 1800 is a well-recorded number, and it is the number that decides
+// whether the ship reads at her real size. A ship with no one on her has no scale at all:
+// she could be forty metres long or four, and the eye has nothing to measure her against.
+// That is most of why a model looks like a model.
 //
 // Where they stand is the other half. In a gale, running before it, the watch is not
-// spread evenly about the deck: it is at the wheel, at the con, at the lee braces, and
-// otherwise under the weather rail keeping out of the water. Putting figures where the
-// work is says more than putting more of them.
+// spread evenly about the deck: it is at the wheel, at the con, at the braces, at the
+// guns' quarters and otherwise under the weather rail keeping out of the water. Putting
+// figures where the work is says more than putting more of them. A 74's watch is larger
+// than a frigate's: twenty-four at hero, eight at game.
+//
+// The dress is Dutch of 1811 (research 05, §1): officers in dark blue coats with
+// light-blue or red facings and cocked hats; the captain, in the book's description, in a
+// LIGHT-BLUE coat with brass buttons, smoking a short pipe; seamen in short jackets and
+// round hats. The colours are in PAINT (`dutch_*`).
 import { ft, m, n } from '../units.js';
 
 // Muster rolls and the surviving measurements of seamen's slop clothing put the average
-// seaman of the 1790s at about five feet six; officers, better fed from childhood, ran
-// two or three inches taller.
+// British seaman of the 1790s at about five feet six; officers, better fed from
+// childhood, ran two or three inches taller. No Dutch muster figures were found, and a
+// Dutch crew of 1811 is taken to be the same height.
 const R = 'RECONSTRUCTED §9';
 
 export const CREW_SPEC = {
-  crew_figure_height: m(ft(5, 6), `${R} the average height of a British seaman in the 1790s, from the surviving Marine and Navy muster descriptions. This is the number that gives the ship her scale`),
+  crew_figure_height: m(ft(5, 6), `${R} the average height of a seaman of about 1800, from the surviving British Marine and Navy muster descriptions (no Dutch figures found). This is the number that gives the ship her scale`),
   crew_officer_height: m(ft(5, 9), `${R} officers ran two to three inches taller than the people, being better fed as children`, { noAudit: true }),
   crew_shoulder_breadth: m(ft(1, 5), `${R} across the shoulders of a working man in a jacket`, { noAudit: true }),
   crew_hip_breadth: m(ft(1, 1), `${R} across the hips`, { noAudit: true }),
@@ -32,16 +39,29 @@ export const CREW_SPEC = {
   crew_leg_thickness: m(ft(0, 5.5), `${R} through a trouser leg`, { noAudit: true }),
   crew_stance: m(ft(1, 2), `${R} how wide a man stands with the deck moving under him. It is wider than a man stands ashore, and it is one of the few things about a figure that reads at any distance`, { noAudit: true }),
 
-  // Where the watch is. Everything is given as a distance from the stem along the
-  // gundeck, the way the research files give a position, or as an offset from a fitting
-  // that already has a row of its own.
-  crew_helm_abaft_wheel: m(ft(1, 6), `${R} a helmsman stands close abaft the wheel with the spokes at arm's length`, { noAudit: true }),
-  crew_helm_spread: m(ft(3, 6), `${R} the two men of a double wheel stand one at each wheel, which is what the second wheel is for`, { noAudit: true }),
-  crew_con_abaft_binnacle: m(ft(2, 0), `${R} the officer of the watch cons her from beside the binnacle, where he can see the compass and the weather leech together`, { noAudit: true }),
-  crew_lookout_from_stem: m(ft(20, 0), `${R} the forecastle lookout, well forward and at the weather rail`, { noAudit: true }),
-  crew_waist_from_stem: m(ft(70, 0), `${R} the hands at the chain pumps, which are immediately either side of the mainmast`, { noAudit: true }),
-  crew_brace_from_stem: m(ft(95, 0), `${R} the after braces are belayed abaft the mizzen, and in a gale there are hands standing by them`, { noAudit: true }),
-  crew_taffrail_from_stem: m(ft(122, 0), `${R} an officer aft at the taffrail, watching the following sea, which is the whole business of running before a gale`, { noAudit: true }),
+  // Where the watch is. Everything is given as a distance from a fitting or a station the
+  // draught fixes (a mast, the capstan, the wheel), never as a number on the ship, so the
+  // watch moves with them.
+  crew_helm_abaft_wheel: m(ft(1, 4), `${R} a helmsman stands close abaft his wheel with the spokes at arm's length; the double wheel has two men to each`, { noAudit: true }),
+  crew_helm_off_centre: m(ft(2, 4), `${R} each helmsman stands beside the rim of the wheel, a little inside its edge`, { noAudit: true }),
+  crew_con_abaft_binnacle: m(ft(2, 6), `${R} the officer of the watch cons her from beside the binnacles, where he can see the compass and the weather leech together`, { noAudit: true }),
+  crew_con_off_centre: m(ft(6, 0), `${R} the officer of the watch stands to larboard of the binnacles`, { noAudit: true }),
+  crew_master_off_centre: m(ft(8, 6), `${R} the master (the second officer of the watch) stands on the weather side of the quarterdeck`, { noAudit: true }),
+  crew_master_forward_of_binnacle: m(ft(3, 0), `${R} a little forward of the binnacles`, { noAudit: true }),
+  crew_captain_forward_of_mizzen: m(ft(5, 0), `${R} the captain paces the weather side of the quarterdeck between the wheel and the mizzen, clear of the helmsmen and of the braces`, { noAudit: true }),
+  crew_captain_off_centre: m(ft(12, 0), `${R} the captain on the weather side, by the rail`, { noAudit: true }),
+  crew_midshipman_forward_of_binnacle: m(ft(14, 0), `${R} the signal midshipman at the forward end of the quarterdeck, where he can see the flag halliards and the other ships`, { noAudit: true }),
+  crew_midshipman_off_centre: m(ft(10, 0), `${R} to larboard`, { noAudit: true }),
+  crew_mizzen_brace_abaft_mizzen: m(ft(1, 6), `${R} the mizzen braces are belayed at the rail abreast the mast, and in a gale there are hands standing by them`, { noAudit: true }),
+  crew_gun_quarters_port_index: n(1, `${R} which of the quarterdeck ports on the larboard side has a crew standing to it (counted from forward)`, { noAudit: true }),
+  crew_gun_quarters_starboard_index: n(3, `${R} which of the quarterdeck ports on the starboard side has a crew standing to it (counted from forward)`, { noAudit: true }),
+  crew_gun_quarters_inboard: m(ft(9, 0), `${R} the gun captain stands behind the breech of his gun, this far inboard of the ship's side, clear of the recoil`, { noAudit: true }),
+  crew_gun_quarters_loader_abaft: m(ft(2, 8), `${R} the second man of a gun's crew stands beside him`, { noAudit: true }),
+  crew_main_brace_forward_of_mainmast: m(ft(5, 0), `${R} the main braces lead to the pin rail at the break of the quarterdeck; the hands stand on the gangways to haul them`, { noAudit: true }),
+  crew_pump_hand_off_centre: m(ft(5, 0), `${R} the hands at the chain pumps, one each side`, { noAudit: true }),
+  crew_bosun_off_centre: m(ft(9, 0), `${R} the boatswain stands in the waist by the capstan, where he can see everything that is being done on deck`, { noAudit: true }),
+  crew_lookout_forward_of_foremast: m(ft(9, 0), `${R} the forecastle lookouts, well forward of the foremast`, { noAudit: true }),
+  crew_lookout_off_centre: m(ft(5, 6), `${R} one each side of the stem`, { noAudit: true }),
   crew_rail_inset: n(0.62, `${R} how far out toward the ship's side a man stands, as a fraction of the half-breadth at his station. He stands by the rail, not on the centreline`, { noAudit: true }),
   crew_top_inset: n(0.55, `${R} how far out on the top platform a man stands, as a fraction of its half-breadth`, { noAudit: true }),
 
@@ -52,6 +72,10 @@ export const CREW_SPEC = {
   crew_jacket_drop: n(0.10, `${R} a seaman's jacket ends just below the hip and no lower. It is cut short so that it does not foul him when he goes aloft`, { noAudit: true }),
   crew_hat_brim: m(ft(0, 4.5), `${R} the brim of a round hat, beyond the crown all round. It is the widest thing about a man's head and the part that survives being three hundred pixels away`, { noAudit: true }),
   crew_hat_crown: m(ft(0, 3.5), `${R} the crown of a low round hat, tarred against the weather`, { noAudit: true }),
+  crew_button_size: m(ft(0, 1.1), `${R} a brass coat button, a little over an inch across. The captain's are what the book remarks on, and a row of them down a light-blue coat is what picks him out`, { noAudit: true }),
+  crew_pipe_stem_length: m(ft(0, 4), `${R} the stem of a short clay pipe, which the captain smokes`, { noAudit: true }),
+  crew_pipe_bowl_height: m(ft(0, 1.6), `${R} the bowl of the pipe`, { noAudit: true }),
+  crew_cuff_depth: m(ft(0, 3), `${R} the facing colour at the wrist of an officer's coat, which is how a Dutch officer's facings show at a distance`, { noAudit: true }),
   crew_cocked_hat_span: m(ft(1, 3), `${R} across a cocked hat from point to point. Worn athwartships by an officer of this date, it is a wider mark than his shoulders and it is how he is known at a distance`, { noAudit: true }),
   crew_neck_height: m(ft(0, 2.5), `${R} the neck, which is small and matters: without one the head sits on the shoulders like a ball on a wall`, { noAudit: true }),
   crew_hand_length: m(ft(0, 7), `${R} the hand at the end of the sleeve. Bare skin at the end of a dark arm is what says the arm is an arm`, { noAudit: true }),
@@ -82,6 +106,6 @@ export const CREW_SPEC = {
   crew_arm_haul_splay_deg: n(15, `${R} hands a little apart on the rope, one above the other`, { noAudit: true }),
   crew_haul_lean_deg: n(9, `${R} a man hauling puts his weight back against the rope. It is the lean and not the arms that says what he is doing`, { noAudit: true }),
 
-  crew_count: n(13, `${R} the watch on deck of a frigate with a company of about two hundred, in weather that has driven everyone else below: two at the wheel, two officers, seven of the watch and two in the main top`),
+  crew_count: n(24, `${R} the watch on deck of a 74 with a company of about six hundred, in weather that has driven most of them below: four at the double wheel, four officers and the signal midshipman among them, two mizzen brace hands, two guns' crews of two, two main brace hands, two at the pumps, the boatswain, two lookouts and three topmen in the main top`),
   crew_lean_deg: n(6, `${R} a man standing on a deck heeled and moving stands out of the vertical, braced against it. Figures standing bolt upright on a ship that is not upright are one of the plainest tells in a rendered scene`, { noAudit: true }),
 };

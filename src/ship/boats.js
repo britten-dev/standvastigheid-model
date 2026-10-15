@@ -1,25 +1,28 @@
 // The ship's boats.
 //
-// A frigate carried her boats on the booms — the skid beams laid across the waist —
-// and in the reference photograph they are the brightest thing on the ship: white
-// outside, bright wood inside, sitting high above the rail between the fore and main
-// masts. Research file 06 §8.3 reconstructs the outfit as a launch, a pinnace, a cutter
-// and a jolly boat, and that is what is built here.
+// A 74 carried her boats on the booms — the skid beams laid across the waist, between the
+// forecastle and the quarterdeck — with the smaller boats nested inside the larger, and
+// the quarter boats hung in davits at the stern. Her outfit here is a launch with a cutter
+// nested in her and a pinnace beside her on the skids, a second cutter in the port
+// quarter davits and a jolly boat in the starboard (research 06 §8.3; the lengths are in
+// src/spec/parts/boats.js, from Steel and Lavery's boat establishments for a third rate).
 //
-// There is one boat, not four. `makeBoat` lofts a little hull from a set of ratios —
+// There is one boat shape, not five. `makeBoat` lofts a little hull from a set of ratios —
 // entry, run, transom width, sheer, rocker, section fullness — scaled by a length, a
-// beam and a depth, so a 24 ft launch and a 16 ft jolly boat are the same code with
+// beam and a depth, so a 32 ft launch and an 18 ft jolly boat are the same code with
 // different numbers. The lofter is `loftSections`, the one the ship's own hull uses.
 //
-// Everything is sited through `model`: the stow height is measured up from the gundeck
-// at the station the boats sit at, and the quarter davits are stepped on the rail curve
-// where the spec puts them, so when the offsets change the boats move with the ship.
+// Everything is sited through `model`: the boats sit on the skid beams at the height
+// furniture.js publishes (`skidTopAt`, a little under the gangway at that station), and the
+// quarter davits are stepped on the rail curve, so when the offsets change the boats move
+// with the ship. In heavy weather every stowed boat is double-gripped.
 import * as THREE from 'three';
 import { SPEC } from '../spec/spec.js';
 import { loftSections, mergeGeometries } from '../util/loft.js';
 import { sweep, spar, ropeCurve, ropeTube } from '../util/solids.js';
 import { clamp, lerp } from '../util/math.js';
 import { audit } from '../audit/measure.js';
+import { skidBeamZ, skidTopAt } from './furniture.js';
 
 const S = (key) => SPEC[key].value;
 const clamp01 = (v) => clamp(v, 0, 1);
@@ -349,18 +352,20 @@ function makeBoat(P, cfg, mats) {
  * The chocks a stowed boat sits in. §8.2: "boat chocks, two per boat, shaped to the
  * boat's bilges". They stand on the skid beams and take her keel clear of them, and
  * because the keel has rockered up by the time it reaches them, each chock is cut to a
- * different height.
+ * different height. `beamZ` are the stations of the two skid beams they stand on, relative
+ * to the boat's own midlength.
  */
-function chocks(length, lines, skidY, keelY0) {
+function chocks(length, lines, skidY, keelY0, beamZ) {
   const geoms = [];
   const w = S('boat_chock_width');
   const spread = S('boat_chock_spread');
   const km = S('boat_keel_moulding');
-  for (const dt of [-S('boat_chock_station'), S('boat_chock_station')]) {
-    const t = 0.5 + dt;
+  for (const dz of beamZ) {
+    const t = 0.5 + dz / length;
+    if (t < 0.08 || t > 0.92) continue;
     const top = keelY0 + lines.keel(t) - km;
     const h = Math.max(w * 0.5, top - skidY);
-    geoms.push(boxAt(lines.halfBreadth(t) * spread * 2, h, w, 0, skidY + h / 2, (t - 0.5) * length));
+    geoms.push(boxAt(lines.halfBreadth(t) * spread * 2, h, w, 0, skidY + h / 2, dz));
   }
   return geoms;
 }
@@ -374,14 +379,15 @@ export function buildBoats(cfg, mats, model, ctx) {
   const fullPull = S('boat_section_fullness_pulling');
   const solid = cfg.boats === 'block';
 
-  // Where the boats stand. The furniture module owns the skid beams themselves; if it
-  // has published the height of their tops the boats sit on that, and if it has not
-  // they sit on this module's own reconstruction of the same figure.
-  const stowAbove = SPEC.skid_beam_top_above_deck?.value ?? S('boat_stow_height');
-  const zStow = model.fromStem(S('boat_stow_station'));
-  const skidY = model.featureYAt(zStow).deck + SPEC.deck_camber.value + stowAbove;
+  // Where the boats stand: across the waist, on the middle two of the four skid beams the
+  // furniture module lays. The skid beams' tops are published as `skidTopAt`.
+  const beamZs = Array.from({ length: S('skid_beam_count') }, (_, i) => skidBeamZ(ctx.zFcBreak, i));
+  const zStow = (beamZs[0] + beamZs.at(-1)) / 2;
+  const skidY = skidTopAt(model, zStow);
   const keelRest = skidY + S('boat_chock_height');
   const stowY = keelRest + S('boat_keel_moulding');
+  const chockBeams = [beamZs[S('boat_stow_beam_first')], beamZs[S('boat_stow_beam_first') + 1]]
+    .map((z) => z - zStow);
 
   const chockGeoms = [];
   const gripeGeoms = [];
@@ -391,21 +397,27 @@ export function buildBoats(cfg, mats, model, ctx) {
    * ring bolts in the deck each side of the skids.
    *
    * A boat lies in her chocks under her own weight and nothing else, which is enough in
-   * a quiet sea and nothing like enough in this one. Two and a half tons of launch adrift
-   * on the booms would go through the bulwark and take the mainmast's rigging with it, so
-   * before it comes on to blow she is gripped down. Two bands to a boat, over her gunwales
-   * at the quarters of her length.
+   * a quiet sea and nothing like enough in this one. Three tons of launch adrift on the
+   * booms would go through the bulwark and take the mainmast's rigging with it, so before
+   * it comes on to blow she is gripped down — and a boat of this size is double-gripped:
+   * two pairs, one pair either side of her middle. The nested boat is inside the same
+   * bands, which pass over the lot.
    */
-  const gripe = (boat, length, x) => {
-    const w = SPEC.boat_gripe_width.value;
-    const t = SPEC.boat_gripe_thickness.value;
-    boat.group.updateMatrixWorld(true);
-    const box = new THREE.Box3().setFromObject(boat.group);
+  const gripe = (boats, length, x) => {
+    const w = S('boat_gripe_width');
+    const t = S('boat_gripe_thickness');
+    const box = new THREE.Box3();
+    for (const b of boats) {
+      b.group.updateMatrixWorld(true);
+      box.union(new THREE.Box3().setFromObject(b.group));
+    }
     const top = box.max.y, bottom = skidY;
     // Her beam where the gripe crosses her. Taken from the built boat rather than from
     // her offsets, so a gripe fits whichever boat it is passed over.
     const half = (box.max.x - box.min.x) / 2;
-    for (const f of [-0.24, 0.24]) {
+    const pairs = S('boat_gripe_pairs');
+    for (let k = 0; k < pairs; k++) for (const sign of [-1, 1]) {
+      const f = sign * (0.14 + 0.16 * k);
       const z = zStow + f * length;
       // Over the top of her, and down each side to the deck.
       gripeGeoms.push(boxAt(half * 2.1, t, w, x, top + t / 2, z));
@@ -419,9 +431,8 @@ export function buildBoats(cfg, mats, model, ctx) {
   const stow = (boat, length, x) => {
     boat.group.position.set(x, stowY, zStow);
     group.add(boat.group);
-    if (ctx.heavyWeather && !solid) gripe(boat, length, x);
     if (solid) return;
-    for (const g of chocks(length, boat.lines, skidY, stowY)) {
+    for (const g of chocks(length, boat.lines, skidY, stowY, chockBeams)) {
       g.translate(x, 0, zStow);
       chockGeoms.push(g);
     }
@@ -461,65 +472,76 @@ export function buildBoats(cfg, mats, model, ctx) {
   group.add(cutter.group);
   audit(cutter.shell, 'cutter_length', 'extent_z');
 
-  // ------------------------------------------------------------------ the jolly boat
-  // §8.4: quarter davits enter the Royal Navy in the 1790s and are defensible for 1798,
-  // while transom davits are marginal before 1800. So the boat the photograph carries
-  // aft is hung on the quarter here rather than over the taffrail.
-  const side = 1;
-  const zDavit = model.fromStem(S('davit_station'));
-  const half = S('davit_spacing') / 2;
+  if (ctx.heavyWeather && !solid) {
+    gripe([launch, cutter], S('launch_length'), launchX);
+    gripe([pinnace], S('pinnace_length'), -S('pinnace_stow_offset'));
+  }
+
+  // -------------------------------------------------------------- the quarter boats
+  // Two pairs of davits on the quarterdeck rail at the stern quarters, each with a boat
+  // griped up under its heads: the jolly boat to starboard, the second cutter to port.
+  const zDavit = model.zAft - S('davit_station_forward_of_sternpost');
   const out = S('davit_outreach');
   const rise = S('davit_height_above_rail');
-
   const davitGeoms = [];
-  const heads = [];
-  for (const z of [zDavit - half, zDavit + half]) {
-    const rail = model.pointAt(z, 'rail', side);
-    const deckY = model.standingDeckAt(z);
-    const head = new THREE.Vector3(rail.x + out * side, rail.y + rise * 0.92, z);
-    heads.push(head);
-    davitGeoms.push(new THREE.TubeGeometry(
-      new THREE.CatmullRomCurve3([
-        new THREE.Vector3(rail.x * 0.94, deckY, z),
-        new THREE.Vector3(rail.x * 0.99, rail.y + rise * 0.55, z),
-        new THREE.Vector3(rail.x + out * 0.45 * side, rail.y + rise, z),
-        head,
-      ]),
-      Math.max(6, cfg.sparSegments), S('davit_diameter') / 2,
-      Math.max(4, cfg.sparRadial - 3), false
-    ));
-  }
+  const fallGeoms = [];
+  const quarter = (side, name, lengthKey, beamKey, depthKey) => {
+    const length = S(lengthKey);
+    const half = S('davit_spacing_of_boat') * length / 2;
+    const heads = [];
+    for (const z of [zDavit - half, zDavit + half]) {
+      const rail = model.pointAt(z, 'rail', side);
+      const deckY = model.standingDeckAt(z);
+      const head = new THREE.Vector3(rail.x + out * side, rail.y + rise * 0.92, z);
+      heads.push(head);
+      davitGeoms.push(new THREE.TubeGeometry(
+        new THREE.CatmullRomCurve3([
+          new THREE.Vector3(rail.x * 0.94, deckY, z),
+          new THREE.Vector3(rail.x * 0.99, rail.y + rise * 0.55, z),
+          new THREE.Vector3(rail.x + out * 0.45 * side, rail.y + rise, z),
+          head,
+        ]),
+        Math.max(6, cfg.sparSegments), S('davit_diameter') / 2,
+        Math.max(4, cfg.sparRadial - 3), false
+      ));
+    }
+    const boat = makeBoat({
+      name,
+      length, beam: S(beamKey), depth: S(depthKey),
+      fullness: fullPull, gear: false, rudder: true,
+    }, cfg, mats);
+    const mid = new THREE.Vector3().addVectors(heads[0], heads[1]).multiplyScalar(0.5);
+    boat.group.position.set(mid.x, mid.y - S('boat_hang_below_davit') - S(depthKey), mid.z);
+    // The rail is curving in toward the stern, so the boat hangs along the rail rather
+    // than along the ship's centreline.
+    boat.group.rotation.y = Math.atan2(heads[1].x - heads[0].x, heads[1].z - heads[0].z);
+    group.add(boat.group);
+    audit(boat.shell, lengthKey, 'extent_max');
+
+    // The falls: the tackle each davit head carries the boat by.
+    if (cfg.boatGear) {
+      heads.forEach((head, i) => {
+        const t = i === 0 ? 0.22 : 0.78;
+        const end = new THREE.Vector3(0, boat.lines.sheer(t), (t - 0.5) * length)
+          .applyEuler(boat.group.rotation).add(boat.group.position);
+        fallGeoms.push(ropeTube(
+          ropeCurve(head, end, 0, cfg.ropeSegments),
+          S('davit_fall_diameter') / 2,
+          { tubular: cfg.ropeSegments, radial: cfg.ropeRadial }
+        ));
+      });
+    }
+    return boat;
+  };
+  quarter(1, 'jolly_boat', 'jolly_length', 'jolly_beam', 'jolly_depth');
+  quarter(-1, 'quarter_cutter', 'quarter_cutter_length', 'cutter_beam', 'cutter_depth');
+
   const davits = new THREE.Mesh(mergeGeometries(davitGeoms), mats.timber);
   davits.name = 'quarter_davits';
   group.add(davits);
 
-  const jolly = makeBoat({
-    name: 'jolly_boat',
-    length: S('jolly_length'), beam: S('jolly_beam'), depth: S('jolly_depth'),
-    fullness: fullPull, gear: false, rudder: true,
-  }, cfg, mats);
-  const mid = new THREE.Vector3().addVectors(heads[0], heads[1]).multiplyScalar(0.5);
-  jolly.group.position.set(mid.x, mid.y - S('jolly_hang_below_davit') - S('jolly_depth'), mid.z);
-  // The rail is curving in toward the stern, so the boat hangs along the rail rather
-  // than along the ship's centreline.
-  jolly.group.rotation.y = Math.atan2(heads[1].x - heads[0].x, heads[1].z - heads[0].z);
-  group.add(jolly.group);
-  audit(jolly.shell, 'jolly_length', 'extent_max');
-
-  // The falls: the tackle each davit head carries the boat by.
-  if (cfg.boatGear) {
-    const falls = [];
-    heads.forEach((head, i) => {
-      const t = i === 0 ? 0.22 : 0.78;
-      const end = new THREE.Vector3(0, jolly.lines.sheer(t), (t - 0.5) * S('jolly_length'))
-        .applyEuler(jolly.group.rotation).add(jolly.group.position);
-      falls.push(ropeTube(
-        ropeCurve(head, end, 0, cfg.ropeSegments),
-        S('davit_fall_diameter') / 2,
-        { tubular: cfg.ropeSegments, radial: cfg.ropeRadial }
-      ));
-    });
-    const fallMesh = new THREE.Mesh(mergeGeometries(falls), mats.runningRigging);
+  if (fallGeoms.length) {
+    const fallMesh = new THREE.Mesh(mergeGeometries(fallGeoms), mats.runningRigging);
     fallMesh.name = 'boat_falls';
     group.add(fallMesh);
   }

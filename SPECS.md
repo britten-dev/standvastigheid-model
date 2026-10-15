@@ -451,6 +451,12 @@ chasers, the topgallants); period rules fill the rest, and every row says which 
 | `ensign_staff_step_abaft_tuck` | 1.2192 | — | RECONSTRUCTED | §12.4 Steel, "the ensign staff is secured in the stern timbers" |
 | `stern_lantern_height` | 0.6096 | 2 ft 0 in | RECONSTRUCTED | §12.4 one lantern for a Sixth Rate, on an iron crank in the taffrail |
 | `stern_lantern_breadth` | 0.381 | 1 ft 3 in | RECONSTRUCTED | §12.4 octagonal, copper and glass |
+| `stern_chaser_count` | 2 | — | SECONDARY | §3 two stern chase ports in the counter, on the 1797 model of the Washington herself (RMG SLR0591) and on the Vrijheid model |
+| `stern_chaser_pounds` | 24 | — | RECONSTRUCTED | §3 the counter ports are at upper-deck height, so the chasers are the upper tier's own 24-pounders |
+| `stern_chaser_train_deg` | 5 | — | RECONSTRUCTED | §3 a stern chaser looks nearly dead aft through a port in the counter, a little outboard to clear the rudder head |
+| `stern_chaser_muzzle_beyond_side` | 0.3048 | — | RECONSTRUCTED | §9.4 as the bow chasers, through the counter |
+| `stern_chaser_fallback_half_breadth` | 1.0668 | 3 ft 6 in | RECONSTRUCTED | §3 the stern chase ports on the 1797 model flank the rudder head, about 3 ft 6 in off the centreline |
+| `stern_chaser_fallback_abaft_post` | 1.6764 | — | RECONSTRUCTED | §6 the face of the counter at upper-deck height stands about 5 ft 6 in abaft the sternpost rabbet, where the counter overhangs |
 
 ### Head, beakhead and figurehead
 
@@ -559,141 +565,136 @@ chasers, the topgallants); period rules fill the rest, and every row says which 
 | `hair_bracket_length` | 1.2192 | 4 ft 0 in | SECONDARY | §6 Steel :3043, the moulding terminating the head rails and running into the back of the figure |
 | `hair_bracket_sided` | 0.127 | — | RECONSTRUCTED | §6 a moulding sided as the rails it gathers |
 | `trailboard_depth` | 0.3048 | 1 ft 0 in | RECONSTRUCTED | §8 research 08 §4.4, "very limited trailboard decoration" on a small ship of this date |
+| `bow_chaser_count` | 2 | — | FICTIONAL | §1 the book: chasers "trained sharp forward from the bridle-ports in her bluff bows", one a side (ch. 7) |
+| `bow_chaser_pounds` | 32 | — | FICTIONAL | §1 the bridle ports are on the lower deck, so the chasers are the lower tier's own 32-pounders |
+| `bow_chaser_train_deg` | 8 | — | FICTIONAL | §1 the book: "trained sharp forward"; limited by the after cheek of the bridle port in a side that is 50 degrees off the keel line there. Van Zwijndregt's 1784 bow port would have been dead ahead |
+| `bow_chaser_muzzle_beyond_side` | 0.3048 | — | RECONSTRUCTED | §9.4 a chaser run out has her muzzle a foot outside the planking at the port, which keeps the blast clear of the lining |
 
 ### Deck furniture
 
 | key | metric | period figure | grade | source |
 |---|---|---|---|---|
-| `furniture_foremast_station_from_stem` | 4.3053 | 14 ft 1.5 in | SECONDARY | §6 research 04 §8, Steel Centres of Masts 28-gun column scaled to a 126 ft gun deck |
-| `furniture_mainmast_station_from_stem` | 21.7551 | 71 ft 4.5 in | SECONDARY | §6 research 04 §8, Steel Centres of Masts 28-gun column scaled to a 126 ft gun deck |
-| `furniture_mizzen_station_from_stem` | 32.9057 | 107 ft 11.5 in | SECONDARY | §6 research 04 §8, Steel Centres of Masts 28-gun column scaled to a 126 ft gun deck |
-| `wheel_station_from_stem` | 34.9504 | 114 ft 8 in | RECONSTRUCTED | §6 research 06 deck-layout §2.2, wheel 6 ft 9 in abaft the mizzen |
-| `wheel_diameter` | 1.5748 | 5 ft 2 in | SECONDARY | §6 Lavery, Arming and Fitting of English Ships of War: an outside diameter of a little over 5 ft |
-| `wheel_swept_diameter` | 1.9304 | 6 ft 4 in | RECONSTRUCTED | §6 research 06 deck-layout §2.1, the rim plus a turned handle projecting 7 in at each end of a spoke |
-| `wheel_count` | 1 | — | RECONSTRUCTED | §6 research 06 deck-layout §2.1, a 2 ft 3 in barrel will not take a wheel at each end and the rope turns between |
-| `wheel_axle_above_deck` | 1.0414 | 3 ft 5 in | SECONDARY | §6 Steel 1805 :39506, stanchion heads 3 ft 4 in to 3 ft 6 in above the deck |
-| `wheel_barrel_length` | 0.6858 | 2 ft 3 in | SECONDARY | §6 Steel 1805 :39506, quarter deck table row Q, 32-gun column |
+| `furniture_foremast_z` | -17.7645 | — | MEASURED | §7 the foremast centre on the sheer plan of NA 4.MST inv. 59 |
+| `furniture_mainmast_z` | 4.8351 | — | MEASURED | §7 the mainmast centre on the sheer plan of NA 4.MST inv. 59 |
+| `furniture_mizzenmast_z` | 19.194 | — | MEASURED | §7 the mizzenmast centre on the sheer plan of NA 4.MST inv. 59 |
+| `furniture_capstan_z` | -4.4507 | — | MEASURED | §7 the double capstan in the waist, read off the sheer plan of NA 4.MST inv. 59 |
+| `wheel_after_forward_of_mizzen` | 2.5908 | — | RECONSTRUCTED | §6 research 06 §2.2 the after wheel stands this far forward of the mizzen, leaving the helmsmen room abaft it and clear of the mast partners; the position forward of the mizzen is the brief's |
+| `wheel_count` | 2 | — | RECONSTRUCTED | §6 research 06 §2.1 a ship of this rate steers with a double wheel, one at each end of the barrel |
+| `wheel_diameter` | 1.6764 | 5 ft 6 in | RECONSTRUCTED | §6 research 06 §2.1 a little over the 5 ft 2 in of a frigate's wheel, Lavery, Arming and Fitting of English Ships of War |
+| `wheel_swept_diameter` | 2.032 | 6 ft 8 in | RECONSTRUCTED | §6 research 06 §2.1 the rim plus a turned handle projecting 7 in at each end of a spoke |
+| `wheel_axle_above_deck` | 1.1176 | 3 ft 8 in | RECONSTRUCTED | §6 research 06 §2.1 stanchion heads a little higher than a frigate's 3 ft 5 in, for the larger wheel |
+| `wheel_barrel_length` | 1.3716 | 4 ft 6 in | RECONSTRUCTED | §6 research 06 §2.1 long enough for two wheels a man's width apart; a frigate's single wheel has a 2 ft 3 in barrel |
 | `wheel_barrel_diameter_mid` | 0.4064 | — | SECONDARY | §6 Steel 1805 :39508, row S |
 | `wheel_barrel_diameter_end` | 0.4572 | — | SECONDARY | §6 Steel 1805 :39507, row R, OCR-doubtful |
 | `wheel_stanchion_broad` | 0.3048 | — | SECONDARY | §6 Steel 1805 :39504, row N |
 | `wheel_stanchion_thick` | 0.127 | — | SECONDARY | §6 Steel 1805 :39505, row O |
-| `wheel_spoke_count` | 10 | — | RECONSTRUCTED | §6 research 06 deck-layout §2.1, Steel gives no spoke count; 8 or 10 is the period norm |
-| `wheel_spoke_handle` | 0.1778 | — | RECONSTRUCTED | §6 research 06 deck-layout §2.1, turned handle projecting beyond the rim |
-| `wheel_rim_thickness` | 0.0762 | 0 ft 3 in | RECONSTRUCTED | §6 research 06 deck-layout §2.1, the felloe of a wheel this size |
-| `binnacle_station_from_stem` | 33.9852 | 111 ft 6 in | RECONSTRUCTED | §6 research 06 deck-layout §2.3, 3 ft 6 in clear ahead of the wheel |
-| `binnacle_length` | 1.0668 | 3 ft 6 in | RECONSTRUCTED | §6 research 06 deck-layout §2.3, three-compartment RN binnacle |
-| `binnacle_depth` | 0.4064 | 1 ft 4 in | RECONSTRUCTED | §6 research 06 deck-layout §2.3 |
-| `binnacle_height` | 0.9144 | 3 ft 0 in | RECONSTRUCTED | §6 research 06 deck-layout §2.3 |
-| `capstan_abaft_mainmast` | 5.7912 | — | SECONDARY | §6 Steel 1805 :38405, centre of main jeer capstan abaft the centre of the mainmast, 32-gun column |
-| `capstan_barrel_diameter` | 0.5524 | 1 ft 9.8 in | SECONDARY | §6 Steel 1805 :38408 |
-| `capstan_barrel_above_deck` | 1.1684 | 3 ft 10 in | RECONSTRUCTED | §6 research 06 deck-layout §3.2, what is left of the 10 ft 8 in deck-to-deck barrel above the quarterdeck |
-| `capstan_drumhead_diameter` | 1.2192 | 4 ft 0 in | SECONDARY | §6 Steel 1805 :38437, row X |
+| `wheel_spoke_count` | 10 | — | RECONSTRUCTED | §6 research 06 §2.1 Steel gives no spoke count; 8 or 10 is the period norm |
+| `wheel_spoke_handle` | 0.1778 | — | RECONSTRUCTED | §6 research 06 §2.1 turned handle projecting beyond the rim |
+| `wheel_rim_thickness` | 0.0762 | 0 ft 3 in | RECONSTRUCTED | §6 research 06 §2.1 the felloe of a wheel this size |
+| `binnacle_count` | 2 | — | RECONSTRUCTED | §6 research 06 §2.3 a 74 carries a pair, one each side of the fore-and-aft line, ahead of the wheel |
+| `binnacle_forward_of_wheel` | 1.2192 | — | RECONSTRUCTED | §6 research 06 §2.3 clear ahead of the forward wheel so a man can pass between |
+| `binnacle_offset` | 0.762 | — | RECONSTRUCTED | §6 research 06 §2.3 each binnacle's centre off the centreline, clear of the wheel's own breadth |
+| `binnacle_length` | 1.0668 | 3 ft 6 in | RECONSTRUCTED | §6 research 06 §2.3 three-compartment RN binnacle |
+| `binnacle_depth` | 0.4064 | 1 ft 4 in | RECONSTRUCTED | §6 research 06 §2.3 |
+| `binnacle_height` | 0.9144 | 3 ft 0 in | RECONSTRUCTED | §6 research 06 §2.3 |
+| `capstan_barrel_diameter` | 0.6858 | 2 ft 3 in | RECONSTRUCTED | §3 research 03 §3 scaled from the 32-gun frigate figure of Steel 1805 by about a quarter for a ship of 13.8 m beam |
+| `capstan_barrel_above_deck` | 1.1684 | 3 ft 10 in | RECONSTRUCTED | §6 research 06 §3.2 the drumhead stands about 3 ft 10 in above the deck it works on, which is where a man's chest is |
+| `capstan_drumhead_diameter` | 1.524 | 5 ft 0 in | RECONSTRUCTED | §3 research 03 §3 the 4 ft of Steel 1805 :38437 (row X) scaled by the ratio of the two ships' breadths |
 | `capstan_drumhead_thickness` | 0.2858 | 0 ft 11.3 in | SECONDARY | §6 Steel 1805 :38438-38439, upper piece 5 3/4 in and lower piece 5 1/2 in |
 | `capstan_bar_hole_count` | 12 | — | SECONDARY | §6 Steel 1805 :38565, bar-holes in the drumhead |
 | `capstan_bar_hole_square` | 0.0984 | — | SECONDARY | §6 Steel 1805 :38566 |
 | `capstan_bar_hole_depth` | 0.2984 | 0 ft 11.8 in | SECONDARY | §6 Steel 1805 :38567 |
-| `capstan_whelp_count` | 6 | — | SECONDARY | §6 Steel 1805 :38412, upper whelps |
+| `capstan_whelp_count` | 8 | — | RECONSTRUCTED | §6 research 06 §3.2 eight whelps for the larger barrel; Steel's frigate has six |
 | `capstan_whelp_length` | 0.9144 | 3 ft 0 in | SECONDARY | §6 Steel 1805 :38413 |
 | `capstan_whelp_broad_heel` | 0.2731 | — | SECONDARY | §6 Steel 1805 :38417 |
 | `capstan_whelp_broad_head` | 0.1905 | — | SECONDARY | §6 Steel 1805 :38418 |
 | `capstan_partner_thickness` | 0.1524 | 0 ft 6 in | SECONDARY | §6 Steel 1805 :39379, capstan partners thick |
-| `main_hatch_station_from_stem` | 19.304 | 63 ft 4 in | RECONSTRUCTED | §6 research 06 deck-layout §4.1, aft side 4 ft 6 in forward of the mainmast centre |
-| `main_hatch_length` | 2.1336 | 6 ft 12 in | SECONDARY | §6 Steel 1805 :33355 fore-and-aft, 32-gun column |
-| `main_hatch_width` | 1.3716 | 4 ft 6 in | SECONDARY | §6 Steel 1805 :33355 thwartships, 32-gun column |
-| `fore_hatch_station_from_stem` | 10.7442 | 35 ft 3 in | RECONSTRUCTED | §6 research 06 deck-layout §4.1, fore side ranging with the after end of the forecastle at 33 ft |
-| `fore_hatch_length` | 1.3716 | 4 ft 6 in | SECONDARY | §6 Steel 1805 :33633 |
-| `fore_hatch_width` | 1.3716 | 4 ft 6 in | SECONDARY | §6 Steel 1805 :33633 |
-| `after_hatch_station_from_stem` | 23.4696 | 77 ft 0 in | RECONSTRUCTED | §6 research 06 deck-layout §4.2, abaft the mast room and clear of the after chain pump |
-| `after_hatch_length` | 1.2192 | 4 ft 0 in | RECONSTRUCTED | §6 research 06 deck-layout §4.2, the Steel row is not legible in the frigate column |
-| `after_hatch_width` | 1.2192 | 4 ft 0 in | RECONSTRUCTED | §6 research 06 deck-layout §4.2 |
-| `ladderway_station_from_stem` | 17.526 | 57 ft 6 in | SECONDARY | §6 Steel 1805 :17482, double ladderway immediately forward of the main hatch |
+| `capstan_lower_drum_above_lower_deck` | 1.0668 | — | RECONSTRUCTED | §6 research 06 §3.2 the lower drumhead stands a little lower than the upper so that it clears the beams of the upper deck |
+| `fore_hatch_abaft_forecastle_break` | 2.1336 | — | RECONSTRUCTED | §6 research 06 §4.1 Steel: the fore hatch's fore side ranges with the after end of the forecastle; its centre is a little abaft that |
+| `fore_hatch_length` | 1.6764 | 5 ft 6 in | RECONSTRUCTED | §3 research 03 §3 scaled from the 32-gun frigate figure of Steel 1805 by about a quarter for a ship of 13.8 m beam |
+| `fore_hatch_width` | 1.6764 | 5 ft 6 in | RECONSTRUCTED | §3 research 03 §3 scaled from the 32-gun frigate figure of Steel 1805 by about a quarter for a ship of 13.8 m beam |
+| `ladderway_abaft_capstan` | 1.8288 | — | RECONSTRUCTED | §6 research 06 §4.1 Steel :17482, double ladderway immediately forward of the main hatch |
 | `ladderway_length` | 0.8128 | 2 ft 8 in | SECONDARY | §6 Steel 1805 :39375, ladderway fore-and-aft |
-| `ladderway_width` | 1.8288 | 6 ft 0 in | RECONSTRUCTED | §6 research 06 deck-layout §4.1, a double ladderway takes two ladders abreast |
+| `ladderway_width` | 1.8288 | 6 ft 0 in | RECONSTRUCTED | §6 research 06 §4.1 a double ladderway takes two ladders abreast |
+| `main_hatch_abaft_capstan` | 3.5052 | — | RECONSTRUCTED | §6 research 06 §4.1 the main hatch lies abaft the ladderway, clear of the capstan's bars |
+| `main_hatch_length` | 2.5908 | 8 ft 6 in | RECONSTRUCTED | §3 research 03 §3 the 7 ft of Steel 1805 :33355 scaled for a 74; the audit holds the built grating to this |
+| `main_hatch_width` | 1.6764 | 5 ft 6 in | RECONSTRUCTED | §3 research 03 §3 the 4 ft 6 in of Steel 1805 :33355 scaled for a 74; the audit holds the built grating to this |
 | `coaming_height_above_deck` | 0.3302 | 1 ft 1 in | SECONDARY | §6 Steel, Form of a Contract :44581, coamings at least 13 inches |
 | `coaming_broad` | 0.2286 | — | SECONDARY | §6 Steel 1805 :39445 |
 | `grating_batten_square` | 0.0508 | — | SECONDARY | §6 Steel 1805 :1293, grating battens about 2 in square |
 | `grating_batten_gap` | 0.0508 | — | SECONDARY | §6 Steel 1805 :2968, laid to leave about 2 in openings |
-| `riding_bitt_aft_station_from_stem` | 13.716 | 45 ft 0 in | RECONSTRUCTED | §6 research 06 deck-layout §5.1, Steel 1805 :17470 rule applied to the fourth port |
-| `riding_bitt_fwd_station_from_stem` | 11.2776 | 37 ft 0 in | RECONSTRUCTED | §6 research 06 deck-layout §5.1, one beam-space and one more forward |
-| `riding_bitt_pin_square` | 0.2921 | — | RECONSTRUCTED | §6 research 06 deck-layout §5.1, Steel's armed-brigantine contract 10 1/2 in scaled up for a Sixth Rate |
-| `riding_bitt_pin_offset` | 0.9144 | — | RECONSTRUCTED | §6 research 06 deck-layout §5.1, the pins must straddle the two cables |
-| `riding_bitt_pin_height` | 0.9144 | 3 ft 0 in | RECONSTRUCTED | §6 research 06 deck-layout §5.1, head standing clear above the cross-piece |
+| `riding_bitt_forward_of_foremast` | 2.4384 | — | RECONSTRUCTED | §6 research 06 §5.1 the cable bitts stand ahead of the foremast, their heads through the forecastle deck |
+| `riding_bitt_pin_square` | 0.3302 | — | RECONSTRUCTED | §6 research 06 §5.1 Steel's armed-brigantine contract 10 1/2 in scaled up for a 74 |
+| `riding_bitt_pin_offset` | 1.0668 | — | RECONSTRUCTED | §6 research 06 §5.1 the pins must straddle the two cables |
+| `riding_bitt_pin_height` | 1.0668 | 3 ft 6 in | RECONSTRUCTED | §6 research 06 §5.1 head standing clear above the cross-piece |
 | `riding_bitt_crosspiece_broad` | 0.2032 | — | SECONDARY | §6 Steel 1805 :39442 |
 | `riding_bitt_crosspiece_deep` | 0.1461 | — | SECONDARY | §6 Steel 1805 :39443 |
-| `riding_bitt_crosspiece_above_deck` | 0.5588 | 1 ft 10 in | SECONDARY | §6 Steel 1805 :39444, upper side above the deck |
+| `riding_bitt_crosspiece_above_deck` | 0.6604 | 2 ft 2 in | SECONDARY | §6 Steel 1805 :39444, upper side above the deck |
 | `riding_bitt_crosspiece_projection` | 0.4572 | — | SECONDARY | §6 Steel 1805 :39445, ends project beyond the bitts |
-| `main_topsail_sheet_bitt_station_from_stem` | 20.2692 | 66 ft 6 in | SECONDARY | §6 Steel 1805 :17538, aft side against the beam abaft the main hatchway |
-| `main_jeer_bitt_station_from_stem` | 22.2504 | 73 ft 0 in | SECONDARY | §6 Steel 1805 :17540, against the fore side of the beam abaft the mainmast |
-| `jeer_bitt_pin_offset` | 1.2192 | — | RECONSTRUCTED | §6 research 06 deck-layout §5.2, insides plumbing the pumps, set out far enough to clear the cisterns |
-| `jeer_bitt_pin_square` | 0.2286 | — | RECONSTRUCTED | §6 research 06 deck-layout §5.2, lighter than a riding bitt |
-| `jeer_bitt_pin_height` | 1.0668 | 3 ft 6 in | RECONSTRUCTED | §6 research 06 deck-layout §5.2, standing clear above the cross-piece |
+| `jeer_bitt_pin_square` | 0.2286 | — | RECONSTRUCTED | §6 research 06 §5.2 lighter than a riding bitt |
+| `jeer_bitt_pin_height` | 1.0668 | 3 ft 6 in | RECONSTRUCTED | §6 research 06 §5.2 standing clear above the cross-piece |
+| `jeer_bitt_pin_offset` | 0.762 | — | RECONSTRUCTED | §6 research 06 §5.2 let into the sides of the beams |
 | `jeer_bitt_crosspiece_above_deck` | 0.6604 | 2 ft 2 in | SECONDARY | §6 Steel 1805 :17543, one third of the height between upper deck and quarterdeck |
-| `fore_topsail_sheet_bitt_from_foremast` | 0.8382 | — | SECONDARY | §6 Steel 1805 :17592, one pair forward of and one abaft the foremast |
-| `fore_topsail_sheet_bitt_offset` | 0.6096 | — | RECONSTRUCTED | §6 research 06 deck-layout §5.2, let into the sides of the forecastle beams |
-| `chain_pump_fwd_station_from_stem` | 20.7264 | 68 ft 0 in | RECONSTRUCTED | §6 research 06 deck-layout §6, immediately forward of the mainmast |
-| `chain_pump_aft_station_from_stem` | 22.7076 | 74 ft 6 in | RECONSTRUCTED | §6 research 06 deck-layout §6, immediately abaft the mainmast, clear of the jeer bitts |
-| `chain_pump_offset` | 0.6858 | — | RECONSTRUCTED | §6 research 06 deck-layout §6, clear of the mainmast partners |
-| `chain_pump_trunk_square` | 0.3048 | — | RECONSTRUCTED | §6 research 06 deck-layout §6, a 7 in chain in a 7 in trunk, cased |
-| `chain_pump_head_above_deck` | 0.9144 | 3 ft 0 in | RECONSTRUCTED | §6 research 06 deck-layout §6, head standing above the cistern to take the sprocket and the cranks |
+| `chain_pump_forward_of_mainmast` | 2.5908 | — | RECONSTRUCTED | §6 research 06 §6 immediately forward of the mainmast's partners, in the after end of the waist |
+| `chain_pump_offset` | 0.762 | — | RECONSTRUCTED | §6 research 06 §6 clear of the mainmast partners |
+| `chain_pump_trunk_square` | 0.3048 | — | RECONSTRUCTED | §6 research 06 §6 a 7 in chain in a 7 in trunk, cased |
+| `chain_pump_head_above_deck` | 0.9144 | 3 ft 0 in | RECONSTRUCTED | §6 research 06 §6 head standing above the cistern to take the sprocket and the cranks |
 | `pump_cistern_broad` | 0.6096 | — | SECONDARY | §6 Steel 1805 :35293, cistern broad out to out, OCR-doubtful |
 | `pump_cistern_deep` | 0.6096 | — | SECONDARY | §6 Steel 1805 :35292, OCR-doubtful |
 | `pump_cistern_projection` | 0.2032 | — | SECONDARY | §6 Steel 1805 :35294, ends project beyond the pump heads |
-| `pump_winch_above_deck` | 0.8382 | 2 ft 9 in | RECONSTRUCTED | §6 research 06 deck-layout §6, the iron crank spindle of the Cole-Bentinck pump |
-| `pump_winch_diameter` | 0.0635 | 0 ft 2.5 in | RECONSTRUCTED | §6 research 06 deck-layout §6, wrought-iron spindle and cranks |
-| `pump_dale_width` | 0.2286 | 0 ft 9 in | RECONSTRUCTED | §6 research 06 deck-layout §6, square wooden trough, 9 in by 7 in internal |
-| `pump_dale_depth` | 0.1778 | 0 ft 7 in | RECONSTRUCTED | §6 research 06 deck-layout §6 |
-| `pump_dale_fall` | 0.0833 | — | RECONSTRUCTED | §6 research 06 deck-layout §6, sloping about 1 in 12 outboard |
-| `elm_pump_station_from_stem` | 23.3172 | 76 ft 6 in | RECONSTRUCTED | §6 research 06 deck-layout §6, the two elm-tree pumps abaft the chain pumps |
-| `elm_pump_offset` | 1.0668 | — | RECONSTRUCTED | §6 research 06 deck-layout §6 |
-| `elm_pump_diameter` | 0.2794 | 0 ft 11 in | RECONSTRUCTED | §6 research 06 deck-layout §6, a 7 in bore in an elm trunk |
-| `elm_pump_height` | 1.0668 | 3 ft 6 in | RECONSTRUCTED | §6 research 06 deck-layout §6, head above the deck to take the brake |
-| `belfry_station_from_stem` | 9.7536 | 32 ft 0 in | SECONDARY | §6 Steel 1805 :1372 and :17921, at the after beams of the forecastle |
-| `belfry_width` | 0.9144 | 3 ft 0 in | RECONSTRUCTED | §6 research 06 deck-layout §7.1, scaled from Steel's 110-gun proportions |
-| `belfry_depth` | 0.3048 | 1 ft 0 in | RECONSTRUCTED | §6 research 06 deck-layout §7.1 |
-| `belfry_height` | 1.3716 | 4 ft 6 in | RECONSTRUCTED | §6 research 06 deck-layout §7.1 |
-| `belfry_stanchion_square` | 0.1016 | — | RECONSTRUCTED | §6 research 06 deck-layout §7.1 |
-| `bell_mouth_diameter` | 0.2794 | 0 ft 11 in | RECONSTRUCTED | §6 research 06 deck-layout §7.1, period Sixth-Rate norm; no dimensioned source found |
-| `bell_height` | 0.3302 | 1 ft 1 in | RECONSTRUCTED | §6 research 06 deck-layout §7.1 |
-| `galley_chimney_station_from_stem` | 8.5344 | 27 ft 12 in | RECONSTRUCTED | §6 research 06 deck-layout §7.3, moved forward of the model's forecastle break |
-| `galley_chimney_coaming_square` | 0.508 | — | RECONSTRUCTED | §6 research 06 deck-layout §7.3, coaming square in the clear |
+| `pump_winch_above_deck` | 0.8382 | 2 ft 9 in | RECONSTRUCTED | §6 research 06 §6 the iron crank spindle of the Cole-Bentinck pump |
+| `pump_winch_diameter` | 0.0635 | 0 ft 2.5 in | RECONSTRUCTED | §6 research 06 §6 wrought-iron spindle and cranks |
+| `pump_dale_width` | 0.2286 | 0 ft 9 in | RECONSTRUCTED | §6 research 06 §6 square wooden trough, 9 in by 7 in internal |
+| `pump_dale_depth` | 0.1778 | 0 ft 7 in | RECONSTRUCTED | §6 research 06 §6 |
+| `pump_dale_fall` | 0.0833 | — | RECONSTRUCTED | §6 research 06 §6 sloping about 1 in 12 outboard |
+| `belfry_forward_of_forecastle_break` | 1.0668 | — | SECONDARY | §6 Steel 1805 :1372 and :17921, at the after beams of the forecastle, which is on the forecastle deck just forward of its break |
+| `belfry_width` | 1.0668 | 3 ft 6 in | RECONSTRUCTED | §6 research 06 §7.1 scaled from Steel's 110-gun proportions, a little over the frigate's 3 ft |
+| `belfry_depth` | 0.3048 | 1 ft 0 in | RECONSTRUCTED | §6 research 06 §7.1 |
+| `belfry_height` | 1.524 | 5 ft 0 in | RECONSTRUCTED | §6 research 06 §7.1 |
+| `belfry_stanchion_square` | 0.1016 | — | RECONSTRUCTED | §6 research 06 §7.1 |
+| `bell_mouth_diameter` | 0.381 | 1 ft 3 in | RECONSTRUCTED | §6 research 06 §7.1 a ship of this rate's bell; no dimensioned source found |
+| `bell_height` | 0.4064 | 1 ft 4 in | RECONSTRUCTED | §6 research 06 §7.1 |
+| `galley_chimney_forward_of_forecastle_break` | 3.9624 | — | RECONSTRUCTED | §6 research 06 §7.3 the funnel stands on the forecastle forward of the belfry, with the stove beneath it as Steel :17532 requires |
+| `galley_chimney_coaming_square` | 0.6096 | — | RECONSTRUCTED | §6 research 06 §7.3 coaming square in the clear, a little larger for a ship with a company of 600 |
 | `galley_chimney_coaming_height` | 0.2286 | 0 ft 9 in | SECONDARY | §6 Steel 1805 :39451, upper side standing above the deck |
-| `galley_funnel_diameter` | 0.3556 | 1 ft 2 in | RECONSTRUCTED | §6 research 06 deck-layout §7.3, sheet-copper stack inside the coaming |
-| `galley_funnel_height` | 1.2192 | 4 ft 0 in | RECONSTRUCTED | §6 research 06 deck-layout §7.3, rising about 4 ft above the forecastle with a cowl |
-| `steam_grating_offset` | 0.762 | — | RECONSTRUCTED | §6 research 06 deck-layout §7.3, one steam grating each side of the funnel |
-| `steam_grating_length` | 0.762 | 2 ft 6 in | RECONSTRUCTED | §6 research 06 deck-layout §7.3 |
-| `steam_grating_width` | 0.6096 | 2 ft 0 in | RECONSTRUCTED | §6 research 06 deck-layout §7.3 |
-| `skylight_station_from_stem` | 35.9664 | 118 ft 0 in | RECONSTRUCTED | §6 research 06 deck-layout §4.4, the run of gratings over the great cabin, moved abaft the wheel |
-| `skylight_length` | 1.2192 | 4 ft 0 in | RECONSTRUCTED | §6 research 06 deck-layout §4.4 |
-| `skylight_width` | 1.0668 | 3 ft 6 in | RECONSTRUCTED | §6 research 06 deck-layout §4.4, 4 ft 0 in of grating on the centreline |
-| `skylight_height` | 0.4572 | 1 ft 6 in | RECONSTRUCTED | §6 research 06 deck-layout §4.4, a low glazed skylight with a pitched top |
-| `companion_station_from_stem` | 37.0332 | 121 ft 6 in | RECONSTRUCTED | §6 research 06 deck-layout §4.4, over the after ladderway to the cabin |
-| `companion_length` | 1.0668 | 3 ft 6 in | RECONSTRUCTED | §6 research 06 deck-layout §4.4 |
-| `companion_width` | 0.9144 | 3 ft 0 in | RECONSTRUCTED | §6 research 06 deck-layout §4.4 |
+| `galley_funnel_diameter` | 0.4064 | 1 ft 4 in | RECONSTRUCTED | §6 research 06 §7.3 sheet-copper stack inside the coaming |
+| `galley_funnel_height` | 1.3716 | 4 ft 6 in | RECONSTRUCTED | §6 research 06 §7.3 rising about 4 ft 6 in above the forecastle with a cowl |
+| `steam_grating_offset` | 0.9144 | — | RECONSTRUCTED | §6 research 06 §7.3 one steam grating each side of the funnel |
+| `steam_grating_length` | 0.9144 | 3 ft 0 in | RECONSTRUCTED | §6 research 06 §7.3 |
+| `steam_grating_width` | 0.6096 | 2 ft 0 in | RECONSTRUCTED | §6 research 06 §7.3 |
+| `skylight_abaft_mizzen` | 2.4384 | — | RECONSTRUCTED | §6 research 06 §4.4 the run of gratings over the great cabin, abaft the mizzen |
+| `skylight_length` | 1.524 | 5 ft 0 in | RECONSTRUCTED | §6 research 06 §4.4 scaled for the larger cabin |
+| `skylight_width` | 1.3716 | 4 ft 6 in | RECONSTRUCTED | §6 research 06 §4.4 |
+| `skylight_height` | 0.508 | 1 ft 8 in | RECONSTRUCTED | §6 research 06 §4.4 a low glazed skylight with a pitched top |
+| `companion_abaft_mizzen` | 5.4864 | — | RECONSTRUCTED | §6 research 06 §4.4 over the after ladderway to the cabin, abaft the skylight |
+| `companion_length` | 1.2192 | 4 ft 0 in | RECONSTRUCTED | §6 research 06 §4.4 |
+| `companion_width` | 1.0668 | 3 ft 6 in | RECONSTRUCTED | §6 research 06 §4.4 |
 | `companion_above_deck` | 0.2286 | 0 ft 9 in | SECONDARY | §6 Steel 1805 :39451, the companion stands 9 in above the deck |
-| `companion_hood_height` | 0.762 | 2 ft 6 in | RECONSTRUCTED | §6 research 06 deck-layout §4.4, sloping hood over the ladder head |
+| `companion_hood_height` | 0.8128 | 2 ft 8 in | RECONSTRUCTED | §6 research 06 §4.4 sloping hood over the ladder head |
 | `companion_framing_thick` | 0.1016 | — | SECONDARY | §6 Steel 1805 :39450, companion framing thick |
-| `skid_beam_count` | 4 | — | RECONSTRUCTED | §6 research 06 deck-layout §8.2 |
-| `skid_beam_first_station_from_stem` | 13.4112 | 44 ft 0 in | RECONSTRUCTED | §6 research 06 deck-layout §8.2, the foremost skid |
-| `skid_beam_spacing` | 2.4384 | 8 ft 0 in | RECONSTRUCTED | §6 research 06 deck-layout §8.2, four skids spanning 24 ft — the length of the launch — and clear of the mainmast |
-| `skid_beam_sided` | 0.2032 | — | RECONSTRUCTED | §6 research 06 deck-layout §8.2 |
-| `skid_beam_moulded` | 0.1524 | — | RECONSTRUCTED | §6 research 06 deck-layout §8.2 |
-| `skid_beam_top_above_deck` | 1.9812 | 6 ft 6 in | RECONSTRUCTED | §6 from the reference photograph, in which the boats stand with their keels level with the gangways; research 06 §8.2 offers an unsourced 5 ft 0 in |
-| `skid_stanchion_square` | 0.127 | — | RECONSTRUCTED | §6 research 06 deck-layout §8.2, a stanchion under each end of each skid |
-| `hammock_crane_spacing` | 0.6096 | 2 ft 0 in | RECONSTRUCTED | §6 counted off the reference photograph, in which the cranes stand close — nearer 2 ft apart than the 2 ft 6 in to 3 ft usually quoted |
-| `hammock_crane_height` | 0.6096 | 2 ft 0 in | RECONSTRUCTED | §6 from the reference photograph, standing about 2 ft above the cap rail |
-| `hammock_crane_diameter` | 0.0381 | 0 ft 1.5 in | RECONSTRUCTED | §6 the crane is drawn bright rather than blacked, because that is how the reference photograph shows it |
-| `hammock_rail_diameter` | 0.0508 | 0 ft 2 in | RECONSTRUCTED | §6 the rail run through the heads of the cranes, which the photograph shows as a light line along the top of them |
+| `skid_beam_count` | 4 | — | RECONSTRUCTED | §6 research 06 §8.2 four beams carry the launch with the cutter nested in her |
+| `skid_beam_first_abaft_forecastle_break` | 1.0668 | — | RECONSTRUCTED | §6 research 06 §8.2 the foremost beam stands just abaft the forecastle break, clear of the fore hatch's coaming |
+| `skid_beam_spacing` | 3.81 | 12 ft 6 in | RECONSTRUCTED | §6 research 06 §8.2 four beams spanning 37 ft, a little more than the launch's length, and clear of the quarterdeck break |
+| `skid_beam_sided` | 0.254 | — | RECONSTRUCTED | §6 research 06 §8.2 stouter than a frigate's, for boats of a 74's weight |
+| `skid_beam_moulded` | 0.2032 | — | RECONSTRUCTED | §6 research 06 §8.2 |
+| `skid_beam_top_below_gangway` | 0.1524 | — | RECONSTRUCTED | §6 research 06 §8.2 reconstructed from the frigate's reference photograph, in which the boats' keels stand level with the gangways |
+| `skid_stanchion_square` | 0.1524 | — | RECONSTRUCTED | §6 research 06 §8.2 a stanchion under each end of each skid |
+| `hammock_crane_spacing` | 0.6096 | 2 ft 0 in | RECONSTRUCTED | §6 counted off the frigate reference photograph, in which the cranes stand close — nearer 2 ft apart than the 2 ft 6 in to 3 ft usually quoted |
+| `hammock_crane_height` | 0.6096 | 2 ft 0 in | RECONSTRUCTED | §6 standing about 2 ft above the cap rail |
+| `hammock_crane_diameter` | 0.0381 | 0 ft 1.5 in | RECONSTRUCTED | §6 the crane is drawn bright rather than blacked, as in the reference photograph |
+| `hammock_rail_diameter` | 0.0508 | 0 ft 2 in | RECONSTRUCTED | §6 the rail run through the heads of the cranes |
 | `hammock_crane_spread` | 0.3556 | — | RECONSTRUCTED | §6 the fork at the head of the crane, which carries the netting outboard of the rail |
-| `hammock_crane_run_from_stem` | 3.6576 | 12 ft 0 in | RECONSTRUCTED | §6 the cranes begin where the rail leaves the head |
-| `hammock_crane_run_short_of_stern` | 0.762 | — | RECONSTRUCTED | §6 the after run stops short of the taffrail |
+| `hammock_crane_forecastle_from_stem` | 4.2672 | 13 ft 12 in | RECONSTRUCTED | §6 the forecastle cranes begin where the rail leaves the head |
+| `hammock_crane_run_short_of_stern` | 0.9144 | — | RECONSTRUCTED | §6 the after run stops short of the taffrail |
 | `hammock_netting_rows` | 3 | — | RECONSTRUCTED | §6 from the reference photograph, three rows of netting between the cranes |
 | `belaying_pin_spacing` | 0.3048 | 1 ft 0 in | RECONSTRUCTED | §6 from the reference photograph, pins about a foot apart along the rail |
 | `belaying_pin_length` | 0.3556 | 1 ft 2 in | RECONSTRUCTED | §6 a turned pin of this length is the period norm |
 | `belaying_pin_diameter` | 0.0381 | 0 ft 1.5 in | RECONSTRUCTED | §6 |
-| `fife_rail_radius` | 1.0668 | — | RECONSTRUCTED | §6 a fife rail standing clear of the mast and its partners |
+| `fife_rail_radius` | 1.2192 | — | RECONSTRUCTED | §6 a fife rail standing clear of the mast and its partners; a little wider than the frigate's for the thicker masts of a 74 |
 | `fife_rail_height` | 0.9144 | 3 ft 0 in | RECONSTRUCTED | §6 a man belays at waist height |
 | `fife_rail_timber` | 0.127 | — | RECONSTRUCTED | §6 rail and stanchion scantling |
 | `ladder_width` | 0.6096 | 2 ft 0 in | RECONSTRUCTED | §6 one man wide |
+| `ladder_run_fraction` | 0.62 | — | RECONSTRUCTED | §6 a ladder to the quarterdeck or forecastle is steep: its foot stands this fraction of the rise out from the break |
 | `ladder_tread_spacing` | 0.2286 | 0 ft 9 in | RECONSTRUCTED | §6 period companion-ladder rise |
 | `ladder_stringer_square` | 0.1016 | — | RECONSTRUCTED | §6 |
 | `ladder_tread_thickness` | 0.0508 | 0 ft 2 in | RECONSTRUCTED | §6 |
@@ -703,16 +704,17 @@ chasers, the topgallants); period rules fill the rest, and every row says which 
 | key | metric | period figure | grade | source |
 |---|---|---|---|---|
 | `gun_tompion_depth` | 0.06 | 0 ft 2.4 in | RECONSTRUCTED | §9.4 the plug in the muzzle of a gun on an open deck, to keep the sea out of the bore. The gundeck battery needs none: her ports are shut over them |
-| `gun_9pdr_count` | 24 | — | PRIMARY | §6.3 threedecks ex Winfield BWAS-1793, Plymouth establishment 6.1796: 24 long 9-pdr on the upper deck. ALTERNATIVE: 24 x 32-pdr carronades in the 21.4.1798 fit |
-| `gun_4pdr_count` | 10 | — | PRIMARY | §6.3 8 long 4-pdr on the quarterdeck and 2 on the forecastle, Plymouth establishment 6.1796. ALTERNATIVE: only the 2 forecastle chase guns survive in the 21.4.1798 fit |
-| `carronade_12pdr_count` | 6 | — | PRIMARY | §6.3 4 twelve-pounder carronades on the quarterdeck and 2 on the forecastle, Plymouth establishment 6.1796. ALTERNATIVE: 18-pdr carronades, 10 of them, in the 21.4.1798 fit |
-| `gun_truck_carriage_count` | 34 | — | PRIMARY | §6.3 one four-truck carriage under each of the 24 long 9-pdr and 10 long 4-pdr; the carronades are on slides and are not counted here |
-| `gun_9pdr_barrel_length` | 2.5908 | 8 ft 6 in | SECONDARY | §9.3 Falconer, Universal Dictionary of the Marine 1776, mensuration of 1753: iron sea-service 9-pdr, 8 ft 6 in, 27 cwt 2 qr 2 lb |
-| `gun_9pdr_bore` | 0.1067 | — | SECONDARY | §9.3 nominal bore of a 9-pounder: 4.0 in shot with the establishment windage of 0.2 in |
-| `gun_4pdr_barrel_length` | 1.8288 | 6 ft 0 in | SECONDARY | §9.3 Falconer, mensuration of 1753: iron sea-service 4-pdr, 6 ft 0 in, 12 cwt 2 qr 13 lb |
-| `gun_4pdr_bore` | 0.0813 | — | SECONDARY | §9.3 nominal bore of a 4-pounder: 3.05 in shot with establishment windage |
-| `carronade_12pdr_barrel_length` | 0.8128 | 2 ft 8 in | RECONSTRUCTED | §9.3 the 32-pdr Carron pattern of 1796 is 4 ft 0 in on a 6.35 in bore, 7.6 calibres; 7.0 calibres on the 12-pdr bore gives 2 ft 8 in |
-| `carronade_12pdr_bore` | 0.1173 | — | RECONSTRUCTED | §9.3 12-pdr shot of 4.4 in with carronade windage, which is tighter than a long gun's |
+| `gun_32pdr_count` | 28 | — | FICTIONAL | §1 the book: 32-pounders on the lower deck, 14 a side; agrees with SECONDARY §3 the Washington's British fit of 28 x 32-pdr |
+| `gun_24pdr_count` | 28 | — | FICTIONAL | §1 the book: 24-pounders on the upper deck, 14 a side; the Washington in British hands carried 28 x 18-pdr there |
+| `gun_12pdr_count` | 16 | — | SECONDARY | §3 Willem de Eerste (1785), 16 x 12-pdr on the quarterdeck and forecastle; 10 on the quarterdeck (5 ports a side, PRIMARY §2) and 6 on the forecastle (the split is not recorded) |
+| `gun_forecastle_per_side` | 3 | — | RECONSTRUCTED | §3 the six forecastle pieces take the 16 less the 10 the quarterdeck ports hold, three a side between the timberheads |
+| `gun_truck_carriage_count` | 76 | — | FICTIONAL | §1 one four-truck carriage under each of the 28 + 28 + 16 broadside long guns and under each of the 4 chasers |
+| `gun_32pdr_barrel_length` | 2.8956 | 9 ft 6 in | SECONDARY | §3 Blomefield-pattern iron sea-service 32-pdr, 9 ft 6 in (Lavery, Arming and Fitting, tables of ordnance) |
+| `gun_32pdr_bore` | 0.1626 | — | SECONDARY | §3 nominal bore of a 32-pounder: 6.1 in shot with the establishment windage of about 0.3 in |
+| `gun_24pdr_barrel_length` | 2.7432 | 9 ft 0 in | SECONDARY | §3 Blomefield-pattern iron sea-service 24-pdr, 9 ft 0 in (Lavery, Arming and Fitting, tables of ordnance) |
+| `gun_24pdr_bore` | 0.1473 | — | SECONDARY | §3 nominal bore of a 24-pounder: 5.55 in shot with windage |
+| `gun_12pdr_barrel_length` | 2.5908 | 8 ft 6 in | SECONDARY | §3 iron sea-service long 12-pdr as carried on the open decks, 8 ft 6 in (Lavery, Arming and Fitting, tables of ordnance) |
+| `gun_12pdr_bore` | 0.1168 | — | SECONDARY | §3 nominal bore of a 12-pounder: 4.4 in shot with windage |
 | `gun_base_ring_radius_cal` | 1.52 | — | RECONSTRUCTED | §9.3 metal at the vent is one calibre thick all round on the 1753 pattern, plus the base ring |
 | `gun_first_reinforce_radius_cal` | 1.38 | — | RECONSTRUCTED | §9.3 the first reinforce tapers about one twelfth of its diameter over its length |
 | `gun_second_reinforce_radius_cal` | 1.22 | — | RECONSTRUCTED | §9.3 second reinforce, one step down from the first |
@@ -729,21 +731,15 @@ chasers, the topgallants); period rules fill the rest, and every row says which 
 | `gun_trunnion_diameter_cal` | 1 | — | SECONDARY | §9.3 a trunnion is one calibre in diameter and one calibre long, which is the founders' rule |
 | `gun_trunnion_length_cal` | 1 | — | SECONDARY | §9.3 as above |
 | `gun_rimbase_radius_cal` | 0.66 | — | RECONSTRUCTED | §9.3 the rimbase where the trunnion leaves the gun, which keeps the piece from working fore and aft in the carriage |
-| `carronade_breech_radius_cal` | 1.02 | — | RECONSTRUCTED | §9.3 a carronade is thin metal beside a long gun: about one calibre of radius at the breech ring |
-| `carronade_body_radius_cal` | 0.86 | — | RECONSTRUCTED | §9.3 the parallel body forward of the reinforce ring |
-| `carronade_chase_radius_cal` | 0.78 | — | RECONSTRUCTED | §9.3 the chase just abaft the muzzle ring |
-| `carronade_muzzle_radius_cal` | 0.88 | — | RECONSTRUCTED | §9.3 the muzzle, which on a carronade is a cup rather than a swell |
-| `carronade_muzzle_cup_depth_u` | 0.07 | — | RECONSTRUCTED | §9.3 the countersunk cup at the muzzle, the carronade's most recognisable feature |
-| `carronade_reinforce_ring_u` | 0.16 | — | RECONSTRUCTED | §9.3 the ring abaft which the metal is thickest |
-| `carronade_muzzle_ring_u` | 0.86 | — | RECONSTRUCTED | §9.3 the ring at the root of the muzzle |
-| `carronade_loop_from_muzzle_u` | 0.52 | — | RECONSTRUCTED | §9.5 the loop under the piece, which takes the bolt through the upper carriage, is at the point of balance |
-| `carronade_loop_depth_cal` | 0.7 | — | RECONSTRUCTED | §9.5 how far the loop hangs below the metal |
-| `gun_9pdr_axis_above_deck` | 0.8636 | 2 ft 10 in | RECONSTRUCTED | §9.4 Falconer's rule applied to the hull's own sill of 1 ft 9 in and port depth of 2 ft 4.8 in: the bore axis stands 13 in above the sill |
-| `gun_4pdr_axis_above_deck` | 0.6858 | 2 ft 3 in | RECONSTRUCTED | §9.4 the same rule on the smaller piece and its lower carriage |
-| `gun_9pdr_carriage_length` | 1.3462 | 4 ft 5 in | RECONSTRUCTED | §9.4 Falconer's proportion of about 0.52 of the barrel length, on an 8 ft 6 in gun |
-| `gun_9pdr_carriage_width` | 0.9144 | 3 ft 0 in | RECONSTRUCTED | §9.4 over the trucks; must clear the 2 ft 6 in port with the side tackles |
-| `gun_4pdr_carriage_length` | 0.9652 | 3 ft 2 in | RECONSTRUCTED | §9.4 the same proportion of 0.52 on a 6 ft 0 in gun |
-| `gun_4pdr_carriage_width` | 0.7112 | 2 ft 4 in | RECONSTRUCTED | §9.4 scaled with the piece |
+| `gun_32pdr_axis_above_deck` | 0.9906 | 3 ft 3 in | MEASURED | §7 the middle of the lower ports, which stand 2 ft above the lower deck on the draught and are 2 ft 8 in deep (Falconer's rule, §9.4) |
+| `gun_24pdr_axis_above_deck` | 0.9906 | 3 ft 3 in | MEASURED | §7 the middle of the upper ports, which stand 2 ft above the upper deck on the draught and are 2 ft 7 in deep (Falconer's rule, §9.4) |
+| `gun_12pdr_axis_above_deck` | 0.8128 | 2 ft 8 in | MEASURED | §7 the middle of the quarterdeck ports, 1 ft 9 in sill and 2 ft 2 in depth over the deck (Falconer's rule, §9.4) |
+| `gun_32pdr_carriage_length` | 1.4986 | 4 ft 11 in | RECONSTRUCTED | §9.4 Falconer's proportion of about 0.52 of the barrel length, on a 9 ft 6 in gun |
+| `gun_32pdr_carriage_width` | 1.0668 | 3 ft 6 in | RECONSTRUCTED | §9.4 over the trucks; scaled with the bore from the 3 ft of a 9-pdr, and it must clear the 3 ft 9 in lower port with the side tackles |
+| `gun_24pdr_carriage_length` | 1.4224 | 4 ft 8 in | RECONSTRUCTED | §9.4 the same proportion of 0.52, on a 9 ft 0 in gun |
+| `gun_24pdr_carriage_width` | 0.9906 | 3 ft 3 in | RECONSTRUCTED | §9.4 over the trucks, scaled with the bore |
+| `gun_12pdr_carriage_length` | 1.3462 | 4 ft 5 in | RECONSTRUCTED | §9.4 the same proportion of 0.52, on an 8 ft 6 in gun |
+| `gun_12pdr_carriage_width` | 0.9144 | 3 ft 0 in | RECONSTRUCTED | §9.4 over the trucks, scaled with the bore |
 | `gun_carriage_trunnion_from_fore` | 0.254 | — | RECONSTRUCTED | §9.4 the trunnion notch is cut ten inches abaft the fore end of the cheeks, over the fore axletree |
 | `gun_carriage_cheek_thickness` | 0.1016 | 0 ft 4 in | RECONSTRUCTED | §9.4 bracket thickness; Falconer: "the breadth of the wheels is always equal to that of the cheeks" |
 | `gun_carriage_cheek_mid_u` | 0.72 | — | RECONSTRUCTED | §9.4 the first step down in the top of the cheek, as a fraction of the height at the fore end |
@@ -751,27 +747,25 @@ chasers, the topgallants); period rules fill the rest, and every row says which 
 | `gun_carriage_step_mid_u` | 0.4 | — | RECONSTRUCTED | §9.4 where the first step falls, as a fraction of the carriage length from the fore end |
 | `gun_carriage_step_aft_u` | 0.68 | — | RECONSTRUCTED | §9.4 where the second step falls |
 | `gun_axletree_siding` | 0.1143 | 0 ft 4.5 in | RECONSTRUCTED | §9.4 the axletrees are square timbers a little stouter than the cheeks |
-| `gun_9pdr_truck_fore_diameter` | 0.381 | 1 ft 3 in | SECONDARY | §9.4 scaled from the measured 24-pdr fore truck of 18 in (Ships of Scale, truck carriages of 1777) |
-| `gun_9pdr_truck_rear_diameter` | 0.3302 | 1 ft 1 in | SECONDARY | §9.4 the rear truck is smaller than the fore, which helps check the recoil against the deck camber |
-| `gun_4pdr_truck_fore_diameter` | 0.3048 | 1 ft 0 in | RECONSTRUCTED | §9.4 the same proportion on the smaller carriage |
-| `gun_4pdr_truck_rear_diameter` | 0.2667 | 0 ft 10.5 in | RECONSTRUCTED | §9.4 as above |
+| `gun_32pdr_truck_fore_diameter` | 0.508 | 1 ft 8 in | SECONDARY | §9.4 scaled from the measured 24-pdr fore truck of 18 in (Ships of Scale, truck carriages of 1777) |
+| `gun_32pdr_truck_rear_diameter` | 0.4064 | 1 ft 4 in | SECONDARY | §9.4 the rear truck is smaller than the fore, which helps check the recoil against the deck camber |
+| `gun_24pdr_truck_fore_diameter` | 0.4572 | 1 ft 6 in | SECONDARY | §9.4 the measured 24-pdr fore truck of 18 in (Ships of Scale, truck carriages of 1777) |
+| `gun_24pdr_truck_rear_diameter` | 0.381 | 1 ft 3 in | SECONDARY | §9.4 scaled with the fore truck |
+| `gun_12pdr_truck_fore_diameter` | 0.381 | 1 ft 3 in | RECONSTRUCTED | §9.4 the same proportion on the lighter carriage |
+| `gun_12pdr_truck_rear_diameter` | 0.3302 | 1 ft 1 in | RECONSTRUCTED | §9.4 as above |
 | `gun_truck_thickness` | 0.1016 | 0 ft 4 in | SECONDARY | §9.4 Falconer: the breadth of the wheels equals that of the cheeks |
 | `gun_stool_bed_length` | 0.4064 | 1 ft 4 in | SECONDARY | §9.4 Falconer names the bed, which carries the quoin under the breech |
 | `gun_stool_bed_depth` | 0.127 | 0 ft 5 in | RECONSTRUCTED | §9.4 thickness of the bed between the cheeks |
 | `gun_quoin_length` | 0.3556 | 1 ft 2 in | RECONSTRUCTED | §9.4 the wedge that lies on the bed and holds the breech up |
 | `gun_cap_square_thickness` | 0.0254 | 0 ft 1 in | RECONSTRUCTED | §9.4 the iron clamp over each trunnion, which Falconer calls the cap-square |
 | `gun_transom_siding` | 0.127 | 0 ft 5 in | RECONSTRUCTED | §9.4 the transom across the cheeks abaft the bed |
-| `carronade_slide_length` | 1.2192 | 4 ft 0 in | RECONSTRUCTED | §9.5 5 ft 0 in on the 32-pdr Carron pattern, scaled to the 12-pdr piece |
-| `carronade_slide_width` | 0.3556 | 1 ft 2 in | RECONSTRUCTED | §9.5 1 ft 4 in on the 32-pdr slide, scaled |
-| `carronade_slide_depth` | 0.1524 | 0 ft 6 in | RECONSTRUCTED | §9.5 depth of the lower bed timber |
-| `carronade_bed_length` | 0.6096 | 2 ft 0 in | RECONSTRUCTED | §9.5 the upper carriage, or slider, that the piece is bolted to: 2 ft 6 in on the 32-pdr |
-| `carronade_bed_depth` | 0.127 | 0 ft 5 in | RECONSTRUCTED | §9.5 depth of the upper carriage |
-| `carronade_axis_above_deck` | 0.6604 | 2 ft 2 in | RECONSTRUCTED | §9.5 2 ft 8 in on the 32-pdr slide, scaled to the 12-pdr; a carronade sits markedly lower than a long gun on its truck carriage |
-| `carronade_muzzle_beyond_pivot` | 0.508 | — | RECONSTRUCTED | §9.5 how far the muzzle stands forward of the pivot bolt when the piece is run out on the slide |
-| `carronade_pivot_bolt_diameter` | 0.0381 | 0 ft 1.5 in | SECONDARY | §9.5 pivot bolt at the fore end of the slide, 1.5 in |
-| `carronade_rear_truck_diameter` | 0.1524 | 0 ft 6 in | SECONDARY | §9.5 two traverse trucks of 6 in under the after end of the slide |
-| `carronade_elevating_screw_diameter` | 0.0381 | 0 ft 1.5 in | SECONDARY | §9.5 the elevating screw through the breech, 1.5 in; it replaces the quoin of a long gun |
-| `gun_breeching_diameter` | 0.033 | 0 ft 1.3 in | SECONDARY | §9.6 breeching circumference is about 0.95 of the bore diameter, so 4 in of circumference on a 9-pdr, which is 1.3 in in the round |
+| `gun_32pdr_recoil` | 1.0668 | — | RECONSTRUCTED | §9.6 a carriage runs back until the breeching takes it, about three quarters of its own length for a heavy piece |
+| `gun_24pdr_recoil` | 0.9906 | — | RECONSTRUCTED | §9.6 as above, for the 24-pdr |
+| `gun_12pdr_recoil` | 0.8128 | — | RECONSTRUCTED | §9.6 as above, for the 12-pdr |
+| `gun_32pdr_power` | 1.3 | — | RECONSTRUCTED | §9.6 relative loudness and flash for the game; the 9-pdr of the sister ship was 1.0 |
+| `gun_24pdr_power` | 1.1 | — | RECONSTRUCTED | §9.6 as above |
+| `gun_12pdr_power` | 0.8 | — | RECONSTRUCTED | §9.6 as above |
+| `gun_breeching_diameter` | 0.0381 | 0 ft 1.5 in | SECONDARY | §9.6 breeching circumference is about 0.95 of the bore diameter; a heavy lower-deck gun takes a 4.5 in rope, which is 1.5 in in the round |
 | `gun_breeching_sag` | 0.09 | — | RECONSTRUCTED | §9.6 the bight of the breeching hangs slack between the cascabel and the ship's side when the gun is run out |
 | `gun_breeching_bolt_from_port` | 0.6858 | — | SECONDARY | §9.6 the two ring bolts in the ship's side, one each side of the port; Steel's contract gives 1.25 in bolts with 3.5 in rings |
 | `gun_breeching_bolt_above_sill` | 0.1016 | 0 ft 4 in | RECONSTRUCTED | §9.6 the ring bolts stand a little above the level of the port sill |
@@ -781,12 +775,8 @@ chasers, the topgallants); period rules fill the rest, and every row says which 
 | `gun_housed_muzzle_inboard` | 0.1016 | — | RECONSTRUCTED | §9.4 the muzzle comes inside the planking far enough for the lid to shut over it and be bowsed to; four inches is what the lashing and the lid between them need |
 | `gun_housed_elevation_deg` | 18 | — | RECONSTRUCTED | §9.4 the muzzle is lashed up to the ring bolt above the port, which stands about a foot over the port head; the elevation follows from the geometry of the two |
 | `gun_run_out_side_clearance` | 0.0508 | — | RECONSTRUCTED | §9.4 a gun run out has its fore trucks all but against the ship's side; this is what is left between the fore end of the cheeks and the inboard face of the side |
-| `gun_quarterdeck_first_from_stem` | 24.0792 | 79 ft 0 in | RECONSTRUCTED | §9.2 the foremost quarterdeck piece stands just abaft the break, which is 78 ft abaft the stem |
-| `gun_quarterdeck_spacing` | 1.9304 | 6 ft 4 in | RECONSTRUCTED | §9.2 six pieces a side on Steel's equal-spacing rule, closed up so that the aftermost stands forward of the quarter badge |
-| `gun_quarterdeck_carronades_forward` | 2 | — | RECONSTRUCTED | §9.1 the two carronades a side take the foremost quarterdeck stations, where the piece can be trained widest across the waist; the four long 4-pdrs stand abaft them |
-| `gun_forecastle_carronade_from_stem` | 7.62 | 25 ft 0 in | RECONSTRUCTED | §9.2 forecastle carronade station, one a side |
-| `gun_forecastle_gun_from_stem` | 5.4864 | 18 ft 0 in | RECONSTRUCTED | §9.2 the two long 4-pdr chase guns, one a side, mounted abreast on the forecastle; in action they were shifted to the bow ports in the beakhead bulkhead |
-| `gun_deck_inset` | 0.1524 | — | RECONSTRUCTED | §9.2 how far inboard of the deck edge a quarterdeck or forecastle piece stands, there being no bulwark carried up round those decks in the hull as traced |
+| `gun_forecastle_first_from_stem` | 4.8768 | 16 ft 0 in | RECONSTRUCTED | §3 the foremost forecastle piece, abaft the knightheads and the beakhead bulkhead; the forecastle is about 45 ft long (§3) |
+| `gun_forecastle_spacing` | 3.2004 | 10 ft 6 in | RECONSTRUCTED | §3 three pieces a side spread along the forecastle so the aftermost stands short of the break |
 
 ### Boats
 
@@ -794,19 +784,19 @@ chasers, the topgallants); period rules fill the rest, and every row says which 
 |---|---|---|---|---|
 | `boat_gripe_width` | 0.1 | 0 ft 3.9 in | RECONSTRUCTED | §8.3 the canvas gripes that pass over a stowed boat and set up to ring bolts in the deck. In this weather they are doubled: a boat adrift on the skids is two tons of it |
 | `boat_gripe_thickness` | 0.018 | 0 ft 0.7 in | RECONSTRUCTED | §8.3 canvas and rope, not timber |
-| `boat_count` | 4 | — | RECONSTRUCTED | §8.3 launch, pinnace, cutter and jolly boat — the outfit of a sixth rate of 578 tons; no boat list for Surprise was found |
-| `launch_length` | 7.3152 | 24 ft 0 in | RECONSTRUCTED | §8.3 24 ft launch for a ship of this rate |
-| `launch_beam` | 2.1336 | 6 ft 12 in | RECONSTRUCTED | §8.3 launch beam 7 ft 0 in |
-| `launch_depth` | 0.8636 | 2 ft 10 in | RECONSTRUCTED | §8.5 depth amidships at length/8.5, Steel's boat proportion; the scantling folio is illegible |
-| `pinnace_length` | 7.3152 | 24 ft 0 in | RECONSTRUCTED | §8.3 pinnace 24-26 ft; the shorter figure taken so that she stows on the same skid beams as the launch |
-| `pinnace_beam` | 1.7526 | 5 ft 9 in | RECONSTRUCTED | §8.3 pinnace beam 5 ft 9 in |
-| `pinnace_depth` | 0.6858 | 2 ft 3 in | RECONSTRUCTED | §8.5 length/10.7; a pinnace is shallower and finer than a launch |
-| `cutter_length` | 5.4864 | 18 ft 0 in | RECONSTRUCTED | §8.3 cutter 18-22 ft; the shortest taken so that she nests inside the 24 ft launch |
-| `cutter_beam` | 1.8288 | 6 ft 0 in | RECONSTRUCTED | §8.3 cutter beam 6 ft 0 in — "shorter, broader and deeper in proportion", Steel |
-| `cutter_depth` | 0.7112 | 2 ft 4 in | RECONSTRUCTED | §8.5 length/7.7; a cutter is deep for her length |
-| `jolly_length` | 4.8768 | 16 ft 0 in | RECONSTRUCTED | §8.3 jolly boat 16-18 ft, the smaller taken |
-| `jolly_beam` | 1.6764 | 5 ft 6 in | RECONSTRUCTED | §8.3 jolly boat beam 5 ft 6 in |
-| `jolly_depth` | 0.6096 | 2 ft 0 in | RECONSTRUCTED | §8.5 length/8 |
+| `boat_count` | 5 | — | RECONSTRUCTED | §8.3 Steel 1805 / Lavery boat establishment for a 74: launch, pinnace, two cutters and a jolly boat |
+| `launch_length` | 9.7536 | 32 ft 0 in | RECONSTRUCTED | §8.3 Steel 1805 / Lavery boat establishment for a 74, launch 30-34 ft |
+| `launch_beam` | 2.8194 | 9 ft 3 in | RECONSTRUCTED | §8.3 Steel 1805 / Lavery boat establishment for a 74, launch beam about 0.29 of her length |
+| `launch_depth` | 1.143 | 3 ft 9 in | RECONSTRUCTED | §8.5 depth amidships at length/8.5, Steel's boat proportion; the scantling folio is illegible |
+| `pinnace_length` | 8.5344 | 27 ft 12 in | RECONSTRUCTED | §8.3 Steel 1805 / Lavery boat establishment for a 74, pinnace 26-28 ft |
+| `pinnace_beam` | 1.905 | 6 ft 3 in | RECONSTRUCTED | §8.3 Steel 1805 / Lavery boat establishment for a 74, a pinnace is long and narrow |
+| `pinnace_depth` | 0.8128 | 2 ft 8 in | RECONSTRUCTED | §8.5 length/10.5; a pinnace is shallower and finer than a launch |
+| `cutter_length` | 7.3152 | 24 ft 0 in | RECONSTRUCTED | §8.3 Steel 1805 / Lavery boat establishment for a 74, cutter 22-25 ft; the 24 ft taken so that she nests in the 32 ft launch |
+| `cutter_beam` | 2.0828 | 6 ft 10 in | RECONSTRUCTED | §8.3 Steel 1805 / Lavery boat establishment for a 74, "shorter, broader and deeper in proportion", Steel |
+| `cutter_depth` | 0.9144 | 3 ft 0 in | RECONSTRUCTED | §8.5 length/8; a cutter is deep for her length |
+| `jolly_length` | 5.4864 | 18 ft 0 in | RECONSTRUCTED | §8.3 Steel 1805 / Lavery boat establishment for a 74, jolly boat 16-18 ft, the larger taken for a 74 |
+| `jolly_beam` | 1.7526 | 5 ft 9 in | RECONSTRUCTED | §8.3 Steel 1805 / Lavery boat establishment for a 74, jolly boat beam |
+| `jolly_depth` | 0.6858 | 2 ft 3 in | RECONSTRUCTED | §8.5 length/8 |
 | `boat_max_beam_station` | 0.55 | — | RECONSTRUCTED | §8.5 maximum breadth a little abaft midships, the usual place in a ship's boat |
 | `boat_entry_power` | 0.55 | — | RECONSTRUCTED | §8.5 fineness of the entry, as an exponent on the forward waterline |
 | `boat_run_power` | 1.6 | — | RECONSTRUCTED | §8.5 fineness of the run aft to the transom |
@@ -834,25 +824,24 @@ chasers, the topgallants); period rules fill the rest, and every row says which 
 | `boat_rudder_width` | 0.2794 | 0 ft 11 in | RECONSTRUCTED | §8.5 rudder blade width |
 | `boat_rudder_thickness` | 0.0508 | 0 ft 2 in | RECONSTRUCTED | §8.5 rudder thickness |
 | `boat_tiller_length` | 0.9144 | 3 ft 0 in | RECONSTRUCTED | §8.5 tiller reaching the after thwart |
-| `boat_stow_height` | 1.524 | 5 ft 0 in | RECONSTRUCTED | §8.2 top of the skid beams 5 ft 0 in above the upper deck; used only where the furniture module has not defined skid_beam_top_above_deck |
 | `boat_chock_height` | 0.2032 | 0 ft 8 in | RECONSTRUCTED | §8.2 "boat chocks, two per boat, shaped to the boat's bilges" |
 | `boat_chock_width` | 0.1524 | 0 ft 6 in | RECONSTRUCTED | §8.2 chock sided 6 in |
 | `boat_chock_spread` | 0.62 | — | RECONSTRUCTED | §8.2 the chocks take the boat under her bilges, at 0.62 of the half breadth |
-| `boat_chock_station` | 0.28 | — | RECONSTRUCTED | §8.2 the two chocks stand this fraction of the length either side of the boat's midlength |
-| `boat_stow_station` | 17.0688 | — | RECONSTRUCTED | §8.2 midway along the four skid beams; the furniture module lays them from X = 44 ft at 8 ft centres, so their middle is X = 56 ft |
-| `launch_stow_offset` | 1.0668 | — | RECONSTRUCTED | §8.2 launch stowed to starboard of the centreline so that the pinnace stows beside her inside the 24 ft clear of the waist |
-| `pinnace_stow_offset` | 1.0668 | — | RECONSTRUCTED | §8.2 pinnace to port, the mirror of the launch |
-| `cutter_nest_rise` | 0.762 | — | RECONSTRUCTED | §8.2 "nested one atop the other"; the rise that lands the cutter's keel on top of the launch's thwarts rather than through them |
-| `cutter_nest_shift` | 0.3048 | — | RECONSTRUCTED | §8.2 the nested cutter set a foot aft in the launch to clear her stem |
-| `davit_station` | 35.3568 | — | RECONSTRUCTED | §8.4 quarter davits stepped on the starboard quarterdeck rail 10 ft forward of the sternpost, where the photograph carries a boat aft |
-| `davit_spacing` | 2.7432 | 9 ft 0 in | RECONSTRUCTED | §8.4 the two davits set to take the jolly boat a little inside her stem and stern |
+| `boat_stow_beam_first` | 1 | — | RECONSTRUCTED | §8.2 the chocks stand on the second and third of the four skid beams, the middle two |
+| `launch_stow_offset` | 1.6764 | — | RECONSTRUCTED | §8.2 launch stowed to starboard of the centreline so that the pinnace stows beside her, both inside the gangways |
+| `pinnace_stow_offset` | 1.6764 | — | RECONSTRUCTED | §8.2 pinnace to port, the mirror of the launch |
+| `cutter_nest_rise` | 0.9144 | — | RECONSTRUCTED | §8.2 "nested one atop the other"; the rise that lands the cutter's keel on top of the launch's thwarts rather than through them |
+| `cutter_nest_shift` | 0.4572 | — | RECONSTRUCTED | §8.2 the nested cutter set a foot and a half aft in the launch to clear her stem |
+| `boat_gripe_pairs` | 2 | — | RECONSTRUCTED | §8.3 in heavy weather every stowed boat is double-gripped: two pairs of gripes, one pair either side of her middle |
+| `davit_station_forward_of_sternpost` | 5.4864 | — | RECONSTRUCTED | §8.4 davits stepped on the quarterdeck rail abaft the mizzen channels, clear of the quarter gallery |
+| `davit_spacing_of_boat` | 0.56 | — | RECONSTRUCTED | §8.4 the two davits stand this fraction of the boat's length apart, so the falls hook in a little inside her stem and stern |
 | `davit_height_above_rail` | 1.3716 | — | RECONSTRUCTED | §8.4 davit head high enough to swing the boat clear of the rail |
-| `davit_outreach` | 1.524 | — | RECONSTRUCTED | §8.4 the davits reach far enough outboard to swing the boat clear of the quarterdeck rail; §8.4 gives 6 ft of projection for the longer transom davit |
-| `davit_diameter` | 0.127 | 0 ft 5 in | RECONSTRUCTED | §8.4 davit 5 in in diameter at the step |
-| `davit_fall_diameter` | 0.0381 | 0 ft 1.5 in | RECONSTRUCTED | §8.4 boat fall of 1½ in rope |
-| `jolly_hang_below_davit` | 0.8382 | — | RECONSTRUCTED | §8.4 boat griped up close under the davit heads for sea |
-| `boat_oar_count` | 10 | — | RECONSTRUCTED | §8.3 Steel: "Pinnaces never row more than eight oars, whereas Barges are constructed to row with ten" |
-| `boat_oar_length` | 4.572 | 15 ft 0 in | RECONSTRUCTED | §8.3 oar length by Steel's rule for a boat of this beam, stowed fore and aft |
+| `davit_outreach` | 1.6764 | — | RECONSTRUCTED | §8.4 the davits reach far enough outboard to swing the boat clear of the quarterdeck rail |
+| `davit_diameter` | 0.1524 | 0 ft 6 in | RECONSTRUCTED | §8.4 davit 6 in in diameter at the step, for a heavier boat than a frigate's |
+| `davit_fall_diameter` | 0.0445 | 0 ft 1.8 in | RECONSTRUCTED | §8.4 boat fall of 1¾ in rope |
+| `boat_hang_below_davit` | 0.8382 | — | RECONSTRUCTED | §8.4 boat griped up close under the davit heads for sea |
+| `boat_oar_count` | 8 | — | RECONSTRUCTED | §8.3 Steel: "Pinnaces never row more than eight oars; the pinnace is the boat whose oars are stowed in her" |
+| `boat_oar_length` | 4.8768 | 16 ft 0 in | RECONSTRUCTED | §8.3 oar length by Steel's rule for a boat of this beam, stowed fore and aft |
 | `boat_oar_diameter` | 0.0762 | 0 ft 3 in | RECONSTRUCTED | §8.5 loom of the oar 3 in |
 | `boat_oar_blade_width` | 0.1397 | 0 ft 5.5 in | RECONSTRUCTED | §8.5 blade of the oar |
 | `boat_hook_count` | 2 | — | RECONSTRUCTED | §8.3 a pair of boat hooks stowed along the thwarts |
@@ -926,54 +915,58 @@ chasers, the topgallants); period rules fill the rest, and every row says which 
 | key | metric | period figure | grade | source |
 |---|---|---|---|---|
 | `ensign_staff_length` | 4.8768 | 16 ft 0 in | RECONSTRUCTED | §12.4 staff long enough to fly an 8-breadth ensign clear of the taffrail |
-| `canton_post_1801` | 0 | — | PRIMARY | §6.1 the Union of 1707 stood until 31 Dec 1800; SURPRISE is modelled 1798, so no St Patrick |
-| `ensign_at_staff` | 0 | — | SECONDARY | §6.4 ensign at the gaff peak under sail; confirmed by the reference photograph |
-| `jack_worn_under_way` | 0 | — | SECONDARY | §6.4 "a ship under full sail does NOT wear a jack" — anchors catted means under way |
-| `ensign_hoist` | 1.8288 | — | RECONSTRUCTED | §6.3 8 breadths x 9 in bunting (crwflags ensign establishment) |
-| `ensign_fly` | 3.2918 | — | SECONDARY | §6.3 mid-18th-c ensign proportion 5:9, correct for 1798 (1:2 only from 1799) |
-| `ensign_canton_hoist_frac` | 0.5 | — | RECONSTRUCTED | §6.3 standard British ensign construction, canton = 1/2 hoist |
-| `ensign_canton_fly_frac` | 0.4444 | — | RECONSTRUCTED | §6.3 standard British ensign construction, canton = 4/9 fly on a 5:9 ensign |
-| `ensign_peak_from_stem` | 41.13 | 134 ft 11.3 in | RECONSTRUCTED | §04-8/§04-3.2 mizen centre 32.903 + rake 0.43 + gaff 9.906 x cos 38 deg; agrees with the spanker gaff the rig now builds — RECONCILE WITH RIG |
-| `ensign_peak_height` | 15.2 | 49 ft 10.4 in | SECONDARY | §04-3.2 the peak of the mizzen gaff: throat at 8.93 m, where 0.52 of the run from the mizzen deck to its hounds falls, plus a 32 ft 6 in gaff peaked at 38 degrees, plus the flag head a hand above the peak |
-| `ensign_staff_from_stem` | 38.3 | 125 ft 7.9 in | RECONSTRUCTED | §04-10 taffrail station, just forward of the sternpost — RECONCILE WITH STERN |
-| `flag_ensign_staff_height` | 9.144 | 30 ft 0 in | SECONDARY | §04-10 Steel, ensign staff 30 ft above the taffrail for a 28-gun ship |
-| `ensign_halliard_belay_from_stem` | 34.6 | 113 ft 6.2 in | RECONSTRUCTED | §6.4 peak halliard belayed at the mizen fife rail, a fathom abaft the mast |
-| `pennant_hoist` | 0.6604 | — | SECONDARY | §6.3 frigate masthead pendant 2 ft 2 in x 46 ft 9 in (gwpda naval establishment) |
-| `pennant_length` | 14.2494 | 46 ft 9 in | SECONDARY | §6.3 frigate masthead pendant 2 ft 2 in x 46 ft 9 in (gwpda naval establishment) |
-| `pennant_fly_width` | 0.1016 | 0 ft 4 in | RECONSTRUCTED | §6.3 4 in given for pendants over 6 yd; read here as the width of the tapered fly |
-| `pennant_george_frac` | 2 | — | RECONSTRUCTED | §6.4 pre-1801 pendant: St George at the hoist, squadron colour in the fly; hoist portion drawn twice the hoist depth |
-| `pennant_from_stem` | 22.62 | 74 ft 2.6 in | RECONSTRUCTED | §04-8 main centre 21.752 abaft the fore perpendicular + 0.99 deg of rake; matched to the main royal pole the rig builds — RECONCILE WITH RIG |
-| `pennant_height` | 38.62 | 126 ft 8.5 in | SECONDARY | §04-9 main truck by Steel 1794 masting: keelson step, 81 ft 4 in lower mast, 48 ft 9 in topmast and 24 ft 4 in topgallant with their doublings |
-| `pennant_halliard_drop` | 2.4384 | — | RECONSTRUCTED | §6.4 pendant halliard from the truck down to the topgallant crosstrees — RECONCILE WITH RIG |
-| `pennant_segment_multiple` | 2 | — | RECONSTRUCTED | §6.4 mesh resolution only, not a dimension of the ship |
-| `jack_hoist` | 0.9144 | — | RECONSTRUCTED | §6.3 4 breadths x 9 in, half the ensign, on the standard 1:2 Union proportion |
-| `jack_fly` | 1.8288 | — | RECONSTRUCTED | §6.3 Union flag proportion 1:2 |
-| `jack_from_stem` | 0.3 | 0 ft 11.8 in | RECONSTRUCTED | §6.4 jackstaff on the stemhead at the heel of the bowsprit — RECONCILE WITH HEAD/RIG |
-| `flag_jack_staff_height` | 4.2672 | 13 ft 12 in | SECONDARY | §04-10 Steel, jack staff 14 ft, i.e. 14/30 of the ensign staff |
-| `union_cross_width_frac` | 0.2 | — | RECONSTRUCTED | §6.1 standard Union construction, St George cross 1/5 of the hoist |
-| `union_fimbriation_frac` | 0.0667 | — | RECONSTRUCTED | §6.1 standard Union construction, white fimbriation 1/15 of the hoist each side |
-| `union_saltire_width_frac` | 0.2 | — | RECONSTRUCTED | §6.1 standard Union construction, the diagonal band 1/5 of the hoist |
-| `union_patrick_frac` | 0.0667 | — | RECONSTRUCTED | §6.1 post-1801 only, St Patrick red 2/30 of the hoist |
-| `union_patrick_offset_frac` | 0.0333 | — | RECONSTRUCTED | §6.1 post-1801 counterchange, red offset 1/30 from the band centre so the broad white is uppermost at the top hoist |
-| `flag_wind_bearing_deg` | 60 | — | RECONSTRUCTED | §6.4 wind from the starboard bow; the flags stream aft and to port, agreeing with the sails full on the starboard tack |
-| `flag_droop_frac` | 0.17 | — | RECONSTRUCTED | §6.4 "pronounced sag at the fly" — wool bunting, sag as a fraction of the fly |
-| `flag_wave_amplitude_frac` | 0.24 | — | RECONSTRUCTED | §6.4 "long, slow wave" — amplitude as a fraction of the hoist |
-| `flag_wave_length_frac` | 0.45 | — | RECONSTRUCTED | §6.4 "long, slow wave" — wavelength as a fraction of the fly |
-| `flag_wave_skew` | 0.3 | — | RECONSTRUCTED | §6.4 the wave runs diagonally across the cloth, not straight down the hoist |
-| `flag_stream_slack` | 0.07 | — | RECONSTRUCTED | §6.4 cloth taken up by the wave, so the fly does not reach its full length downwind |
-| `flag_wave_growth_exponent` | 1.3 | — | RECONSTRUCTED | §6.4 "higher damping and lower stiffness than a modern flag preset" |
-| `flag_wave_harmonic` | 0.35 | — | RECONSTRUCTED | §6.4 a second harmonic at a third of the amplitude, so the wave is not a pure sine |
-| `flag_wave_phase` | 0.35 | — | RECONSTRUCTED | §6.4 baked attitude of the ensign; a phase, not a dimension |
-| `flag_wave_phase_pennant` | 2.1 | — | RECONSTRUCTED | §6.4 baked attitude of the pendant; a phase, not a dimension |
-| `flag_wave_phase_jack` | 4.05 | — | RECONSTRUCTED | §6.4 baked attitude of the jack; a phase, not a dimension |
-| `flag_halliard_diameter` | 0.016 | 0 ft 0.6 in | RECONSTRUCTED | §6.4 signal halliard, small stuff rove through a block at the peak |
-| `flag_halliard_sag` | 0.015 | — | RECONSTRUCTED | §6.4 a halliard swigged up taut carries very little sag |
+| `canton_post_1801` | 1 | — | PRIMARY | §5 the Union of 1801 stood from 1 Jan 1801; she is modelled in 1811, and the ruse flies the British ensign of that date |
+| `ensign_at_staff` | 0 | — | SECONDARY | §5 ensign at the gaff peak under sail |
+| `jack_worn_under_way` | 1 | — | RECONSTRUCTED | §5 research 05: the jack is built and shown on its staff by default; a host can hide it |
+| `ensign_hoist` | 2.7432 | — | RECONSTRUCTED | §5 twelve breadths of 9 in bunting, a 74's ensign; surprise-model's frigate flew eight |
+| `ensign_fly` | 5.4864 | — | SECONDARY | §5 the British ensign's 1:2 proportion, in force from 1799, on a 9 ft hoist; the ruse flag |
+| `ensign_fly_dutch` | 4.1148 | — | SECONDARY | §5 the Dutch national flag is 2:3; on the 9 ft hoist that is 13 ft 6 in |
+| `ensign_fly_french` | 4.1148 | — | SECONDARY | §5 the French tricolour at sea is taken as 2:3 on the same hoist; the 1794 law fixes the arrangement, not a ratio, so the proportion is RECONSTRUCTED |
+| `ensign_canton_hoist_frac` | 0.5 | — | RECONSTRUCTED | §5 standard British ensign construction, canton = 1/2 hoist |
+| `ensign_canton_fly_frac` | 0.25 | — | RECONSTRUCTED | §5 standard British ensign construction on a 1:2 ensign, the canton one quarter of the fly |
+| `ensign_peak_fallback_height` | 21 | 68 ft 10.8 in | RECONSTRUCTED | §4 where a 74's spanker gaff peak stands, used only if the rig publishes no ctx.spanker |
+| `ensign_peak_fallback_from_stem` | 47 | 154 ft 2.4 in | RECONSTRUCTED | §4 where a 74's spanker gaff peak stands, used only if the rig publishes no ctx.spanker |
+| `ensign_staff_forward_of_sternpost` | 1.6 | — | RECONSTRUCTED | §4 taffrail station, just forward of the sternpost |
+| `flag_ensign_staff_height` | 4.8768 | 16 ft 0 in | RECONSTRUCTED | §4 ensign staff above the taffrail, a 74's a little over a frigate's |
+| `ensign_halliard_belay_abaft_mizzen` | 0.9144 | — | RECONSTRUCTED | §5 peak halliard belayed at the mizzen fife rail, a yard abaft the mast |
+| `pennant_hoist` | 0.8636 | — | RECONSTRUCTED | §5 scaled from the frigate masthead pendant of 2 ft 2 in x 46 ft 9 in (gwpda naval establishment) for a 74 |
+| `pennant_length` | 18.8976 | 62 ft 0 in | RECONSTRUCTED | §5 scaled from the frigate masthead pendant of 2 ft 2 in x 46 ft 9 in (gwpda naval establishment) for a 74 |
+| `pennant_fly_width` | 0.127 | 0 ft 5 in | RECONSTRUCTED | §5 the tapered fly, a little wider than the frigate's 4 in |
+| `pennant_george_frac` | 2 | — | RECONSTRUCTED | §5 St George at the hoist, squadron colour in the fly; hoist portion drawn twice the hoist depth |
+| `pennant_fallback_height` | 52 | 170 ft 7.2 in | RECONSTRUCTED | §4 where a 74's main truck stands, used only if the rig publishes no main mast geometry |
+| `pennant_fallback_from_stem` | 27.7 | 90 ft 10.6 in | RECONSTRUCTED | §4 the main mast centre abaft the stem, used only if the rig publishes no main mast geometry |
+| `pennant_halliard_drop` | 2.4384 | — | RECONSTRUCTED | §5 pendant halliard from the truck down to the topgallant crosstrees |
+| `pennant_segment_multiple` | 2 | — | RECONSTRUCTED | §5 mesh resolution only, not a dimension of the ship |
+| `jack_hoist` | 1.0668 | — | RECONSTRUCTED | §5 a jack of four or five breadths for a ship of this rate |
+| `jack_fly` | 2.1336 | — | RECONSTRUCTED | §5 the British Union flag proportion 1:2 on a 3 ft 6 in hoist |
+| `jack_fly_tricolour` | 1.6002 | — | RECONSTRUCTED | §5 the tricolour jack in 2:3 on the same hoist |
+| `jack_from_stem` | 0.3 | 0 ft 11.8 in | RECONSTRUCTED | §5 jackstaff on the stemhead at the heel of the bowsprit |
+| `flag_jack_staff_height` | 4.8768 | 16 ft 0 in | RECONSTRUCTED | §4 jack staff, a little over the 14 ft of a frigate |
+| `flag_jack_staff_diameter` | 0.0762 | 0 ft 3 in | RECONSTRUCTED | §4 a 3 in staff |
+| `union_cross_width_frac` | 0.2 | — | RECONSTRUCTED | §5 standard Union construction, St George cross 1/5 of the hoist |
+| `union_fimbriation_frac` | 0.0667 | — | RECONSTRUCTED | §5 standard Union construction, white fimbriation 1/15 of the hoist each side |
+| `union_saltire_width_frac` | 0.2 | — | RECONSTRUCTED | §5 standard Union construction, the diagonal band 1/5 of the hoist |
+| `union_patrick_frac` | 0.0667 | — | RECONSTRUCTED | §5 post-1801 only, St Patrick red 2/30 of the hoist |
+| `union_patrick_offset_frac` | 0.0333 | — | RECONSTRUCTED | §5 post-1801 counterchange, red offset 1/30 from the band centre so the broad white is uppermost at the top hoist |
+| `flag_wind_bearing_deg` | 60 | — | RECONSTRUCTED | §5 wind from the starboard bow; the flags stream aft and to port, agreeing with the sails full on the starboard tack |
+| `flag_droop_frac` | 0.17 | — | RECONSTRUCTED | §5 "pronounced sag at the fly" — wool bunting, sag as a fraction of the fly |
+| `flag_wave_amplitude_frac` | 0.24 | — | RECONSTRUCTED | §5 "long, slow wave" — amplitude as a fraction of the hoist |
+| `flag_wave_length_frac` | 0.45 | — | RECONSTRUCTED | §5 "long, slow wave" — wavelength as a fraction of the fly |
+| `flag_wave_skew` | 0.3 | — | RECONSTRUCTED | §5 the wave runs diagonally across the cloth, not straight down the hoist |
+| `flag_stream_slack` | 0.07 | — | RECONSTRUCTED | §5 cloth taken up by the wave, so the fly does not reach its full length downwind |
+| `flag_wave_growth_exponent` | 1.3 | — | RECONSTRUCTED | §5 "higher damping and lower stiffness than a modern flag preset" |
+| `flag_wave_harmonic` | 0.35 | — | RECONSTRUCTED | §5 a second harmonic at a third of the amplitude, so the wave is not a pure sine |
+| `flag_wave_phase` | 0.35 | — | RECONSTRUCTED | §5 baked attitude of the ensign; a phase, not a dimension |
+| `flag_wave_phase_pennant` | 2.1 | — | RECONSTRUCTED | §5 baked attitude of the pendant; a phase, not a dimension |
+| `flag_wave_phase_jack` | 4.05 | — | RECONSTRUCTED | §5 baked attitude of the jack; a phase, not a dimension |
+| `flag_halliard_diameter` | 0.016 | 0 ft 0.6 in | RECONSTRUCTED | §5 signal halliard, small stuff rove through a block at the peak |
+| `flag_halliard_sag` | 0.015 | — | RECONSTRUCTED | §5 a halliard swigged up taut carries very little sag |
 
 ### The watch on deck
 
 | key | metric | period figure | grade | source |
 |---|---|---|---|---|
-| `crew_figure_height` | 1.6764 | 5 ft 6 in | RECONSTRUCTED | §9 the average height of a British seaman in the 1790s, from the surviving Marine and Navy muster descriptions. This is the number that gives the ship her scale |
+| `crew_figure_height` | 1.6764 | 5 ft 6 in | RECONSTRUCTED | §9 the average height of a seaman of about 1800, from the surviving British Marine and Navy muster descriptions (no Dutch figures found). This is the number that gives the ship her scale |
 | `crew_officer_height` | 1.7526 | 5 ft 9 in | RECONSTRUCTED | §9 officers ran two to three inches taller than the people, being better fed as children |
 | `crew_shoulder_breadth` | 0.4318 | 1 ft 5 in | RECONSTRUCTED | §9 across the shoulders of a working man in a jacket |
 | `crew_hip_breadth` | 0.3302 | 1 ft 1 in | RECONSTRUCTED | §9 across the hips |
@@ -985,19 +978,36 @@ chasers, the topgallants); period rules fill the rest, and every row says which 
 | `crew_arm_thickness` | 0.1143 | 0 ft 4.5 in | RECONSTRUCTED | §9 through a sleeve |
 | `crew_leg_thickness` | 0.1397 | 0 ft 5.5 in | RECONSTRUCTED | §9 through a trouser leg |
 | `crew_stance` | 0.3556 | — | RECONSTRUCTED | §9 how wide a man stands with the deck moving under him. It is wider than a man stands ashore, and it is one of the few things about a figure that reads at any distance |
-| `crew_helm_abaft_wheel` | 0.4572 | — | RECONSTRUCTED | §9 a helmsman stands close abaft the wheel with the spokes at arm's length |
-| `crew_helm_spread` | 1.0668 | — | RECONSTRUCTED | §9 the two men of a double wheel stand one at each wheel, which is what the second wheel is for |
-| `crew_con_abaft_binnacle` | 0.6096 | — | RECONSTRUCTED | §9 the officer of the watch cons her from beside the binnacle, where he can see the compass and the weather leech together |
-| `crew_lookout_from_stem` | 6.096 | 20 ft 0 in | RECONSTRUCTED | §9 the forecastle lookout, well forward and at the weather rail |
-| `crew_waist_from_stem` | 21.336 | 70 ft 0 in | RECONSTRUCTED | §9 the hands at the chain pumps, which are immediately either side of the mainmast |
-| `crew_brace_from_stem` | 28.956 | 95 ft 0 in | RECONSTRUCTED | §9 the after braces are belayed abaft the mizzen, and in a gale there are hands standing by them |
-| `crew_taffrail_from_stem` | 37.1856 | 122 ft 0 in | RECONSTRUCTED | §9 an officer aft at the taffrail, watching the following sea, which is the whole business of running before a gale |
+| `crew_helm_abaft_wheel` | 0.4064 | — | RECONSTRUCTED | §9 a helmsman stands close abaft his wheel with the spokes at arm's length; the double wheel has two men to each |
+| `crew_helm_off_centre` | 0.7112 | — | RECONSTRUCTED | §9 each helmsman stands beside the rim of the wheel, a little inside its edge |
+| `crew_con_abaft_binnacle` | 0.762 | — | RECONSTRUCTED | §9 the officer of the watch cons her from beside the binnacles, where he can see the compass and the weather leech together |
+| `crew_con_off_centre` | 1.8288 | — | RECONSTRUCTED | §9 the officer of the watch stands to larboard of the binnacles |
+| `crew_master_off_centre` | 2.5908 | — | RECONSTRUCTED | §9 the master (the second officer of the watch) stands on the weather side of the quarterdeck |
+| `crew_master_forward_of_binnacle` | 0.9144 | — | RECONSTRUCTED | §9 a little forward of the binnacles |
+| `crew_captain_forward_of_mizzen` | 1.524 | — | RECONSTRUCTED | §9 the captain paces the weather side of the quarterdeck between the wheel and the mizzen, clear of the helmsmen and of the braces |
+| `crew_captain_off_centre` | 3.6576 | — | RECONSTRUCTED | §9 the captain on the weather side, by the rail |
+| `crew_midshipman_forward_of_binnacle` | 4.2672 | — | RECONSTRUCTED | §9 the signal midshipman at the forward end of the quarterdeck, where he can see the flag halliards and the other ships |
+| `crew_midshipman_off_centre` | 3.048 | — | RECONSTRUCTED | §9 to larboard |
+| `crew_mizzen_brace_abaft_mizzen` | 0.4572 | — | RECONSTRUCTED | §9 the mizzen braces are belayed at the rail abreast the mast, and in a gale there are hands standing by them |
+| `crew_gun_quarters_port_index` | 1 | — | RECONSTRUCTED | §9 which of the quarterdeck ports on the larboard side has a crew standing to it (counted from forward) |
+| `crew_gun_quarters_starboard_index` | 3 | — | RECONSTRUCTED | §9 which of the quarterdeck ports on the starboard side has a crew standing to it (counted from forward) |
+| `crew_gun_quarters_inboard` | 2.7432 | — | RECONSTRUCTED | §9 the gun captain stands behind the breech of his gun, this far inboard of the ship's side, clear of the recoil |
+| `crew_gun_quarters_loader_abaft` | 0.8128 | — | RECONSTRUCTED | §9 the second man of a gun's crew stands beside him |
+| `crew_main_brace_forward_of_mainmast` | 1.524 | — | RECONSTRUCTED | §9 the main braces lead to the pin rail at the break of the quarterdeck; the hands stand on the gangways to haul them |
+| `crew_pump_hand_off_centre` | 1.524 | — | RECONSTRUCTED | §9 the hands at the chain pumps, one each side |
+| `crew_bosun_off_centre` | 2.7432 | — | RECONSTRUCTED | §9 the boatswain stands in the waist by the capstan, where he can see everything that is being done on deck |
+| `crew_lookout_forward_of_foremast` | 2.7432 | — | RECONSTRUCTED | §9 the forecastle lookouts, well forward of the foremast |
+| `crew_lookout_off_centre` | 1.6764 | — | RECONSTRUCTED | §9 one each side of the stem |
 | `crew_rail_inset` | 0.62 | — | RECONSTRUCTED | §9 how far out toward the ship's side a man stands, as a fraction of the half-breadth at his station. He stands by the rail, not on the centreline |
 | `crew_top_inset` | 0.55 | — | RECONSTRUCTED | §9 how far out on the top platform a man stands, as a fraction of its half-breadth |
 | `crew_coat_tail_drop` | 0.34 | — | RECONSTRUCTED | §9 how far an officer's coat tails hang below his waist, as a fraction of his leg. The tailed coat is the officer silhouette — take it away and he is a seaman in better cloth |
 | `crew_jacket_drop` | 0.1 | — | RECONSTRUCTED | §9 a seaman's jacket ends just below the hip and no lower. It is cut short so that it does not foul him when he goes aloft |
 | `crew_hat_brim` | 0.1143 | — | RECONSTRUCTED | §9 the brim of a round hat, beyond the crown all round. It is the widest thing about a man's head and the part that survives being three hundred pixels away |
 | `crew_hat_crown` | 0.0889 | — | RECONSTRUCTED | §9 the crown of a low round hat, tarred against the weather |
+| `crew_button_size` | 0.0279 | — | RECONSTRUCTED | §9 a brass coat button, a little over an inch across. The captain's are what the book remarks on, and a row of them down a light-blue coat is what picks him out |
+| `crew_pipe_stem_length` | 0.1016 | 0 ft 4 in | RECONSTRUCTED | §9 the stem of a short clay pipe, which the captain smokes |
+| `crew_pipe_bowl_height` | 0.0406 | 0 ft 1.6 in | RECONSTRUCTED | §9 the bowl of the pipe |
+| `crew_cuff_depth` | 0.0762 | 0 ft 3 in | RECONSTRUCTED | §9 the facing colour at the wrist of an officer's coat, which is how a Dutch officer's facings show at a distance |
 | `crew_cocked_hat_span` | 0.381 | — | RECONSTRUCTED | §9 across a cocked hat from point to point. Worn athwartships by an officer of this date, it is a wider mark than his shoulders and it is how he is known at a distance |
 | `crew_neck_height` | 0.0635 | 0 ft 2.5 in | RECONSTRUCTED | §9 the neck, which is small and matters: without one the head sits on the shoulders like a ball on a wall |
 | `crew_hand_length` | 0.1778 | 0 ft 7 in | RECONSTRUCTED | §9 the hand at the end of the sleeve. Bare skin at the end of a dark arm is what says the arm is an arm |
@@ -1019,7 +1029,7 @@ chasers, the topgallants); period rules fill the rest, and every row says which 
 | `crew_arm_haul_deg` | -74 | — | RECONSTRUCTED | §9 hauling on a fall: both arms forward, hands together |
 | `crew_arm_haul_splay_deg` | 15 | — | RECONSTRUCTED | §9 hands a little apart on the rope, one above the other |
 | `crew_haul_lean_deg` | 9 | — | RECONSTRUCTED | §9 a man hauling puts his weight back against the rope. It is the lean and not the arms that says what he is doing |
-| `crew_count` | 13 | — | RECONSTRUCTED | §9 the watch on deck of a frigate with a company of about two hundred, in weather that has driven everyone else below: two at the wheel, two officers, seven of the watch and two in the main top |
+| `crew_count` | 24 | — | RECONSTRUCTED | §9 the watch on deck of a 74 with a company of about six hundred, in weather that has driven most of them below: four at the double wheel, four officers and the signal midshipman among them, two mizzen brace hands, two guns' crews of two, two main brace hands, two at the pumps, the boatswain, two lookouts and three topmen in the main top |
 | `crew_lean_deg` | 6 | — | RECONSTRUCTED | §9 a man standing on a deck heeled and moving stands out of the vertical, braced against it. Figures standing bolt upright on a ship that is not upright are one of the plainest tells in a rendered scene |
 
 ### Motion
@@ -1061,6 +1071,9 @@ chasers, the topgallants); period rules fill the rest, and every row says which 
 | `lifeline_above_deck` | 0.95 | 3 ft 1.4 in | RECONSTRUCTED | §6 hand height on a moving deck: high enough to hold without stooping, low enough to fall against |
 | `lifeline_sag` | 0.012 | — | RECONSTRUCTED | §6 set up taut, but no rope of this length is straight |
 | `lifeline_from_centre` | 1.15 | — | RECONSTRUCTED | §6 how far off the centreline each of the two lines is run, so that a man crossing the waist has one within reach either way |
+| `topsail_sheet_bitt_from_mast` | 1.0668 | — | SECONDARY | §6 Steel 1805 :17592, a pair forward of and a pair abaft the mast |
+| `lifeline_stations` | 6 | — | RECONSTRUCTED | §6 the lifeline is rigged through this many stanchion points between the forecastle and the quarterdeck, so that it follows the gangway down and up again |
+| `quarter_cutter_length` | 7.3152 | 24 ft 0 in | RECONSTRUCTED | §8.3 Steel 1805 / Lavery boat establishment for a 74, the second cutter, the same 24 ft as the first |
 
 ---
 
@@ -1177,6 +1190,7 @@ tarred wales, a white-stuff bottom, red ochre linings and ochre-and-gilt carving
 | `ensign_blue` | #22375E | 0.9 | 0 | SECONDARY §8 blue ensign bunting, desaturated from the Flag Institute blue |
 | `ensign_red` | #A32D34 | 0.9 | 0 | SECONDARY §8 bunting red |
 | `ensign_white` | #E8E2D4 | 0.9 | 0 | SECONDARY §8 bunting white |
+| `ensign_tricolour_blue` | #2F4F94 | 0.9 | 0 | RECONSTRUCTED §5 the blue of the Dutch and French tricolours, a brighter cobalt than the British ensign navy, faded a little as working wool bunting is |
 | `slop_tarpaulin` | #3A342B | 0.88 | 0 | RECONSTRUCTED §9 a seaman's foul-weather rig is canvas soaked in tar and oil: near-black, and darker still when it is wet, which on this ship it always is |
 | `slop_jacket` | #2E3A46 | 0.86 | 0 | RECONSTRUCTED §9 the short blue jacket of the purser's slop issue — "jackets, blue cloth" — which ends at the hip and is the seaman's own silhouette, quite unlike an officer's tailed coat |
 | `slop_duck` | #C6C0AC | 0.9 | 0 | RECONSTRUCTED §9 trousers and shirt of white duck, greyed by salt and wear. It is the pale half of every figure on deck and it is what makes them read as people rather than as posts |
@@ -1185,6 +1199,10 @@ tarred wales, a white-stuff bottom, red ochre linings and ochre-and-gilt carving
 | `crew_skin` | #A97D5E | 0.72 | 0 | RECONSTRUCTED §9 a seaman's face and hands after a year in the open: weathered a long way past whatever he started as |
 | `officer_coat` | #1E2A44 | 0.82 | 0 | RECONSTRUCTED §9 undress blue coat, faded by sun and salt from the deep indigo of a new one |
 | `officer_facing` | #D8D2C2 | 0.84 | 0 | RECONSTRUCTED §9 white lapels, waistcoat and breeches. On a dark coat they are what says "officer" from clear across the deck, before any detail of the man is visible at all |
+| `dutch_captain_coat` | #86A9D2 | 0.82 | 0 | FICTIONAL §1 the book's Dutch captain wears a light-blue coat with brass buttons; faded a little by salt and sun |
+| `dutch_facing_light_blue` | #6F93C2 | 0.84 | 0 | RECONSTRUCTED §9 light-blue collar, cuffs and lapels on a Dutch officer's dark blue coat; the facings of 1811 are not documented, so this is the better-known of the two colours the brief names |
+| `dutch_facing_red` | #9C2F33 | 0.84 | 0 | RECONSTRUCTED §9 red collar and cuffs on a Dutch officer's dark blue coat, the alternative to light blue |
+| `dutch_button_brass` | #C9A24B | 0.45 | 0 | RECONSTRUCTED §9 the brass buttons of an officer's coat; the captain's are what the book remarks on |
 | `weather_rust` | #7A3A18 | — | 0 | RECONSTRUCTED §8 wet iron oxide on paint: redder and darker than dry rust, which is what runs from a chain bolt in a seaway |
 | `weather_rust_alpha` | 0.42 | — | — | RECONSTRUCTED §8 strong enough to read on a black topside at gameplay range; above about 0.55 the ship looks derelict rather than used |
 | `weather_rust_roughness` | 0.82 | — | — | RECONSTRUCTED §8 tuned so a rust run still reads as a change of finish, not only of hue, under the beam view's raking light |

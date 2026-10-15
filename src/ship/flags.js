@@ -1,14 +1,19 @@
 // The colours: the ensign, the masthead pennant and the jack.
 //
+// She flies one of three things (`buildShip({ ensign })`, research 05): the Dutch
+// red-white-blue horizontal tricolour (the default), the British blue ensign with the
+// post-1801 Union (her ruse in the book), or the French vertical tricolour. Each comes
+// with its own long pennant at the main truck and its own jack.
+//
 // Three ideas hold this module together.
 //
-// The first is that the canton is *drawn*, not loaded. A Union flag is a construction
+// The first is that the flags are *drawn*, not loaded. A Union flag is a construction
 // — a cross of one width fimbriated at another, a saltire of a third — and every one of
 // those widths is a fraction of the canton's hoist. So the flag is painted on a canvas
 // the same way textures.js paints planking, out of numbers that live in the spec, which
 // means the pre-1801 Union and the post-1801 Union are the same drawing with one band
-// added. The default model is 1798; hosts can select `flagYear: 1805` to include
-// St Patrick's saltire for a later scene.
+// added. (She is modelled in 1811, so the post-1801 Union is the default for the ruse.)
+// A tricolour is three stripes of one canvas.
 //
 // The second is that a flag is a sheet whose only fixed edge is the hoist. Everything
 // else — the stream downwind, the sag of heavy wool bunting at the fly, the long slow
@@ -16,19 +21,16 @@
 // full value at the fly. One function makes all three flags, because a commissioning
 // pennant is only an ensign that is twenty times longer than it is deep and tapers.
 //
-// The third is that nothing here knows where the masts are. The rig was built in
-// parallel with this module, so the four points the flags hang from — the gaff peak,
-// the taffrail staff, the main truck and the jackstaff — are reconstructed in this
-// module's own spec and marked for reconciliation. They have since been trued to the
-// spars the rig builds, but nothing enforces the agreement, so a change to the rig's
-// masting is a change this spec has to follow. Everything else is sited off the hull
-// model, so it moves when the hull does.
+// The third is that nothing here knows where the masts are. The rig is its own module
+// and publishes where the spanker gaff ends (`ctx.spanker`) and where the main truck is
+// (`ctx.rig`); the ensign and the pennant are hung from those points, and only fall back
+// to this module's own spec if the rig has published nothing. Everything else is sited off
+// the hull model, so it moves when the hull does.
 import * as THREE from 'three';
 import { SPEC, PAINT } from '../spec/spec.js';
-import { ropeCurve, ropeTube, ropeLines } from '../util/solids.js';
+import { ropeCurve, ropeTube, ropeLines, spar } from '../util/solids.js';
 import { mergeGeometries } from '../util/loft.js';
 import { lerp } from '../util/math.js';
-import { audits } from '../audit/measure.js';
 import {dressBunting,installBuntingLight} from './bunting.js';
 
 const S = (key) => SPEC[key].value;
@@ -129,32 +131,71 @@ function flagCanvas(hoistPx, aspect) {
   return { c, g: c.getContext('2d',{willReadFrequently:true}) };
 }
 
-/** The ensign: a plain field with the Union in the upper hoist quarter. */
-function drawEnsign(hoistPx, fieldKey, post1801) {
-  const aspect = S('ensign_fly') / S('ensign_hoist');
-  const { c, g } = flagCanvas(hoistPx, aspect);
+// ---------------------------------------------------------------- the colours
+
+/** The tricolour's three stripes, in order from the top (horizontal) or the hoist (vertical). */
+const TRICOLOUR = {
+  // The Dutch: red over white over blue.
+  dutch: { direction: 'horizontal', stripes: ['ensign_red', 'ensign_white', 'ensign_tricolour_blue'] },
+  // The French: blue at the hoist, then white, then red at the fly.
+  french: { direction: 'vertical', stripes: ['ensign_tricolour_blue', 'ensign_white', 'ensign_red'] },
+};
+
+/** Fill a canvas with a tricolour, horizontal or vertical. */
+function drawTricolour(g, w, h, { direction, stripes }) {
+  stripes.forEach((key, i) => {
+    g.fillStyle = PAINT[key].hex;
+    if (direction === 'horizontal') {
+      const y0 = Math.round((i * h) / stripes.length), y1 = Math.round(((i + 1) * h) / stripes.length);
+      g.fillRect(0, y0, w, y1 - y0);
+    } else {
+      const x0 = Math.round((i * w) / stripes.length), x1 = Math.round(((i + 1) * w) / stripes.length);
+      g.fillRect(x0, 0, x1 - x0, h);
+    }
+  });
+}
+
+/**
+ * The ensign. 'dutch' and 'french' are plain tricolours; the British squadron colours
+ * ('blue', 'white', 'red') are a field with the Union in the upper hoist quarter.
+ */
+function drawEnsign(hoistPx, kind, post1801) {
+  const fly = kind === 'dutch' ? S('ensign_fly_dutch') : kind === 'french' ? S('ensign_fly_french') : S('ensign_fly');
+  const { c, g } = flagCanvas(hoistPx, fly / S('ensign_hoist'));
+  if (TRICOLOUR[kind]) {
+    drawTricolour(g, c.width, c.height, TRICOLOUR[kind]);
+    return c;
+  }
+  const fieldKey = `ensign_${kind}`;
   g.fillStyle = PAINT[fieldKey].hex;
   g.fillRect(0, 0, c.width, c.height);
   // A white squadron ensign carries St George across the whole field.
   // Colour alone never turns a blue ensign into a white naval ensign.
-  if(fieldKey==='ensign_white') {
-    const cross=c.height/10;
-    g.fillStyle=PAINT.ensign_red.hex;
-    g.fillRect(0,(c.height-cross)/2,c.width,cross);
-    g.fillRect((c.width-cross)/2,0,cross,c.height);
-    drawUnion(g,0,0,(c.width-cross)/2,(c.height-cross)/2,post1801);
-  }else drawUnion(g, 0, 0, c.width * S('ensign_canton_fly_frac'), c.height * S('ensign_canton_hoist_frac'), post1801);
+  if (kind === 'white') {
+    const cross = c.height / 10;
+    g.fillStyle = PAINT.ensign_red.hex;
+    g.fillRect(0, (c.height - cross) / 2, c.width, cross);
+    g.fillRect((c.width - cross) / 2, 0, cross, c.height);
+    drawUnion(g, 0, 0, (c.width - cross) / 2, (c.height - cross) / 2, post1801);
+  } else drawUnion(g, 0, 0, c.width * S('ensign_canton_fly_frac'), c.height * S('ensign_canton_hoist_frac'), post1801);
   return c;
 }
 
 /**
- * The commissioning pennant. Pre-1801 it is St George at the hoist with the squadron's
- * colour in the fly — the single long St George cross of the modern pennant is a
- * post-war standardisation, and would be as wrong here as St Patrick's saltire.
+ * The commissioning pennant. The Dutch is three stripes the whole length, red over white
+ * over blue, tapering with the cloth; the French is blue at the hoist, white, then red,
+ * in thirds along its length. The British (the ruse) is St George at the hoist with the
+ * squadron's colour in the fly — pre-1801 and post-1801 alike, the single long St George
+ * cross of the modern pennant is a post-war standardisation.
  */
-function drawPennant(hoistPx, fieldKey) {
+function drawPennant(hoistPx, kind) {
   const aspect = S('pennant_length') / S('pennant_hoist');
   const { c, g } = flagCanvas(hoistPx, aspect);
+  if (TRICOLOUR[kind]) {
+    drawTricolour(g, c.width, c.height, TRICOLOUR[kind]);
+    return c;
+  }
+  const fieldKey = `ensign_${kind}`;
   g.fillStyle = PAINT[fieldKey].hex;
   g.fillRect(0, 0, c.width, c.height);
 
@@ -168,25 +209,32 @@ function drawPennant(hoistPx, fieldKey) {
   return c;
 }
 
-/** The jack: the Union flag alone, at its own 1:2. */
-function drawJack(hoistPx, post1801) {
+/** The jack: a small tricolour for the Dutch and French, the Union for the ruse. */
+function drawJack(hoistPx, kind, post1801) {
+  if (TRICOLOUR[kind]) {
+    const { c, g } = flagCanvas(hoistPx, S('jack_fly_tricolour') / S('jack_hoist'));
+    drawTricolour(g, c.width, c.height, TRICOLOUR[kind]);
+    return c;
+  }
   const aspect = S('jack_fly') / S('jack_hoist');
   const { c, g } = flagCanvas(hoistPx, aspect);
   drawUnion(g, 0, 0, c.width, c.height, post1801);
   return c;
 }
 
-const buntingMaps=new Map();
-function buntingMaterial(mats, fieldKey, canvasEl, dimensions) {
-  const mat=mats.bunting(fieldKey);
+const buntingMaps = new Map();
+function buntingMaterial(mats, mapKey, canvasEl, dimensions) {
+  // The material's own colour is overwritten with white below, because the cloth map
+  // carries the colour; any bunting key will do for the base.
+  const mat = mats.bunting('ensign_white');
   // Fair/heavy weather models share immutable cloth maps. Their geometry and
   // materials stay independent, but changing weather does not double texture memory.
-  const key=[fieldKey,canvasEl.width,canvasEl.height,dimensions.fly,dimensions.hoist,
-    dimensions.breadths,dimensions.post1801??false].join(':');
-  if(!buntingMaps.has(key))buntingMaps.set(key,dressBunting(canvasEl,dimensions));
-  Object.assign(mat,buntingMaps.get(key));
-  mat.color.set(0xffffff);mat.roughness=1;mat.bumpScale=.0018;
-  mat.userData.bunting='sewn-wool-v1';
+  const key = [mapKey, canvasEl.width, canvasEl.height, dimensions.fly, dimensions.hoist,
+    dimensions.breadths, dimensions.post1801 ?? false].join(':');
+  if (!buntingMaps.has(key)) buntingMaps.set(key, dressBunting(canvasEl, dimensions));
+  Object.assign(mat, buntingMaps.get(key));
+  mat.color.set(0xffffff); mat.roughness = 1; mat.bumpScale = .0018;
+  mat.userData.bunting = 'sewn-wool-v1';
   installBuntingLight(mat);
   return mat;
 }
@@ -309,17 +357,39 @@ export function poseFlag(geometry, phase, { direction, wind = 1, gravity } = {})
 
 // -------------------------------------------------------------------- the build
 
+/**
+ * Where the main truck is, from whatever the rig publishes. The rig is its own module and
+ * is rebuilt on its own schedule, so this asks it in the two shapes it has published —
+ * `ctx.rig.main` with an `along(h)` and a `truckH`, or a `ctx.rig.masts` list of the same —
+ * and only if neither is there falls back to this module's own reconstruction.
+ */
+function mainTruck(ctx, model) {
+  const mast = ctx.rig?.main ?? ctx.rig?.masts?.find((x) => x.name === 'main');
+  if (mast?.truck?.isVector3) return mast.truck.clone();
+  if (mast?.along && Number.isFinite(mast.truckH)) return mast.along(mast.truckH);
+  return new THREE.Vector3(0, S('pennant_fallback_height'), model.fromStem(S('pennant_fallback_from_stem')));
+}
+
+/** Where the spanker gaff peak is, from `ctx.spanker`, else from this module's reconstruction. */
+function gaffPeak(ctx, model) {
+  if (ctx.spanker?.gaffEnd) return ctx.spanker.gaffEnd.clone();
+  return new THREE.Vector3(0, S('ensign_peak_fallback_height'), model.fromStem(S('ensign_peak_fallback_from_stem')));
+}
+
 export function buildFlags(cfg, mats, model, ctx) {
   const group = new THREE.Group();
   group.name = 'flags';
   if (!cfg.flags) return group;
 
   const [segsU, segsV] = cfg.flagSegments;
-  const post1801=ctx.flagYear===undefined?S('canton_post_1801')>0:ctx.flagYear>=1801;
-  // The squadron colour. The reference photograph shows her wearing blue, which
-  // research §6.2 accepts as plausible without documenting it; the red and white
-  // ensigns are one word away because a ship wore her admiral's colour, not her own.
-  const fieldKey=`ensign_${ctx.ensign??'blue'}`;
+  const post1801 = ctx.flagYear === undefined ? S('canton_post_1801') > 0 : ctx.flagYear >= 1801;
+  // What she flies: 'dutch' (the default), 'french', or a British squadron colour — 'blue'
+  // for the ruse, and 'white' or 'red' for the others.
+  const kind = ctx.ensign ?? 'dutch';
+  // A tricolour has no Union in it; the post-1801 Union matters only to the British flags.
+  const britishUnion = !TRICOLOUR[kind];
+  const ensignFly = kind === 'dutch' ? S('ensign_fly_dutch') : kind === 'french' ? S('ensign_fly_french') : S('ensign_fly');
+  const jackFly = TRICOLOUR[kind] ? S('jack_fly_tricolour') : S('jack_fly');
 
   // Where the wind is. Bearing is measured from dead ahead, turning to starboard; the
   // cloth streams the opposite way, which for a wind on the starboard bow is aft and
@@ -333,44 +403,39 @@ export function buildFlags(cfg, mats, model, ctx) {
   };
 
   // ------------------------------------------------------------------- ensign
-  // At the peak of the mizen gaff, which is where an ensign belongs at sea and where
-  // the reference photograph shows it. The taffrail staff is unshipped when the driver
-  // is set, so it is only used if the spec asks for the harbour arrangement.
+  // At the peak of the spanker gaff, which is where an ensign belongs at sea. The taffrail
+  // staff is unshipped when the driver is set, so it is only used if the spec asks for the
+  // harbour arrangement.
   let ensignHead;
   if (S('ensign_at_staff') > 0) {
-    const zStaff = model.fromStem(S('ensign_staff_from_stem'));
+    const zStaff = model.zAft - S('ensign_staff_forward_of_sternpost');
     ensignHead = new THREE.Vector3(0, model.featureYAt(zStaff).rail + S('flag_ensign_staff_height'), zStaff);
   } else {
-    // The ensign flies at the peak of the mizzen gaff — the outer, upper end of it. The
-    // rig builds that spar and hands its ends over in ctx.spanker, so the flag is hung
+    // The rig builds the gaff and hands its ends over in ctx.spanker, so the flag is hung
     // from the actual peak rather than from a copy of where the peak was expected to be.
     // Hanging it from a copy is what put the ensign inside the driver, showing through
     // the canvas as a blue diamond.
-    ensignHead = ctx.spanker
-      ? ctx.spanker.gaffEnd.clone().add(new THREE.Vector3(0, 0.15, 0.10))
-      : new THREE.Vector3(0, S('ensign_peak_height'), model.fromStem(S('ensign_peak_from_stem')));
+    ensignHead = gaffPeak(ctx, model).add(new THREE.Vector3(0, 0.15, 0.10));
   }
 
   const ensign = new THREE.Mesh(
     flagGeometry({
       dir: stream,
-      fly: S('ensign_fly'), hoist: S('ensign_hoist'), tipHoist: S('ensign_hoist'),
+      fly: ensignFly, hoist: S('ensign_hoist'), tipHoist: S('ensign_hoist'),
       segsU, segsV, phase: S('flag_wave_phase'),
     }),
-    buntingMaterial(mats, fieldKey, drawEnsign(cfg.textureSize / 2, fieldKey, post1801),
-      {fly:S('ensign_fly'),hoist:S('ensign_hoist'),breadths:8,post1801})
+    buntingMaterial(mats, `ensign:${kind}`, drawEnsign(cfg.textureSize / 2, kind, post1801),
+      { fly: ensignFly, hoist: S('ensign_hoist'), breadths: 12, post1801: britishUnion && post1801 })
   );
   ensign.name = 'ensign';
-  ensign.userData.colours={field:ctx.ensign??'blue',post1801};
+  ensign.userData.colours = { field: kind, post1801: britishUnion && post1801 };
   ensign.position.copy(ensignHead);
-  // The flag's own origin is the point it is bent to, so this measures the gaff peak
-  // itself rather than the bounding box of a piece of cloth blowing about.
-  if (S('ensign_at_staff') === 0) audits(ensign, ['ensign_peak_height', 'origin_y']);
   group.add(ensign);
 
-  // The peak halliard: rove through a block at the peak and belayed at the mizen fife
+  // The peak halliard: rove through a block at the peak and belayed at the mizzen fife
   // rail below. It is the one line that tells the eye the flag is bent to something.
-  halliardTo(ensignHead, model.pointAt(model.fromStem(S('ensign_halliard_belay_from_stem')), 'rail', 1));
+  const belayZ = S('furniture_mizzenmast_z') + S('ensign_halliard_belay_abaft_mizzen');
+  halliardTo(ensignHead, model.pointAt(belayZ, 'rail', 1));
 
   // ------------------------------------------------------------------ pennant
   // The commissioning pennant at the main truck, flown day and night while she is in
@@ -378,10 +443,8 @@ export function buildFlags(cfg, mats, model, ctx) {
   if (cfg.flags !== 'ensign') {
     // The commissioning pennant flies at the main truck — the very top of the main
     // topgallant pole. Taken from the rig's own geometry, so that the two cannot
-    // disagree about how tall the mast is, which they did by 2.5 m.
-    const truck = ctx.rig
-      ? ctx.rig.main.along(ctx.rig.main.truckH).add(new THREE.Vector3(0, 0.25, 0))
-      : new THREE.Vector3(0, S('pennant_height'), model.fromStem(S('pennant_from_stem')));
+    // disagree about how tall the mast is.
+    const truck = mainTruck(ctx, model).add(new THREE.Vector3(0, 0.25, 0));
     const pennant = new THREE.Mesh(
       flagGeometry({
         dir: stream,
@@ -389,12 +452,11 @@ export function buildFlags(cfg, mats, model, ctx) {
         segsU: Math.round(segsU * S('pennant_segment_multiple')), segsV,
         phase: S('flag_wave_phase_pennant'),
       }),
-      buntingMaterial(mats, fieldKey, drawPennant(Math.min(96,cfg.textureSize / 8), fieldKey),
-        {fly:S('pennant_length'),hoist:S('pennant_hoist'),breadths:3})
+      buntingMaterial(mats, `pennant:${kind}`, drawPennant(Math.min(96, cfg.textureSize / 8), kind),
+        { fly: S('pennant_length'), hoist: S('pennant_hoist'), breadths: 3 })
     );
     pennant.name = 'pennant';
     pennant.position.copy(truck);
-    audits(pennant, ['pennant_height', 'origin_y']);
     pennant.userData.trucked = true;
     group.add(pennant);
 
@@ -402,28 +464,43 @@ export function buildFlags(cfg, mats, model, ctx) {
   }
 
   // --------------------------------------------------------------------- jack
-  // Built, and hidden. A jack is worn at the jackstaff at anchor only, and she is under
-  // way with her anchors catted; showing one would be a display convention, not a fact
-  // about the ship. Set `jack_worn_under_way` to 1 for the ship at her moorings.
-  if (cfg.flags === 'full') {
+  // The jack on its staff at the stemhead: a small tricolour for the Dutch and French, the
+  // Union for the ruse. It is shown by default; `jack_worn_under_way` 0 builds it hidden, and
+  // a host can set `visible` either way.
+  // (Every level but the distant one, which keeps only the ensign.)
+  if (cfg.flags !== 'ensign') {
     const zJack = model.fromStem(S('jack_from_stem'));
-    const jackHead = new THREE.Vector3(0, model.featureYAt(zJack).rail + S('flag_jack_staff_height'), zJack);
+    const base = model.featureYAt(zJack).rail;
+    const jackHead = new THREE.Vector3(0, base + S('flag_jack_staff_height'), zJack);
     const jack = new THREE.Mesh(
       flagGeometry({
         dir: stream,
-        fly: S('jack_fly'), hoist: S('jack_hoist'), tipHoist: S('jack_hoist'),
+        fly: jackFly, hoist: S('jack_hoist'), tipHoist: S('jack_hoist'),
         segsU, segsV, phase: S('flag_wave_phase_jack'),
       }),
-      buntingMaterial(mats, fieldKey, drawJack(cfg.textureSize / 2, post1801),
-        {fly:S('jack_fly'),hoist:S('jack_hoist'),breadths:4,post1801})
+      buntingMaterial(mats, `jack:${kind}`, drawJack(cfg.textureSize / 2, kind, post1801),
+        { fly: jackFly, hoist: S('jack_hoist'), breadths: 4, post1801: britishUnion && post1801 })
     );
     jack.name = 'jack';
     jack.position.copy(jackHead);
     jack.visible = S('jack_worn_under_way') > 0;
     group.add(jack);
 
+    // The jack staff itself: a thin spar from the rail to the flag's head.
+    const staffLen = jackHead.y - base;
+    const staff = new THREE.Mesh(
+      spar({
+        length: staffLen, radiusAt: (t) => (S('flag_jack_staff_diameter') / 2) * (1 - 0.35 * t),
+        segments: 2, radial: Math.max(4, cfg.sparRadial - 3),
+      }),
+      mats.mastBlack
+    );
+    staff.position.set(0, base, zJack);
+    staff.name = 'jack_staff';
+    group.add(staff);
+
     if (jack.visible) {
-      halliardTo(jackHead, new THREE.Vector3(jackHead.x, model.featureYAt(zJack).rail, jackHead.z));
+      halliardTo(jackHead, new THREE.Vector3(jackHead.x, base, jackHead.z));
     }
   }
 

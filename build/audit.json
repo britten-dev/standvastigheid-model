@@ -34,18 +34,26 @@
   {
     "key": "bell_mouth_diameter",
     "metric": "extent_x",
-    "expected": 0.2794,
-    "actual": 0.2793999910354614,
+    "expected": 0.381,
+    "actual": 0.38100001215934753,
     "tolerance": 0.06,
-    "source": "RECONSTRUCTED §6 research 06 deck-layout §7.1, period Sixth-Rate norm; no dimensioned source found"
+    "source": "RECONSTRUCTED §6 research 06 §7.1 a ship of this rate's bell; no dimensioned source found"
   },
   {
     "key": "boat_count",
     "metric": "count",
-    "expected": 4,
-    "actual": 4,
+    "expected": 5,
+    "actual": 5,
     "tolerance": 0.001,
-    "source": "RECONSTRUCTED §8.3 launch, pinnace, cutter and jolly boat — the outfit of a sixth rate of 578 tons; no boat list for Surprise was found"
+    "source": "RECONSTRUCTED §8.3 Steel 1805 / Lavery boat establishment for a 74: launch, pinnace, two cutters and a jolly boat"
+  },
+  {
+    "key": "bow_chaser_count",
+    "metric": "count",
+    "expected": 2,
+    "actual": 2,
+    "tolerance": 0.001,
+    "source": "FICTIONAL §1 the book: chasers \"trained sharp forward from the bridle-ports in her bluff bows\", one a side (ch. 7)"
   },
   {
     "key": "bowsprit_steeve_deg",
@@ -66,18 +74,10 @@
   {
     "key": "capstan_drumhead_diameter",
     "metric": "extent_x",
-    "expected": 1.2192,
-    "actual": 1.2192000150680542,
+    "expected": 1.524,
+    "actual": 1.5240000486373901,
     "tolerance": 0.03,
-    "source": "SECONDARY §6 Steel 1805 :38437, row X"
-  },
-  {
-    "key": "carronade_12pdr_count",
-    "metric": "count",
-    "expected": 6,
-    "actual": 6,
-    "tolerance": 0.001,
-    "source": "PRIMARY §6.3 4 twelve-pounder carronades on the quarterdeck and 2 on the forecastle, Plymouth establishment 6.1796. ALTERNATIVE: 18-pdr carronades, 10 of them, in the 21.4.1798 fit"
+    "source": "RECONSTRUCTED §3 research 03 §3 the 4 ft of Steel 1805 :38437 (row X) scaled by the ratio of the two ships' breadths"
   },
   {
     "key": "cathead_spread",
@@ -90,10 +90,10 @@
   {
     "key": "crew_count",
     "metric": "count",
-    "expected": 13,
-    "actual": 13,
+    "expected": 24,
+    "actual": 24,
     "tolerance": 0.34,
-    "source": "RECONSTRUCTED §9 the watch on deck of a frigate with a company of about two hundred, in weather that has driven everyone else below: two at the wheel, two officers, seven of the watch and two in the main top"
+    "source": "RECONSTRUCTED §9 the watch on deck of a 74 with a company of about six hundred, in weather that has driven most of them below: four at the double wheel, four officers and the signal midshipman among them, two mizzen brace hands, two guns' crews of two, two main brace hands, two at the pumps, the boatswain, two lookouts and three topmen in the main top"
   },
   {
     "key": "crew_figure_height",
@@ -101,15 +101,15 @@
     "expected": 1.6764000000000001,
     "actual": 1.6685931162481191,
     "tolerance": 0.05,
-    "source": "RECONSTRUCTED §9 the average height of a British seaman in the 1790s, from the surviving Marine and Navy muster descriptions. This is the number that gives the ship her scale"
+    "source": "RECONSTRUCTED §9 the average height of a seaman of about 1800, from the surviving British Marine and Navy muster descriptions (no Dutch figures found). This is the number that gives the ship her scale"
   },
   {
     "key": "cutter_length",
     "metric": "extent_z",
-    "expected": 5.486400000000001,
-    "actual": 5.530743837356567,
+    "expected": 7.315200000000001,
+    "actual": 7.357927083969116,
     "tolerance": 0.05,
-    "source": "RECONSTRUCTED §8.3 cutter 18-22 ft; the shortest taken so that she nests inside the 24 ft launch"
+    "source": "RECONSTRUCTED §8.3 Steel 1805 / Lavery boat establishment for a 74, cutter 22-25 ft; the 24 ft taken so that she nests in the 32 ft launch"
   },
   {
     "key": "dolphin_striker_length",
@@ -117,14 +117,6 @@
     "expected": 2.7432000000000003,
     "actual": 2.7471190509236068,
     "source": "RECONSTRUCTED §12 about a quarter of the jib boom; not in Steel 1794, but visible in the reference photograph"
-  },
-  {
-    "key": "ensign_peak_height",
-    "metric": "origin_y",
-    "expected": 15.2,
-    "actual": 15.838414560264518,
-    "tolerance": 0.03,
-    "source": "SECONDARY §04-3.2 the peak of the mizzen gaff: throat at 8.93 m, where 0.52 of the run from the mizzen deck to its hounds falls, plus a 32 ft 6 in gaff peaked at 38 degrees, plus the flag head a hand above the peak"
   },
   {
     "key": "figurehead_height",
@@ -167,28 +159,36 @@
     "source": "SECONDARY §3 Steel 1794 v1 p.50, \"28 GUNS. 594 Tons.\" column"
   },
   {
-    "key": "gun_4pdr_count",
+    "key": "gun_12pdr_count",
     "metric": "count",
-    "expected": 10,
-    "actual": 10,
+    "expected": 16,
+    "actual": 16,
     "tolerance": 0.001,
-    "source": "PRIMARY §6.3 8 long 4-pdr on the quarterdeck and 2 on the forecastle, Plymouth establishment 6.1796. ALTERNATIVE: only the 2 forecastle chase guns survive in the 21.4.1798 fit"
+    "source": "SECONDARY §3 Willem de Eerste (1785), 16 x 12-pdr on the quarterdeck and forecastle; 10 on the quarterdeck (5 ports a side, PRIMARY §2) and 6 on the forecastle (the split is not recorded)"
   },
   {
-    "key": "gun_9pdr_count",
+    "key": "gun_24pdr_count",
     "metric": "count",
-    "expected": 24,
-    "actual": 0,
+    "expected": 28,
+    "actual": 28,
     "tolerance": 0.001,
-    "source": "PRIMARY §6.3 threedecks ex Winfield BWAS-1793, Plymouth establishment 6.1796: 24 long 9-pdr on the upper deck. ALTERNATIVE: 24 x 32-pdr carronades in the 21.4.1798 fit"
+    "source": "FICTIONAL §1 the book: 24-pounders on the upper deck, 14 a side; the Washington in British hands carried 28 x 18-pdr there"
+  },
+  {
+    "key": "gun_32pdr_count",
+    "metric": "count",
+    "expected": 28,
+    "actual": 28,
+    "tolerance": 0.001,
+    "source": "FICTIONAL §1 the book: 32-pounders on the lower deck, 14 a side; agrees with SECONDARY §3 the Washington's British fit of 28 x 32-pdr"
   },
   {
     "key": "gun_truck_carriage_count",
     "metric": "count",
-    "expected": 34,
-    "actual": 10,
+    "expected": 76,
+    "actual": 76,
     "tolerance": 0.001,
-    "source": "PRIMARY §6.3 one four-truck carriage under each of the 24 long 9-pdr and 10 long 4-pdr; the carronades are on slides and are not counted here"
+    "source": "FICTIONAL §1 one four-truck carriage under each of the 28 + 28 + 16 broadside long guns and under each of the 4 chasers"
   },
   {
     "key": "gundeck_above_wl_at_midships",
@@ -265,18 +265,18 @@
   {
     "key": "jolly_length",
     "metric": "extent_max",
-    "expected": 4.8768,
-    "actual": 4.957141197901667,
+    "expected": 5.486400000000001,
+    "actual": 5.5888794290648605,
     "tolerance": 0.06,
-    "source": "RECONSTRUCTED §8.3 jolly boat 16-18 ft, the smaller taken"
+    "source": "RECONSTRUCTED §8.3 Steel 1805 / Lavery boat establishment for a 74, jolly boat 16-18 ft, the larger taken for a 74"
   },
   {
     "key": "launch_length",
     "metric": "extent_z",
-    "expected": 7.315200000000001,
-    "actual": 7.356813669204712,
+    "expected": 9.7536,
+    "actual": 9.79543685913086,
     "tolerance": 0.05,
-    "source": "RECONSTRUCTED §8.3 24 ft launch for a ship of this rate"
+    "source": "RECONSTRUCTED §8.3 Steel 1805 / Lavery boat establishment for a 74, launch 30-34 ft"
   },
   {
     "key": "lower_gunport_count_per_side",
@@ -329,18 +329,18 @@
   {
     "key": "main_hatch_length",
     "metric": "extent_z",
-    "expected": 2.1336,
-    "actual": 2.1335999965667725,
+    "expected": 2.5908,
+    "actual": 2.5908000469207764,
     "tolerance": 0.03,
-    "source": "SECONDARY §6 Steel 1805 :33355 fore-and-aft, 32-gun column"
+    "source": "RECONSTRUCTED §3 research 03 §3 the 7 ft of Steel 1805 :33355 scaled for a 74; the audit holds the built grating to this"
   },
   {
     "key": "main_hatch_width",
     "metric": "extent_x",
-    "expected": 1.3716000000000002,
-    "actual": 1.3716000318527222,
+    "expected": 1.6764000000000001,
+    "actual": 1.6763999462127686,
     "tolerance": 0.03,
-    "source": "SECONDARY §6 Steel 1805 :33355 thwartships, 32-gun column"
+    "source": "RECONSTRUCTED §3 research 03 §3 the 4 ft 6 in of Steel 1805 :33355 scaled for a 74; the audit holds the built grating to this"
   },
   {
     "key": "main_mast_rake_deg",
@@ -399,20 +399,20 @@
     "source": "SECONDARY §8 Steel, Naval Architecture, CENTRES OF MASTS, 28-gun column; 1 in per yard"
   },
   {
-    "key": "pennant_height",
-    "metric": "origin_y",
-    "expected": 38.62,
-    "actual": 38.70885991949712,
-    "tolerance": 0.03,
-    "source": "SECONDARY §04-9 main truck by Steel 1794 masting: keelson step, 81 ft 4 in lower mast, 48 ft 9 in topmast and 24 ft 4 in topgallant with their doublings"
-  },
-  {
     "key": "pinnace_length",
     "metric": "extent_z",
-    "expected": 7.315200000000001,
-    "actual": 7.350432634353638,
+    "expected": 8.5344,
+    "actual": 8.569398880004883,
     "tolerance": 0.05,
-    "source": "RECONSTRUCTED §8.3 pinnace 24-26 ft; the shorter figure taken so that she stows on the same skid beams as the launch"
+    "source": "RECONSTRUCTED §8.3 Steel 1805 / Lavery boat establishment for a 74, pinnace 26-28 ft"
+  },
+  {
+    "key": "quarter_cutter_length",
+    "metric": "extent_max",
+    "expected": 7.315200000000001,
+    "actual": 7.426493870179478,
+    "tolerance": 0.05,
+    "source": "RECONSTRUCTED §8.3 Steel 1805 / Lavery boat establishment for a 74, the second cutter, the same 24 ft as the first"
   },
   {
     "key": "quarter_gallery_length",
@@ -436,7 +436,7 @@
     "expected": 4,
     "actual": 4,
     "tolerance": 0.001,
-    "source": "RECONSTRUCTED §6 research 06 deck-layout §8.2"
+    "source": "RECONSTRUCTED §6 research 06 §8.2 four beams carry the launch with the cutter nested in her"
   },
   {
     "key": "spanker_boom_length",
@@ -453,6 +453,14 @@
     "actual": 8,
     "tolerance": 0.001,
     "source": "RECONSTRUCTED the full suit in the reference photograph: two courses, three topsails and three topgallants"
+  },
+  {
+    "key": "stern_chaser_count",
+    "metric": "count",
+    "expected": 2,
+    "actual": 2,
+    "tolerance": 0.001,
+    "source": "SECONDARY §3 two stern chase ports in the counter, on the 1797 model of the Washington herself (RMG SLR0591) and on the Vrijheid model"
   },
   {
     "key": "stern_light_count",
@@ -497,17 +505,17 @@
   {
     "key": "wheel_count",
     "metric": "count",
-    "expected": 1,
-    "actual": 1,
+    "expected": 2,
+    "actual": 2,
     "tolerance": 0.001,
-    "source": "RECONSTRUCTED §6 research 06 deck-layout §2.1, a 2 ft 3 in barrel will not take a wheel at each end and the rope turns between"
+    "source": "RECONSTRUCTED §6 research 06 §2.1 a ship of this rate steers with a double wheel, one at each end of the barrel"
   },
   {
     "key": "wheel_swept_diameter",
     "metric": "extent_y",
-    "expected": 1.9304000000000001,
-    "actual": 1.930400013923645,
+    "expected": 2.032,
+    "actual": 2.0320000648498535,
     "tolerance": 0.03,
-    "source": "RECONSTRUCTED §6 research 06 deck-layout §2.1, the rim plus a turned handle projecting 7 in at each end of a spoke"
+    "source": "RECONSTRUCTED §6 research 06 §2.1 the rim plus a turned handle projecting 7 in at each end of a spoke"
   }
 ]
