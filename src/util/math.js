@@ -9,6 +9,11 @@ export const FOOT = 0.3048;
 export const ft = (feet, inches = 0) => (feet + inches / 12) * FOOT;
 export const toFt = (metres) => metres / FOOT;
 
+// The Washington's draught is in Amsterdam feet of eleven inches. `aft(48, 9)` is the
+// title block's 48 9/11 ft, written as the draughtsman wrote it.
+export const AMSTERDAM_FOOT = 0.283133;
+export const aft = (feet, inches = 0) => (feet + inches / 11) * AMSTERDAM_FOOT;
+
 export const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
 export const lerp = (a, b, t) => a + (b - a) * t;
 export const invLerp = (a, b, v) => (b === a ? 0 : (v - a) / (b - a));

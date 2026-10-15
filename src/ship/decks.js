@@ -1,10 +1,13 @@
 // The decks and the inboard works.
 //
-// A frigate's deck arrangement is what makes her read as a frigate: one continuous
-// battery deck, a forecastle forward and a quarterdeck aft raised above it, and between
-// them an open waist crossed only by narrow gangways. Everything here is built from the
-// hull model, so the decks follow the sheer and meet the ship's side wherever it
-// happens to be.
+// A two-decker: the lower deck carries the 32-pounders and runs the length of her, the
+// upper deck carries the 24-pounders and is open to the sky in the waist, and over it the
+// quarterdeck aft and the forecastle forward, joined along the sides by gangways. The
+// heights come from the port sills measured on the Washington's draught (hull.js), so
+// the decks follow her sheer and meet her side wherever it happens to be.
+//
+// Mesh names: `gundeck` is the lower deck, as the Royal Navy named it on a two-decker;
+// `upper_deck` is the deck in the waist.
 import * as THREE from 'three';
 import { SPEC } from '../spec/spec.js';
 import { V } from './hull.js';
@@ -14,24 +17,30 @@ import { lerp, clamp } from '../util/math.js';
 import { audit } from '../audit/measure.js';
 import {sternDeckBoundary} from './stern.js';
 import {walkingDeckMaterial,deckWaterways} from './deck-finish.js';
-import {cutGunOpenings,upperGunOpenings} from './gun-openings.js';
+import {cutGunOpenings,gunOpenings} from './gun-openings.js';
 
 /**
  * One deck surface, cambered. A deck is not flat: it is rounded up toward the
  * centreline so that water runs off it to the scuppers at the side.
  *
- * @param {'gundeck'|'forecastle'|'quarterdeck'} which
+ * @param {'lower'|'upper'|'forecastle'|'quarterdeck'} which
  */
-function deckSurface(model, cfg, which, zFrom, zTo, closeStern=false) {
+function deckEdge(model, which, z) {
+  if (which === 'lower') return model.lowerDeckAt(z);
+  if (which === 'upper') return model.upperDeckAt(z);
+  return model.standingDeckAt(z);
+}
+
+function deckSurface(model, cfg, which, zFrom, zTo, closeStern=false, rowScale=1) {
   const camber = SPEC.deck_camber.value;
   const heightAt=(x,z)=>{
     const station=Math.min(z,model.zAft);
-    const edge=which==='gundeck'?model.featureYAt(station).deck:model.standingDeckAt(station);
+    const edge=deckEdge(model,which,station);
     const width=Math.max(.001,model.halfBreadthAt(station,edge));
     return edge+camber*(1-(x/width)**2);
   };
   const stern=closeStern?sternDeckBoundary(cfg,model,heightAt):null;
-  const baseRows=Math.max(6,Math.round(cfg.hullStations*(zTo-zFrom)/model.lengthOnDeck));
+  const baseRows=Math.max(6,Math.round(rowScale*cfg.hullStations*(zTo-zFrom)/model.lengthOnDeck));
   const stations=Array.from({length:baseRows},(_,i)=>lerp(zFrom,zTo,i/(baseRows-1)));
   if(stern)stations.push(...stern.stations.filter(z=>z>zTo+1e-5),stern.aft);
   stations.sort((a,b)=>a-b);
@@ -41,16 +50,8 @@ function deckSurface(model, cfg, which, zFrom, zTo, closeStern=false) {
   const pos = [], uvs = [], idx = [];
   for (let i = 0; i < nz; i++) {
     const z = zs[i];
-    const f = model.featureYAt(Math.min(z,model.zAft));
-    // The deck at side, then the camber added toward the centreline. Above the gundeck
-    // the deck sits at the side where the hull has narrowed, which is why the
-    // quarterdeck and forecastle are narrower than the waist.
-    //
-    // The height of the upper decks comes from the hull model rather than from a fixed
-    // rise above the gundeck, because the rail is derived from them: taking a fixed rise
-    // put both of them above the rail, and left the sixteen guns on them standing in the
-    // open air with nothing round them.
-    const yEdge = which === 'gundeck' ? f.deck : model.standingDeckAt(z);
+    // The deck at side, then the camber added toward the centreline.
+    const yEdge = deckEdge(model, which, Math.min(z, model.zAft));
     const xEdge = stern&&z>=model.zAft?stern.halfBreadthAt(z):model.halfBreadthAt(z, yEdge);
     for (let j = 0; j < nx; j++) {
       const t = (j / (nx - 1)) * 2 - 1;           // -1 port, +1 starboard
@@ -85,39 +86,44 @@ function deckSurface(model, cfg, which, zFrom, zTo, closeStern=false) {
 }
 
 /**
- * The inboard face of the ship's side, from the deck up to the rail. Red, as the
- * inboard works were painted, and it is what stops you seeing straight through the
- * ship from one side to the other.
+ * The inboard face of the ship's side between two heights, inset by the thickness of the
+ * side. Red, as the inboard works were painted, and it is what stops you seeing straight
+ * through the ship from one side to the other — above the upper deck to the rail, and
+ * between the decks, where it is all an open lower port shows.
  */
-function innerBulwark(model, cfg, zFrom, zTo) {
+function innerLining(model, cfg, zFrom, zTo, yLow, yHigh, openings) {
   const thickness = SPEC.side_thickness.value;
   const n = Math.max(10, Math.round(cfg.hullStations * 0.6));
   const sections = [];
   for (let i = 0; i < n; i++) {
     const z = lerp(zFrom, zTo, i / (n - 1));
-    const f = model.featureYAt(z);
     const points = [];
-    // From the deck up to the rail, inset by the thickness of the side.
     const steps = 4;
+    const lo = yLow(z), hi = Math.max(lo + 0.05, yHigh(z));
     for (let k = 0; k <= steps; k++) {
-      const y = lerp(f.deck - 0.05, f.rail, k / steps);
+      const y = lerp(lo, hi, k / steps);
       points.push([Math.max(0.05, model.halfBreadthAt(z, y) - thickness), y]);
     }
     sections.push({ z, points });
   }
-  // The inboard face looks toward the centreline, so its winding is the reverse of the
-  // hull's.
   const starboard = loftSections(sections, { mirror: false });
   starboard.index.array.reverse();
   const port = loftSections(sections.map((s) => ({ z: s.z, points: s.points.map(([x, y]) => [-x, y]) })), { mirror: false });
   const g = mergeGeometries([starboard, port]);
   g.computeVertexNormals();
-  const openings=upperGunOpenings(model);
-  for(let i=0;i<SPEC.gunport_count_per_side.value;i++){
-    const z=model.fromStem(SPEC.gunport_first_from_stem.value)+i*SPEC.gunport_spacing.value,f=model.featureYAt(z);
-    openings.push({z0:z-SPEC.gunport_width.value/2,z1:z+SPEC.gunport_width.value/2,y0:f.port_sill,y1:f.port_head});
-  }
   const cut=cutGunOpenings(g,openings);g.dispose();return cut;
+}
+
+/**
+ * The underside of the upper deck, seen from the lower deck through an open port: the
+ * deck's own planking, a hand's breadth lower, facing down.
+ */
+function deckUnderside(model, cfg, zFrom, zTo) {
+  const g = deckSurface(model, cfg, 'upper', zFrom, zTo, false, 0.5);
+  g.translate(0, -SPEC.deck_thickness.value, 0);
+  g.index.array.reverse();
+  g.computeVertexNormals();
+  return g;
 }
 
 /** The cap rail: the timber that finishes the top of the bulwark all round. */
@@ -138,21 +144,28 @@ export function buildDecks(cfg, mats, model) {
   group.name = 'decks';
   const surface=walkingDeckMaterial(cfg,mats.deck);
 
-  const L = model.lengthOnDeck;
   const zStem = model.zFwd;
-  const zFcBreak = model.fromStem(SPEC.forecastle_break_u.value * L);
-  const zQdBreak = model.fromStem(SPEC.quarterdeck_break_u.value * L);
+  const zFcBreak = model.zFcBreak;
+  const zQdBreak = model.zQdBreak;
   const zStern = model.zAft;
 
-  // The gundeck runs the whole length of the ship. Forward of the forecastle break and
-  // abaft the quarterdeck break it is covered over, but it is still there, and in the
-  // waist it is the deck you stand on.
-  const gundeck = new THREE.Mesh(deckSurface(model, cfg, 'gundeck', zStem + 0.6, zStern, true), surface);
-  gundeck.name = 'gundeck';
-  // The height of this deck is audited from a marker at the midship station in hull.js,
-  // not from the mesh: the deck sweeps up at both ends with the sheer, so its average
-  // height is a good foot above the figure the spec gives for amidships.
+  // The lower deck runs the length of her. Nobody sees it except through an open port,
+  // so it is built at half the stations of the decks above.
+  const lower = new THREE.Mesh(deckSurface(model, cfg, 'lower', zStem + 1.4, zStern - 0.6, false, 0.5), surface);
+  lower.name = 'gundeck';
+  group.add(lower);
+
+  // The upper deck runs the whole length too. Forward of the forecastle break and abaft
+  // the quarterdeck break it is covered over, but it is still there, and in the waist it
+  // is the deck you stand on.
+  const gundeck = new THREE.Mesh(deckSurface(model, cfg, 'upper', zStem + 0.8, zStern, true), surface);
+  gundeck.name = 'upper_deck';
   group.add(gundeck);
+  if (cfg.innerBulwarks) {
+    const under = new THREE.Mesh(deckUnderside(model, cfg, zStem + 1.0, zStern - 0.4), mats.timber);
+    under.name = 'upper_deck_underside';
+    group.add(under);
+  }
 
   // The forecastle and the quarterdeck, raised above it.
   const fc = new THREE.Mesh(
@@ -207,9 +220,16 @@ export function buildDecks(cfg, mats, model) {
   if(waterways)group.add(waterways);
 
   if (cfg.innerBulwarks) {
-    const inner = new THREE.Mesh(innerBulwark(model, cfg, zStem + 0.5, zStern), mats.red);
+    const upperOpenings = gunOpenings(model, ['upper', 'quarterdeck']);
+    const inner = new THREE.Mesh(innerLining(model, cfg, zStem + 0.5, zStern,
+      (z) => model.upperDeckAt(z) - 0.05, (z) => model.railYAt(z), upperOpenings), mats.red);
     inner.name = 'inner_bulwark';
     group.add(inner);
+    const lowerOpenings = gunOpenings(model, ['lower', 'bridle']);
+    const between = new THREE.Mesh(innerLining(model, cfg, zStem + 1.2, zStern - 0.4,
+      (z) => model.lowerDeckAt(z) - 0.05, (z) => model.upperDeckAt(z) - SPEC.deck_thickness.value, lowerOpenings), mats.red);
+    between.name = 'lower_deck_lining';
+    group.add(between);
   }
 
   // The cap rail all round, port and starboard.

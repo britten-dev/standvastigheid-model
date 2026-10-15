@@ -254,9 +254,9 @@ export function hullStains({ size = 1024, seed = 61 } = {}) {
   const copperTop = V.waterline + num('copper_line_above_wl_v');
   // Map pixels to a metre of the ship's length, and to a metre up her side. The second
   // is approximate — V is a paint coordinate and not a height — but the topsides run
-  // about three and a half metres from the wale to the rail, which is what sets it.
+  // about five and a half metres from the main wale to the rail, which is what sets it.
   const pxPerM = size / num('hull_map_metres');
-  const vPerM = (1 - V.wale_bottom) / 3.5;
+  const vPerM = (1 - V.wale_bottom) / 5.5;
   // How many of a thing to draw in this tile, given how many of it there are per metre.
   const per = (perMetre) => Math.max(1, Math.round(perMetre * num('hull_map_metres')));
 
@@ -346,10 +346,12 @@ export function hullStains({ size = 1024, seed = 61 } = {}) {
   // the chain bolts through the wale under the channels, and the scuppers at the deck.
   // The counts are what a ship has — a gunport every two and a half metres, one scupper
   // between every second pair — not what a texture can hold.
+  // A two-decker has two tiers of ports and two decks of scuppers, so twice the lines.
   const rustFrom = [
-    { v: V.port_sill, perMetre: 0.8, len: 1.2, alpha: 1.0 },
-    { v: V.wale_bottom, perMetre: 0.35, len: 0.9, alpha: 0.85 },
-    { v: V.deck, perMetre: 0.5, len: 1.8, alpha: 0.7 },
+    { v: V.port_sill, perMetre: 0.6, len: 1.2, alpha: 1.0 },
+    { v: V.lower_port_sill, perMetre: 0.6, len: 1.0, alpha: 1.0 },
+    { v: V.middle_wale_bottom, perMetre: 0.3, len: 0.9, alpha: 0.85 },
+    { v: V.wale_top, perMetre: 0.5, len: 1.4, alpha: 0.7 },
   ];
   for (const line of rustFrom) {
     for (let i = 0; i < per(line.perMetre); i++) {
@@ -376,7 +378,7 @@ export function hullStains({ size = 1024, seed = 61 } = {}) {
   // Dirt out of the scuppers and down from the rail: not rust, just the black wash off a
   // wet ship. Weaker than the rust, and there is more of it.
   for (let i = 0; i < per(1.6); i++) {
-    const top = r() > 0.45 ? V.deck : V.rail;
+    const top = r() > 0.6 ? V.wale_top : r() > 0.5 ? V.middle_wale_top : V.rail;
     const x = r() * size, yTop = vy(top);
     const length = vPerM * size * (0.3 + r() * 2.2), width = pxPerM * (0.01 + r() * 0.03);
     const alpha = num('weather_grime_alpha') * (0.25 + r() * 0.75);

@@ -32,14 +32,16 @@ function ring(radius, iron, cfg) {
 }
 
 export function portLid(cfg, mats, model, p, side, shut) {
-  const h = S('gunport_height'), t = S('gunport_lid_thickness'), overlap = S('gunport_lid_overlap');
+  const h = p.height ?? S('gunport_height'), t = S('gunport_lid_thickness'), overlap = S('gunport_lid_overlap');
   const z0 = p.cutZ0 ?? p.z - p.width / 2, z1 = p.cutZ1 ?? p.z + p.width / 2;
   const width = Math.max(p.width, z1 - z0) + overlap * 2, height = h + overlap * 2;
   const centreZ = (z0 + z1) / 2;
-  const head = model.pointAt(centreZ, 'port_head', side), sill = model.pointAt(centreZ, 'port_sill', side);
+  const at = (y) => new THREE.Vector3(model.halfBreadthAt(centreZ, y) * side, y, centreZ);
+  const head = p.y1 !== undefined ? at(p.y1) : model.pointAt(centreZ, 'port_head', side);
+  const sill = p.y0 !== undefined ? at(p.y0) : model.pointAt(centreZ, 'port_sill', side);
   const lean = Math.atan2(Math.abs(sill.x) - Math.abs(head.x), head.y - sill.y);
   const r = S('gunport_hinge_barrel_diameter') / 2;
-  const root = new THREE.Group(); root.name = `port_${side > 0 ? 'starboard' : 'port'}_${p.index}`;
+  const root = new THREE.Group(); root.name = `${p.kind ?? 'gundeck'}_port_${side > 0 ? 'starboard' : 'port'}_${p.index}`;
   root.rotation.z = side * lean; root.scale.x = side;
   const hingeOffset = new THREE.Vector3(side * (S('gunport_lid_closed_proud') + t + r), overlap, 0)
     .applyAxisAngle(new THREE.Vector3(0, 0, 1), side * lean);

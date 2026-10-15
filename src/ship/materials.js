@@ -9,6 +9,7 @@
 // the waterline where the waterline is.
 import * as THREE from 'three';
 import { PAINT } from '../spec/spec.js';
+import { rng } from '../util/math.js';
 import { V } from './hull.js';
 import {
   planking, copperSheathing, sailCloth, ropeTexture, woodGrain, paintedSurface, normalFrom, asTexture,
@@ -56,10 +57,11 @@ function hullPaintStrip(size = 1024, cfg) {
     // whose copper stopped lower there would be a band of bare, algae-stained plank
     // here, and PAINT.boot_top is kept for that case.
     [V.wale_bottom, V.wale_top, 'wale'],
-    [V.wale_top, V.port_sill - PAINT.ochre_strake_below_sill_v.value, 'topside_black'],
-    [V.port_sill - PAINT.ochre_strake_below_sill_v.value,
-     V.port_head + PAINT.ochre_strake_above_head_v.value, 'ochre_trim'],
-    [V.port_head + PAINT.ochre_strake_above_head_v.value, 1.0, 'topside_black'],
+    // She is a black ship (§1, §6): no band along the ports. The middle wale is tarred
+    // like the main one.
+    [V.wale_top, V.middle_wale_bottom, 'topside_black'],
+    [V.middle_wale_bottom, V.middle_wale_top, 'wale'],
+    [V.middle_wale_top, 1.0, 'topside_black'],
   ];
 
   for (const [a, b, key] of bands) {
@@ -87,9 +89,6 @@ function hullPaintStrip(size = 1024, cfg) {
   // port heads and the rail is the bulwark, and the photograph shows it near-black,
   // #2b2320-#3d1903, right over the cap. It is a narrow band, so a light line drawn
   // across it swallows most of it — which is most of why the bulwark used to sample tan.
-  const t = Math.max(2, Math.round(PAINT.ochre_moulding_v.value * size));
-  g.fillStyle = PAINT.ochre_trim.hex;
-  g.fillRect(0, Math.round((1 - V.sheer_strake) * size) - t / 2, 8, t);
 
   // Soften every boundary by a pixel or two. A hard edge on a painted plank reads as a
   // decal; a real paint line has a brush edge.
@@ -141,13 +140,12 @@ function hullSurfaceMap(size, plankCanvas, copperCanvas) {
   // (0.55) instead of inheriting the black topside's (0.50) the way the old strip's
   // coarser four-band split made it do.
   const bandTable = [
-    [0.0, copperTop, PAINT.copper.roughness, 1.0],
+    [0.0, copperTop, PAINT.copper.roughness, PAINT.bottom_metalness.value],
     [copperTop, V.wale_bottom, PAINT.boot_top.roughness, 0],
     [V.wale_bottom, V.wale_top, PAINT.wale.roughness, 0],
-    [V.wale_top, V.port_sill - PAINT.ochre_strake_below_sill_v.value, PAINT.topside_black.roughness, 0],
-    [V.port_sill - PAINT.ochre_strake_below_sill_v.value,
-     V.port_head + PAINT.ochre_strake_above_head_v.value, PAINT.ochre_trim.roughness, 0],
-    [V.port_head + PAINT.ochre_strake_above_head_v.value, 1.0, PAINT.topside_black.roughness, 0],
+    [V.wale_top, V.middle_wale_bottom, PAINT.topside_black.roughness, 0],
+    [V.middle_wale_bottom, V.middle_wale_top, PAINT.wale.roughness, 0],
+    [V.middle_wale_top, 1.0, PAINT.topside_black.roughness, 0],
   ];
   for (const [a, b, rough, metal] of bandTable) {
     if (b <= a) continue;
@@ -426,11 +424,18 @@ function buildMaterials(cfg) {
     nailRelief: PAINT.copper_nail_relief.value * 0.5,
     size: hullSize,
   };
+  // Her bottom. A sheathed ship gets the copper generator; an unsheathed one — and this
+  // one is, see PAINT.bottom_sheathed — gets white stuff, tallow, sulphur and lime paid
+  // over the planking, so the planking shows through it and it is blotched where it was
+  // laid on in the dock and where the sea has since taken it off.
+  const sheathed = PAINT.bottom_sheathed.value;
   const copperTex = asTexture(
-    copperSheathing({
-      ...copperArgs,
-      base: PAINT.copper.hex, edge: PAINT.copper_dark.hex, nail: PAINT.copper_bright.hex,
-    }),
+    sheathed
+      ? copperSheathing({
+        ...copperArgs,
+        base: PAINT.copper.hex, edge: PAINT.copper_dark.hex, nail: PAINT.copper_bright.hex,
+      })
+      : whiteStuff(hullTimber(hullSize), hullSize),
     { repeat: [1, 1] }
   );
 
@@ -568,7 +573,7 @@ function buildMaterials(cfg) {
 
   const mats = {
     copper: std({
-      map: copperTex, color: col('copper'), roughness: PAINT.copper.roughness, metalness: 1.0,
+      map: copperTex, color: col('copper'), roughness: PAINT.copper.roughness, metalness: PAINT.bottom_metalness.value,
       vertexColors: true,
     }),
     deck: std({
@@ -734,7 +739,9 @@ function buildMaterials(cfg) {
               // The sheathing's own relief is the more expensive half — it is a second full
               // pass of the copper generator — and it is only ever read from alongside, so
               // below the game level the bottom keeps its colour and loses its laps.
-              cfg.copperNails ? copperSheathing({ ...copperArgs, height: true }) : null,
+              sheathed
+                ? (cfg.copperNails ? copperSheathing({ ...copperArgs, height: true }) : null)
+                : hullTimber(hullSize, 'height'),
               hullSize
             ), Math.min(2048, N)),
             1.8
@@ -751,6 +758,39 @@ function buildMaterials(cfg) {
   mats.hull.userData.hullFinish='caulked-timber-v3';
 
   return mats;
+}
+
+/**
+ * White stuff over planking: the plank's light and shade multiplied into the stuff's own
+ * colour, with the broad blotches of a bottom paid by hand and partly washed off.
+ */
+function whiteStuff(plankCanvas, size) {
+  const c = document.createElement('canvas');
+  c.width = c.height = size;
+  const g = c.getContext('2d', { willReadFrequently: true });
+  g.drawImage(plankCanvas, 0, 0, size, size);
+  const img = g.getImageData(0, 0, size, size);
+  const d = img.data;
+  const base = new THREE.Color(PAINT.copper.hex), dark = new THREE.Color(PAINT.copper_dark.hex);
+  const r = rng(907);
+  const blots = Array.from({ length: 70 }, () => [r() * size, r() * size, (0.02 + r() * 0.09) * size, r()]);
+  for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
+    const i = (y * size + x) * 4;
+    const lum = (d[i] * 0.299 + d[i + 1] * 0.587 + d[i + 2] * 0.114) / 255;
+    let k = 0;
+    for (const [bx, by, br, bw] of blots) {
+      const dx = Math.min(Math.abs(x - bx), size - Math.abs(x - bx)), dy = y - by;
+      const q = (dx * dx + dy * dy) / (br * br);
+      if (q < 1) k = Math.max(k, (1 - q) * bw);
+    }
+    const t = Math.min(1, k * PAINT.white_stuff_blotch.value);
+    const shade = 0.78 + 0.44 * lum;
+    d[i] = Math.min(255, 255 * shade * (base.r * (1 - t) + dark.r * t));
+    d[i + 1] = Math.min(255, 255 * shade * (base.g * (1 - t) + dark.g * t));
+    d[i + 2] = Math.min(255, 255 * shade * (base.b * (1 - t) + dark.b * t));
+  }
+  g.putImageData(img, 0, 0);
+  return c;
 }
 
 /**

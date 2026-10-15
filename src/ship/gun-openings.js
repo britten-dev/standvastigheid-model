@@ -1,20 +1,30 @@
 import * as T from 'three';
 import {mergeGeometries} from '../util/loft.js';
-import {SPEC} from '../spec/spec.js';
+import {SPEC, OFFSETS} from '../spec/spec.js';
 
-// Upper batteries share the gun module's established stations. Their sides
-// are present in the loft: they require real openings, not barrels through wood.
-export function upperGunOpenings(model) {
- const S=k=>SPEC[k].value, stations=[];
- const n=S('gun_quarterdeck_carronades_forward')+S('gun_4pdr_count')/2-1;
- for(let i=0;i<n;i++)stations.push([model.fromStem(S('gun_quarterdeck_first_from_stem')+i*S('gun_quarterdeck_spacing')),i<2?'carronade':'gun_4pdr']);
- stations.push([model.fromStem(S('gun_forecastle_carronade_from_stem')),'carronade'],[model.fromStem(S('gun_forecastle_gun_from_stem')),'gun_4pdr']);
- return stations.map(([z,nature])=>{
-  const centre=model.standingDeckAt(z)+S(nature==='carronade'?'carronade_axis_above_deck':'gun_4pdr_axis_above_deck');
-  const width=S('qd_port_width'),height=S('qd_port_height');
-  return {z0:z-width/2,z1:z+width/2,y0:centre-height/2,y1:centre+height/2,z};
- });
+// Every port in her side, as a rectangle in side elevation: the two batteries, the
+// quarterdeck, and the bridle ports for the bow chasers. Positions, widths, sills and
+// heads are the ones measured off the Washington's sheer plan (docs/offsets.json); the
+// bridle ports are reconstructed (docs/research/03-hull-decks-guns.md).
+export function portRecords(model) {
+ const S=k=>SPEC[k].value, out=[];
+ for(const [kind,list] of [['lower',OFFSETS.ports.lower],['upper',OFFSETS.ports.upper],['quarterdeck',OFFSETS.ports.quarterdeck]])
+  list.forEach((p,index)=>out.push({kind,index,z:p.z,width:p.width,y0:p.sill,y1:p.head,height:p.head-p.sill}));
+ // The bridle ports: one a side in the bluff of the bow on the lower deck, abaft the
+ // hawse holes, sized and sited like the lower battery's ports.
+ const zB=model.fromStem(S('bridle_port_from_stem'));
+ const sill=model.featureYAt(zB).lower_port_sill+S('bridle_port_sill_rise');
+ out.push({kind:'bridle',index:0,z:zB,width:S('bridle_port_width'),y0:sill,y1:sill+S('bridle_port_height'),height:S('bridle_port_height')});
+ return out;
 }
+
+export function gunOpenings(model, kinds=null) {
+ return portRecords(model).filter(p=>!kinds||kinds.includes(p.kind))
+  .map(p=>({z0:p.z-p.width/2,z1:p.z+p.width/2,y0:p.y0,y1:p.y1,z:p.z,kind:p.kind}));
+}
+
+// The quarterdeck's own openings, for the inboard planking of its bulwark.
+export const upperGunOpenings = (model) => gunOpenings(model, ['quarterdeck']);
 
 // Subtract Y/Z rectangles by clipping triangles and interpolating every vertex
 // attribute. No quantised oversized holes, CSG dependency or faceted normals.

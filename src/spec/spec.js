@@ -6,76 +6,115 @@
 // values. Between them, a number cannot drift without something going red.
 //
 // Grades used in `source`:
-//   PRIMARY       read from the ship's own draught or the dockyard survey
+//   PRIMARY       read from the ship's own draught (Nationaal Archief 4.MST inv. 59, the
+//                 Dutch 74 Washington) or the British survey of her after capture
+//   MEASURED      measured off that draught by tools/draught/ (docs/research/07-tracing.md)
 //   SECONDARY     a published work citing those records
-//   RECONSTRUCTED derived from a period rule; the rule is named in `note`
-//   FICTIONAL     from O'Brian's novels or the 2003 film, never mixed with the above
-import { ft } from '../util/math.js';
+//   RECONSTRUCTED derived from a period rule; the rule is named in the source
+//   FICTIONAL     from O'Brian's Desolation Island, never mixed with the above
+//
+// The section numbers (§) refer to docs/research/: §1 the book, §2 the draught, §3 hull,
+// decks and guns, §4 rig, §5 flags, §6 paint and decoration, §7 the tracing.
+import { ft, aft } from '../util/math.js';
 import { PART_SPECS } from './parts/index.js';
+import { OFFSETS } from './offsets.js';
 
 export const m = (metres, source, opts = {}) => ({ value: metres, source, ...opts });
+
+const D = OFFSETS.dimensions;
+const F = OFFSETS.features;
+const MID = OFFSETS.stationLabel.indexOf('10');
+const tier = (list) => ({
+  count: list.length,
+  width: list.reduce((a, p) => a + p.width, 0) / list.length,
+  height: list.reduce((a, p) => a + p.head - p.sill, 0) / list.length,
+  spacing: (list.at(-1).z - list[0].z) / (list.length - 1),
+});
+const LOWER = tier(OFFSETS.ports.lower), UPPER = tier(OFFSETS.ports.upper), QD = tier(OFFSETS.ports.quarterdeck);
+const zStem = -(179 - D.station10_s_ft) * 0.283133;
+const SPAN = OFFSETS.stationZ.at(-1) - OFFSETS.stationZ[0];
 
 // The core of the spec: the ship herself, her decks and her battery. Regions of the
 // ship that are built by their own module keep their dimensions in
 // `src/spec/parts/<region>.js` and are merged in below, so that two people working on
 // two regions never edit the same file.
+//
+// Naming. On a two-decker the Royal Navy's "gundeck" is the LOWER deck, and the length
+// "on the gundeck" is measured along it — exactly as the Dutch draught measures its
+// 179 ft "op 't onder dek". So `gundeck_*` here means the lower deck. The deck a man
+// stands on in the waist is the upper deck, `weather_deck_*`. A host written for
+// Surprise, whose only gun deck was also her weather deck, should read the latter.
 const CORE = {
   // ---------------------------------------------------------------- principal
-  // The dockyard survey figures from the title cartouche of ZAZ3067, "SURPRISE late
-  // L'UNITE", Plymouth Yard February 1798, signed John Marshall. These four are the
-  // only dimensions of this ship that are genuinely recorded, and everything else is
-  // built off them.
-  hull_length_gundeck: m(ft(126, 0), 'PRIMARY §1 ZAZ3067 title cartouche; Winfield via threedecks', { noAudit: true }),
-  // The length the offset table actually spans: the load waterline, from the fore side
-  // of the stem rabbet to the after side of the sternpost. Five feet shorter than the
-  // gundeck, because both the stem and the post rake and the deck line runs on past the
-  // perpendiculars at each end.
-  hull_length_bp: m(ft(121, 0), 'MEASURED §2 126 ft on the gundeck less the stem rake above the LWL and the post rake', { tolerance: 0.01 }),
-  hull_length_keel: m(ft(108, 6.125), 'PRIMARY §1 ZAZ3067; confirmed by the tonnage arithmetic', { noAudit: true }),
-  hull_beam_extreme: m(ft(31, 8), 'PRIMARY §1 ZAZ3067; confirmed by the tonnage arithmetic. Measured over the wales, which stand outside the moulded surface the offsets describe', { noAudit: true }),
-  hull_beam_moulded: m(ft(31, 0), 'MEASURED §2 breadth box on the ZAZ3067 body plan at 6.0 px per foot; the title-block row is illegible at this resolution', { tolerance: 0.012 }),
-  hull_depth_in_hold: m(ft(10, 0.5), 'PRIMARY §1 threedecks citing Winfield BWAS-1793', { noAudit: true }),
-  hull_tons_burthen: { value: 578.777, source: 'PRIMARY §1 578 73/94 tons bm; (108.5104 x 31.6667 x 15.83335) / 94 checks exactly', noAudit: true },
-
-  hull_draught_aft: m(ft(14, 0.5), 'SECONDARY §3 Wikipedia, HMS Surprise (1796)', { noAudit: true }),
-  hull_draught_fwd: m(ft(11, 6), 'RECONSTRUCTED §3 normal trim by the stern for a frigate of this size', { noAudit: true }),
+  hull_length_gundeck: m(aft(179), 'PRIMARY §2 title block of NA 4.MST inv. 59: "Lang op \'t Onder Dek 179 Voet", Amsterdam feet, rabbet to rabbet on the lower deck. The British survey after her capture gives 168 ft 5 in English, 51.33 m', { noAudit: true }),
+  hull_length_british: m(ft(168, 5), 'PRIMARY §2 British survey of HMS Princess of Orange (ex-Washington), via Wikipedia; the Dutch figure is the one built to', { noAudit: true }),
+  // What the offset table spans: from the stem at the head of its rabbet to the sternpost.
+  hull_length_bp: m(SPAN, 'MEASURED §7 the loft runs from the stem rabbet to the sternpost rabbet as traced on the sheer plan', { tolerance: 0.01 }),
+  hull_length_lwl: m(D.length_lwl_m, 'MEASURED §7 stem rabbet to sternpost rabbet at the load waterline', { noAudit: true }),
+  hull_length_keel: m(ft(138, 0.75), 'PRIMARY §2 British survey, keel for tonnage', { noAudit: true }),
+  hull_beam_extreme: m(ft(46, 2), 'PRIMARY §2 British survey, extreme breadth over the plank; 48 9/11 Amsterdam ft inside the plank on the draught, plus two thicknesses of plank, agrees within 5 cm', { noAudit: true }),
+  hull_beam_moulded: m(D.beam_moulded_m, 'MEASURED §7 the dead flat on the body plan; the title block gives 48 9/11 Amsterdam ft = 13.82 m "wyt binnen de huid"', { tolerance: 0.012 }),
+  hull_depth_in_hold: m(aft(22), 'PRIMARY §2 title block, "Hol in \'t Ruim 22 Vt", rabbet of the keel to the top of the lower-deck beam at side', { noAudit: true }),
+  hull_tons_burthen: { value: 1565.2, source: 'PRIMARY §2 British survey, 1,565 20/94 tons bm', noAudit: true },
+  hull_draught_aft: m(D.draught_m, 'MEASURED §7 underside of the false keel to the load waterline, which is set 6 ft 6 in (Amsterdam) below the lower port sills amidships by the Dutch Admiralties\' rule for their 74s (Ruijter, RCE). Drawn on an even keel', { noAudit: true }),
+  hull_draught_fwd: m(D.draught_m, 'MEASURED §7 the keel is drawn level, and the rule fixes the waterline amidships only; even keel', { noAudit: true }),
+  hull_displacement: { value: D.displacement_t_seawater, source: 'MEASURED §7 the offsets integrated to the load waterline, in sea water; t', noAudit: true },
 
   // --------------------------------------------------------------- deck heights
-  // Heights above the design load waterline, which is the model's y = 0.
-  gundeck_above_wl: m(ft(5, 9.8), 'MEASURED §5 gun deck at side 18.65 ft above the moulded base line, LWL at 12.83 ft', { noAudit: true }),
-  quarterdeck_above_gundeck: m(ft(6, 8), 'RECONSTRUCTED §3 Steel, height between decks for a sixth rate', { noAudit: true }),
-  forecastle_above_gundeck: m(ft(6, 6), 'RECONSTRUCTED §3 Steel, height between decks forward', { noAudit: true }),
-  deck_camber: m(ft(0, 5), 'RECONSTRUCTED §3 Steel, 5 in of round-up across the breadth', { noAudit: true }),
+  // Heights above the load waterline, which is the model's y = 0.
+  deck_camber: m(aft(0, 7), 'RECONSTRUCTED §7 the capstan drums stand on the decks at the centreline about 0.6 ft above the deck at side', { noAudit: true }),
+  gundeck_above_wl_at_midships: m(F.lower_deck[MID] + aft(0, 7), 'MEASURED §7 the lower deck at side 2 ft 1 in below the lower port sills, plus the camber; the 22 ft depth of hold agrees within 0.3 ft', { tolerance: 0.03 }),
+  weather_deck_above_wl_at_midships: m(F.upper_deck[MID] + aft(0, 7), 'MEASURED §7 the upper deck at side 2 ft 1 in below the upper port sills, plus the camber. Ruijter\'s 6 7/11 ft between decks agrees', { tolerance: 0.03 }),
+  deck_thickness: m(ft(1, 0), 'RECONSTRUCTED §3 deck plank on its beam, as seen from the deck below', { noAudit: true }),
+  between_decks: m(aft(6, 7), 'SECONDARY §7 Ruijter, the Dutch rule for 74s: "tussendeks 6 7/11 voet"', { noAudit: true }),
+  // The quarterdeck and forecastle stand over the upper deck. These are the heights at
+  // the breaks; the decks themselves follow their own measured sheers.
+  quarterdeck_above_gundeck: m(2.16, 'MEASURED §7 quarterdeck (1 ft 9 in below its own port sills) over the upper deck, at the break', { noAudit: true }),
+  forecastle_above_gundeck: m(1.98, 'RECONSTRUCTED §7 forecastle laid 1 ft below the waist rail, over the upper deck at the break', { noAudit: true }),
 
-  // Where the quarterdeck and forecastle end, as a fraction of the gundeck length from
-  // forward. Between them lies the open waist, which is what makes a frigate read as a
-  // frigate rather than as a small two-decker.
-  forecastle_break_u: { value: 33 / 126, source: 'RECONSTRUCTED §5 aft side of the forecastle 33 ft abaft the stem, from Steel\'s forecastle-length series', noAudit: true },
-  quarterdeck_break_u: { value: 78 / 126, source: 'RECONSTRUCTED §5 fore side of the quarterdeck 7 ft abaft the mainmast', noAudit: true },
-
-  // The forecastle and the quarterdeck are laid on their own beams and are much flatter
-  // than the gun deck beneath them: the gun deck sweeps up toward the ends with the
-  // sheer, so the space between the two narrows aft rather than staying constant. Taking
-  // these as zero puts the taffrail at 16 ft 8 in above the load waterline, which is
-  // what the draught measures — so the flat reading is the one the evidence supports.
-  forecastle_sheer_rise: m(0, 'MEASURED §5 the derived rail matches the traced top-of-side when both upper decks are flat', { noAudit: true }),
-  quarterdeck_sheer_rise: m(0, 'MEASURED §5 as above; a rise here would put the taffrail above its measured 29.5 ft', { noAudit: true }),
-  // How far either side of a deck break the bulwark fairs between the waist rail and the
-  // higher rail at the ends. The planking is continuous, so the change is a sweep and
-  // not a step.
-  bulwark_break_fairing: m(ft(6, 0), 'RECONSTRUCTED §5 a fair run of planking through the break, as the reference photograph shows', { noAudit: true }),
-
-  bulwark_height_waist: m(ft(5, 9), 'MEASURED §8 rail to the top of the channel-wale band, 24.4 ft above base', { noAudit: true }),
-  bulwark_height_quarterdeck: m(ft(4, 4), 'RECONSTRUCTED §5 period practice; the rail itself now comes from the offset table', { noAudit: true }),
-  bulwark_height_forecastle: m(ft(4, 4), 'RECONSTRUCTED §5 period practice; the rail itself now comes from the offset table', { noAudit: true }),
+  // Where the quarterdeck and forecastle end, as a fraction of the loft from forward.
+  forecastle_break_u: { value: (OFFSETS.breaks.forecastle_aft_z - OFFSETS.stationZ[0]) / SPAN, source: 'MEASURED §7 the scroll that ends the forecastle rail on the sheer plan, 134 ft from the sternpost', noAudit: true },
+  quarterdeck_break_u: { value: (OFFSETS.breaks.quarterdeck_fore_z - OFFSETS.stationZ[0]) / SPAN, source: 'MEASURED §7 the scroll that ends the quarterdeck rail on the sheer plan, 84 ft 6 in from the sternpost, just forward of the mainmast', noAudit: true },
+  forecastle_sheer_rise: m(0, 'MEASURED §7 the forecastle follows its own traced sheer', { noAudit: true }),
+  quarterdeck_sheer_rise: m(0, 'MEASURED §7 the quarterdeck follows its own traced sheer', { noAudit: true }),
+  bulwark_break_fairing: m(ft(6, 0), 'RECONSTRUCTED §7 the planking runs fair from the waist rail up to the quarterdeck rail at the break', { noAudit: true }),
+  bulwark_height_waist: m(F.waist_rail[MID] - F.upper_deck[MID], 'MEASURED §7 the waist rail over the upper deck amidships: the side is planked up to the gangways', { noAudit: true }),
+  bulwark_height_quarterdeck: m(aft(3, 6), 'MEASURED §7 the quarterdeck rail over the quarterdeck at the break; it rises aft with the rail\'s own sweep', { noAudit: true }),
+  bulwark_height_forecastle: m(aft(1, 0), 'MEASURED §7 the forecastle has a low planked side and an open rail on timberheads above it', { noAudit: true }),
 
   // ----------------------------------------------------------------- gunports
-  gunport_count_per_side: { value: 12, source: 'PRIMARY §2 threedecks, 24 x 9-pdr on the upper deck, June 1796', tolerance: 0.001 },
-  gunport_width: m(ft(2, 6), 'RECONSTRUCTED §4 Steel, port width for a 9-pounder', { tolerance: 0.04 }),
-  gunport_height: m(ft(2, 4.8), 'MEASURED §8 port sills at 20.4 ft and heads at 22.8 ft above the moulded base line', { tolerance: 0.04 }),
-  gunport_sill_above_deck: m(ft(1, 9), 'MEASURED §8 sills 20.4 ft above base, deck at side 18.65 ft', { noAudit: true }),
-  gunport_spacing: m(ft(8, 6), 'RECONSTRUCTED §4 12 ports spread over the length available between the bow and the transom', { tolerance: 0.05 }),
-  gunport_lining_depth: m(ft(0, 9), 'RECONSTRUCTED §4 thickness of the side at the ports, plank and timber', { noAudit: true }),
+  // The upper battery is `gunport_*`, as Surprise's one battery was; the lower is its own.
+  gunport_count_per_side: { value: UPPER.count, source: 'PRIMARY §2 fourteen upper-deck ports a side counted on the sheer plan', tolerance: 0.001 },
+  gunport_width: m(UPPER.width, 'MEASURED §7 mean of the fourteen upper-deck ports, 3 ft 5 in Amsterdam', { tolerance: 0.03 }),
+  gunport_height: m(UPPER.height, 'MEASURED §7 mean of the fourteen upper-deck ports, 2 ft 9 in Amsterdam', { tolerance: 0.03 }),
+  gunport_sill_above_deck: m(aft(2, 1), 'RECONSTRUCTED §7 see weather_deck_above_wl_at_midships', { noAudit: true }),
+  gunport_spacing: m(UPPER.spacing, 'MEASURED §7 mean spacing of the upper battery, first port to last', { tolerance: 0.02 }),
+  gunport_first_from_stem: m(OFFSETS.ports.upper[0].z - zStem, 'MEASURED §7 the foremost upper-deck port', { noAudit: true }),
+  lower_gunport_count_per_side: { value: LOWER.count, source: 'PRIMARY §2 fourteen lower-deck ports a side counted on the sheer plan', tolerance: 0.001 },
+  lower_gunport_width: m(LOWER.width, 'MEASURED §7 mean of the fourteen lower-deck ports, 3 ft 9 in Amsterdam', { tolerance: 0.03 }),
+  lower_gunport_height: m(LOWER.height, 'MEASURED §7 mean of the fourteen lower-deck ports, 2 ft 10 in Amsterdam', { tolerance: 0.03 }),
+  lower_gunport_spacing: m(LOWER.spacing, 'MEASURED §7 mean spacing of the lower battery', { tolerance: 0.02 }),
+  lower_port_sill_above_wl: m(aft(6, 6), 'SECONDARY §7 the Dutch rule for 74s: the lower ports 6 1/2 ft above the water, laden; this is what sets the waterline', { noAudit: true }),
+  gunport_lining_depth: m(ft(1, 3), 'RECONSTRUCTED §3 the side of a 74 at the ports: plank, timber and ceiling', { noAudit: true }),
+
+  gunport_lid_overlap: m(0.05, 'RECONSTRUCTED §3 a port lid is larger than its opening and lands on a rabbet cut round it', { noAudit: true }),
+  gunport_lid_closed_proud: m(0.008, 'RECONSTRUCTED §3 a shut lid lies against the outside of the planking, so it stands its own hinge straps proud of the side', { noAudit: true }),
+  gunport_lid_thickness: m(ft(0, 4), 'RECONSTRUCTED §3 Steel, port-lid thickness for a two-decker\'s lower tier', { noAudit: true }),
+
+  qd_port_width: m(QD.width, 'MEASURED §7 mean of the five quarterdeck ports a side', { noAudit: true }),
+  qd_port_height: m(QD.height, 'MEASURED §7 mean of the five quarterdeck ports a side', { noAudit: true }),
+  qd_port_sill_above_deck: m(aft(1, 9), 'RECONSTRUCTED §7 the quarterdeck is laid 1 ft 9 in below its port sills', { noAudit: true }),
+  qd_port_count_per_side: { value: QD.count, source: 'PRIMARY §2 five quarterdeck ports a side on the sheer plan', noAudit: true },
+  fc_port_count_per_side: { value: 0, source: 'PRIMARY §2 the forecastle is drawn with an open rail on timberheads and no ports; its guns fire between them', noAudit: true },
+
+  // The bow chasers' ports. The book puts her chasers in "bridle-ports in her bluff bows";
+  // the draught has none (§3), so these are sited where a bridle port goes, abaft the
+  // hawse holes on the lower deck, and sized like the foremost lower-deck port.
+  bridle_port_from_stem: m(1.55, 'FICTIONAL §1 the book; RECONSTRUCTED §3 between the hawse holes and the foremost lower port', { noAudit: true }),
+  bridle_port_width: m(OFFSETS.ports.lower[0].width, 'RECONSTRUCTED §3 as the foremost lower-deck port, which is narrower than the rest', { noAudit: true }),
+  bridle_port_height: m(LOWER.height, 'RECONSTRUCTED §3 as the lower-deck ports', { noAudit: true }),
+  bridle_port_sill_rise: m(0.05, 'RECONSTRUCTED §3 the sill follows the lower tier\'s sheer as it sweeps up at the bow', { noAudit: true }),
+
   // ------------------------------------------------------- secured for heavy weather
   // What a ship does when it comes on to blow. Every one of these is something that, left
   // undone, either lets the sea into her or lets something heavy go adrift inside her.
@@ -108,29 +147,17 @@ const CORE = {
   fc_port_count_per_side: { value: 2, source: 'PRIMARY §2 threedecks, 2 x 4-pdr and 2 x 12-pdr carronades on the forecastle', noAudit: true },
 
   // -------------------------------------------------------------- hull surface
-  wale_top_below_deck: m(ft(1, 9), 'MEASURED §8 main wale upper edge 16.9 ft above base, deck at side 18.65 ft', { noAudit: true }),
-  wale_depth: m(ft(1, 8), 'MEASURED §8 main wale 15.2 to 16.9 ft above the moulded base line', { noAudit: true }),
-  // Where the gundeck sits at the centreline amidships, which is the one deck height
-  // the audit can measure directly off the built surface.
-  gundeck_above_wl_at_midships: m(ft(5, 9.8) + ft(0, 5), 'MEASURED §5 deck at side 5.82 ft above the LWL at the midship station, plus the full camber to the centreline', { tolerance: 0.05 }),
+  side_thickness: m(ft(1, 3), 'RECONSTRUCTED §3 the side of a 74 at the upper deck: plank, timber and inboard plank', { noAudit: true }),
+  rail_cap_thickness: m(ft(0, 5), 'RECONSTRUCTED §3 the capping over the top timbers', { noAudit: true }),
+  gangway_width: m(ft(5, 0), 'RECONSTRUCTED §3 the gangways along a 74\'s waist, wide enough to work the guns and the braces', { noAudit: true }),
+  wale_projection: m(aft(0, 9), 'MEASURED §7 the main wale\'s end stands 0.83 Amsterdam ft outside the dead flat on the body plan', { noAudit: true }),
+  middle_wale_projection: m(aft(0, 8), 'MEASURED §7 the middle wale\'s end on the body plan', { noAudit: true }),
 
-  side_thickness: m(ft(0, 9), 'RECONSTRUCTED §4 the ship\'s side at the ports: plank, timber and inboard plank', { noAudit: true }),
-  rail_cap_thickness: m(ft(0, 4), 'RECONSTRUCTED §4 the capping over the top timbers', { noAudit: true }),
-  gangway_width: m(ft(3, 6), 'RECONSTRUCTED §8 gangway wide enough for one man and a hand rope', { noAudit: true }),
-
-  // The backbone. A keel of this scantling for a 578-ton ship, sided (its width) and
-  // moulded (its depth below the rabbet).
-  // The straight bearing length of the keel timber — not the 108 ft 6⅛ in "keel for
-  // tonnage", which is a formula figure and not a piece of wood. Between the forefoot
-  // and the sternpost the keel runs dead level; forward and aft of that the stem and the
-  // post carry the rabbet up, and the space between the rabbet and the keel is filled by
-  // the deadwood.
-  keel_straight_length: m(ft(104, 0), 'MEASURED §6 keel straight bearing about 104 ft; the recorded 108 ft 6 in is the tonnage keel', { noAudit: true }),
-
-  keel_siding: m(ft(1, 1), 'MEASURED §6 keel half-siding 0.54 ft off the body plan', { noAudit: true }),
-  keel_moulding: m(ft(1, 4), 'MEASURED §6 keel and false keel 1 ft 4 in below the moulded base line', { noAudit: true }),
-
-  hull_tumblehome_deg: { value: 15.6, source: 'MEASURED §4 body-plan envelope above the maximum breadth: 0.279 ft of inset per foot of height, +/- 1.5 deg. Note this contradicts the common claim that a French hull tumbles home less than a British one.', noAudit: true },
+  // The backbone.
+  keel_straight_length: m(aft(162), 'MEASURED §7 the keel runs straight from the sternpost to where the forefoot turns up, about 162 ft', { noAudit: true }),
+  keel_siding: m(aft(2, 1), 'MEASURED §7 the keel 106 px across on the body plan, 2.1 ft', { noAudit: true }),
+  keel_moulding: m(D.keel_below_rabbet_m + D.false_keel_m, 'MEASURED §7 keel and false keel below the rabbet on the body plan, 2 ft 6 in', { noAudit: true }),
+  hull_tumblehome_deg: { value: 11, source: 'MEASURED §7 the dead flat tumbles home 4 ft from the main wale to the rail', noAudit: true },
 };
 
 export const SPEC = Object.freeze({ ...CORE, ...PART_SPECS });
@@ -146,8 +173,8 @@ for (const key of Object.keys(PART_SPECS)) {
 // metalness are linear. Sources are the pigment and practice research, cross-checked
 // against pixels sampled from the reference photograph (docs/PHOTO-ANALYSIS.md).
 export const PAINT = {
-  topside_black: { hex: '#1C1613', roughness: 0.50, source: 'SECONDARY §8 lamp black in tar; warm brown-black, not pure black' },
-  wale: { hex: '#241A12', roughness: 0.40, source: 'SECONDARY §8 wales left bright in tar, glossier than the topside' },
+  topside_black: { hex: '#191512', roughness: 0.52, source: 'FICTIONAL §1 "black-hulled"; SECONDARY §6 Toussaint\'s drawing of the Batavian 74 Jupiter, 1800: the whole hull dark grey-black, no bands' },
+  wale: { hex: '#120F0D', roughness: 0.40, source: 'SECONDARY §6 the wales black on the Vrijheid and NG-MC-661 models; tarred, glossier than the paint' },
   // The single strongest thing about this ship's appearance is that she is a black ship
   // with an ochre gunport strake, so this row has to be right. It is a *pigment* value,
   // not a photographed one. The old value here was the photograph's own #dba55d-#eabc66
@@ -162,9 +189,9 @@ export const PAINT = {
   // roughness 0.66 the reflection is spread so wide that the sheathing has no highlight
   // at all and reads as flat brick-red paint; the lap shadows and the nail heads are
   // what break it up and tell the eye it is beaten sheet.
-  copper: { hex: '#A2603A', roughness: 0.44, source: 'RECONSTRUCTED §8 sheathing after some months in the water: brown, not the salmon of new copper and never the green of long immersion. The reference photograph reads warm brown here, and that is what is matched. Roughness is the polish of a sheet that has been in the water a few months, not of one that has been painted' },
+  copper: { hex: '#BDB49C', roughness: 0.82, source: 'RECONSTRUCTED §6 white stuff — tallow, sulphur and lime — over an unsheathed bottom, dirtied by a passage; the Rijksmuseum\'s c.1806 half model of a 74 is white below the water, and the Staten-Generaal was still uncoppered in 1790. The key keeps its old name so the hull code is unchanged' },
   copper_bright: { hex: '#F7BC9E', roughness: 0.35, source: 'SECONDARY §8 new copper, used for the nail heads' },
-  copper_dark: { hex: '#3E2418', roughness: 0.75, source: 'SECONDARY §8 cupric oxide in the sheet laps' },
+  copper_dark: { hex: '#6F6A55', roughness: 0.85, source: 'RECONSTRUCTED §6 white stuff washed thin and greened by weed' },
   // The top of the sheathing, in the hull's V coordinate.
   //
   // It sits exactly at the lower edge of the main wale, and that is not a coincidence:
@@ -173,7 +200,10 @@ export const PAINT = {
   // and the bottom of the wale are the same line. Pinning them together also removes a
   // paint band that could never draw — the boot top had been given the space between
   // them, which was a negative amount.
-  copper_line_above_wl_v: { value: 0.12, source: 'MEASURED §8 the main wale\'s lower edge is 15.2 ft above the moulded base line, 2.4 ft above the load waterline; the sheathing was carried to 2 ft 6 in - 3 ft, so the two coincide' },
+  bottom_sheathed: { value: false, source: 'RECONSTRUCTED §6 the plan\'s default: a white bottom, not copper', noAudit: true },
+  bottom_metalness: { value: 0, source: 'RECONSTRUCTED §6 white stuff is not a metal', noAudit: true },
+  white_stuff_blotch: { value: 0.9, source: 'RECONSTRUCTED §6 how strongly the hand-paid stuff is blotched', noAudit: true },
+  copper_line_above_wl_v: { value: 0.015, source: 'MEASURED §8 the main wale\'s lower edge is 15.2 ft above the moulded base line, 2.4 ft above the load waterline; the sheathing was carried to 2 ft 6 in - 3 ft, so the two coincide' },
 
   // The sheathing pattern. A sheet was 4 ft by 14 in, laid like slates with each course
   // overlapping the one below and each sheet the one ahead. Horizontal counts refer

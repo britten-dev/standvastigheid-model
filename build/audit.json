@@ -19,7 +19,7 @@
     "key": "anchor_shank_length",
     "metric": "extent_caliper",
     "expected": 5.0292,
-    "actual": 5.036410816645555,
+    "actual": 5.0364108166455575,
     "tolerance": 0.03,
     "source": "RECONSTRUCTED §13.2 the period rule that the shank equals the stock; stock from Steel's series scaled by the cube root of the weight"
   },
@@ -27,7 +27,7 @@
     "key": "anchor_stock_length",
     "metric": "extent_caliper",
     "expected": 5.0292,
-    "actual": 5.037403481811888,
+    "actual": 5.037403481811887,
     "tolerance": 0.03,
     "source": "RECONSTRUCTED §13.2 Steel 1805 :43221 series (22-0 / 21-9 / 20-6 / …) carried to the 32-gun column by cube-root-of-weight scaling"
   },
@@ -83,7 +83,7 @@
     "key": "cathead_spread",
     "metric": "extent_x",
     "expected": 8.8392,
-    "actual": 9.173444747924805,
+    "actual": 12.26416015625,
     "tolerance": 0.06,
     "source": "SECONDARY §6 research 06-deck-layout §5.4, catheads: twice cathead_outer_half_breadth, the athwartships span over the two outer ends"
   },
@@ -99,7 +99,7 @@
     "key": "crew_figure_height",
     "metric": "extent_y",
     "expected": 1.6764000000000001,
-    "actual": 1.6685931162481196,
+    "actual": 1.6685931162481191,
     "tolerance": 0.05,
     "source": "RECONSTRUCTED §9 the average height of a British seaman in the 1790s, from the surviving Marine and Navy muster descriptions. This is the number that gives the ship her scale"
   },
@@ -115,14 +115,14 @@
     "key": "dolphin_striker_length",
     "metric": "extent_caliper",
     "expected": 2.7432000000000003,
-    "actual": 2.747119050923606,
+    "actual": 2.7471190509236068,
     "source": "RECONSTRUCTED §12 about a quarter of the jib boom; not in Steel 1794, but visible in the reference photograph"
   },
   {
     "key": "ensign_peak_height",
     "metric": "origin_y",
     "expected": 15.2,
-    "actual": 15.203672324230215,
+    "actual": 15.838414560264518,
     "tolerance": 0.03,
     "source": "SECONDARY §04-3.2 the peak of the mizzen gaff: throat at 8.93 m, where 0.52 of the run from the mizzen deck to its hounds falls, plus a 32 ft 6 in gaff peaked at 38 degrees, plus the flag head a hand above the peak"
   },
@@ -146,7 +146,7 @@
     "key": "fore_channel_length",
     "metric": "extent_z",
     "expected": 6.096,
-    "actual": 6.095999717712402,
+    "actual": 6.096000671386719,
     "tolerance": 0.05,
     "source": "SECONDARY §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column"
   },
@@ -178,7 +178,7 @@
     "key": "gun_9pdr_count",
     "metric": "count",
     "expected": 24,
-    "actual": 24,
+    "actual": 0,
     "tolerance": 0.001,
     "source": "PRIMARY §6.3 threedecks ex Winfield BWAS-1793, Plymouth establishment 6.1796: 24 long 9-pdr on the upper deck. ALTERNATIVE: 24 x 32-pdr carronades in the 21.4.1798 fit"
   },
@@ -186,49 +186,49 @@
     "key": "gun_truck_carriage_count",
     "metric": "count",
     "expected": 34,
-    "actual": 34,
+    "actual": 10,
     "tolerance": 0.001,
     "source": "PRIMARY §6.3 one four-truck carriage under each of the 24 long 9-pdr and 10 long 4-pdr; the carronades are on slides and are not counted here"
   },
   {
     "key": "gundeck_above_wl_at_midships",
     "metric": "origin_y",
-    "expected": 1.89992,
-    "actual": 1.904,
-    "tolerance": 0.05,
-    "source": "MEASURED §5 deck at side 5.82 ft above the LWL at the midship station, plus the full camber to the centreline"
+    "expected": 1.4259755454545455,
+    "actual": 1.4259755454545455,
+    "tolerance": 0.03,
+    "source": "MEASURED §7 the lower deck at side 2 ft 1 in below the lower port sills, plus the camber; the 22 ft depth of hold agrees within 0.3 ft"
   },
   {
     "key": "gunport_count_per_side",
     "metric": "count",
-    "expected": 12,
-    "actual": 12,
+    "expected": 14,
+    "actual": 14,
     "tolerance": 0.001,
-    "source": "PRIMARY §2 threedecks, 24 x 9-pdr on the upper deck, June 1796"
+    "source": "PRIMARY §2 fourteen upper-deck ports a side counted on the sheer plan"
   },
   {
     "key": "gunport_height",
     "metric": "extent_y",
-    "expected": 0.7315200000000001,
-    "actual": 0.7095744013786316,
-    "tolerance": 0.05,
-    "source": "MEASURED §8 port sills at 20.4 ft and heads at 22.8 ft above the moulded base line"
+    "expected": 0.7800714285714287,
+    "actual": 0.7800714373588562,
+    "tolerance": 0.03,
+    "source": "MEASURED §7 mean of the fourteen upper-deck ports, 2 ft 9 in Amsterdam"
   },
   {
     "key": "gunport_spacing",
     "metric": "origin_z",
-    "expected": 2.5908,
-    "actual": 2.5908,
+    "expected": 3.387830769230769,
+    "actual": 3.387830769230769,
     "tolerance": 0.02,
-    "source": "RECONSTRUCTED §4 12 ports spread over the length available between the bow and the transom"
+    "source": "MEASURED §7 mean spacing of the upper battery, first port to last"
   },
   {
     "key": "gunport_width",
     "metric": "extent_z",
-    "expected": 0.762,
-    "actual": 0.739139974117279,
-    "tolerance": 0.05,
-    "source": "RECONSTRUCTED §4 Steel, port width for a 9-pounder"
+    "expected": 0.9633999999999999,
+    "actual": 0.9634000062942505,
+    "tolerance": 0.03,
+    "source": "MEASURED §7 mean of the fourteen upper-deck ports, 3 ft 5 in Amsterdam"
   },
   {
     "key": "head_knee_length",
@@ -249,24 +249,24 @@
   {
     "key": "hull_beam_moulded",
     "metric": "extent_x",
-    "expected": 9.4488,
-    "actual": 9.440433502197266,
+    "expected": 13.8447,
+    "actual": 13.937273979187012,
     "tolerance": 0.012,
-    "source": "MEASURED §2 breadth box on the ZAZ3067 body plan at 6.0 px per foot; the title-block row is illegible at this resolution"
+    "source": "MEASURED §7 the dead flat on the body plan; the title block gives 48 9/11 Amsterdam ft = 13.82 m \"wyt binnen de huid\""
   },
   {
     "key": "hull_length_bp",
     "metric": "extent_z",
-    "expected": 36.8808,
-    "actual": 36.88079833984375,
+    "expected": 50.171099999999996,
+    "actual": 50.171098709106445,
     "tolerance": 0.01,
-    "source": "MEASURED §2 126 ft on the gundeck less the stem rake above the LWL and the post rake"
+    "source": "MEASURED §7 the loft runs from the stem rabbet to the sternpost rabbet as traced on the sheer plan"
   },
   {
     "key": "jolly_length",
     "metric": "extent_max",
     "expected": 4.8768,
-    "actual": 5.007102783357411,
+    "actual": 4.957141197901667,
     "tolerance": 0.06,
     "source": "RECONSTRUCTED §8.3 jolly boat 16-18 ft, the smaller taken"
   },
@@ -277,6 +277,38 @@
     "actual": 7.356813669204712,
     "tolerance": 0.05,
     "source": "RECONSTRUCTED §8.3 24 ft launch for a ship of this rate"
+  },
+  {
+    "key": "lower_gunport_count_per_side",
+    "metric": "count",
+    "expected": 14,
+    "actual": 14,
+    "tolerance": 0.001,
+    "source": "PRIMARY §2 fourteen lower-deck ports a side counted on the sheer plan"
+  },
+  {
+    "key": "lower_gunport_height",
+    "metric": "extent_y",
+    "expected": 0.8081285714285713,
+    "actual": 0.8081285953521729,
+    "tolerance": 0.03,
+    "source": "MEASURED §7 mean of the fourteen lower-deck ports, 2 ft 10 in Amsterdam"
+  },
+  {
+    "key": "lower_gunport_spacing",
+    "metric": "origin_z",
+    "expected": 3.3662615384615386,
+    "actual": 3.3662615384615386,
+    "tolerance": 0.02,
+    "source": "MEASURED §7 mean spacing of the lower battery"
+  },
+  {
+    "key": "lower_gunport_width",
+    "metric": "extent_z",
+    "expected": 1.0563571428571428,
+    "actual": 1.0563571453094482,
+    "tolerance": 0.03,
+    "source": "MEASURED §7 mean of the fourteen lower-deck ports, 3 ft 9 in Amsterdam"
   },
   {
     "key": "main_channel_deadeyes_per_side",
@@ -290,7 +322,7 @@
     "key": "main_channel_length",
     "metric": "extent_z",
     "expected": 6.934200000000001,
-    "actual": 6.934200286865234,
+    "actual": 6.934199929237366,
     "tolerance": 0.05,
     "source": "SECONDARY §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column"
   },
@@ -351,6 +383,14 @@
     "source": "RECONSTRUCTED §04 11.1 five lower shrouds and two standing backstays"
   },
   {
+    "key": "mizzen_channel_length",
+    "metric": "extent_z",
+    "expected": 4.2672,
+    "actual": 4.267199516296387,
+    "tolerance": 0.05,
+    "source": "SECONDARY §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column; the built channel is cut short of this at the after end to clear the counter"
+  },
+  {
     "key": "mizzen_mast_rake_deg",
     "metric": "rake_deg",
     "expected": 1.59,
@@ -386,7 +426,7 @@
     "key": "rudder_height",
     "metric": "extent_y",
     "expected": 8.3947,
-    "actual": 8.394700050354004,
+    "actual": 9.938499927520752,
     "tolerance": 0.02,
     "source": "RECONSTRUCTED §6 heel at the 14 ft 0.5 in aft draught plus head 13 ft 6 in above the LWL; corrected former 17 ft 6 in total which stopped above the keel"
   },
@@ -402,7 +442,7 @@
     "key": "spanker_boom_length",
     "metric": "extent_horizontal",
     "expected": 10.3632,
-    "actual": 10.345559305399574,
+    "actual": 10.345559305399576,
     "tolerance": 0.02,
     "source": "RECONSTRUCTED from the reference photograph: a gaff spanker whose boom overhangs the taffrail by about 10 ft"
   },
@@ -426,7 +466,7 @@
     "key": "stern_name_length",
     "metric": "extent_x",
     "expected": 1.3843,
-    "actual": 1.3860008120536804,
+    "actual": 1.3901070952415466,
     "tolerance": 0.03,
     "source": "RECONSTRUCTED §12.1 SURPRISE: eight letters of 4½ in with 2½ in between them, and the cut stroke over the ends"
   },
@@ -434,7 +474,7 @@
     "key": "stern_taffrail_above_wl",
     "metric": "max_y",
     "expected": 5.080000000000001,
-    "actual": 5.182318210601807,
+    "actual": 8.2608003616333,
     "tolerance": 0.035,
     "source": "MEASURED §6 taffrail 29.5 ft above the moulded base line, LWL at 12.83 ft. This is the figure the taffrail is built to; the height above the quarterdeck follows from it"
   },
@@ -442,9 +482,17 @@
     "key": "stern_transom_breadth_wing",
     "metric": "extent_x",
     "expected": 5.7912,
-    "actual": 5.673907279968262,
+    "actual": 2.90525484085083,
     "tolerance": 0.05,
     "source": "MEASURED §6 wing transom 19.0 ft across the stern elevation on the ZAZ3067 body plan"
+  },
+  {
+    "key": "weather_deck_above_wl_at_midships",
+    "metric": "origin_y",
+    "expected": 3.562075545454545,
+    "actual": 3.5620755454545456,
+    "tolerance": 0.03,
+    "source": "MEASURED §7 the upper deck at side 2 ft 1 in below the upper port sills, plus the camber. Ruijter's 6 7/11 ft between decks agrees"
   },
   {
     "key": "wheel_count",
