@@ -11,17 +11,11 @@ from PIL import Image, ImageDraw
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# The photograph is a third party's work and is not in the repository. Anyone with their
-# own copy in reference/ gets the comparison; anyone without gets told why, and nothing
-# breaks. See reference/README.md.
-PHOTO = os.path.join(ROOT, 'reference', 'surprise-reference.jpg')
+# The Rijksmuseum's photograph of its model of the Dutch 74 Vrijheid (NG-MC-500), which is
+# in the public domain. See reference/README.md.
+PHOTO = os.path.join(ROOT, 'reference', 'vrijheid-NG-MC-500.jpg')
 if not os.path.exists(PHOTO):
-    print(
-        'No reference photograph at reference/surprise-reference.jpg, so there is nothing\n'
-        'to compare against. It is a Model Shipyard photograph and is not redistributed\n'
-        'with this project — see reference/README.md for where to get it and where to put\n'
-        'it. The reading of it is in docs/PHOTO-ANALYSIS.md and needs no image.',
-        file=sys.stderr)
+    print('No reference photograph at reference/vrijheid-NG-MC-500.jpg — see reference/README.md.', file=sys.stderr)
     raise SystemExit(0)
 RENDER = os.path.join(ROOT, 'renders', sys.argv[1] if len(sys.argv) > 1 else 'reference.png')
 OUT = os.path.join(ROOT, 'renders', 'comparison.png')

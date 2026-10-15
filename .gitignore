@@ -18,11 +18,7 @@ dist/
 # Scratch files. Anything named this way is a working file, not part of the project.
 _scratch*
 
-# The reference photograph is a third party's work and is not redistributed here.
-# See reference/README.md. Keep your own copy in this folder; it stays out of git.
-reference/*.jpg
-reference/*.jpeg
-reference/*.png
+# The reference photograph is the Rijksmuseum's, public domain, and is kept in git.
 
 # Draught scans fetched from the Nationaal Archief for tracing. Viewed and measured, not redistributed.
 .cache/
