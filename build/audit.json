@@ -2,10 +2,10 @@
   {
     "key": "anchor_arm_span",
     "metric": "extent_caliper",
-    "expected": 2.7432000000000003,
-    "actual": 2.782343469384373,
+    "expected": 3.3274,
+    "actual": 3.373021749868385,
     "tolerance": 0.05,
-    "source": "RECONSTRUCTED §13.2 fluke tip to fluke tip at 0.55 of the shank, the standard long-shank proportion"
+    "source": "RECONSTRUCTED §6 fluke tip to fluke tip at 0.55 of the shank, the standard long-shank proportion"
   },
   {
     "key": "anchor_count_total",
@@ -13,23 +13,23 @@
     "expected": 4,
     "actual": 4,
     "tolerance": 0.001,
-    "source": "SECONDARY §13.1 Steel 1805 :43220 — four large stocks and two small to every class; the two bowers, the sheet and the kedge are the four modelled"
+    "source": "SECONDARY §6 a 74 carried four large anchors: best bower and small bower catted at the catheads, and the sheet and spare stowed on the fore channels (Lavery, The Ship of the Line, vol. 2)"
   },
   {
     "key": "anchor_shank_length",
     "metric": "extent_caliper",
-    "expected": 5.0292,
-    "actual": 5.0364108166455575,
+    "expected": 6.0452,
+    "actual": 6.053838236761331,
     "tolerance": 0.03,
-    "source": "RECONSTRUCTED §13.2 the period rule that the shank equals the stock; stock from Steel's series scaled by the cube root of the weight"
+    "source": "RECONSTRUCTED §6 Steel (1805), a 74-gun ship's bower of 74 cwt; shank and stock equal, the shank scaled by the cube root of the weight from Steel's 22 ft for a first-rate bower of about 100 cwt: 22 ft x (74/100)^(1/3) = 19 ft 10 in"
   },
   {
     "key": "anchor_stock_length",
     "metric": "extent_caliper",
-    "expected": 5.0292,
-    "actual": 5.037403481811887,
+    "expected": 6.0452,
+    "actual": 6.055862724496252,
     "tolerance": 0.03,
-    "source": "RECONSTRUCTED §13.2 Steel 1805 :43221 series (22-0 / 21-9 / 20-6 / …) carried to the 32-gun column by cube-root-of-weight scaling"
+    "source": "RECONSTRUCTED §6 Steel (1805), a 74-gun ship's bower of 74 cwt; shank and stock equal, the shank scaled by the cube root of the weight from Steel's 22 ft for a first-rate bower of about 100 cwt; the stock as long as the shank"
   },
   {
     "key": "bell_mouth_diameter",
@@ -56,12 +56,20 @@
     "source": "FICTIONAL §1 the book: chasers \"trained sharp forward from the bridle-ports in her bluff bows\", one a side (ch. 7)"
   },
   {
+    "key": "bowsprit_length",
+    "metric": "extent_caliper",
+    "expected": 19.64817,
+    "actual": 19.65926341081905,
+    "tolerance": 0.02,
+    "source": "RECONSTRUCTED §4 Steel 1794 v1 p.49, \"74 GUNS. 1799 Tons.\" column, x0.955 to her size by his own main-mast rule (p.39)"
+  },
+  {
     "key": "bowsprit_steeve_deg",
     "metric": "steeve_deg",
     "expected": 21.9,
     "actual": 21.89999999999998,
     "tolerance": 0.08,
-    "source": "SECONDARY §8 Steel, Naval Architecture, CENTRES OF MASTS, 28-gun column; 1 ft 2 1/2 in of stive per yard of length"
+    "source": "RECONSTRUCTED §4 Steel 1 ft 2 1/2 in of stive per yard of length; the 74 figure is not legible, so the frigate rule stands"
   },
   {
     "key": "capstan_bar_hole_count",
@@ -82,10 +90,10 @@
   {
     "key": "cathead_spread",
     "metric": "extent_x",
-    "expected": 8.8392,
-    "actual": 12.26416015625,
-    "tolerance": 0.06,
-    "source": "SECONDARY §6 research 06-deck-layout §5.4, catheads: twice cathead_outer_half_breadth, the athwartships span over the two outer ends"
+    "expected": 12.9,
+    "actual": 12.958393096923828,
+    "tolerance": 0.03,
+    "source": "RECONSTRUCTED §6 twice the half-breadth of the hull at the rail at the cathead (4.85 m, from the traced offsets) plus the overhang; the athwartships span over the two outer ends"
   },
   {
     "key": "crew_count",
@@ -104,6 +112,14 @@
     "source": "RECONSTRUCTED §9 the average height of a seaman of about 1800, from the surviving British Marine and Navy muster descriptions (no Dutch figures found). This is the number that gives the ship her scale"
   },
   {
+    "key": "crossjack_yard_length",
+    "metric": "extent_horizontal",
+    "expected": 18.047208,
+    "actual": 18.171257587856463,
+    "tolerance": 0.02,
+    "source": "RECONSTRUCTED §4 Steel 1794 v1 p.49, \"74 GUNS. 1799 Tons.\" column, x0.955 to her size by his own main-mast rule (p.39)"
+  },
+  {
     "key": "cutter_length",
     "metric": "extent_z",
     "expected": 7.315200000000001,
@@ -114,49 +130,82 @@
   {
     "key": "dolphin_striker_length",
     "metric": "extent_caliper",
-    "expected": 2.7432000000000003,
-    "actual": 2.7471190509236068,
-    "source": "RECONSTRUCTED §12 about a quarter of the jib boom; not in Steel 1794, but visible in the reference photograph"
-  },
-  {
-    "key": "figurehead_height",
-    "metric": "extent_caliper",
-    "expected": 1.2192,
-    "actual": 1.248755645740511,
-    "tolerance": 0.05,
-    "source": "RECONSTRUCTED §8 research 08-paint-and-ornament §4.4 — CONJECTURAL: the figurehead of this ship is not documented anywhere; this is a classical female figure reconstructed from the ship's name and period practice, NOT the film ship's woman with sword and shield; research 08 §4.4 — \"the scale was drastically reduced\", so a small figure"
+    "expected": 3.5814000000000004,
+    "actual": 3.585925869714994,
+    "tolerance": 0.03,
+    "source": "RECONSTRUCTED §4 about a quarter of the jib boom; not in Steel 1794"
   },
   {
     "key": "fore_channel_deadeyes_per_side",
     "metric": "count",
-    "expected": 11,
-    "actual": 11,
+    "expected": 12,
+    "actual": 12,
     "tolerance": 0.001,
-    "source": "RECONSTRUCTED §04 11.1 seven lower shrouds and four standing backstays"
+    "source": "RECONSTRUCTED §04 11.1 eight lower shrouds and four standing backstays"
   },
   {
     "key": "fore_channel_length",
     "metric": "extent_z",
-    "expected": 6.096,
-    "actual": 6.096000671386719,
+    "expected": 7.9248,
+    "actual": 7.924798965454102,
     "tolerance": 0.05,
-    "source": "SECONDARY §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column"
+    "source": "RECONSTRUCTED §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column, scaled by 1.3 (the ratio of the lower-mast diameters) to a 74"
+  },
+  {
+    "key": "fore_mast_length",
+    "metric": "extent_max",
+    "expected": 28.671774,
+    "actual": 28.674184392798793,
+    "tolerance": 0.02,
+    "source": "RECONSTRUCTED §4 Steel 1794 v1 p.49, \"74 GUNS. 1799 Tons.\" column, x0.955 to her size by his own main-mast rule (p.39)"
   },
   {
     "key": "fore_mast_rake_deg",
     "metric": "rake_deg",
-    "expected": 0.1,
-    "actual": 0.1,
-    "tolerance": 0.35,
-    "source": "SECONDARY §8 Steel, Naval Architecture, CENTRES OF MASTS, 28-gun column; 1/16 in of rake per yard of mast"
+    "expected": 0.19894287936062627,
+    "actual": 0.19894287936062635,
+    "tolerance": 0.3,
+    "source": "RECONSTRUCTED §4 Steel, Naval Architecture, \"Centres of Masts\": 1/8 in of rake per yard of mast"
+  },
+  {
+    "key": "fore_topgallant_length",
+    "metric": "extent_max",
+    "expected": 8.538464,
+    "actual": 8.539153073684474,
+    "tolerance": 0.02,
+    "source": "RECONSTRUCTED §4 Steel 1794 v1 p.49, \"74 GUNS. 1799 Tons.\" column, x0.955 to her size by his own main-mast rule (p.39)"
+  },
+  {
+    "key": "fore_topgallant_yard_length",
+    "metric": "extent_horizontal",
+    "expected": 11.788902,
+    "actual": 11.867588458644315,
+    "tolerance": 0.02,
+    "source": "RECONSTRUCTED §4 Steel 1794 v1 p.49, \"74 GUNS. 1799 Tons.\" column, x0.955 to her size by his own main-mast rule (p.39)"
+  },
+  {
+    "key": "fore_topmast_length",
+    "metric": "extent_max",
+    "expected": 17.076928,
+    "actual": 17.078366224556486,
+    "tolerance": 0.02,
+    "source": "RECONSTRUCTED §4 Steel 1794 v1 p.49, \"74 GUNS. 1799 Tons.\" column, x0.955 to her size by his own main-mast rule (p.39)"
+  },
+  {
+    "key": "fore_topsail_yard_length",
+    "metric": "extent_horizontal",
+    "expected": 18.047208,
+    "actual": 18.171257587856463,
+    "tolerance": 0.02,
+    "source": "RECONSTRUCTED §4 Steel 1794 v1 p.49, \"74 GUNS. 1799 Tons.\" column, x0.955 to her size by his own main-mast rule (p.39)"
   },
   {
     "key": "fore_yard_length",
     "metric": "extent_horizontal",
-    "expected": 18.9484,
-    "actual": 19.093551392033525,
+    "expected": 24.74214,
+    "actual": 24.93336939165276,
     "tolerance": 0.02,
-    "source": "SECONDARY §3 Steel 1794 v1 p.50, \"28 GUNS. 594 Tons.\" column"
+    "source": "RECONSTRUCTED §4 Steel 1794 v1 p.49, \"74 GUNS. 1799 Tons.\" column, x0.955 to her size by his own main-mast rule (p.39)"
   },
   {
     "key": "gun_12pdr_count",
@@ -231,12 +280,20 @@
     "source": "MEASURED §7 mean of the fourteen upper-deck ports, 3 ft 5 in Amsterdam"
   },
   {
-    "key": "head_knee_length",
+    "key": "hawse_hole_count_total",
+    "metric": "count",
+    "expected": 4,
+    "actual": 4,
+    "tolerance": 0.001,
+    "source": "MEASURED §2 the Washington draught shows two hawse holes a side (OFFSETS.hawse lists them)"
+  },
+  {
+    "key": "head_knee_projection",
     "metric": "extent_z",
-    "expected": 3.81,
-    "actual": 3.809999465942383,
-    "tolerance": 0.05,
-    "source": "MEASURED §2 ZAZ3067 sheer profile, traced off the RMG scan at 6.021 px per foot; stem at x=1112 px, rail at y=141 px: the knee and stem together, from the aft face of the stem timber to the hair bracket — the fore-and-aft extent of the built piece"
+    "expected": 4.309,
+    "actual": 4.308801651000977,
+    "tolerance": 0.02,
+    "source": "MEASURED §2 the Washington draught, NA 4.MST inv. 59, traced into OFFSETS.stem: the fore edge's top point stands 4.31 m forward of the loft's foremost station (-22.59 m); it is the fore-and-aft length of the built stem and knee"
   },
   {
     "key": "head_rail_count",
@@ -244,7 +301,7 @@
     "expected": 3,
     "actual": 3,
     "tolerance": 0.001,
-    "source": "SECONDARY §8 the reference photograph shows three rails curving up to the figurehead; Steel :4172 names four (lower, middle, main, upper) plus a false rail, so this is the photograph's reading of a four-rail arrangement"
+    "source": "PRIMARY §2 the Washington draught shows three curved head rails; SECONDARY §6 Rijksmuseum NG-MC-500, the 74 Vrijheid, c.1782 shows three"
   },
   {
     "key": "hull_beam_moulded",
@@ -313,18 +370,18 @@
   {
     "key": "main_channel_deadeyes_per_side",
     "metric": "count",
-    "expected": 11,
-    "actual": 11,
+    "expected": 13,
+    "actual": 13,
     "tolerance": 0.001,
-    "source": "RECONSTRUCTED §04 11.1 seven lower shrouds and four standing backstays"
+    "source": "RECONSTRUCTED §04 11.1 nine lower shrouds and four standing backstays"
   },
   {
     "key": "main_channel_length",
     "metric": "extent_z",
-    "expected": 6.934200000000001,
-    "actual": 6.934199929237366,
+    "expected": 8.9916,
+    "actual": 8.991599559783936,
     "tolerance": 0.05,
-    "source": "SECONDARY §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column"
+    "source": "RECONSTRUCTED §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column, scaled by 1.3 (the ratio of the lower-mast diameters) to a 74"
   },
   {
     "key": "main_hatch_length",
@@ -343,60 +400,116 @@
     "source": "RECONSTRUCTED §3 research 03 §3 the 4 ft 6 in of Steel 1805 :33355 scaled for a 74; the audit holds the built grating to this"
   },
   {
+    "key": "main_mast_length",
+    "metric": "extent_max",
+    "expected": 32.310323999999994,
+    "actual": 32.321568891145915,
+    "tolerance": 0.02,
+    "source": "RECONSTRUCTED §4 Steel 1794 v1 p.49, \"74 GUNS. 1799 Tons.\" column, x0.955 to her size by his own main-mast rule (p.39)"
+  },
+  {
     "key": "main_mast_rake_deg",
     "metric": "rake_deg",
-    "expected": 0.99,
-    "actual": 0.9900000000000004,
-    "tolerance": 0.12,
-    "source": "SECONDARY §8 Steel, Naval Architecture, CENTRES OF MASTS, 28-gun column; 5/8 in per yard"
+    "expected": 1.5911402711945875,
+    "actual": 1.5911402711945875,
+    "tolerance": 0.05,
+    "source": "RECONSTRUCTED §4 Steel, \"Centres of Masts\": 1 in per yard of mast"
   },
   {
     "key": "main_top_breadth",
     "metric": "extent_x",
-    "expected": 4.953,
-    "actual": 4.953000068664551,
+    "expected": 6.403848,
+    "actual": 6.403848171234131,
     "tolerance": 0.03,
-    "source": "SECONDARY §7.1 Steel 1794 v1 p.37, one third of the topmast length"
+    "source": "RECONSTRUCTED §4 Steel 1794 v1 p.37, one third the length of the topmast; the Vrijheid's tops are as broad"
+  },
+  {
+    "key": "main_topgallant_length",
+    "metric": "extent_max",
+    "expected": 9.605772,
+    "actual": 9.609274757330049,
+    "tolerance": 0.02,
+    "source": "RECONSTRUCTED §4 Steel 1794 v1 p.49, \"74 GUNS. 1799 Tons.\" column, x0.955 to her size by his own main-mast rule (p.39)"
+  },
+  {
+    "key": "main_topgallant_yard_length",
+    "metric": "extent_horizontal",
+    "expected": 13.535406,
+    "actual": 13.62601871432431,
+    "tolerance": 0.02,
+    "source": "RECONSTRUCTED §4 Steel 1794 v1 p.49, \"74 GUNS. 1799 Tons.\" column, x0.955 to her size by his own main-mast rule (p.39)"
+  },
+  {
+    "key": "main_topmast_length",
+    "metric": "extent_max",
+    "expected": 19.211544,
+    "actual": 19.216467628761052,
+    "tolerance": 0.02,
+    "source": "RECONSTRUCTED §4 Steel 1794 v1 p.49, \"74 GUNS. 1799 Tons.\" column, x0.955 to her size by his own main-mast rule (p.39)"
   },
   {
     "key": "main_topsail_yard_length",
     "metric": "extent_horizontal",
-    "expected": 15.8496,
-    "actual": 15.959526306498045,
+    "expected": 20.375880000000002,
+    "actual": 20.519064529389574,
     "tolerance": 0.02,
-    "source": "SECONDARY §3 Steel 1794 v1 p.50, \"28 GUNS. 594 Tons.\" column"
+    "source": "RECONSTRUCTED §4 Steel 1794 v1 p.49, \"74 GUNS. 1799 Tons.\" column, x0.955 to her size by his own main-mast rule (p.39)"
   },
   {
     "key": "main_yard_length",
     "metric": "extent_horizontal",
-    "expected": 21.717000000000002,
-    "actual": 21.882149145942705,
+    "expected": 28.235148,
+    "actual": 28.455092926447918,
     "tolerance": 0.02,
-    "source": "SECONDARY §3 Steel 1794 v1 p.50, \"28 GUNS. 594 Tons.\" column"
+    "source": "RECONSTRUCTED §4 Steel 1794 v1 p.49, \"74 GUNS. 1799 Tons.\" column, x0.955 to her size by his own main-mast rule (p.39)"
   },
   {
     "key": "mizzen_channel_deadeyes_per_side",
     "metric": "count",
-    "expected": 7,
-    "actual": 7,
+    "expected": 8,
+    "actual": 8,
     "tolerance": 0.001,
-    "source": "RECONSTRUCTED §04 11.1 five lower shrouds and two standing backstays"
+    "source": "RECONSTRUCTED §04 11.1 six lower shrouds and two standing backstays"
   },
   {
     "key": "mizzen_channel_length",
     "metric": "extent_z",
-    "expected": 4.2672,
-    "actual": 4.267199516296387,
+    "expected": 5.486400000000001,
+    "actual": 5.486398696899414,
     "tolerance": 0.05,
-    "source": "SECONDARY §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column; the built channel is cut short of this at the after end to clear the counter"
+    "source": "RECONSTRUCTED §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column, scaled by 1.3 (the ratio of the lower-mast diameters) to a 74; the built channel is cut short of this at the after end to clear the quarter gallery"
+  },
+  {
+    "key": "mizzen_mast_length",
+    "metric": "extent_max",
+    "expected": 27.652980000000003,
+    "actual": 27.656571292980868,
+    "tolerance": 0.02,
+    "source": "RECONSTRUCTED §4 Steel 1794 v1 p.49, \"74 GUNS. 1799 Tons.\" column, x0.955 to her size by his own main-mast rule (p.39)"
   },
   {
     "key": "mizzen_mast_rake_deg",
     "metric": "rake_deg",
-    "expected": 1.59,
-    "actual": 1.5900000000000005,
-    "tolerance": 0.1,
-    "source": "SECONDARY §8 Steel, Naval Architecture, CENTRES OF MASTS, 28-gun column; 1 in per yard"
+    "expected": 1.5911402711945875,
+    "actual": 1.5911402711945875,
+    "tolerance": 0.05,
+    "source": "RECONSTRUCTED §4 Steel, \"Centres of Masts\": 1 in per yard of mast"
+  },
+  {
+    "key": "mizzen_topgallant_length",
+    "metric": "extent_max",
+    "expected": 7.131558,
+    "actual": 7.134012873073189,
+    "tolerance": 0.02,
+    "source": "RECONSTRUCTED §4 Steel 1794 v1 p.49, \"74 GUNS. 1799 Tons.\" column, x0.955 to her size by his own main-mast rule (p.39)"
+  },
+  {
+    "key": "mizzen_topmast_length",
+    "metric": "extent_max",
+    "expected": 14.263116,
+    "actual": 14.266264150576614,
+    "tolerance": 0.02,
+    "source": "RECONSTRUCTED §4 Steel 1794 v1 p.49, \"74 GUNS. 1799 Tons.\" column, x0.955 to her size by his own main-mast rule (p.39)"
   },
   {
     "key": "pinnace_length",
@@ -417,18 +530,18 @@
   {
     "key": "quarter_gallery_length",
     "metric": "extent_z",
-    "expected": 2.1336,
-    "actual": 2.1336002349853516,
+    "expected": 2.8313300000000003,
+    "actual": 2.831329345703125,
     "tolerance": 0.08,
-    "source": "RECONSTRUCTED §12.3 lower rim about 7 ft, Steel: \"the lower-rim should be as long as possible\""
+    "source": "RECONSTRUCTED §2 length of the lower rim of the quarter gallery, the 1797 model and the stern elevation"
   },
   {
     "key": "rudder_height",
     "metric": "extent_y",
-    "expected": 8.3947,
-    "actual": 9.938499927520752,
+    "expected": 7.953463363636364,
+    "actual": 8.01152753829956,
     "tolerance": 0.02,
-    "source": "RECONSTRUCTED §6 heel at the 14 ft 0.5 in aft draught plus head 13 ft 6 in above the LWL; corrected former 17 ft 6 in total which stopped above the keel"
+    "source": "RECONSTRUCTED §6 heel at the underside of the false keel, 5.82 m below the waterline, to the head just under the tuck, 2.1 m above it: about 28 Amsterdam ft for a 74"
   },
   {
     "key": "skid_beam_count",
@@ -441,10 +554,10 @@
   {
     "key": "spanker_boom_length",
     "metric": "extent_horizontal",
-    "expected": 10.3632,
-    "actual": 10.345559305399576,
-    "tolerance": 0.02,
-    "source": "RECONSTRUCTED from the reference photograph: a gaff spanker whose boom overhangs the taffrail by about 10 ft"
+    "expected": 14.020800000000001,
+    "actual": 13.989650039666135,
+    "tolerance": 0.03,
+    "source": "RECONSTRUCTED §4 from the mizzen to the taffrail, about 36 ft on her hull, and ten feet beyond it; in proportion to the crossjack yard"
   },
   {
     "key": "square_sails_set",
@@ -452,7 +565,7 @@
     "expected": 8,
     "actual": 8,
     "tolerance": 0.001,
-    "source": "RECONSTRUCTED the full suit in the reference photograph: two courses, three topsails and three topgallants"
+    "source": "RECONSTRUCTED §4 the full suit: two courses, three topsails and three topgallants; no royals"
   },
   {
     "key": "stern_chaser_count",
@@ -465,34 +578,26 @@
   {
     "key": "stern_light_count",
     "metric": "count",
-    "expected": 7,
-    "actual": 7,
+    "expected": 8,
+    "actual": 8,
     "tolerance": 0.001,
-    "source": "MEASURED §6 the stern elevation on the ZAZ3067 body plan shows a single row of seven lights; 06 §12.2 and 08 §5.2 reconstruct five from a breadth rule whose stated range is 5 to 7"
-  },
-  {
-    "key": "stern_name_length",
-    "metric": "extent_x",
-    "expected": 1.3843,
-    "actual": 1.3901070952415466,
-    "tolerance": 0.03,
-    "source": "RECONSTRUCTED §12.1 SURPRISE: eight letters of 4½ in with 2½ in between them, and the cut stroke over the ends"
+    "source": "PRIMARY §2 the Washington draught: the lower tier is four lights each side of the centreline, so eight across; the 1797 model agrees"
   },
   {
     "key": "stern_taffrail_above_wl",
     "metric": "max_y",
-    "expected": 5.080000000000001,
-    "actual": 8.2608003616333,
+    "expected": 8.468250636363637,
+    "actual": 8.466714859008789,
     "tolerance": 0.035,
-    "source": "MEASURED §6 taffrail 29.5 ft above the moulded base line, LWL at 12.83 ft. This is the figure the taffrail is built to; the height above the quarterdeck follows from it"
+    "source": "RECONSTRUCTED §2 the taffrail at the quarterdeck rail height aft (29 ft 2 in above the waterline, the traced rail at the post) and its cap of 8 in. The carved crest stands above it"
   },
   {
     "key": "stern_transom_breadth_wing",
     "metric": "extent_x",
-    "expected": 5.7912,
-    "actual": 2.90525484085083,
-    "tolerance": 0.05,
-    "source": "MEASURED §6 wing transom 19.0 ft across the stern elevation on the ZAZ3067 body plan"
+    "expected": 8.030681454545455,
+    "actual": 7.978201866149902,
+    "tolerance": 0.04,
+    "source": "RECONSTRUCTED §2 the widest of the counter rails, across the wing transom: twice the half-breadth at the lights and the rail proud of the planking each side"
   },
   {
     "key": "weather_deck_above_wl_at_midships",

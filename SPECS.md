@@ -156,221 +156,201 @@ chasers, the topgallants); period rules fill the rest, and every row says which 
 
 | key | metric | period figure | grade | source |
 |---|---|---|---|---|
-| `fore_mast_from_stem` | 4.3053 | 14 ft 1.5 in | RECONSTRUCTED | §04 8 Steel CENTRES OF MASTS, 28-gun column, scaled from a 120 ft 6 in to a 126 ft gundeck: 13 ft 6 in, 0.1120 of the gundeck |
-| `main_mast_from_stem` | 21.7551 | 71 ft 4.5 in | RECONSTRUCTED | §04 8 Steel CENTRES OF MASTS, 28-gun column, scaled from a 120 ft 6 in to a 126 ft gundeck: 68 ft 3 in, 0.5664 of the gundeck |
-| `mizzen_mast_from_stem` | 32.9057 | 107 ft 11.5 in | RECONSTRUCTED | §04 8 Steel CENTRES OF MASTS, 28-gun column, scaled from a 120 ft 6 in to a 126 ft gundeck: 17 ft 3 in afore the after perpendicular, 0.8568 of the gundeck |
-| `main_mast_length` | 24.7904 | 81 ft 4 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `main_mast_diameter` | 0.6001 | 1 ft 11.6 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `main_mast_head` | 3.4449 | — | SECONDARY | §5 Steel 1794 v1 p.42, head and hounds rules, arithmetic applied to the §3 lengths |
-| `fore_mast_length` | 21.9456 | 72 ft 0 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `fore_mast_diameter` | 0.5302 | 1 ft 8.9 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `fore_mast_head` | 3.048 | — | SECONDARY | §5 Steel 1794 v1 p.42, head and hounds rules, arithmetic applied to the §3 lengths |
-| `mizzen_mast_length` | 21.0312 | 69 ft 0 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `mizzen_mast_diameter` | 0.4254 | 1 ft 4.7 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `mizzen_mast_head` | 2.3368 | — | SECONDARY | §5 Steel 1794 v1 p.42, head and hounds rules, arithmetic applied to the §3 lengths |
-| `fore_mast_rake_deg` | 0.1 | — | SECONDARY | §8 Steel, Naval Architecture, CENTRES OF MASTS, 28-gun column; 1/16 in of rake per yard of mast |
-| `main_mast_rake_deg` | 0.99 | — | SECONDARY | §8 Steel, Naval Architecture, CENTRES OF MASTS, 28-gun column; 5/8 in per yard |
-| `mizzen_mast_rake_deg` | 1.59 | — | SECONDARY | §8 Steel, Naval Architecture, CENTRES OF MASTS, 28-gun column; 1 in per yard |
-| `mast_step_y` | -3.5052 | -11 ft 6 in | RECONSTRUCTED | §9 keelson top, from the moulded base line plus the floors |
+| `fore_mast_z` | -17.7645 | — | MEASURED | §02 the lower-mast stump drawn in the sheer plan of NA 4.MST inv. 59, read by tools/draught/; Steel's rule (1/9 of the lower-deck length abaft the stem) agrees within a foot |
+| `main_mast_z` | 4.8351 | — | MEASURED | §02 the lower-mast stump drawn in the sheer plan of NA 4.MST inv. 59, read by tools/draught/; Steel's rule (5/9) agrees within 1 1/2 ft |
+| `mizzen_mast_z` | 19.194 | — | MEASURED | §02 the lower-mast stump drawn in the sheer plan of NA 4.MST inv. 59, read by tools/draught/; Steel's rule (17/20) puts it 3 ft further forward |
+| `main_mast_length` | 32.3103 | 106 ft 0.1 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `main_mast_diameter` | 0.8975 | 2 ft 11.3 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39); at the partners |
+| `main_mast_head` | 4.4875 | — | RECONSTRUCTED | §4 Steel 1794 v1 p.42, masthead rule (5 in to the yard of the mast for the main and fore, 4 in for the mizzen and for the main and fore topmasts, 3 1/2 in for the mizzen topmast and the topgallants), applied to the §4 lengths |
+| `fore_mast_length` | 28.6718 | 94 ft 0.8 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `fore_mast_diameter` | 0.7823 | 2 ft 6.8 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39); at the partners |
+| `fore_mast_head` | 3.9822 | — | RECONSTRUCTED | §4 Steel 1794 v1 p.42, masthead rule (5 in to the yard of the mast for the main and fore, 4 in for the mizzen and for the main and fore topmasts, 3 1/2 in for the mizzen topmast and the topgallants), applied to the §4 lengths |
+| `mizzen_mast_length` | 27.653 | 90 ft 8.7 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `mizzen_mast_diameter` | 0.5397 | 1 ft 9.2 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39); at the partners |
+| `mizzen_mast_head` | 3.0726 | — | RECONSTRUCTED | §4 Steel 1794 v1 p.42, masthead rule (5 in to the yard of the mast for the main and fore, 4 in for the mizzen and for the main and fore topmasts, 3 1/2 in for the mizzen topmast and the topgallants), applied to the §4 lengths |
+| `fore_mast_rake_deg` | 0.1989 | — | RECONSTRUCTED | §4 Steel, Naval Architecture, "Centres of Masts": 1/8 in of rake per yard of mast |
+| `main_mast_rake_deg` | 1.5911 | — | RECONSTRUCTED | §4 Steel, "Centres of Masts": 1 in per yard of mast |
+| `mizzen_mast_rake_deg` | 1.5911 | — | RECONSTRUCTED | §4 Steel, "Centres of Masts": 1 in per yard of mast |
+| `mast_step_above_keel_top` | 0.3048 | — | RECONSTRUCTED | §4 the keelson sits about a foot above the top of the keel, on the floors |
 
 ### Topmasts, topgallants and poles
 
 | key | metric | period figure | grade | source |
 |---|---|---|---|---|
-| `mizzen_topmast_backstay_deadeye_diameter` | 0.2032 | 0 ft 8 in | RECONSTRUCTED | §06 10 scaled from Steel 1805 OUTBOARD folio and Folio LIV: 8 in |
-| `main_topmast_length` | 14.859 | 48 ft 9 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `main_topmast_diameter` | 0.3651 | 1 ft 2.4 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `main_topmast_head` | 1.651 | — | SECONDARY | §5 Steel 1794 v1 p.42, head and hounds rules, arithmetic applied to the §3 lengths |
-| `fore_topmast_length` | 13.1064 | 43 ft 0 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `fore_topmast_diameter` | 0.3651 | 1 ft 2.4 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `fore_topmast_head` | 1.4542 | — | SECONDARY | §5 Steel 1794 v1 p.42, head and hounds rules, arithmetic applied to the §3 lengths |
-| `mizzen_topmast_length` | 11.1506 | 36 ft 7 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `mizzen_topmast_diameter` | 0.254 | 0 ft 10 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `mizzen_topmast_head` | 1.0858 | — | SECONDARY | §5 Steel 1794 v1 p.42, head and hounds rules, arithmetic applied to the §3 lengths |
-| `main_topgallant_length` | 7.4168 | 24 ft 4 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `main_topgallant_diameter` | 0.2032 | 0 ft 8 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `main_royal_pole` | 2.6892 | — | SECONDARY | §5 Steel 1794 v1 p.42, head and hounds rules, arithmetic applied to the §3 lengths; long pole-head = 2/5 of the stop |
-| `fore_topgallant_length` | 6.5532 | 21 ft 6 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `fore_topgallant_diameter` | 0.1778 | 0 ft 7 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `fore_royal_pole` | 2.3654 | — | SECONDARY | §5 Steel 1794 v1 p.42, head and hounds rules, arithmetic applied to the §3 lengths; long pole-head = 2/5 of the stop |
-| `mizzen_topgallant_length` | 5.5626 | 18 ft 3 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `mizzen_topgallant_diameter` | 0.1524 | 0 ft 6 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `mizzen_royal_pole` | 2.0098 | — | SECONDARY | §5 Steel 1794 v1 p.42, head and hounds rules, arithmetic applied to the §3 lengths; long pole-head = 2/5 of the stop |
-| `fore_topmast_shroud_pairs` | 4 | — | SECONDARY | §11 Steel 1794 v2, rigging warrant for a 28-gun ship of 594 tons |
-| `main_topmast_shroud_pairs` | 4 | — | SECONDARY | §11 Steel 1794 v2, rigging warrant for a 28-gun ship of 594 tons |
-| `mizzen_topmast_shroud_pairs` | 3 | — | SECONDARY | §11 Steel 1794 v2, rigging warrant for a 28-gun ship of 594 tons |
+| `mizzen_topmast_backstay_deadeye_diameter` | 0.2286 | 0 ft 9 in | RECONSTRUCTED | §06 10 scaled from Steel 1805 OUTBOARD folio and Folio LIV by 1.3 (the ratio of the lower-mast diameters) to a 74: 9 in |
+| `main_topmast_length` | 19.2115 | 63 ft 0.4 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `main_topmast_diameter` | 0.4669 | 1 ft 6.4 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39); at the partners |
+| `main_topmast_head` | 2.1346 | — | RECONSTRUCTED | §4 Steel 1794 v1 p.42, masthead rule (5 in to the yard of the mast for the main and fore, 4 in for the mizzen and for the main and fore topmasts, 3 1/2 in for the mizzen topmast and the topgallants), applied to the §4 lengths |
+| `fore_topmast_length` | 17.0769 | 56 ft 0.3 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `fore_topmast_diameter` | 0.4669 | 1 ft 6.4 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39); read as printed |
+| `fore_topmast_head` | 1.8974 | — | RECONSTRUCTED | §4 Steel 1794 v1 p.42, masthead rule (5 in to the yard of the mast for the main and fore, 4 in for the mizzen and for the main and fore topmasts, 3 1/2 in for the mizzen topmast and the topgallants), applied to the §4 lengths |
+| `mizzen_topmast_length` | 14.2631 | 46 ft 9.5 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `mizzen_topmast_diameter` | 0.3275 | 1 ft 0.9 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39); at the partners |
+| `mizzen_topmast_head` | 1.3867 | — | RECONSTRUCTED | §4 Steel 1794 v1 p.42, masthead rule (5 in to the yard of the mast for the main and fore, 4 in for the mizzen and for the main and fore topmasts, 3 1/2 in for the mizzen topmast and the topgallants), applied to the §4 lengths |
+| `main_topgallant_length` | 9.6058 | 31 ft 6.2 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `main_topgallant_diameter` | 0.2729 | 0 ft 10.7 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39); at the partners |
+| `fore_topgallant_length` | 8.5385 | 28 ft 0.2 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `fore_topgallant_diameter` | 0.2244 | 0 ft 8.8 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39); at the partners |
+| `mizzen_topgallant_length` | 7.1316 | 23 ft 4.8 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `mizzen_topgallant_diameter` | 0.1971 | 0 ft 7.8 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39); at the partners |
+| `fore_topmast_shroud_pairs` | 5 | — | RECONSTRUCTED | §4 scaled up from the 28-gun rigging warrant (Steel 1794 v2); the 74 warrant, vol. 2 pp.32-39, is not extracted yet |
+| `main_topmast_shroud_pairs` | 5 | — | RECONSTRUCTED | §4 scaled up from the 28-gun rigging warrant (Steel 1794 v2); the 74 warrant, vol. 2 pp.32-39, is not extracted yet |
+| `mizzen_topmast_shroud_pairs` | 4 | — | RECONSTRUCTED | §4 scaled up from the 28-gun rigging warrant (Steel 1794 v2); the 74 warrant, vol. 2 pp.32-39, is not extracted yet |
+| `main_topmast_staysail_clew_below_cap` | 1.524 | — | RECONSTRUCTED | §4 the clew of the main topmast staysail comes down toward the main cap, not to the deck |
 
 ### Bowsprit, jibboom and dolphin striker
 
 | key | metric | period figure | grade | source |
 |---|---|---|---|---|
-| `bowsprit_heel_from_stem` | 4.2672 | 13 ft 12 in | RECONSTRUCTED | §4 research 04 §3.3: the heel steps on the gun deck on the beam next before the foremast, whose centre is 14 ft 1.5 in abaft the fore perpendicular. Checked against ZAZ3067: at rig.bowsprit_steeve_deg this puts the spar where the draught draws it crossing the stem |
-| `bowsprit_heel_above_gundeck` | 0.3048 | 1 ft 0 in | RECONSTRUCTED | §4 half the bowsprit's diameter, the spar lying in its step on the deck |
-| `bowsprit_partner_thickness` | 0.1524 | 0 ft 6 in | RECONSTRUCTED | §6 Steel :39538 tabulates the bowsprit partners but the frigate column is not legible; the thickness of the capstan partners is used |
-| `bowsprit_chock_length` | 0.762 | 2 ft 6 in | SECONDARY | §6 Steel :15357, a chock between the knightheads for the better security of the bowsprit |
-| `gammoning_hole_count` | 2 | — | SECONDARY | §6 Steel :41225, two gammoning holes |
-| `gammoning_cleat_forward_of_stem` | 0.9144 | — | SECONDARY | §6 Steel :2914, the gammoning is cut through the knee of the head between the cheeks, abaft the figure |
-| `gammoning_cleat_spacing` | 0.4064 | 1 ft 4 in | RECONSTRUCTED | §6 from Steel :41226, a gammoning hole 1 ft 1 in long, with a little wood between the two |
-| `gammoning_cleat_projection` | 0.0762 | — | RECONSTRUCTED | §6 the cleat that keeps the gammoning lashing from surging forward |
-| `bowsprit_length` | 14.859 | 48 ft 9 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `bowsprit_diameter` | 0.6001 | 1 ft 11.6 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `bowsprit_steeve_deg` | 21.9 | — | SECONDARY | §8 Steel, Naval Architecture, CENTRES OF MASTS, 28-gun column; 1 ft 2 1/2 in of stive per yard of length |
-| `bowsprit_housing` | 4.7244 | 15 ft 6 in | RECONSTRUCTED | §3.3 heel stepped on the beam next before the foremast, geometry at a 21.9 deg steeve |
-| `jibboom_length` | 10.668 | 35 ft 0 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `jibboom_diameter` | 0.2604 | 0 ft 10.3 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `jibboom_housing_fraction` | 0.333 | — | RECONSTRUCTED | §3.3 jib boom housed on the bowsprit for about a third of its length |
-| `bowsprit_shroud_pairs` | 1 | — | SECONDARY | §11 Steel 1794 v2, rigging warrant for a 28-gun ship of 594 tons |
-| `dolphin_striker_length` | 2.7432 | 9 ft 0 in | RECONSTRUCTED | §12 about a quarter of the jib boom; not in Steel 1794, but visible in the reference photograph |
-| `dolphin_striker_diameter` | 0.1778 | 0 ft 7 in | RECONSTRUCTED | §12 in proportion to its length |
-| `dolphin_striker_rake_deg` | 12 | — | RECONSTRUCTED | §12 raked slightly forward so the martingale leads fair to the jib boom end |
-| `gammoning_turns` | 8 | — | SECONDARY | §11.2 Steel lists the gammoning first on the standing-rigging plate; seven or eight turns is the period figure |
+| `bowsprit_heel_above_deck` | 0.15 | 0 ft 5.9 in | RECONSTRUCTED | the rig sets the spar's centre 0.15 m above the deck at its heel (src/ship/rig.js) |
+| `bowsprit_partner_thickness` | 0.2032 | 0 ft 8 in | RECONSTRUCTED | §6 Steel (1805) scantlings for a 74, no Dutch figure found; the partners under and over the spar at the bulkhead |
+| `bowsprit_length` | 19.6482 | 64 ft 5.5 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `bowsprit_diameter` | 0.849 | 2 ft 9.4 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39); at the partners |
+| `bowsprit_steeve_deg` | 21.9 | — | RECONSTRUCTED | §4 Steel 1 ft 2 1/2 in of stive per yard of length; the 74 figure is not legible, so the frigate rule stands |
+| `jibboom_length` | 14.6512 | 48 ft 0.8 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `jibboom_diameter` | 0.3517 | 1 ft 1.8 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39); at the cap |
+| `jibboom_housing_fraction` | 0.333 | — | RECONSTRUCTED | §4 jib boom housed on the bowsprit for about a third of its length |
+| `bowsprit_heel_abaft_foremast` | -0.75 | — | RECONSTRUCTED | §4 the heel steps on the beam next before the foremast, so a little forward of it (negative is forward) |
+| `dolphin_striker_length` | 3.5814 | 11 ft 9 in | RECONSTRUCTED | §4 about a quarter of the jib boom; not in Steel 1794 |
+| `dolphin_striker_diameter` | 0.2183 | 0 ft 8.6 in | RECONSTRUCTED | §4 in proportion to its length |
+| `dolphin_striker_rake_deg` | 12 | — | RECONSTRUCTED | §4 raked slightly forward so the martingale leads fair to the jib boom end |
+| `gammoning_turns` | 8 | — | SECONDARY | §4 Steel lists the gammoning first on the standing-rigging plate; seven or eight turns is the period figure |
+| `bowsprit_shroud_pairs` | 1 | — | RECONSTRUCTED | §4 scaled up from the 28-gun rigging warrant (Steel 1794 v2); the 74 warrant, vol. 2 pp.32-39, is not extracted yet |
 
 ### Yards and booms
 
 | key | metric | period figure | grade | source |
 |---|---|---|---|---|
-| `main_yard_length` | 21.717 | 71 ft 3 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `main_yard_diameter` | 0.4191 | 1 ft 4.5 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `main_topsail_yard_length` | 15.8496 | 52 ft 0 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `main_topsail_yard_diameter` | 0.2794 | 0 ft 11 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `main_topgallant_yard_length` | 9.906 | 32 ft 6 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `main_topgallant_yard_diameter` | 0.1651 | 0 ft 6.5 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `main_royal_yard_length` | 7.9248 | 26 ft 0 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `main_royal_yard_diameter` | 0.1397 | 0 ft 5.5 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `fore_yard_length` | 18.9484 | 62 ft 2 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `fore_yard_diameter` | 0.3683 | 1 ft 2.5 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `fore_topsail_yard_length` | 14.0208 | 46 ft 0 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `fore_topsail_yard_diameter` | 0.2477 | 0 ft 9.8 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `fore_topgallant_yard_length` | 8.6868 | 28 ft 6 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `fore_topgallant_yard_diameter` | 0.1429 | 0 ft 5.6 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `fore_royal_yard_length` | 7.0104 | 23 ft 0 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `fore_royal_yard_diameter` | 0.1238 | 0 ft 4.9 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `crossjack_yard_length` | 14.0208 | 46 ft 0 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `crossjack_yard_diameter` | 0.2477 | 0 ft 9.8 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `mizzen_topsail_yard_length` | 10.668 | 35 ft 0 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `mizzen_topsail_yard_diameter` | 0.1842 | 0 ft 7.3 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `mizzen_topgallant_yard_length` | 6.7056 | 22 ft 0 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `mizzen_topgallant_yard_diameter` | 0.1111 | 0 ft 4.4 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `mizzen_royal_yard_length` | 5.334 | 17 ft 6 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `mizzen_royal_yard_diameter` | 0.0921 | 0 ft 3.6 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `spritsail_yard_length` | 14.0208 | 46 ft 0 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `spritsail_yard_diameter` | 0.2477 | 0 ft 9.8 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `driver_boom_length` | 15.8496 | 52 ft 0 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column; the driver rig, not built — see spanker_boom_length |
-| `spanker_boom_length` | 10.3632 | 34 ft 0 in | RECONSTRUCTED | from the reference photograph: a gaff spanker whose boom overhangs the taffrail by about 10 ft |
-| `spanker_boom_diameter` | 0.2477 | 0 ft 9.8 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `spanker_gaff_length` | 9.906 | 32 ft 6 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column; printed under "Gaff" on the mizen line |
-| `spanker_gaff_diameter` | 0.2477 | 0 ft 9.8 in | SECONDARY | §3 Steel 1794 v1 p.50, "28 GUNS. 594 Tons." column |
-| `spanker_gaff_peak_deg` | 38 | — | RECONSTRUCTED | §12 gaff peaked at about 38 degrees, as the reference photograph shows |
+| `topgallant_yard_below_hounds` | 0.3048 | — | SECONDARY | §4 Rijksmuseum Vrijheid model (NG-MC-500), seen in the museum's public-domain photographs: the yard is slung just under the shoulder of the pole |
+| `main_yard_length` | 28.2351 | 92 ft 7.6 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `main_yard_diameter` | 0.5579 | 1 ft 10 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `main_topsail_yard_length` | 20.3759 | 66 ft 10.2 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `main_topsail_yard_diameter` | 0.3639 | 1 ft 2.3 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `main_topgallant_yard_length` | 13.5354 | 44 ft 4.9 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `main_topgallant_yard_diameter` | 0.2304 | 0 ft 9.1 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `fore_yard_length` | 24.7421 | 81 ft 2.1 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `fore_yard_diameter` | 0.4851 | 1 ft 7.1 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `fore_topsail_yard_length` | 18.0472 | 59 ft 2.5 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `fore_topsail_yard_diameter` | 0.3153 | 1 ft 0.4 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `fore_topgallant_yard_length` | 11.7889 | 38 ft 8.1 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `fore_topgallant_yard_diameter` | 0.2001 | 0 ft 7.9 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `crossjack_yard_length` | 18.0472 | 59 ft 2.5 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `crossjack_yard_diameter` | 0.3153 | 1 ft 0.4 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `mizzen_topsail_yard_length` | 13.6809 | 44 ft 10.6 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `mizzen_topsail_yard_diameter` | 0.2244 | 0 ft 8.8 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `mizzen_topgallant_yard_length` | 9.1691 | 30 ft 1 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `mizzen_topgallant_yard_diameter` | 0.1486 | 0 ft 5.8 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39); the fraction is smudged on the page |
+| `spritsail_yard_length` | 18.0472 | 59 ft 2.5 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `spritsail_yard_diameter` | 0.3153 | 1 ft 0.4 in | RECONSTRUCTED | §4 Steel 1794 v1 p.49, "74 GUNS. 1799 Tons." column, x0.955 to her size by his own main-mast rule (p.39) |
+| `lower_yard_below_hounds` | 1.0668 | — | RECONSTRUCTED | §4 the course yard at full hoist is slung a little under the trestletrees, clear of the top's timbers |
+| `topsail_yard_below_hounds` | 0.6096 | — | RECONSTRUCTED | §4 the topsail yard at full hoist is slung just under the crosstrees |
+| `spanker_boom_length` | 14.0208 | 46 ft 0 in | RECONSTRUCTED | §4 from the mizzen to the taffrail, about 36 ft on her hull, and ten feet beyond it; in proportion to the crossjack yard |
+| `spanker_boom_diameter` | 0.2668 | 0 ft 10.5 in | RECONSTRUCTED | §4 in proportion to the crossjack yard (13 in over 62 ft) by length |
+| `spanker_gaff_length` | 12.192 | 40 ft 0 in | RECONSTRUCTED | §4 a little shorter than the boom |
+| `spanker_gaff_diameter` | 0.2304 | 0 ft 9.1 in | RECONSTRUCTED | §4 in proportion to the crossjack yard by length |
+| `spanker_gaff_peak_deg` | 38 | — | RECONSTRUCTED | §4 gaff peaked at about 38 degrees |
 
 ### Tops
 
 | key | metric | period figure | grade | source |
 |---|---|---|---|---|
-| `main_top_breadth` | 4.953 | 16 ft 3 in | SECONDARY | §7.1 Steel 1794 v1 p.37, one third of the topmast length |
-| `main_top_length` | 3.7147 | 12 ft 2.3 in | SECONDARY | §7.1 three quarters of the breadth |
-| `fore_top_breadth` | 4.3688 | 14 ft 4 in | SECONDARY | §7.1 Steel 1794 v1 p.37 |
-| `fore_top_length` | 3.2766 | 10 ft 9 in | SECONDARY | §7.1 three quarters of the breadth |
-| `mizzen_top_breadth` | 3.7147 | 12 ft 2.3 in | SECONDARY | §7.1 Steel 1794 v1 p.37 |
-| `mizzen_top_length` | 2.7877 | 9 ft 1.8 in | SECONDARY | §7.1 three quarters of the breadth |
-| `top_platform_thickness` | 0.0508 | 0 ft 2 in | SECONDARY | §7.1 two-inch deals for a sixth rate |
+| `main_top_breadth` | 6.4038 | 21 ft 0.1 in | RECONSTRUCTED | §4 Steel 1794 v1 p.37, one third the length of the topmast; the Vrijheid's tops are as broad |
+| `fore_top_breadth` | 5.6924 | 18 ft 8.1 in | RECONSTRUCTED | §4 Steel 1794 v1 p.37, one third the length of the topmast |
+| `mizzen_top_breadth` | 4.7544 | 15 ft 7.2 in | RECONSTRUCTED | §4 Steel 1794 v1 p.37, one third the length of the topmast |
+| `top_platform_thickness` | 0.0606 | 0 ft 2.4 in | RECONSTRUCTED | §4 Steel 1794 v1 p.37, two-inch deals for a sixth rate, a little thicker for a 74 |
 
 ### Standing rigging
 
 | key | metric | period figure | grade | source |
 |---|---|---|---|---|
-| `bobstay_hole_count` | 2 | — | SECONDARY | §6 Steel :41228, two bobstay holes |
-| `bobstay_hole_diameter` | 0.1016 | 0 ft 4 in | SECONDARY | §6 Steel :41229, 4 in diameter, OCR-doubtful |
-| `bobstay_hole_forward_of_stem` | 1.9812 | — | SECONDARY | §6 Steel :1537, cut through the fore part of the knee of the head below the lower cheek. The model puts the eyes on the cutwater below the wale instead, which is the same place expressed as a line of the ship rather than as a distance |
-| `fore_channel_shroud_aim_y` | 15.545 | — | RECONSTRUCTED | §04 9 fore top platform 51 ft 0 in above the load waterline |
-| `main_channel_shroud_aim_y` | 17.993 | — | RECONSTRUCTED | §04 9 main top platform 59 ft 0 1/2 in above the load waterline |
-| `mizzen_channel_shroud_aim_y` | 15.342 | — | RECONSTRUCTED | §04 9 mizen top platform 50 ft 4 in above the load waterline |
-| `fore_lower_shroud_pairs` | 7 | — | PRIMARY | §04 11.1 Steel 1794 v2 rigging warrant, a ship of 28 guns of 594 tons: corroborated by 14 lanyards |
-| `main_lower_shroud_pairs` | 7 | — | PRIMARY | §04 11.1 Steel 1794 v2 rigging warrant, a ship of 28 guns of 594 tons: corroborated by 14 throat seizings |
-| `mizzen_lower_shroud_pairs` | 5 | — | PRIMARY | §04 11.1 Steel 1794 v2 rigging warrant, a ship of 28 guns of 594 tons: corroborated by 10 lanyards |
-| `fore_channel_backstay_deadeyes` | 4 | — | PRIMARY | §04 11.1 Steel 1794 v2 rigging warrant, a ship of 28 guns of 594 tons: two topmast and two topgallant standing backstays a side |
-| `main_channel_backstay_deadeyes` | 4 | — | PRIMARY | §04 11.1 Steel 1794 v2 rigging warrant, a ship of 28 guns of 594 tons: two topmast and two topgallant standing backstays a side |
-| `mizzen_channel_backstay_deadeyes` | 2 | — | PRIMARY | §04 11.1 Steel 1794 v2 rigging warrant, a ship of 28 guns of 594 tons: one mizen topmast and one mizen topgallant standing backstay a side |
-| `shroud_deadeye_diameter` | 0.2794 | 0 ft 11 in | RECONSTRUCTED | §06 10 scaled from Steel 1805 OUTBOARD folio and Folio LIV: 11 in for the main and fore shrouds |
-| `mizzen_shroud_deadeye_diameter` | 0.2032 | 0 ft 8 in | PRIMARY | §04 11.1 Steel 1794 v2 rigging warrant, a ship of 28 guns of 594 tons: the mizen entry reads "Dead Eyes 8" inches |
-| `topmast_backstay_deadeye_diameter` | 0.2286 | 0 ft 9 in | RECONSTRUCTED | §06 10 scaled from Steel 1805 OUTBOARD folio and Folio LIV: 9 in, the after end of the main and fore channels |
-| `topgallant_backstay_deadeye_diameter` | 0.1778 | 0 ft 7 in | RECONSTRUCTED | §06 10 scaled from Steel 1805 OUTBOARD folio and Folio LIV: 7 in |
-| `mizzen_topgallant_backstay_deadeye_diameter` | 0.1524 | 0 ft 6 in | RECONSTRUCTED | §06 10 scaled from Steel 1805 OUTBOARD folio and Folio LIV: 6 in |
-| `shroud_deadeye_thickness` | 0.1524 | 0 ft 6 in | RECONSTRUCTED | §06 10 scaled from Steel 1805 OUTBOARD folio and Folio LIV: a deadeye is a little over half its diameter through |
-| `fore_topgallant_shroud_pairs` | 3 | — | SECONDARY | §11 Steel 1794 v2, rigging warrant for a 28-gun ship of 594 tons |
-| `main_topgallant_shroud_pairs` | 3 | — | SECONDARY | §11 Steel 1794 v2, rigging warrant for a 28-gun ship of 594 tons |
-| `mizzen_topgallant_shroud_pairs` | 2 | — | SECONDARY | §11 Steel 1794 v2, rigging warrant for a 28-gun ship of 594 tons |
-| `fore_futtock_shroud_pairs` | 4 | — | SECONDARY | §11 Steel 1794 v2, rigging warrant for a 28-gun ship of 594 tons |
-| `main_futtock_shroud_pairs` | 4 | — | SECONDARY | §11 Steel 1794 v2, rigging warrant for a 28-gun ship of 594 tons |
-| `mizzen_futtock_shroud_pairs` | 3 | — | SECONDARY | §11 Steel 1794 v2, rigging warrant for a 28-gun ship of 594 tons |
-| `topmast_standing_backstay_pairs` | 2 | — | SECONDARY | §11 Steel 1794 v2, rigging warrant for a 28-gun ship of 594 tons |
-| `topgallant_backstay_pairs` | 2 | — | SECONDARY | §11 Steel 1794 v2, rigging warrant for a 28-gun ship of 594 tons |
-| `bobstay_pairs` | 2 | — | SECONDARY | §11 Steel 1794 v2, rigging warrant for a 28-gun ship of 594 tons; cabled, set up with hearts |
-| `ratline_spacing` | 0.3302 | 1 ft 1 in | SECONDARY | §11.4 Steel 1794 v1 pp.198-199, Progressive Method of Rigging Ships |
-| `ratline_stiffener_spacing` | 1.524 | 5 ft 0 in | SECONDARY | §11.4 boat oars seized to the shrouds about five feet asunder for the men to stand on |
-| `shroud_diameter` | 0.0364 | 0 ft 1.4 in | RECONSTRUCTED | §11 4.5-inch lower shroud circumference, converted to diameter; Steel describes rope sizes by circumference, not a recovered Surprise rope schedule |
-| `stay_diameter` | 0.1524 | 0 ft 6 in | RECONSTRUCTED | §11 lower stay heavier than the shrouds |
-| `running_rigging_diameter` | 0.0508 | 0 ft 2 in | RECONSTRUCTED | §12 braces, lifts and sheets at model-visible size |
+| `bobstay_hole_count` | 2 | — | SECONDARY | §6 Steel, two bobstay holes through the knee |
+| `bobstay_hole_diameter` | 0.127 | 0 ft 5 in | SECONDARY | §6 Steel, bobstay holes |
+| `fore_lower_shroud_pairs` | 8 | — | RECONSTRUCTED | §04 11.1 scaled up from the 28-gun rigging warrant (Steel 1794 v2); the 74 warrant is not extracted yet: eight a side |
+| `main_lower_shroud_pairs` | 9 | — | RECONSTRUCTED | §04 11.1 scaled up from the 28-gun rigging warrant (Steel 1794 v2); the 74 warrant is not extracted yet: nine a side |
+| `mizzen_lower_shroud_pairs` | 6 | — | RECONSTRUCTED | §04 11.1 scaled up from the 28-gun rigging warrant (Steel 1794 v2); the 74 warrant is not extracted yet: six a side |
+| `fore_channel_backstay_deadeyes` | 4 | — | RECONSTRUCTED | §04 11.1 scaled up from the 28-gun rigging warrant (Steel 1794 v2); the 74 warrant is not extracted yet: two topmast and two topgallant standing backstays a side |
+| `main_channel_backstay_deadeyes` | 4 | — | RECONSTRUCTED | §04 11.1 scaled up from the 28-gun rigging warrant (Steel 1794 v2); the 74 warrant is not extracted yet: two topmast and two topgallant standing backstays a side |
+| `mizzen_channel_backstay_deadeyes` | 2 | — | RECONSTRUCTED | §04 11.1 scaled up from the 28-gun rigging warrant (Steel 1794 v2); the 74 warrant is not extracted yet: one mizzen topmast and one mizzen topgallant standing backstay a side |
+| `shroud_deadeye_diameter` | 0.3556 | 1 ft 2 in | RECONSTRUCTED | §06 10 scaled from Steel 1805 OUTBOARD folio and Folio LIV by 1.3 (the ratio of the lower-mast diameters) to a 74: 14 in for the main and fore shrouds |
+| `mizzen_shroud_deadeye_diameter` | 0.254 | 0 ft 10 in | RECONSTRUCTED | §06 10 scaled from Steel 1805 OUTBOARD folio and Folio LIV by 1.3 (the ratio of the lower-mast diameters) to a 74: 10 in for the mizzen |
+| `topmast_backstay_deadeye_diameter` | 0.2794 | 0 ft 11 in | RECONSTRUCTED | §06 10 scaled from Steel 1805 OUTBOARD folio and Folio LIV by 1.3 (the ratio of the lower-mast diameters) to a 74: 11 in, the after end of the main and fore channels |
+| `topgallant_backstay_deadeye_diameter` | 0.2286 | 0 ft 9 in | RECONSTRUCTED | §06 10 scaled from Steel 1805 OUTBOARD folio and Folio LIV by 1.3 (the ratio of the lower-mast diameters) to a 74: 9 in |
+| `mizzen_topgallant_backstay_deadeye_diameter` | 0.1905 | 0 ft 7.5 in | RECONSTRUCTED | §06 10 scaled from Steel 1805 OUTBOARD folio and Folio LIV by 1.3 (the ratio of the lower-mast diameters) to a 74: 7 1/2 in |
+| `shroud_deadeye_thickness` | 0.1905 | 0 ft 7.5 in | RECONSTRUCTED | §06 10 scaled from Steel 1805 OUTBOARD folio and Folio LIV by 1.3 (the ratio of the lower-mast diameters) to a 74: a deadeye is a little over half its diameter through |
+| `fore_topgallant_shroud_pairs` | 3 | — | RECONSTRUCTED | §4 scaled up from the 28-gun rigging warrant (Steel 1794 v2); the 74 warrant, vol. 2 pp.32-39, is not extracted yet |
+| `main_topgallant_shroud_pairs` | 3 | — | RECONSTRUCTED | §4 scaled up from the 28-gun rigging warrant (Steel 1794 v2); the 74 warrant, vol. 2 pp.32-39, is not extracted yet |
+| `mizzen_topgallant_shroud_pairs` | 2 | — | RECONSTRUCTED | §4 scaled up from the 28-gun rigging warrant (Steel 1794 v2); the 74 warrant, vol. 2 pp.32-39, is not extracted yet |
+| `fore_futtock_shroud_pairs` | 5 | — | RECONSTRUCTED | §4 scaled up from the 28-gun rigging warrant (Steel 1794 v2); the 74 warrant, vol. 2 pp.32-39, is not extracted yet |
+| `main_futtock_shroud_pairs` | 5 | — | RECONSTRUCTED | §4 scaled up from the 28-gun rigging warrant (Steel 1794 v2); the 74 warrant, vol. 2 pp.32-39, is not extracted yet |
+| `mizzen_futtock_shroud_pairs` | 4 | — | RECONSTRUCTED | §4 scaled up from the 28-gun rigging warrant (Steel 1794 v2); the 74 warrant, vol. 2 pp.32-39, is not extracted yet |
+| `topmast_standing_backstay_pairs` | 2 | — | RECONSTRUCTED | §4 scaled up from the 28-gun rigging warrant (Steel 1794 v2); the 74 warrant, vol. 2 pp.32-39, is not extracted yet |
+| `topgallant_backstay_pairs` | 2 | — | RECONSTRUCTED | §4 scaled up from the 28-gun rigging warrant (Steel 1794 v2); the 74 warrant, vol. 2 pp.32-39, is not extracted yet |
+| `bobstay_pairs` | 2 | — | RECONSTRUCTED | §4 scaled up from the 28-gun rigging warrant (Steel 1794 v2); the 74 warrant, vol. 2 pp.32-39, is not extracted yet; cabled, set up with hearts |
+| `ratline_spacing` | 0.3302 | 1 ft 1 in | SECONDARY | §4 Steel 1794 v1 pp.198-199, Progressive Method of Rigging Ships |
+| `ratline_stiffener_spacing` | 1.524 | 5 ft 0 in | SECONDARY | §4 boat oars seized to the shrouds about five feet asunder for the men to stand on |
+| `shroud_diameter` | 0.0687 | 0 ft 2.7 in | RECONSTRUCTED | §4 scaled up from the 28-gun rigging warrant (Steel 1794 v2); the 74 warrant, vol. 2 pp.32-39, is not extracted yet; 8 1/2 in lower shroud circumference, converted to diameter (the 28-gun warrant has 4 1/2 in) |
+| `stay_diameter` | 0.2032 | 0 ft 8 in | RECONSTRUCTED | §4 scaled up from the 28-gun rigging warrant (Steel 1794 v2); the 74 warrant, vol. 2 pp.32-39, is not extracted yet; lower stay heavier than the shrouds |
+| `running_rigging_diameter` | 0.0635 | 0 ft 2.5 in | RECONSTRUCTED | §4 scaled up from the 28-gun rigging warrant (Steel 1794 v2); the 74 warrant, vol. 2 pp.32-39, is not extracted yet; braces, lifts and sheets at model-visible size |
 
 ### Sails
 
 | key | metric | period figure | grade | source |
 |---|---|---|---|---|
-| `sail_cloth_width` | 0.6096 | 2 ft 0 in | SECONDARY | §7.3 of the paint research; period flax canvas bolt width |
-| `sail_roach` | 0.085 | — | RECONSTRUCTED | measured off the reference photograph, where the cut of the courses is clearest |
-| `sail_leech_curve` | 0.045 | — | RECONSTRUCTED | from the reference photograph; a sail under strain is a curved surface |
-| `sail_belly` | 0.115 | — | RECONSTRUCTED | from the reference photograph; the draught of a full sail on a soldier's wind |
-| `square_sails_set` | 8 | — | RECONSTRUCTED | the full suit in the reference photograph: two courses, three topsails and three topgallants |
-| `furled_bundle_diameter` | 0.4572 | 1 ft 6 in | RECONSTRUCTED | a course furled and harbour-stowed makes a bundle about this thick |
+| `sail_cloth_width` | 0.6096 | 2 ft 0 in | SECONDARY | §4 period flax canvas bolt width |
+| `sail_roach` | 0.085 | — | RECONSTRUCTED | §4 the cut of the courses in the reference photographs |
+| `sail_leech_curve` | 0.045 | — | RECONSTRUCTED | §4 a sail under strain is a curved surface |
+| `sail_belly` | 0.115 | — | RECONSTRUCTED | §4 the draught of a full sail on a soldier's wind |
+| `square_sails_set` | 8 | — | RECONSTRUCTED | §4 the full suit: two courses, three topsails and three topgallants; no royals |
+| `furled_bundle_diameter` | 0.6858 | 2 ft 3 in | RECONSTRUCTED | §4 a course furled on a 74's yard makes a bundle about this thick |
 
 ### Channels, deadeyes and chainplates
 
 | key | metric | period figure | grade | source |
 |---|---|---|---|---|
-| `fore_channel_deadeyes_per_side` | 11 | — | RECONSTRUCTED | §04 11.1 seven lower shrouds and four standing backstays |
-| `main_channel_deadeyes_per_side` | 11 | — | RECONSTRUCTED | §04 11.1 seven lower shrouds and four standing backstays |
-| `mizzen_channel_deadeyes_per_side` | 7 | — | RECONSTRUCTED | §04 11.1 five lower shrouds and two standing backstays |
-| `channel_length` | 6.096 | 20 ft 0 in | SECONDARY | §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column: the fore channel, used as the single value the rig module still reads |
-| `channel_width` | 0.508 | 1 ft 8 in | SECONDARY | §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column: breadth "sufficient to clear the shrouds of the roughtree rail" |
-| `fore_channel_length` | 6.096 | 20 ft 0 in | SECONDARY | §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column |
-| `main_channel_length` | 6.9342 | 22 ft 9 in | SECONDARY | §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column |
-| `mizzen_channel_length` | 4.2672 | 13 ft 12 in | SECONDARY | §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column; the built channel is cut short of this at the after end to clear the counter |
-| `channel_projection` | 0.508 | — | SECONDARY | §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column: 1 ft 8 in clear of the ship's side |
-| `channel_thickness_inner` | 0.127 | — | SECONDARY | §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column: thickness at the inner edge, main and fore |
-| `channel_thickness_outer` | 0.0953 | — | SECONDARY | §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column: thickness at the outer edge, main and fore |
-| `mizzen_channel_thickness_inner` | 0.1143 | — | SECONDARY | §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column: thickness at the inner edge, mizzen |
-| `mizzen_channel_thickness_outer` | 0.0889 | — | SECONDARY | §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column: thickness at the outer edge, mizzen |
-| `channel_fore_end_before_mast` | 0.1778 | — | SECONDARY | §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column: foremost end of the main and fore channels forward of the mast centre |
-| `mizzen_channel_fore_end_before_mast` | 0.1524 | — | SECONDARY | §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column: foremost end of the mizzen channel forward of the mast centre |
-| `channel_top_below_rail` | 0.254 | — | RECONSTRUCTED | §06 10 Steel puts the channel in line with the upper edge of the sheer rail, one strake below the cap |
-| `mizzen_channel_top_below_rail` | 0.1524 | — | RECONSTRUCTED | §06 10 Steel carries the mizzen channel 1 ft above the range of the main; four inches of that taken against a level rail line |
+| `fore_channel_deadeyes_per_side` | 12 | — | RECONSTRUCTED | §04 11.1 eight lower shrouds and four standing backstays |
+| `main_channel_deadeyes_per_side` | 13 | — | RECONSTRUCTED | §04 11.1 nine lower shrouds and four standing backstays |
+| `mizzen_channel_deadeyes_per_side` | 8 | — | RECONSTRUCTED | §04 11.1 six lower shrouds and two standing backstays |
+| `fore_channel_length` | 7.9248 | 26 ft 0 in | RECONSTRUCTED | §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column, scaled by 1.3 (the ratio of the lower-mast diameters) to a 74 |
+| `main_channel_length` | 8.9916 | 29 ft 6 in | RECONSTRUCTED | §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column, scaled by 1.3 (the ratio of the lower-mast diameters) to a 74 |
+| `mizzen_channel_length` | 5.4864 | 18 ft 0 in | RECONSTRUCTED | §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column, scaled by 1.3 (the ratio of the lower-mast diameters) to a 74; the built channel is cut short of this at the after end to clear the quarter gallery |
+| `channel_projection` | 0.6604 | — | RECONSTRUCTED | §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column, scaled by 1.3 (the ratio of the lower-mast diameters) to a 74: 2 ft 2 in clear of the ship's side |
+| `channel_thickness_inner` | 0.1651 | — | RECONSTRUCTED | §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column, scaled by 1.3 (the ratio of the lower-mast diameters) to a 74: thickness at the inner edge, main and fore |
+| `channel_thickness_outer` | 0.1245 | — | RECONSTRUCTED | §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column, scaled by 1.3 (the ratio of the lower-mast diameters) to a 74: thickness at the outer edge, main and fore |
+| `mizzen_channel_thickness_inner` | 0.1499 | — | RECONSTRUCTED | §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column, scaled by 1.3 (the ratio of the lower-mast diameters) to a 74: thickness at the inner edge, mizzen |
+| `mizzen_channel_thickness_outer` | 0.1168 | — | RECONSTRUCTED | §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column, scaled by 1.3 (the ratio of the lower-mast diameters) to a 74: thickness at the outer edge, mizzen |
+| `channel_fore_end_before_mast` | 0.2286 | — | RECONSTRUCTED | §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column, scaled by 1.3 (the ratio of the lower-mast diameters) to a 74: foremost end of the main and fore channels forward of the mast centre |
+| `mizzen_channel_fore_end_before_mast` | 0.2032 | — | RECONSTRUCTED | §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column, scaled by 1.3 (the ratio of the lower-mast diameters) to a 74: foremost end of the mizzen channel forward of the mast centre |
+| `channel_above_middle_wale` | 0 | — | RECONSTRUCTED | §06 10 the channel is bolted along the top of the middle wale, at the upper deck |
+| `mizzen_channel_above_middle_wale` | 0.1016 | — | RECONSTRUCTED | §06 10 Steel carries the mizzen channel a foot above the range of the main; four inches of it taken against the traced wale |
+| `channel_top_below_rail` | 2.21 | — | MEASURED | §07 the fore channel lies on the middle wale, 2.21 m under the forecastle rail at the foremast |
 | `channel_inboard_inset` | 0.0508 | — | RECONSTRUCTED | §06 10 the inner edge is let into the ship's side, not butted against the planking |
 | `mizzen_channel_aft_clearance` | 2.7432 | — | RECONSTRUCTED | §06 10 the after end of the mizzen channel kept clear of the quarter badge |
 | `channel_aft_clearance` | 0.6096 | — | RECONSTRUCTED | §06 10 the after end of a channel is kept off the run of the counter so that it lands on the side proper |
-| `channel_deadeye_end_margin` | 0.2286 | — | RECONSTRUCTED | §06 10 the outer deadeyes are set in from the ends so the channel is not split at the butt |
+| `channel_deadeye_end_margin` | 0.2794 | — | RECONSTRUCTED | §06 10 the outer deadeyes are set in from the ends so the channel is not split at the butt |
 | `fore_channel_taper_fraction` | 0.24 | — | RECONSTRUCTED | §06 10 Steel says the fore channel tapers at its after end to stow the anchor but does not give the length of the taper |
-| `fore_channel_taper_projection` | 0.2286 | — | RECONSTRUCTED | §06 10 projection left at the after end of the fore channel taper |
-| `channel_rail_height` | 0.1016 | 0 ft 4 in | RECONSTRUCTED | §06 10 the low rail on the outer edge, scored down for every deadeye strop |
-| `channel_rail_width` | 0.1016 | 0 ft 4 in | RECONSTRUCTED | §06 10 sided as deep as it is high, ordinary practice for a chain rail |
-| `channel_rail_notch_clearance` | 0.0508 | — | RECONSTRUCTED | §06 10 the score is cut a little wider than the strop it takes |
-| `mizzen_deadeye_thickness` | 0.1143 | 0 ft 4.5 in | RECONSTRUCTED | §06 10 scaled from Steel 1805 OUTBOARD folio and Folio LIV |
-| `deadeye_hole_diameter` | 0.0381 | 0 ft 1.5 in | RECONSTRUCTED | §06 10 the three holes take the lanyard doubled; taken as a seventh of the deadeye |
+| `fore_channel_taper_projection` | 0.3048 | — | RECONSTRUCTED | §06 10 projection left at the after end of the fore channel taper |
+| `channel_rail_height` | 0.127 | 0 ft 5 in | RECONSTRUCTED | §06 10 the low rail on the outer edge, scored down for every deadeye strop |
+| `channel_rail_width` | 0.127 | 0 ft 5 in | RECONSTRUCTED | §06 10 sided as deep as it is high, ordinary practice for a chain rail |
+| `channel_rail_notch_clearance` | 0.0635 | — | RECONSTRUCTED | §06 10 the score is cut a little wider than the strop it takes |
+| `mizzen_deadeye_thickness` | 0.1397 | 0 ft 5.5 in | RECONSTRUCTED | §06 10 scaled from Steel 1805 OUTBOARD folio and Folio LIV by 1.3 (the ratio of the lower-mast diameters) to a 74 |
+| `deadeye_hole_diameter` | 0.0457 | 0 ft 1.8 in | RECONSTRUCTED | §06 10 the three holes take the lanyard doubled; taken as a seventh of the deadeye |
 | `deadeye_hole_circle_fraction` | 0.42 | — | RECONSTRUCTED | §06 10 the three holes stand on a circle of about two fifths of the diameter |
-| `deadeye_bottom_above_channel` | 0.0762 | — | RECONSTRUCTED | §06 10 the strop sits down in the score, so the body of the deadeye stands just clear of the channel |
-| `deadeye_strop_iron` | 0.0286 | — | SECONDARY | §06 10 Steel: the deadeye binding is 1 1/8 in for the main and fore |
-| `mizzen_deadeye_strop_iron` | 0.0254 | — | SECONDARY | §06 10 Steel: the deadeye binding is 1 in for the mizzen |
-| `chainplate_width` | 0.0635 | 0 ft 2.5 in | RECONSTRUCTED | §06 10 a plate of 1 1/8 in iron is sided about 2 1/2 in |
-| `chainplate_thickness` | 0.0286 | 0 ft 1.1 in | SECONDARY | §06 10 Steel: chain iron 1 1/8 in, main and fore |
-| `mizzen_chainplate_thickness` | 0.0254 | 0 ft 1 in | SECONDARY | §06 10 Steel: chain iron 1 in, mizzen |
-| `chain_bolt_below_channel` | 1.0668 | — | SECONDARY | §06 10 Steel: the chain bolt driven 3 ft 6 in below the channel |
-| `mizzen_chain_bolt_below_channel` | 0.9144 | — | SECONDARY | §06 10 Steel, scaled for the mizzen |
-| `chain_bolt_diameter` | 0.0381 | 0 ft 1.5 in | SECONDARY | §06 10 Steel: chain bolt 1 1/2 in |
+| `deadeye_bottom_above_channel` | 0.0889 | — | RECONSTRUCTED | §06 10 the strop sits down in the score, so the body of the deadeye stands just clear of the channel |
+| `deadeye_strop_iron` | 0.0381 | — | RECONSTRUCTED | §06 10 scaled from Steel 1805 OUTBOARD folio and Folio LIV by 1.3 (the ratio of the lower-mast diameters) to a 74: the deadeye binding, 1 1/2 in for the main and fore |
+| `mizzen_deadeye_strop_iron` | 0.033 | — | RECONSTRUCTED | §06 10 scaled from Steel 1805 OUTBOARD folio and Folio LIV by 1.3 (the ratio of the lower-mast diameters) to a 74: the deadeye binding, 1 1/3 in for the mizzen |
+| `chainplate_width` | 0.0813 | 0 ft 3.2 in | RECONSTRUCTED | §06 10 a plate of 1 1/2 in iron is sided about 3 in |
+| `chainplate_thickness` | 0.0381 | 0 ft 1.5 in | RECONSTRUCTED | §06 10 scaled from Steel 1805 OUTBOARD folio and Folio LIV by 1.3 (the ratio of the lower-mast diameters) to a 74: chain iron 1 1/2 in, main and fore |
+| `mizzen_chainplate_thickness` | 0.033 | 0 ft 1.3 in | RECONSTRUCTED | §06 10 scaled from Steel 1805 OUTBOARD folio and Folio LIV by 1.3 (the ratio of the lower-mast diameters) to a 74: chain iron 1 1/3 in, mizzen |
+| `chain_bolt_below_channel` | 0.6858 | — | RECONSTRUCTED | §06 10 the chain bolt is driven through the middle wale, 2 ft 3 in under the top of the channel, and so clears the heads of the lower ports |
+| `mizzen_chain_bolt_below_channel` | 0.6858 | — | RECONSTRUCTED | §06 10 as the main |
+| `chain_bolt_diameter` | 0.0508 | 0 ft 2 in | RECONSTRUCTED | §06 10 chain bolt 2 in |
 | `chainplate_standoff` | 0.0127 | — | RECONSTRUCTED | §06 10 the plate lies on the planking; half an inch keeps the iron clear of the hull surface |
-| `fore_channel_supporters` | 4 | — | SECONDARY | §06 10 Steel: four iron T-plates in lieu of wood knees under the fore channel |
-| `main_channel_supporters` | 5 | — | SECONDARY | §06 10 Steel: five iron T-plates under the main channel |
-| `mizzen_channel_supporters` | 2 | — | SECONDARY | §06 10 Steel: two iron T-plates under the mizzen channel |
-| `supporter_width` | 0.0762 | 0 ft 3 in | SECONDARY | §06 10 Steel: the T-plate broad 3 in |
-| `supporter_thickness` | 0.0286 | 0 ft 1.1 in | SECONDARY | §06 10 Steel: thick 1 1/8 in at the shoulder |
-| `supporter_drop` | 1.0668 | — | SECONDARY | §06 10 Steel: the T-plate reaches 3 ft 6 in below the upper side of the channel |
+| `fore_channel_supporters` | 5 | — | RECONSTRUCTED | §06 10 Steel gives four under the frigate's fore channel; one more for the 74's longer one |
+| `main_channel_supporters` | 6 | — | RECONSTRUCTED | §06 10 Steel gives five under the frigate's main channel; one more for the 74's |
+| `mizzen_channel_supporters` | 3 | — | RECONSTRUCTED | §06 10 Steel gives two under the frigate's mizzen channel; one more for the 74's |
+| `supporter_width` | 0.0889 | 0 ft 3.5 in | RECONSTRUCTED | §06 10 the T-plate broad 3 1/2 in |
+| `supporter_thickness` | 0.0381 | 0 ft 1.5 in | RECONSTRUCTED | §06 10 thick 1 1/2 in at the shoulder |
+| `supporter_drop` | 0.6858 | — | RECONSTRUCTED | §06 10 the T-plate reaches down the wale, no further than the chain bolt |
 
 ### Stern, galleries and rudder
 
@@ -378,79 +358,95 @@ chasers, the topgallants); period rules fill the rest, and every row says which 
 |---|---|---|---|---|
 | `stern_deadlight_thickness` | 0.038 | 0 ft 1.5 in | RECONSTRUCTED | §12 an inch and a half of oak. Deadlights are shipped over the stern windows in heavy weather because glass at the stern in a following sea is the next thing to go after the ports |
 | `stern_deadlight_proud` | 0.012 | — | RECONSTRUCTED | §12 the shutter beds against the outside of the sash frame, so it stands this much off the face of it |
-| `stern_tuck_above_wl` | 0.6604 | 2 ft 2 in | MEASURED | §6 the tuck at 15.0 ft above the moulded base line, LWL at 12.83 ft |
-| `stern_wing_transom_above_wl` | 2.0574 | 6 ft 9 in | MEASURED | §6 wing transom at about 19.6 ft above the moulded base line |
-| `stern_upper_counter_above_wl` | 3.7084 | — | MEASURED | §6 stern profile point at 25.0 ft above the moulded base line |
-| `stern_taffrail_above_rail` | 1.5494 | — | MEASURED | §6 taffrail 29.5 ft above the moulded base line, rail line 24.4 ft |
-| `stern_taffrail_above_quarterdeck` | 0.5842 | — | MEASURED | §5/§6 taffrail 29.5 ft above the moulded base line; gun deck at side at the after perpendicular 20.90 ft, quarterdeck 6 ft 8 in above that at 27.57 ft |
-| `stern_taffrail_above_wl` | 5.08 | 16 ft 8 in | MEASURED | §6 taffrail 29.5 ft above the moulded base line, LWL at 12.83 ft. This is the figure the taffrail is built to; the height above the quarterdeck follows from it |
-| `stern_wing_transom_abaft_tuck` | 1.3716 | — | RECONSTRUCTED | §6 between the 2.2 ft of the measured profile points and the 7.7 ft of the counter-overhang bullet; least that carries the counter clear of the rudder head |
-| `stern_upper_counter_abaft_tuck` | 1.9812 | — | RECONSTRUCTED | §6 between the measured 4.5 ft and the summary bullets, on a fair curve between the wing transom and the taffrail |
-| `stern_taffrail_abaft_tuck` | 2.286 | — | RECONSTRUCTED | §6 between the measured 5.0 ft and the 10.5 ft of the taffrail-overhang bullet |
-| `stern_half_breadth_at_tuck` | 0.9144 | — | MEASURED | §6 tuck / lower counter at the post, 3.0 ft half-breadth |
-| `stern_half_breadth_wing_transom` | 2.8956 | — | MEASURED | §6 wing transom half-breadth 9.5 ft, 0.61 of the moulded breadth |
-| `stern_half_breadth_at_lights` | 3.048 | — | MEASURED | §6 stern at the window band, 10.0 ft half-breadth, 0.65 of the moulded breadth |
-| `stern_half_breadth_at_taffrail` | 2.1336 | — | RECONSTRUCTED | §6 taffrail half-breadth 7.0 ft, 0.45 of the moulded breadth, read off the same elevation |
-| `stern_transom_breadth_wing` | 5.7912 | — | MEASURED | §6 wing transom 19.0 ft across the stern elevation on the ZAZ3067 body plan |
-| `stern_round_aft_lower` | 0.1016 | — | RECONSTRUCTED | §12.2 Steel, round-aft of the lower counter rail; least at the bottom |
-| `stern_round_aft_upper` | 0.254 | — | RECONSTRUCTED | §12.2 Steel, round-aft increasing in proceeding upwards |
-| `stern_round_up_taffrail` | 0.2032 | — | RECONSTRUCTED | §12.2 Steel, the taffrail carries the most round-up of any stern rail |
-| `stern_quarter_run` | 2.4384 | — | RECONSTRUCTED | §12.4 the quarter pieces run forward far enough to carry the sheer up to the taffrail without a step |
-| `stern_counter_rail_depth` | 0.127 | — | RECONSTRUCTED | §12.2 Steel names five stern rails; scantling taken from the sheer mouldings of the same ship |
-| `stern_counter_rail_proud` | 0.0762 | — | RECONSTRUCTED | §12.2 a counter rail stands proud of the planking by about its own thickness |
-| `taffrail_cap_width` | 0.2794 | 0 ft 11 in | RECONSTRUCTED | §12.4 Steel, taffrail transom 4½ in thick with the taffarel rail over it |
-| `taffrail_cap_thickness` | 0.127 | 0 ft 5 in | RECONSTRUCTED | §12.4 Steel, taffarel rail over the taffrail transom |
-| `stern_light_count` | 7 | — | MEASURED | §6 the stern elevation on the ZAZ3067 body plan shows a single row of seven lights; 06 §12.2 and 08 §5.2 reconstruct five from a breadth rule whose stated range is 5 to 7 |
-| `stern_light_height` | 0.9144 | 3 ft 0 in | RECONSTRUCTED | §12.2 lights 3 ft 0 in deep for a Sixth Rate great cabin |
-| `stern_light_sill_above_deck` | 0.762 | 2 ft 6 in | RECONSTRUCTED | §12.2 sill height of a great-cabin light above the gun deck at side |
-| `stern_light_munion` | 0.1524 | — | RECONSTRUCTED | §12.2 munions 6 in wide between the lights |
-| `stern_quarter_piece_width` | 0.3048 | 1 ft 0 in | RECONSTRUCTED | §12.2 the quarter piece bounding the row of lights each side |
-| `stern_light_frame_depth` | 0.1016 | 0 ft 4 in | RECONSTRUCTED | §5.2 the sash frame stands proud of the transom planking |
-| `stern_glazing_rebate` | 0.0381 | — | RECONSTRUCTED | §5.2 the rebate a crown-glass pane is bedded in, from contemporary sash practice |
-| `stern_glazing_bar` | 0.0254 | — | SECONDARY | §5.2 wooden glazing bars about 1 in, following contemporary domestic sash practice |
-| `stern_panes_wide` | 2 | — | SECONDARY | §5.2 rectangular panes 2 wide per light, not leaded diamonds |
-| `stern_panes_high` | 3 | — | RECONSTRUCTED | §12.2 sash bars dividing each light into 6 panes, 2 wide by 3 high |
-| `quarter_gallery_light_count` | 2 | — | RECONSTRUCTED | §12.3 two lights in each gallery facing aft and outboard |
-| `quarter_gallery_length` | 2.1336 | 6 ft 12 in | RECONSTRUCTED | §12.3 lower rim about 7 ft, Steel: "the lower-rim should be as long as possible" |
-| `quarter_gallery_projection` | 0.381 | — | RECONSTRUCTED | §12.3 a closed badge stands about 15 in off the ship's side |
-| `quarter_gallery_rim_depth` | 0.3048 | 1 ft 0 in | RECONSTRUCTED | §12.3 the lower stool and rim below the lights |
-| `quarter_gallery_hood_depth` | 0.3556 | 1 ft 2 in | RECONSTRUCTED | §12.3 the bell-top hood over the lights; Steel, the upper stool hollowed |
-| `quarter_gallery_bracket_drop` | 0.3048 | — | RECONSTRUCTED | §5.2 the carved bracket under the badge, gadrooned on its underside; about a foot deep on a Sixth Rate badge |
-| `quarter_gallery_bracket_length` | 0.2286 | 0 ft 9 in | RECONSTRUCTED | §5.2 the bracket seen fore and aft, rather less than it is deep |
-| `quarter_gallery_frame_proud` | 0.0381 | — | RECONSTRUCTED | §12.3 the sash frame of a badge light stands proud of the badge planking |
-| `quarter_gallery_carving_relief` | 0.0508 | — | RECONSTRUCTED | §5.2 the gilt carving on a quarter badge, cut a little shallower than the work on the counter because it is seen edge-on from abaft the beam |
-| `stern_carving_bevel` | 0.42 | — | RECONSTRUCTED | §12.1 the ground cut away round a piece of carved work; about two fifths of its half-width taken by the chamfer, leaving a field in the middle |
-| `stern_carving_panel_corner` | 3 | — | RECONSTRUCTED | §12.1 a carved panel is worked square with the corners rounded off, not drawn as a lens |
-| `stern_cartouche_width` | 1.8288 | 6 ft 0 in | RECONSTRUCTED | §12.1 the name cartouche on the counter, drawn on ZAZ3067 and on the parallel Unite plan ZAZ3181; wide enough to carry the eight letters of the name at the letter width below, with a margin each end |
-| `stern_cartouche_height` | 0.4064 | 1 ft 4 in | RECONSTRUCTED | §12.1 proportion of a period name cartouche to its width |
-| `stern_cartouche_relief` | 0.0762 | — | RECONSTRUCTED | §12.1 depth of the carved relief |
-| `stern_cartouche_bevel` | 0.18 | — | RECONSTRUCTED | §12.1 a name board is chamfered round its edge and left flat inside, so the chamfer takes much less of it than a boss does |
-| `taffrail_ornament_width` | 1.0668 | 3 ft 6 in | RECONSTRUCTED | §5.2 the central carved and gilded cartouche of the taffrail, "a centre of attention within all the decoration" |
-| `taffrail_ornament_height` | 0.3556 | 1 ft 2 in | RECONSTRUCTED | §5.2 flanked by scrollwork and trophies of arms |
-| `taffrail_ornament_relief` | 0.1016 | — | RECONSTRUCTED | §5.2 the centre of attention of the stern, and the boldest cut of any of it |
-| `stern_scroll_relief` | 0.0635 | — | RECONSTRUCTED | §5.2 the scrollwork either side of the taffrail cartouche, cut shallower than the cartouche and dying away toward the quarters |
-| `stern_term_piece_width` | 0.2286 | 0 ft 9 in | RECONSTRUCTED | §12.4 Steel, term pieces: carved work under each end of the taffrail |
-| `stern_term_piece_relief` | 0.0762 | — | RECONSTRUCTED | §12.4 the term piece stands out from the quarter piece it is cut on |
-| `stern_name_letter_height` | 0.2032 | 0 ft 8 in | RECONSTRUCTED | §12.1 name letters 8 in high, half the depth of the cartouche they are cut on |
-| `stern_name_letter_width` | 0.1143 | 0 ft 4.5 in | RECONSTRUCTED | §12.1 a condensed letter about four ninths of its height, as period name boards are lettered |
-| `stern_name_letter_gap` | 0.0635 | — | RECONSTRUCTED | §12.1 the space between one letter and the next, rather more than half a letter width |
-| `stern_name_stroke` | 0.0254 | — | RECONSTRUCTED | §12.1 the width of the cut stroke of a letter |
-| `stern_name_relief` | 0.0381 | — | RECONSTRUCTED | §12.1 the letters stand proud of the field of the cartouche |
-| `stern_name_length` | 1.3843 | 4 ft 6.5 in | RECONSTRUCTED | §12.1 SURPRISE: eight letters of 4½ in with 2½ in between them, and the cut stroke over the ends |
-| `rudder_breadth_at_heel` | 1.0668 | — | RECONSTRUCTED | §6 blade breadth at the heel, about a quarter of the draught |
-| `rudder_breadth_at_head` | 0.4572 | — | RECONSTRUCTED | §6 the main piece at the head, sided a little more than the post |
-| `rudder_thickness` | 0.254 | 0 ft 10 in | RECONSTRUCTED | §6 the main piece moulded, from the measured sternpost siding of 1 ft 1 in |
-| `rudder_head_above_wl` | 4.1148 | 13 ft 6 in | RECONSTRUCTED | §2.2 the head carried up through the counter to the tiller under the quarterdeck |
-| `rudder_height` | 8.3947 | 27 ft 6.5 in | RECONSTRUCTED | §6 heel at the 14 ft 0.5 in aft draught plus head 13 ft 6 in above the LWL; corrected former 17 ft 6 in total which stopped above the keel |
-| `rudder_post_rake_deg` | 2.7 | — | MEASURED | §6 sternpost rake 0.67 ft over 14 ft of height, taken on the rudder's after edge |
+| `stern_tuck_below_wale` | 0.2831 | — | RECONSTRUCTED | §2 the round tuck, where the counter leaves the sternpost, sits a foot under the main wale at the post (draught, stern elevation) |
+| `stern_tuck_overhang` | 1.0038 | — | RECONSTRUCTED | §6 the underside of the counter reaches this far abaft the post at the tuck; least that carries the counter over the rudder head |
+| `stern_tuck_flare_height` | 0.8237 | 2 ft 8.4 in | RECONSTRUCTED | §2 height over which the quarter swings from the narrow tuck out to the full side; the round of the tuck |
+| `stern_overhang_mid_counter` | 1.4157 | — | RECONSTRUCTED | §6 the hollow counter, 1797 model: half way up it stands 5 ft abaft the post |
+| `stern_overhang_counter_top` | 2.4195 | — | RECONSTRUCTED | §6 the foot of the lights stands 8 ft 6 in abaft the post, between the 7.7 ft counter overhang and the 10.5 ft taffrail overhang the research notes give for a 74 |
+| `stern_overhang_walk` | 3.1145 | — | RECONSTRUCTED | §6 the edge of the stern walk, over the lights, 11 ft abaft the post: the taffrail overhang of the 1797 model |
+| `stern_overhang_taffrail_extra` | 0.2059 | — | RECONSTRUCTED | §6 the taffrail beam stands a little proud of the walk edge |
+| `stern_counter_top_below_sill` | 0.2059 | — | RECONSTRUCTED | §6 the lower counter rail, under the sills of the lights |
+| `stern_half_breadth_tuck` | 1.6988 | — | RECONSTRUCTED | §2 the counter at the tuck, a narrow round-bottomed bowl |
+| `stern_half_breadth_mid_counter` | 2.9858 | — | RECONSTRUCTED | §2 the counter half way up |
+| `stern_half_breadth_counter_top` | 3.9639 | — | RECONSTRUCTED | §2 the stern at the lights, 28 Amsterdam ft across, 0.57 of the moulded breadth, read off the stern elevation on the draught |
+| `stern_half_breadth_walk` | 3.9639 | — | RECONSTRUCTED | §2 the stern at the walk edge; the stern tumbles home very little above the lights |
+| `stern_half_breadth_taffrail` | 3.6807 | — | RECONSTRUCTED | §2 the taffrail, tumbled home a little from the walk edge |
+| `stern_transom_breadth_wing` | 8.0307 | — | RECONSTRUCTED | §2 the widest of the counter rails, across the wing transom: twice the half-breadth at the lights and the rail proud of the planking each side |
+| `stern_round_aft_lower` | 0.103 | — | RECONSTRUCTED | §2 round-aft of the lower counter, least at the bottom |
+| `stern_round_aft_upper` | 0.5663 | — | RECONSTRUCTED | §2 round-aft of the taffrail: the middle of a rail stands further aft than its ends, increasing upward |
+| `stern_round_up_taffrail` | 0.2831 | — | RECONSTRUCTED | §2 round-up of the taffrail: the ends of the rail drop below its middle |
+| `stern_quarter_run` | 1.4157 | — | RECONSTRUCTED | §6 the closure lands on the hull 5 ft forward of the post, which is just abaft the last upper-deck port on the traced sheer plan |
+| `stern_corner_radius` | 0.4376 | — | RECONSTRUCTED | §2 the corner of the stern in plan is rounded, not square: the 1797 model |
+| `stern_counter_rail_depth` | 0.1287 | — | RECONSTRUCTED | §2 a counter rail, scantling taken from the wales of the same ship |
+| `stern_counter_rail_proud` | 0.0772 | — | RECONSTRUCTED | §2 a counter rail stands proud of the planking by about its own thickness |
+| `stern_taffrail_above_rail` | 0.2059 | — | RECONSTRUCTED | §2 the taffrail cap stands over the quarterdeck rail line at the post |
+| `stern_taffrail_above_wl` | 8.4683 | 27 ft 9.4 in | RECONSTRUCTED | §2 the taffrail at the quarterdeck rail height aft (29 ft 2 in above the waterline, the traced rail at the post) and its cap of 8 in. The carved crest stands above it |
+| `taffrail_cap_width` | 0.2831 | 0 ft 11.1 in | RECONSTRUCTED | §2 the taffrail cap, as broad as the rail of the quarterdeck bulwark |
+| `taffrail_cap_thickness` | 0.1287 | 0 ft 5.1 in | RECONSTRUCTED | §2 the cap over the taffrail beam |
+| `stern_taffrail_frieze_depth` | 0.2317 | 0 ft 9.1 in | RECONSTRUCTED | §6 the carved board under the cap, closing the top of the open walk |
+| `stern_light_count` | 8 | — | PRIMARY | §2 the Washington draught: the lower tier is four lights each side of the centreline, so eight across; the 1797 model agrees |
+| `stern_panes_wide` | 3 | — | PRIMARY | §2 the draught: each light three panes wide |
+| `stern_panes_high` | 4 | — | PRIMARY | §2 the draught: each light four panes deep |
+| `stern_light_height` | 1.287 | 4 ft 2.7 in | RECONSTRUCTED | §2 the most a light can stand: the cabin is only two metres high, so the head is governed by the quarterdeck over it |
+| `stern_light_sill_above_deck` | 0.5663 | 1 ft 10.3 in | RECONSTRUCTED | §2 sill of a great-cabin light above the upper deck at side |
+| `stern_cabin_ceiling_below_quarterdeck` | 0.2317 | — | RECONSTRUCTED | §3 the quarterdeck planking and its beams over the great cabin |
+| `stern_light_munion` | 0.2831 | — | RECONSTRUCTED | §2 the carved pilaster between two lights |
+| `stern_quarter_piece_width` | 0.2831 | 0 ft 11.1 in | RECONSTRUCTED | §2 the quarter piece bounding the screen of lights each side |
+| `stern_light_frame_depth` | 0.103 | 0 ft 4.1 in | RECONSTRUCTED | §5 the sash frame stands proud of the transom planking |
+| `stern_glazing_rebate` | 0.0381 | — | RECONSTRUCTED | §5 the rebate a crown-glass pane is bedded in, from contemporary sash practice |
+| `stern_glazing_bar` | 0.0254 | — | SECONDARY | §5 wooden glazing bars about 1 in, following contemporary sash practice |
+| `stern_chase_port_width` | 0.9266 | 3 ft 0.5 in | SECONDARY | §6 the two stern-chase ports of the 1797 model: a little narrower than a lower-deck broadside port |
+| `stern_chase_port_height` | 0.8237 | 2 ft 8.4 in | MEASURED | §7 the mean lower-deck port, 2 ft 10 in |
+| `stern_chase_port_offset` | 1.287 | — | RECONSTRUCTED | §6 each port stands this far off the centreline, clear of the rudder head and the central device |
+| `stern_chase_lid_thickness` | 0.0515 | 0 ft 2 in | RECONSTRUCTED | §6 a port lid of two-inch plank, hinged at the head |
+| `stern_chase_lid_open_degrees` | 100 | — | RECONSTRUCTED | §6 a lid triced up under the counter rail when the port is open |
+| `stern_walk_depth` | 1.2098 | 3 ft 11.6 in | RECONSTRUCTED | §6 the open stern walk, 1797 model: the wall of the cabin front stands this far forward of the balustrade |
+| `stern_walk_wall_thickness` | 0.1287 | 0 ft 5.1 in | RECONSTRUCTED | §6 the panelled wall at the back of the walk |
+| `stern_walk_floor_thickness` | 0.0772 | 0 ft 3 in | RECONSTRUCTED | §6 planking of the walk, standing proud of the deck edge |
+| `stern_balustrade_height` | 0.7722 | 2 ft 6.4 in | RECONSTRUCTED | §6 the carved balustrade round the walk, 1797 model |
+| `stern_baluster_pitch` | 0.2317 | — | RECONSTRUCTED | §6 spacing of the turned balusters |
+| `stern_baluster_radius` | 0.0412 | — | RECONSTRUCTED | §6 the swell of a turned baluster |
+| `stern_balustrade_rail_depth` | 0.1287 | 0 ft 5.1 in | RECONSTRUCTED | §6 the top and bottom rails of the balustrade |
+| `stern_walk_opening_count` | 7 | — | SECONDARY | §6 the wall behind the walk, 1797 model: a door in the middle with a window and then an arched light each side, three openings a side |
+| `stern_walk_door_width` | 0.9009 | 2 ft 11.5 in | RECONSTRUCTED | §6 the door to the walk |
+| `stern_walk_window_width` | 0.6435 | 2 ft 1.3 in | RECONSTRUCTED | §6 a window of the walk wall |
+| `stern_walk_window_sill` | 0.4376 | 1 ft 5.2 in | RECONSTRUCTED | §6 the sill of a walk window above the walk floor |
+| `stern_walk_head_below_frieze` | 0.1287 | — | RECONSTRUCTED | §6 the heads of the door and the windows stop short of the frieze |
+| `stern_crest_width` | 2.2651 | 7 ft 5.2 in | RECONSTRUCTED | §6 the central device of the taffrail, with its seated warrior, trophies of arms, cannon and lion: 1797 model |
+| `stern_crest_height` | 1.4157 | 4 ft 7.7 in | RECONSTRUCTED | §6 the crest stands well proud of the cap: a tall carved taffrail |
+| `stern_figure_height` | 1.287 | 4 ft 2.7 in | RECONSTRUCTED | §6 the carved giant at each corner of the taffrail, a Hercules with his club, 1797 model |
+| `stern_figure_pedestal` | 0.4376 | — | RECONSTRUCTED | §6 the carved pedestal under a corner figure |
+| `stern_trophy_height` | 0.8494 | 2 ft 9.4 in | RECONSTRUCTED | §6 a trophy of arms: pikes, a cannon, a shield and a drum |
+| `quarter_gallery_length` | 2.8313 | 9 ft 3.5 in | RECONSTRUCTED | §2 length of the lower rim of the quarter gallery, the 1797 model and the stern elevation |
+| `quarter_gallery_projection` | 0.7207 | — | RECONSTRUCTED | §2 how far a gallery stands off the quarter at its after end |
+| `quarter_gallery_aft_margin` | 0.2831 | — | RECONSTRUCTED | §2 the gallery starts this far forward of the corner of the stern, clear of the pier |
+| `quarter_gallery_light_count` | 3 | — | PRIMARY | §2 each tier of the quarter gallery has three lights; the draught and the 1797 model agree |
+| `quarter_gallery_tier_count` | 2 | — | PRIMARY | §2 two tiers: one in line with the stern lights, one at the level of the walk |
+| `quarter_gallery_upper_sill_above_walk` | 0.2317 | — | RECONSTRUCTED | §2 the sill of the upper tier over the walk floor |
+| `quarter_gallery_upper_height` | 1.0038 | 3 ft 3.5 in | RECONSTRUCTED | §2 the upper tier is as deep as the walk wall allows, up under the rail |
+| `quarter_gallery_frieze_depth` | 0.3861 | 1 ft 3.2 in | RECONSTRUCTED | §2 the carved scroll frieze between the two tiers |
+| `quarter_gallery_crest_height` | 0.489 | 1 ft 7.3 in | RECONSTRUCTED | §2 the acanthus crest over the upper tier |
+| `quarter_gallery_pendant_drop` | 0.7207 | — | RECONSTRUCTED | §2 the carved pendant that hangs from the after end below the lower tier |
+| `quarter_gallery_frame_proud` | 0.0386 | — | RECONSTRUCTED | §2 the sash frame of a gallery light stands proud of the gallery planking |
+| `quarter_gallery_pilaster` | 0.1544 | — | RECONSTRUCTED | §2 the carved post between two lights of a gallery |
+| `stern_carving_bevel` | 0.42 | — | RECONSTRUCTED | §6 the ground cut away round a piece of carved work; about two fifths of its half-width taken by the chamfer, leaving a field in the middle |
+| `stern_carving_panel_corner` | 3 | — | RECONSTRUCTED | §6 a carved panel is worked square with the corners rounded off, not drawn as a lens |
+| `stern_carving_relief` | 0.0772 | — | RECONSTRUCTED | §6 the depth of a carved boss on the counter and the frieze |
+| `stern_counter_device_width` | 1.5701 | — | RECONSTRUCTED | §6 the carved device on the counter between the two chase ports |
+| `stern_counter_device_height` | 0.489 | — | RECONSTRUCTED | §6 proportion of the counter device to its width |
+| `stern_scroll_relief` | 0.0772 | — | RECONSTRUCTED | §6 scrollwork of the frieze, cut shallower than the device and dying away toward the quarters |
+| `stern_term_piece_width` | 0.3346 | 1 ft 1.2 in | RECONSTRUCTED | §6 the carved pier under each corner figure |
+| `rudder_breadth_at_heel` | 1.2355 | — | RECONSTRUCTED | §6 blade breadth at the heel, about a fifth of the draught |
+| `rudder_breadth_at_head` | 0.5663 | — | RECONSTRUCTED | §6 the main piece at the head, narrower than at the heel |
+| `rudder_thickness` | 0.2831 | 0 ft 11.1 in | RECONSTRUCTED | §6 the main piece moulded, a little more than the post is sided |
+| `rudder_head_below_tuck` | 0.0257 | — | RECONSTRUCTED | §6 the blade ends under the counter, and the head goes up through the tuck to the tiller on the lower deck |
+| `rudder_height` | 7.9535 | 26 ft 1.1 in | RECONSTRUCTED | §6 heel at the underside of the false keel, 5.82 m below the waterline, to the head just under the tuck, 2.1 m above it: about 28 Amsterdam ft for a 74 |
+| `rudder_post_rake_deg` | 1.86 | — | MEASURED | §7 sternpost rabbet traced on the sheer plan: 0.26 m of rake over 7.9 m of height |
 | `rudder_pintle_count` | 5 | — | RECONSTRUCTED | §6 five pairs of pintles and gudgeons on a rudder of this depth |
-| `rudder_iron_width` | 0.1016 | 0 ft 4 in | RECONSTRUCTED | §6 the straps of the pintles and gudgeons |
-| `rudder_iron_thickness` | 0.0381 | 0 ft 1.5 in | RECONSTRUCTED | §6 wrought-iron strap thickness |
-| `tiller_length` | 3.3528 | 11 ft 0 in | RECONSTRUCTED | §2.2 long enough to reach the sweep abaft the wheel at 107 ft 6 in from the stem |
-| `tiller_diameter` | 0.1778 | 0 ft 7 in | RECONSTRUCTED | §2.2 tiller at the rudder head, tapering forward |
-| `ensign_staff_step_abaft_tuck` | 1.2192 | — | RECONSTRUCTED | §12.4 Steel, "the ensign staff is secured in the stern timbers" |
-| `stern_lantern_height` | 0.6096 | 2 ft 0 in | RECONSTRUCTED | §12.4 one lantern for a Sixth Rate, on an iron crank in the taffrail |
-| `stern_lantern_breadth` | 0.381 | 1 ft 3 in | RECONSTRUCTED | §12.4 octagonal, copper and glass |
+| `rudder_iron_width` | 0.1287 | 0 ft 5.1 in | RECONSTRUCTED | §6 the straps of the pintles and gudgeons |
+| `rudder_iron_thickness` | 0.0515 | 0 ft 2 in | RECONSTRUCTED | §6 wrought-iron strap thickness |
+| `tiller_length` | 3.1145 | 10 ft 2.6 in | RECONSTRUCTED | §6 the tiller on the lower deck, long enough to reach the tiller ropes abaft the mizzen |
+| `tiller_diameter` | 0.1802 | 0 ft 7.1 in | RECONSTRUCTED | §6 tiller at the rudder head, tapering forward |
 | `stern_chaser_count` | 2 | — | SECONDARY | §3 two stern chase ports in the counter, on the 1797 model of the Washington herself (RMG SLR0591) and on the Vrijheid model |
 | `stern_chaser_pounds` | 24 | — | RECONSTRUCTED | §3 the counter ports are at upper-deck height, so the chasers are the upper tier's own 24-pounders |
 | `stern_chaser_train_deg` | 5 | — | RECONSTRUCTED | §3 a stern chaser looks nearly dead aft through a port in the counter, a little outboard to clear the rudder head |
@@ -462,109 +458,145 @@ chasers, the topgallants); period rules fill the rest, and every row says which 
 
 | key | metric | period figure | grade | source |
 |---|---|---|---|---|
-| `head_stem_siding` | 0.3302 | 1 ft 1 in | RECONSTRUCTED | §6 Steel: the stem is sided as the keel, and the keel of this ship is sided 1 ft 1 in (SPEC.keel_siding) |
-| `head_stem_aft_overlap` | 0.1524 | — | RECONSTRUCTED | modelling allowance: how far abaft the hull's foremost station the stem timber is carried, so that it closes the fore end of the lofted shell |
-| `head_stem_copper_above_waterline` | 0.762 | — | SECONDARY | §8 research 08 §3.5, sheathing carried 2 ft 6 in to 3 ft above the load waterline; the same height is used on the stem as on the hull |
-| `head_stem_sheathing_proud` | 0.0254 | — | RECONSTRUCTED | §8 the sheathing board and the copper over it, standing proud of the bare stem |
-| `head_stem_head_above_rail` | 0.2286 | — | MEASURED | §2 ZAZ3067 sheer profile, traced off the RMG scan at 6.021 px per foot; stem at x=1112 px, rail at y=141 px: the stem head between the knightheads reads 4 to 5 px above the rail line |
-| `head_knee_siding` | 0.2794 | 0 ft 11 in | RECONSTRUCTED | §6 Steel :41236 the gripe is sided as the knee of the head; a knee slightly thinner than the stem it lies against |
-| `head_knee_projection` | 3.6576 | — | MEASURED | §2 ZAZ3067 sheer profile, traced off the RMG scan at 6.021 px per foot; stem at x=1112 px, rail at y=141 px: the foremost ink of the head stands 75 px forward of the stem |
-| `head_knee_top_above_rail` | 0 | — | MEASURED | §2 ZAZ3067 sheer profile, traced off the RMG scan at 6.021 px per foot; stem at x=1112 px, rail at y=141 px: the top of the knee under the hair bracket runs out level with the rail |
-| `head_knee_forward_at_deck` | 2.8956 | — | MEASURED | §2 ZAZ3067 sheer profile, traced off the RMG scan at 6.021 px per foot; stem at x=1112 px, rail at y=141 px: the cutwater's fore edge crossing the gun-deck line |
-| `head_knee_forward_at_waterline` | 1.2192 | — | RECONSTRUCTED | : the cutwater at the load waterline. The draught shows the stem raking aft below the water, which the traced offset table does not carry, so the fore edge is kept plumb over the hull's own forefoot here rather than crossing behind it |
-| `head_knee_upper_exponent` | 0.8 | — | MEASURED | §2 ZAZ3067 sheer profile, traced off the RMG scan at 6.021 px per foot; stem at x=1112 px, rail at y=141 px: read off the upper edge of the knee |
-| `head_knee_length` | 3.81 | 12 ft 6 in | MEASURED | §2 ZAZ3067 sheer profile, traced off the RMG scan at 6.021 px per foot; stem at x=1112 px, rail at y=141 px: the knee and stem together, from the aft face of the stem timber to the hair bracket — the fore-and-aft extent of the built piece |
-| `head_cheek_count` | 2 | — | SECONDARY | §6 Steel :1985, an upper and a lower cheek each side |
-| `head_cheek_sided` | 0.1524 | — | RECONSTRUCTED | §6 a cheek rather lighter than the knee it is bolted to |
-| `head_cheek_moulded` | 0.2286 | — | RECONSTRUCTED | §6 as above |
-| `head_cheek_aft_from_stem` | 2.7432 | 9 ft 0 in | MEASURED | §2 ZAZ3067 sheer profile, traced off the RMG scan at 6.021 px per foot; stem at x=1112 px, rail at y=141 px: the after ends of the cheeks fair into the bow about 54 px abaft the stem |
-| `head_rail_count` | 3 | — | SECONDARY | §8 the reference photograph shows three rails curving up to the figurehead; Steel :4172 names four (lower, middle, main, upper) plus a false rail, so this is the photograph's reading of a four-rail arrangement |
-| `head_rail_sided` | 0.127 | — | SECONDARY | §6 Steel :41199, the false rail sided 5 in for a small ship |
-| `head_rail_moulded` | 0.1778 | — | RECONSTRUCTED | §6 a rail rather deeper than it is broad, as the draught draws them |
-| `head_rail_profile_exponent` | 1.44 | — | MEASURED | §2 ZAZ3067 sheer profile, traced off the RMG scan at 6.021 px per foot; stem at x=1112 px, rail at y=141 px: re-fitted to the same four points on the lowest rail — see the note above |
-| `head_rail_lower_aft_from_stem` | 0.3048 | 1 ft 0 in | MEASURED | §2 ZAZ3067 sheer profile, traced off the RMG scan at 6.021 px per foot; stem at x=1112 px, rail at y=141 px: the lowest rail runs into the ship's side within a foot of the stem, at about the gun-deck line |
-| `head_rail_lower_fore_above_rail` | 0.1524 | — | MEASURED | §2 ZAZ3067 sheer profile, traced off the RMG scan at 6.021 px per foot; stem at x=1112 px, rail at y=141 px |
-| `head_rail_lower_half_breadth` | 1.3716 | 4 ft 6 in | RECONSTRUCTED | : no plan view of the head survives, so the three plan widths are set against the reference photograph and bounded by the catheads, which no head rail passes outside of |
-| `head_rail_middle_aft_from_stem` | 1.8288 | 6 ft 0 in | MEASURED | §2 ZAZ3067 sheer profile, traced off the RMG scan at 6.021 px per foot; stem at x=1112 px, rail at y=141 px |
-| `head_rail_middle_fore_above_rail` | 0.4572 | — | MEASURED | §2 ZAZ3067 sheer profile, traced off the RMG scan at 6.021 px per foot; stem at x=1112 px, rail at y=141 px |
-| `head_rail_middle_half_breadth` | 1.905 | 6 ft 3 in | RECONSTRUCTED | : as head_rail_lower_half_breadth |
-| `head_rail_main_aft_from_stem` | 3.6576 | 12 ft 0 in | SECONDARY | §6 Steel :15364, the after end of the main head rail bolts to the same timberhead the cat block does, so it ends at the cathead |
-| `head_rail_main_fore_above_rail` | 0.762 | — | MEASURED | §2 ZAZ3067 sheer profile, traced off the RMG scan at 6.021 px per foot; stem at x=1112 px, rail at y=141 px: the uppermost rail runs into the back of the figure about 15 px above the rail line |
-| `head_rail_main_half_breadth` | 2.4384 | 8 ft 0 in | RECONSTRUCTED | : the main rail sweeps out in plan to a little more than half the extreme half-breadth, and well inside the cathead at 14 ft 6 in |
-| `head_timber_count` | 4 | — | SECONDARY | §6 research 06-deck-layout §11, head structure: Steel :3133 defines the head timbers but tabulates no count; four a side is the Sixth-Rate norm — RECONSTRUCTED |
-| `head_timber_sided` | 0.127 | — | RECONSTRUCTED | §6 a head timber sided as the rails it crosses |
-| `head_timber_moulded` | 0.1016 | — | RECONSTRUCTED | §6 as above |
-| `head_grating_aft_from_stem` | 0.3048 | 1 ft 0 in | RECONSTRUCTED | : the after end of the flat of the head, where it meets the bow |
-| `head_grating_forward_of_stem` | 2.4384 | — | RECONSTRUCTED | : the fore end of the flat, short of the hair bracket |
-| `head_grating_above_lower_rail` | 0.1016 | — | RECONSTRUCTED | : the ledges and gratings laid on top of the lowest rail |
-| `head_ledge_sided` | 0.0508 | — | SECONDARY | §6 Steel :41205, ledges framing the flat of the head, 2 in broad |
-| `head_ledge_moulded` | 0.0572 | — | SECONDARY | §6 Steel :41206, 2 1/4 in deep |
-| `head_grating_batten_square` | 0.0508 | — | SECONDARY | §6 Steel :1293, grating battens about 2 in square |
-| `head_grating_batten_gap` | 0.0508 | — | SECONDARY | §6 Steel :2968, laid to leave about 2 in openings |
-| `head_seat_count` | 2 | — | SECONDARY | §6 research 06-deck-layout §11, head structure §11.2: Steel :41211 says only "Seats of Ease, &c., as directed"; two open seats on the flat, one each side of the knee — RECONSTRUCTED |
-| `head_seat_forward_of_stem` | 0.9144 | — | SECONDARY | §6 research 06-deck-layout §11, head structure §11.2, RECONSTRUCTED position |
-| `head_seat_half_breadth` | 0.762 | 2 ft 6 in | SECONDARY | §6 research 06-deck-layout §11, head structure §11.2, RECONSTRUCTED position |
+| `head_trace_keel_noise` | 0.05 | — | RECONSTRUCTED | modelling allowance: the first 42 points of OFFSETS.stem.fore_edge lie on the underside of the keel, not on the stem; points within this much of the keel's bottom are dropped |
+| `head_stem_siding` | 0.592 | 1 ft 11.3 in | MEASURED | §2 the Washington draught, NA 4.MST inv. 59, traced into OFFSETS.stem; sided as the keel, which is the siding the loft closes at its foremost station |
+| `head_knee_projection` | 4.309 | — | MEASURED | §2 the Washington draught, NA 4.MST inv. 59, traced into OFFSETS.stem: the fore edge's top point stands 4.31 m forward of the loft's foremost station (-22.59 m); it is the fore-and-aft length of the built stem and knee |
+| `head_bow_round_length` | 1.6002 | 5 ft 3 in | RECONSTRUCTED | §3 how far the round of the bow carries the hull's plan forward of its foremost station before the knee takes over; a Dutch bow is full, and the hawse holes (OFFSETS.hawse) stand on this round |
+| `head_bow_plan_exponent` | 2.3 | — | RECONSTRUCTED | §3 the plan of the round of the bow, x^p + y^p = 1: 2 is an ellipse, higher is fuller; the loft's own end stations are a bluff round (docs/research/07-tracing.md) |
+| `head_knee_siding` | 0.5148 | 1 ft 8.3 in | RECONSTRUCTED | §6 Steel (1805) scantlings for a 74, no Dutch figure found; the knee of the head sided a little less than the stem it springs from |
+| `head_knee_overlap` | 0.508 | — | RECONSTRUCTED | modelling allowance: how far the foot of the knee is buried in the round of the bow |
+| `head_knee_thickness_base` | 0.6858 | — | RECONSTRUCTED | §6 Steel (1805) scantlings for a 74, no Dutch figure found; the knee's moulding where it leaves the bow |
+| `head_knee_thickness_head` | 0.381 | — | RECONSTRUCTED | §6 Steel (1805) scantlings for a 74, no Dutch figure found; and at its head under the hair bracket |
+| `head_cheek_thickness` | 0.1524 | 0 ft 6 in | RECONSTRUCTED | §6 Steel (1805) scantlings for a 74, no Dutch figure found; the cheeks bolted either side of the knee |
+| `head_trailboard_inset` | 0.14 | — | SECONDARY | §6 Rijksmuseum NG-MC-500, the 74 Vrijheid, c.1782: the carved board runs down the knee between its edges, a seventh of the knee's thickness in from each |
+| `head_trailboard_proud` | 0.0635 | — | SECONDARY | §6 Rijksmuseum NG-MC-500, the 74 Vrijheid, c.1782: the ochre trailboard stands a little proud of the black knee |
+| `head_trophy_count` | 4 | — | SECONDARY | §6 Rijksmuseum NG-MC-500, the 74 Vrijheid, c.1782: trophies of arms in gilt on each trailboard, a drum, a shield and crossed pikes; four a side |
+| `head_trophy_size` | 0.1778 | — | RECONSTRUCTED | §6 a trophy about a foot across on a board two feet deep |
+| `head_hair_bracket_sided` | 0.254 | — | RECONSTRUCTED | §6 Steel (1805) scantlings for a 74, no Dutch figure found; the gilt scroll that carries the knee into the lion's plinth |
+| `head_hair_bracket_moulded` | 0.1778 | — | RECONSTRUCTED | §6 Steel (1805) scantlings for a 74, no Dutch figure found; as above |
+| `head_platform_above_deck` | 0 | 0 ft 0 in | SECONDARY | §3 Rijksmuseum NG-MC-279, half model of a 74, c.1806 ("a beakhead bulkhead, a platform"): the platform of the head is laid at the level of the upper deck at the foot of the bulkhead, so the ship's people walk straight out onto it |
+| `head_platform_thickness` | 0.1016 | 0 ft 4 in | RECONSTRUCTED | §3 the head platform's beams and planking |
+| `head_platform_short_of_knee` | 0.3556 | — | RECONSTRUCTED | §3 the platform stops short of the head of the knee, where the lion's plinth begins |
+| `head_grating_batten_square` | 0.0508 | — | SECONDARY | §6 Steel, grating battens about 2 in square |
+| `head_grating_batten_gap` | 0.0508 | — | SECONDARY | §6 Steel, laid to leave about 2 in openings |
+| `head_ledge_sided` | 0.0508 | — | SECONDARY | §6 Steel, ledges framing the flat of the head, 2 in broad |
+| `head_ledge_moulded` | 0.0572 | — | SECONDARY | §6 Steel, 2 1/4 in deep |
+| `head_ledge_spacing` | 0.4572 | 1 ft 6 in | RECONSTRUCTED | §6 the cross-ledges of a head grating |
+| `head_seat_count` | 2 | — | RECONSTRUCTED | §6 Steel says only "Seats of Ease, &c., as directed"; two open seats on the platform, one each side |
+| `head_seat_forward_of_end` | 1.0668 | — | RECONSTRUCTED | §6 on the platform clear of the bulkhead and the knightheads |
 | `head_seat_width` | 0.508 | 1 ft 8 in | RECONSTRUCTED | : a seat wide enough for one man |
 | `head_seat_depth` | 0.4572 | 1 ft 6 in | RECONSTRUCTED | : as above |
-| `head_seat_height` | 0.4064 | 1 ft 4 in | RECONSTRUCTED | : seat height above the grating |
-| `head_seat_back_height` | 0.4572 | 1 ft 6 in | RECONSTRUCTED | : the coaming behind the seat |
-| `beakhead_bulkhead_from_stem` | 3.6576 | 12 ft 0 in | RECONSTRUCTED | §6 research 06 §5.4: the cat beam is the foremost forecastle beam and the cathead root is at 12 ft, so the bulkhead stands there. Research 06 §11.3 says X = 0 ft, which cannot be right — the hull is 4 in wide at the stem |
-| `beakhead_bulkhead_height` | 1.8288 | 6 ft 0 in | RECONSTRUCTED | §6 a bulkhead tall enough to take a round-house and a head door, with its head at the forecastle rail |
-| `beakhead_bulkhead_above_rail` | 0.2286 | — | RECONSTRUCTED | §6 Steel :39518, the rough-tree rail carried round the bow above the bulkhead |
-| `beakhead_bulkhead_round_forward` | 0.4572 | — | RECONSTRUCTED | §6 Steel's beakhead bulkheads are rounded in plan; this ship has a round bow (ZAZ3067), so the middle of the bulkhead stands forward of its wings |
-| `beakhead_stanchion_per_side` | 5 | — | SECONDARY | §6 Steel :17843-17855, five stanchions each side of the centreline |
-| `beakhead_stanchion_sided` | 0.1778 | — | RECONSTRUCTED | §6 a stanchion sided as a top timber |
-| `beakhead_plank_thickness` | 0.0762 | 0 ft 3 in | RECONSTRUCTED | §6 the bulkhead planked as the ship's side above the ports |
-| `head_roundhouse_width` | 0.8382 | 2 ft 9 in | SECONDARY | §6 research 06-deck-layout §11, head structure §11.2: Steel :17846 keeps the two outer stanchions to the size of the round-houses; no dimension is given — RECONSTRUCTED as a privy for one man |
-| `head_roundhouse_depth` | 0.762 | 2 ft 6 in | RECONSTRUCTED | §6 as above |
-| `head_roundhouse_height` | 1.524 | 5 ft 0 in | RECONSTRUCTED | §6 as above |
-| `head_door_width` | 0.6604 | 2 ft 2 in | RECONSTRUCTED | §6 Steel :17849, the stanchion next inboard of the bow chase port makes the head door |
-| `head_door_height` | 1.3716 | 4 ft 6 in | RECONSTRUCTED | §6 as above |
-| `bow_chase_port_width` | 0.7112 | 2 ft 4 in | SECONDARY | §6 Steel, quarterdeck port width used for the bow chase port in the bulkhead (research 06 §9) |
-| `bow_chase_port_height` | 0.7112 | 2 ft 4 in | SECONDARY | §6 as above |
-| `knighthead_half_breadth` | 0.3556 | 1 ft 2 in | SECONDARY | §6 research 06-deck-layout §5.3, knightheads: immediately each side of the stem head, from Steel :15347's stem half-thickness — RECONSTRUCTED |
-| `knighthead_sided` | 0.254 | — | RECONSTRUCTED | §6 a bollard timber heavier than a top timber |
-| `knighthead_above_bowsprit` | 0.4572 | — | SECONDARY | §6 Steel :15357-15359, the knightheads run high enough above the bowsprit to admit a chock between them |
-| `cathead_root_from_stem` | 3.6576 | 12 ft 0 in | SECONDARY | §6 research 06-deck-layout §5.4, catheads: the inboard arm bolts to the cat beam |
-| `cathead_root_half_breadth` | 3.048 | 10 ft 0 in | SECONDARY | §6 research 06-deck-layout §5.4, catheads |
-| `cathead_outer_from_stem` | 2.4384 | 8 ft 0 in | SECONDARY | §6 research 06-deck-layout §5.4, catheads: the sheave centre at the outer end |
-| `cathead_outer_half_breadth` | 4.4196 | 14 ft 6 in | SECONDARY | §6 research 06-deck-layout §5.4, catheads |
-| `cathead_spread` | 8.8392 | — | SECONDARY | §6 research 06-deck-layout §5.4, catheads: twice cathead_outer_half_breadth, the athwartships span over the two outer ends |
-| `cathead_stive_deg` | 22.6 | — | SECONDARY | §6 Steel :40062-40064, 5 in of rise per foot of length; the whole row is legible across all ten columns |
-| `cathead_sided` | 0.3556 | — | SECONDARY | §6 Steel :40060, OCR-doubtful |
-| `cathead_moulded` | 0.3302 | — | SECONDARY | §6 Steel :40061, OCR-doubtful |
-| `cathead_inboard_length` | 2.5908 | 8 ft 6 in | SECONDARY | §6 Steel :40066, length inboard from the outside of the timber, OCR-doubtful |
-| `cathead_sheave_count` | 3 | — | SECONDARY | §6 Steel :40068-40069, three sheaves in the outer end |
-| `cathead_sheave_diameter` | 0.254 | 0 ft 10 in | SECONDARY | §6 Steel :40069, OCR-doubtful |
-| `cathead_supporter_arm` | 1.0668 | — | SECONDARY | §6 Steel :40074, the thwartship arm of the knee under the cathead |
-| `figurehead_forward_of_stem` | 3.3528 | — | RECONSTRUCTED | §8 research 08-paint-and-ornament §4.4 — CONJECTURAL: the figurehead of this ship is not documented anywhere; this is a classical female figure reconstructed from the ship's name and period practice, NOT the film ship's woman with sword and shield; sited on the head of the knee where ZAZ3067 draws a small figure, 66 px forward of the stem |
-| `figurehead_above_rail` | 0.1524 | — | RECONSTRUCTED | §8 research 08-paint-and-ornament §4.4 — CONJECTURAL: the figurehead of this ship is not documented anywhere; this is a classical female figure reconstructed from the ship's name and period practice, NOT the film ship's woman with sword and shield; the plinth on the hair bracket |
-| `figurehead_height` | 1.2192 | 4 ft 0 in | RECONSTRUCTED | §8 research 08-paint-and-ornament §4.4 — CONJECTURAL: the figurehead of this ship is not documented anywhere; this is a classical female figure reconstructed from the ship's name and period practice, NOT the film ship's woman with sword and shield; research 08 §4.4 — "the scale was drastically reduced", so a small figure |
-| `figurehead_rake_deg` | 30 | — | RECONSTRUCTED | §8 research 08-paint-and-ornament §4.4 — CONJECTURAL: the figurehead of this ship is not documented anywhere; this is a classical female figure reconstructed from the ship's name and period practice, NOT the film ship's woman with sword and shield; the figure leans forward over the water, following the run of the head |
-| `figurehead_hem_diameter` | 0.6096 | 2 ft 0 in | RECONSTRUCTED | §8 research 08-paint-and-ornament §4.4 — CONJECTURAL: the figurehead of this ship is not documented anywhere; this is a classical female figure reconstructed from the ship's name and period practice, NOT the film ship's woman with sword and shield; the spread of the drapery at the plinth |
-| `figurehead_waist_diameter` | 0.3556 | 1 ft 2 in | RECONSTRUCTED | §8 research 08-paint-and-ornament §4.4 — CONJECTURAL: the figurehead of this ship is not documented anywhere; this is a classical female figure reconstructed from the ship's name and period practice, NOT the film ship's woman with sword and shield |
-| `figurehead_waist_height` | 0.6858 | 2 ft 3 in | RECONSTRUCTED | §8 research 08-paint-and-ornament §4.4 — CONJECTURAL: the figurehead of this ship is not documented anywhere; this is a classical female figure reconstructed from the ship's name and period practice, NOT the film ship's woman with sword and shield |
-| `figurehead_shoulder_height` | 0.9144 | 3 ft 0 in | RECONSTRUCTED | §8 research 08-paint-and-ornament §4.4 — CONJECTURAL: the figurehead of this ship is not documented anywhere; this is a classical female figure reconstructed from the ship's name and period practice, NOT the film ship's woman with sword and shield; set so that the neck and the head together make up the remaining quarter of her height |
-| `figurehead_shoulder_breadth` | 0.4064 | 1 ft 4 in | RECONSTRUCTED | §8 research 08-paint-and-ornament §4.4 — CONJECTURAL: the figurehead of this ship is not documented anywhere; this is a classical female figure reconstructed from the ship's name and period practice, NOT the film ship's woman with sword and shield |
-| `figurehead_head_diameter` | 0.2286 | 0 ft 9 in | RECONSTRUCTED | §8 research 08-paint-and-ornament §4.4 — CONJECTURAL: the figurehead of this ship is not documented anywhere; this is a classical female figure reconstructed from the ship's name and period practice, NOT the film ship's woman with sword and shield |
-| `figurehead_arm_diameter` | 0.1016 | 0 ft 4 in | RECONSTRUCTED | §8 research 08-paint-and-ornament §4.4 — CONJECTURAL: the figurehead of this ship is not documented anywhere; this is a classical female figure reconstructed from the ship's name and period practice, NOT the film ship's woman with sword and shield |
-| `figurehead_arm_length` | 0.5334 | 1 ft 9 in | RECONSTRUCTED | §8 research 08-paint-and-ornament §4.4 — CONJECTURAL: the figurehead of this ship is not documented anywhere; this is a classical female figure reconstructed from the ship's name and period practice, NOT the film ship's woman with sword and shield |
-| `figurehead_neck_diameter` | 0.1143 | 0 ft 4.5 in | RECONSTRUCTED | §8 research 08-paint-and-ornament §4.4 — CONJECTURAL: the figurehead of this ship is not documented anywhere; this is a classical female figure reconstructed from the ship's name and period practice, NOT the film ship's woman with sword and shield; the neck at three fifths of the head, so that the head reads as a head and not as a knob on the shoulders |
-| `figurehead_neck_height` | 0.0762 | 0 ft 3 in | RECONSTRUCTED | §8 research 08-paint-and-ornament §4.4 — CONJECTURAL: the figurehead of this ship is not documented anywhere; this is a classical female figure reconstructed from the ship's name and period practice, NOT the film ship's woman with sword and shield; the gap between the shoulder line and the chin |
-| `figurehead_chest_breadth` | 0.381 | 1 ft 3 in | RECONSTRUCTED | §8 research 08-paint-and-ornament §4.4 — CONJECTURAL: the figurehead of this ship is not documented anywhere; this is a classical female figure reconstructed from the ship's name and period practice, NOT the film ship's woman with sword and shield; the body between the waist and the shoulder, wider than the waist and narrower than the shoulder, which is what gives the torso its taper |
-| `figurehead_hip_breadth` | 0.4318 | 1 ft 5 in | RECONSTRUCTED | §8 research 08-paint-and-ornament §4.4 — CONJECTURAL: the figurehead of this ship is not documented anywhere; this is a classical female figure reconstructed from the ship's name and period practice, NOT the film ship's woman with sword and shield; the drapery over the hips, the widest of the body above the hem |
-| `figurehead_hip_height` | 0.4572 | 1 ft 6 in | RECONSTRUCTED | §8 research 08-paint-and-ornament §4.4 — CONJECTURAL: the figurehead of this ship is not documented anywhere; this is a classical female figure reconstructed from the ship's name and period practice, NOT the film ship's woman with sword and shield; the hips, under the drapery |
-| `figurehead_plinth_diameter` | 0.508 | 1 ft 8 in | RECONSTRUCTED | §8 research 08-paint-and-ornament §4.4 — CONJECTURAL: the figurehead of this ship is not documented anywhere; this is a classical female figure reconstructed from the ship's name and period practice, NOT the film ship's woman with sword and shield; the foot of the carving where it is let into the hair bracket, narrower than the hem because the drapery rolls under above it |
-| `figurehead_hem_height` | 0.1016 | 0 ft 4 in | RECONSTRUCTED | §8 research 08-paint-and-ornament §4.4 — CONJECTURAL: the figurehead of this ship is not documented anywhere; this is a classical female figure reconstructed from the ship's name and period practice, NOT the film ship's woman with sword and shield; how far above the plinth the drapery stands widest |
-| `figurehead_depth_fraction` | 0.62 | — | RECONSTRUCTED | §8 research 08-paint-and-ornament §4.4 — CONJECTURAL: the figurehead of this ship is not documented anywhere; this is a classical female figure reconstructed from the ship's name and period practice, NOT the film ship's woman with sword and shield; the fore-and-aft depth of the carving as a fraction of its athwartships breadth — a figurehead is carved out of a stack sided close to the knee of the head, so it is a flat-backed relief rather than a statue in the round |
-| `figurehead_arm_forward_deg` | 24 | — | RECONSTRUCTED | §8 research 08-paint-and-ornament §4.4 — CONJECTURAL: the figurehead of this ship is not documented anywhere; this is a classical female figure reconstructed from the ship's name and period practice, NOT the film ship's woman with sword and shield; both arms carried forward of the body, which is the pose every surviving small figurehead of the date is carved in and the one thing that reads at a distance |
-| `figurehead_arm_spread_deg` | 16 | — | RECONSTRUCTED | §8 research 08-paint-and-ornament §4.4 — CONJECTURAL: the figurehead of this ship is not documented anywhere; this is a classical female figure reconstructed from the ship's name and period practice, NOT the film ship's woman with sword and shield; and spread a little off the sides, so the arms show against the drapery instead of disappearing into it |
-| `figurehead_mantle_top_below_head` | 0.0508 | — | RECONSTRUCTED | §8 research 08-paint-and-ornament §4.4 — CONJECTURAL: the figurehead of this ship is not documented anywhere; this is a classical female figure reconstructed from the ship's name and period practice, NOT the film ship's woman with sword and shield; the collar of the mantle, just below the neck |
-| `figurehead_mantle_below_waist` | 0.127 | — | RECONSTRUCTED | §8 research 08-paint-and-ornament §4.4 — CONJECTURAL: the figurehead of this ship is not documented anywhere; this is a classical female figure reconstructed from the ship's name and period practice, NOT the film ship's woman with sword and shield; the mantle falling a little past the waist, which is where the blue stops and the pale robe begins in the reference photograph |
-| `figurehead_mantle_proud` | 0.0254 | — | RECONSTRUCTED | §8 research 08-paint-and-ornament §4.4 — CONJECTURAL: the figurehead of this ship is not documented anywhere; this is a classical female figure reconstructed from the ship's name and period practice, NOT the film ship's woman with sword and shield; the cloth standing off the body |
-| `hair_bracket_length` | 1.2192 | 4 ft 0 in | SECONDARY | §6 Steel :3043, the moulding terminating the head rails and running into the back of the figure |
-| `hair_bracket_sided` | 0.127 | — | RECONSTRUCTED | §6 a moulding sided as the rails it gathers |
-| `trailboard_depth` | 0.3048 | 1 ft 0 in | RECONSTRUCTED | §8 research 08 §4.4, "very limited trailboard decoration" on a small ship of this date |
+| `head_seat_height` | 0.4064 | 1 ft 4 in | RECONSTRUCTED | : height above the grating |
+| `head_seat_back_height` | 0.9144 | 3 ft 0 in | RECONSTRUCTED | : the coaming behind the seat, to the rail |
+| `head_rail_count` | 3 | — | PRIMARY | §2 the Washington draught shows three curved head rails; SECONDARY §6 Rijksmuseum NG-MC-500, the 74 Vrijheid, c.1782 shows three |
+| `head_rail_sided` | 0.1778 | — | RECONSTRUCTED | §6 Steel (1805) scantlings for a 74, no Dutch figure found; the head rails, sided |
+| `head_rail_moulded` | 0.2286 | — | RECONSTRUCTED | §6 Steel (1805) scantlings for a 74, no Dutch figure found; the head rails, moulded |
+| `head_rail_off_hull` | 0.1016 | — | RECONSTRUCTED | §3 the rail stands this far off the planking where it follows the bow wing |
+| `head_rail_end_half_breadth` | 0.2794 | 0 ft 11 in | RECONSTRUCTED | §3 half the plan breadth of a rail's fore end where it lands on the lion's back |
+| `head_rail_plan_exponent` | 1.9 | — | SECONDARY | §6 Rijksmuseum NG-MC-500, the 74 Vrijheid, c.1782: the rails' plan, x^p + y^p = 1 from the end of the hull to the lion: a wide round head, as the model has it |
+| `head_rail_profile_exponent` | 1.6 | — | SECONDARY | §6 Rijksmuseum NG-MC-500, the 74 Vrijheid, c.1782: the rails fall quickly off the bow and ease into the figure; the fraction of the fall made at a fraction w of the run is 1-(1-w)^p |
+| `head_rail_lower_abaft_end` | 1.6002 | — | RECONSTRUCTED | §3 the lowest rail lands on the flank this far abaft the loft's foremost station, level with the platform |
+| `head_rail_lower_aft_above_platform` | 0.254 | — | RECONSTRUCTED | §3 the lowest rail is the edge of the platform |
+| `head_rail_lower_on_figure` | 0.4064 | — | RECONSTRUCTED | §3 height above the plinth at which the lowest rail meets the lion's haunch |
+| `head_rail_middle_abaft_end` | 1.397 | — | RECONSTRUCTED | §3 |
+| `head_rail_middle_aft_above_platform` | 1.2192 | — | RECONSTRUCTED | §3 the middle rail lands about a deck-beam's depth above the platform |
+| `head_rail_middle_on_figure` | 0.9906 | — | RECONSTRUCTED | §3 meets the lion's flank |
+| `head_rail_main_abaft_end` | 2.286 | — | RECONSTRUCTED | §3 the main rail lands at the cathead, where the forecastle rail is |
+| `head_rail_main_aft_below_rail` | 0.127 | — | RECONSTRUCTED | §3 the main rail is the forecastle rail's own line carried forward |
+| `head_rail_main_on_figure` | 1.6002 | — | RECONSTRUCTED | §3 meets the lion's back at the shoulder |
+| `head_timber_count` | 3 | — | SECONDARY | §6 Rijksmuseum NG-MC-500, the 74 Vrijheid, c.1782: three head timbers a side between the rails |
+| `head_timber_sided` | 0.1524 | — | RECONSTRUCTED | §6 Steel (1805) scantlings for a 74, no Dutch figure found |
+| `head_timber_moulded` | 0.127 | — | RECONSTRUCTED | §6 Steel (1805) scantlings for a 74, no Dutch figure found |
+| `beakhead_bulkhead_abaft_end` | 0.8 | — | SECONDARY | §3 Rijksmuseum NG-MC-279, half model of a 74, c.1806 ("a beakhead bulkhead, a platform"): the bulkhead stands where the forecastle deck ends, 0.8 m abaft the loft's foremost station (src/ship/decks.js starts the forecastle there) |
+| `beakhead_bulkhead_above_rail` | 0.2032 | — | RECONSTRUCTED | §3 the rough-tree rail carried across over the bulkhead's head |
+| `beakhead_bulkhead_proud` | 0.0508 | — | RECONSTRUCTED | modelling allowance: the bulkhead is a little wider than the hull's skin, which hides the raw edge of the loft |
+| `beakhead_plank_thickness` | 0.2032 | 0 ft 8 in | RECONSTRUCTED | §3 the bulkhead planked and framed |
+| `beakhead_cap_depth` | 0.4572 | 1 ft 6 in | RECONSTRUCTED | §3 the rough-tree rail over the bulkhead |
+| `beakhead_cap_overhang` | 0.1016 | — | RECONSTRUCTED | §3 |
+| `beakhead_cornice_height` | 0.2032 | 0 ft 8 in | RECONSTRUCTED | §3 the moulding at the bulkhead's foot |
+| `beakhead_cornice_depth` | 0.127 | 0 ft 5 in | RECONSTRUCTED | §3 |
+| `beakhead_stanchion_per_side` | 5 | — | SECONDARY | §6 Steel: five stanchions a side of the centreline in the beakhead bulkhead, making the round-houses, ports and doors between them |
+| `beakhead_stanchion_sided` | 0.2032 | — | RECONSTRUCTED | §6 a stanchion sided as a top timber |
+| `beakhead_stanchion_proud` | 0.0762 | — | RECONSTRUCTED | §6 the carved pilaster stands proud of the planking |
+| `beakhead_door_proud` | 0.0381 | — | RECONSTRUCTED | §6 a door or port lid lies on the planking |
+| `head_door_width` | 0.6604 | 2 ft 2 in | SECONDARY | §6 Steel: the stanchion next inboard of the bow port makes the head door |
+| `head_door_height` | 1.3716 | 4 ft 6 in | SECONDARY | §6 as above |
+| `bow_chase_port_width` | 0.7112 | 2 ft 4 in | SECONDARY | §4 Steel, a forecastle port of the quarterdeck size; these are the light ports for the forecastle jagers, not the lower-deck bridle ports |
+| `bow_chase_port_height` | 0.7112 | 2 ft 4 in | SECONDARY | §4 as above |
+| `bow_chase_port_sill` | 0.6096 | 2 ft 0 in | RECONSTRUCTED | §6 sill above the platform |
+| `head_wing_lining_inset` | 0.0508 | — | RECONSTRUCTED | modelling allowance: the inboard lining stands this far inside the skin |
+| `head_wing_post_sided` | 0.254 | — | RECONSTRUCTED | §3 the timberhead that finishes the bow wing at its end |
+| `head_wing_post_depth` | 0.3048 | 1 ft 0 in | RECONSTRUCTED | §3 |
+| `head_wing_post_inset` | 0.0508 | — | RECONSTRUCTED | modelling allowance: the post is let into the skin |
+| `knighthead_sided` | 0.381 | — | RECONSTRUCTED | §6 Steel (1805) scantlings for a 74, no Dutch figure found; the knightheads, sided |
+| `knighthead_clear` | 0.1016 | — | RECONSTRUCTED | §3 clearance between the spar and the knightheads |
+| `knighthead_above_bowsprit` | 0.4572 | — | SECONDARY | §6 Steel: the knightheads run above the bowsprit to admit a chock between them |
+| `cathead_abaft_end` | 1.45 | — | RECONSTRUCTED | §6 the cat beam is the foremost beam of the forecastle, a few feet abaft its fore edge; 0.65 m abaft the bulkhead |
+| `cathead_inboard_of_side` | 1.2954 | — | RECONSTRUCTED | §6 Steel (1805) scantlings for a 74, no Dutch figure found; the cathead's inboard length, bolted to the cat beam |
+| `cathead_outboard_of_side` | 1.6002 | — | RECONSTRUCTED | §6 Steel (1805) scantlings for a 74, no Dutch figure found; the overhang beyond the rail, where the anchor hangs |
+| `cathead_above_rail` | 0 | — | RECONSTRUCTED | §6 the cathead's underside rests on the rail |
+| `cathead_stive_deg` | 5 | — | RECONSTRUCTED | §6 a cathead is near level, rising a little outboard; Steel gives a stive but it is not legible for the 74 column |
+| `cathead_spread` | 12.9 | — | RECONSTRUCTED | §6 twice the half-breadth of the hull at the rail at the cathead (4.85 m, from the traced offsets) plus the overhang; the athwartships span over the two outer ends |
+| `cathead_sided` | 0.508 | — | RECONSTRUCTED | §6 Steel (1805) scantlings for a 74, no Dutch figure found; sided |
+| `cathead_moulded` | 0.5588 | — | RECONSTRUCTED | §6 Steel (1805) scantlings for a 74, no Dutch figure found; moulded |
+| `cathead_sheave_count` | 3 | — | SECONDARY | §6 Steel, three sheaves in the outer end of a cathead |
+| `cathead_sheave_diameter` | 0.3048 | 1 ft 0 in | RECONSTRUCTED | §6 Steel (1805) scantlings for a 74, no Dutch figure found; the cat falls' sheaves |
+| `cathead_sheave_spacing` | 0.381 | 1 ft 3 in | RECONSTRUCTED | §6 sheave centres in the cathead |
+| `cathead_sheave_from_end` | 0.508 | — | RECONSTRUCTED | §6 the first sheave a little inboard of the tip |
+| `cathead_supporter_drop` | 1.2192 | — | RECONSTRUCTED | §6 the cathead supporter lands on the ship's side this far below the rail |
+| `cathead_supporter_reach` | 0.4572 | — | RECONSTRUCTED | §6 and meets the cathead this far in from its end |
+| `cathead_supporter_sided` | 0.3048 | — | RECONSTRUCTED | §6 Steel (1805) scantlings for a 74, no Dutch figure found |
+| `cathead_end_boss` | 0.508 | — | SECONDARY | §6 Rijksmuseum NG-MC-500, the 74 Vrijheid, c.1782: the catheads end in a carved boss, gilt |
+| `figurehead_height` | 3.302 | 10 ft 10 in | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive; plinth to the top of the crown |
+| `figurehead_lean_deg` | 36 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive; the lion leans forward from its plinth so that the body reads as leaping ahead |
+| `figurehead_forward_of_knee_head` | 0.3556 | — | RECONSTRUCTED | §6 the plinth stands this far forward of the knee's top |
+| `figurehead_above_knee_head` | 0.4572 | — | RECONSTRUCTED | §6 and this far above it, on the hair bracket |
+| `figurehead_back_depth` | 0.4064 | 1 ft 4 in | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive; how far aft of the lion's centre line its back stands, where the rails meet it |
+| `figurehead_plinth_width` | 1.0922 | 3 ft 7 in | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_plinth_depth` | 1.2954 | 4 ft 3 in | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_plinth_height` | 0.2032 | 0 ft 8 in | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_foot_height` | 0.1016 | 0 ft 4 in | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_foot_forward` | 0.1524 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_foot_length` | 0.5588 | 1 ft 10 in | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_hind_leg_radius` | 0.1778 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_hind_leg_spread` | 0.3048 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_haunch_height` | 1.143 | 3 ft 9 in | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_haunch_radius` | 0.3048 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_haunch_aft` | 0.2286 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_waist_height` | 1.4986 | 4 ft 11 in | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_waist_radius` | 0.254 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_torso_depth_ratio` | 0.9 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive; the trunk is a little shallower fore and aft than it is broad |
+| `figurehead_mane_thickness` | 0.1651 | 0 ft 6.5 in | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_scale` | 1.15 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive; the whole carving is built at the sizes in these rows and scaled up, the figure of a 74 being about 12 ft |
+| `figurehead_chest_height` | 2.0066 | 6 ft 7 in | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_chest_radius` | 0.4318 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_chest_forward` | 0.1016 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_neck_radius` | 0.3048 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_head_radius` | 0.3302 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_head_forward` | 0.3048 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_muzzle_length` | 0.3556 | 1 ft 2 in | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_mane_radius` | 0.6096 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_mane_tufts` | 12 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive; the fringe of the mane, in gilt |
+| `figurehead_foreleg_radius` | 0.1524 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_foreleg_reach` | 0.8382 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_foreleg_spread` | 0.4064 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_paw_radius` | 0.1778 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_paw_spread` | 0.6858 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_paw_rise` | 0.1524 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_sword_length` | 1.524 | 5 ft 0 in | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive; the sword in the right paw |
+| `figurehead_sword_width` | 0.0762 | 0 ft 3 in | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_arrow_count` | 7 | — | SECONDARY | §6 the Dutch lion holds a sheaf of seven arrows, one for each of the seven United Provinces |
+| `figurehead_arrow_length` | 0.9906 | 3 ft 3 in | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_arrow_radius` | 0.0254 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_arrow_head` | 0.127 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_arrow_bundle_radius` | 0.0762 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_tail_radius` | 0.0762 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_tail_out` | 0.8382 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_tail_rise` | 0.381 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_crown_height` | 0.4572 | 1 ft 6 in | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_crown_radius` | 0.254 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_crown_points` | 5 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
+| `figurehead_crown_sits_in_head` | 0.8 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive; the crown's band sits this fraction of the head's radius above its centre |
 | `bow_chaser_count` | 2 | — | FICTIONAL | §1 the book: chasers "trained sharp forward from the bridle-ports in her bluff bows", one a side (ch. 7) |
 | `bow_chaser_pounds` | 32 | — | FICTIONAL | §1 the bridle ports are on the lower deck, so the chasers are the lower tier's own 32-pounders |
 | `bow_chaser_train_deg` | 8 | — | FICTIONAL | §1 the book: "trained sharp forward"; limited by the after cheek of the bridle port in a side that is 50 degrees off the keel line there. Van Zwijndregt's 1784 bow port would have been dead ahead |
@@ -854,67 +886,67 @@ chasers, the topgallants); period rules fill the rest, and every row says which 
 
 | key | metric | period figure | grade | source |
 |---|---|---|---|---|
-| `anchor_count_total` | 4 | — | SECONDARY | §13.1 Steel 1805 :43220 — four large stocks and two small to every class; the two bowers, the sheet and the kedge are the four modelled |
-| `anchor_count_bower` | 2 | — | PRIMARY | §13.1 best bower and small bower, one to each cathead |
-| `anchor_bower_weight_cwt` | 34 | — | SECONDARY | §13.1 Steel 1805 Folio LVI, 32-gun column — 34 cwt, 1727 kg |
-| `anchor_shank_length` | 5.0292 | 16 ft 6 in | RECONSTRUCTED | §13.2 the period rule that the shank equals the stock; stock from Steel's series scaled by the cube root of the weight |
-| `anchor_shank_square_trend` | 0.2286 | — | RECONSTRUCTED | §13.2 shank square at the trend, about 1/22 of the shank — the smith's proportion |
-| `anchor_shank_square_head` | 0.1524 | — | RECONSTRUCTED | §13.2 shank square at the head, two thirds of the square at the trend |
-| `anchor_arm_span` | 2.7432 | — | RECONSTRUCTED | §13.2 fluke tip to fluke tip at 0.55 of the shank, the standard long-shank proportion |
-| `anchor_arm_angle_deg` | 60 | — | RECONSTRUCTED | §13.2 the arm stands 60 degrees off the shank on the Admiralty long-shank pattern |
-| `anchor_arm_square_crown` | 0.2032 | — | RECONSTRUCTED | §13.2 the arm at the crown, a little under the shank at the trend |
-| `anchor_arm_square_tip` | 0.0762 | — | RECONSTRUCTED | §13.2 the arm tapering to the bill |
-| `anchor_palm_length` | 1.016 | 3 ft 4 in | RECONSTRUCTED | §13.2 palm at 0.20 of the shank |
-| `anchor_palm_width` | 0.6096 | 2 ft 0 in | RECONSTRUCTED | §13.2 palm breadth at 0.6 of its length, the usual proportion |
-| `anchor_palm_thickness` | 0.0762 | 0 ft 3 in | RECONSTRUCTED | §13.2 palm thickness, forged out of the arm |
-| `anchor_palm_along_arm` | 0.6 | — | RECONSTRUCTED | §13.2 the palm centred at 0.60 of the arm out from the crown |
-| `anchor_ring_diameter` | 0.6604 | 2 ft 2 in | RECONSTRUCTED | §13.2 ring diameter for a 34 cwt anchor |
-| `anchor_ring_bar_diameter` | 0.0762 | 0 ft 3 in | RECONSTRUCTED | §13.2 the ring bar at about one eighth of the ring |
-| `anchor_nut_length` | 0.2032 | 0 ft 8 in | RECONSTRUCTED | §13.2 the nuts under the stock that stop it turning on the shank |
-| `anchor_stock_length` | 5.0292 | 16 ft 6 in | RECONSTRUCTED | §13.2 Steel 1805 :43221 series (22-0 / 21-9 / 20-6 / …) carried to the 32-gun column by cube-root-of-weight scaling |
-| `anchor_stock_square_middle` | 0.381 | — | RECONSTRUCTED | §13.2 scaled from Steel :43222 (1-10 / 1-9¼ / 1-8¼ / 1-8 / 1-7¾) |
-| `anchor_stock_square_ends` | 0.2032 | — | RECONSTRUCTED | §13.2 scaled from Steel :43223 |
-| `anchor_stock_gap_middle` | 0.1778 | — | SECONDARY | §13.2 Steel :43224, the opening left between the two pieces at the middle for the shank |
-| `anchor_stock_below_head` | 0.254 | — | RECONSTRUCTED | §13.2 the stock seated one shank-square below the head, under the nuts |
-| `anchor_stock_hoop_count` | 4 | — | SECONDARY | §13.2 Steel :43226 — four iron hoops to each stock |
-| `anchor_stock_hoop_breadth` | 0.076 | 0 ft 3 in | SECONDARY | §13.2 Steel :43227, hoops 3 in broad |
-| `anchor_stock_hoop_thickness` | 0.016 | 0 ft 0.6 in | SECONDARY | §13.2 Steel :43228, hoops 5/8 in thick |
-| `anchor_ring_below_cathead` | 0.762 | — | RECONSTRUCTED | §13.3 a three-sheave cat block, its strop and the hook into the ring, hanging from the sheaves in the cathead |
-| `anchor_crown_from_stem` | 7.3152 | 24 ft 0 in | RECONSTRUCTED | §13.3 research 06, crown and flukes bedded on the fore channel 24 ft abaft the stem |
-| `anchor_crown_above_channel` | 0.1016 | — | RECONSTRUCTED | §13.3 the arm bearing on the channel, not sunk into it |
-| `anchor_crown_outboard_of_side` | 0.4572 | — | RECONSTRUCTED | §13.3 the crown bedded a foot and a half outboard of the ship's side, inside the channel's outer edge |
-| `anchor_stock_cant_deg` | 84 | — | RECONSTRUCTED | §PHOTO the stock standing up beside the cathead and canted out over the forecastle rail, read off the reference photograph and set so that the whole stock clears the head rails |
-| `sheet_anchor_scale` | 1 | — | SECONDARY | §13.1 Steel :43220 — the sheet is one of the four large anchors, so it is a bower's size |
-| `kedge_anchor_scale` | 0.585 | — | RECONSTRUCTED | §13.1 the kedge at one fifth of a bower's weight, scaled by the cube root |
-| `stowed_anchor_ring_from_stem` | 4.1148 | 13 ft 6 in | RECONSTRUCTED | §13.1 stowed on the forecastle, ring forward, set so that the crown of the larger spare lies clear forward of the forecastle break |
-| `stowed_anchor_forward_of_break` | 0.4572 | — | RECONSTRUCTED | §13.1 how far forward of the break of the forecastle the crown of a stowed anchor is chocked, so that the palms bear on the deck and not on the coaming |
-| `stowed_anchor_inboard_of_side` | 1.2192 | — | RECONSTRUCTED | §13.1 the shank laid four feet in from the ship's side, leaving the gangway clear |
-| `stowed_anchor_above_deck` | 0.127 | 0 ft 5 in | RECONSTRUCTED | §13.1 the shank bearing on the palms and on its chocks |
-| `stowed_stock_beside_shank` | 0.5334 | — | RECONSTRUCTED | §13.1 the unshipped stock lashed on deck alongside its own anchor |
-| `hawse_hole_count_per_side` | 2 | — | RECONSTRUCTED | §12 two hawse holes a side, the working hawse and the spare, as on every frigate of the rate |
-| `hawse_hole_first_from_stem` | 1.2192 | 4 ft 0 in | RECONSTRUCTED | §12 as far forward as the hawse pieces allow |
-| `hawse_hole_spacing` | 0.5334 | 1 ft 9 in | RECONSTRUCTED | §12 the two holes of a side set a bore and a half apart |
-| `hawse_hole_diameter` | 0.2032 | 0 ft 8 in | RECONSTRUCTED | §12 bored at about 1.6 times the cable, so that the cable renders freely |
-| `hawse_hole_above_deck` | 0.1016 | 0 ft 4 in | RECONSTRUCTED | §12 bored with the lower edge on the gundeck at side, which puts the centre half a bore above it |
-| `hawse_bolster_projection` | 0.038 | — | SECONDARY | §12 Steel :41221, the bolsters (naval hoods) project 1½ in from the cheeks |
-| `anchor_cable_diameter` | 0.128 | 0 ft 5 in | RECONSTRUCTED | §13 the standing rule that the bower cable's circumference in inches is half the extreme breadth in feet: 31 ft 8 in gives 15.8 in round, 5.03 in through |
-| `anchor_cable_sag` | 0.11 | — | RECONSTRUCTED | §13 the slack in a heavy cable bent to a catted anchor |
-| `cat_block_length` | 0.6096 | 2 ft 0 in | RECONSTRUCTED | §13.3 a three-sheave cat block to match the three sheaves in the cathead (Steel :40068) |
-| `cat_block_width` | 0.3556 | 1 ft 2 in | RECONSTRUCTED | §13.3 three sheaves of 10 in and their partitions |
-| `cat_block_thickness` | 0.254 | 0 ft 10 in | RECONSTRUCTED | §13.3 sheaves 2 in thick in a three-sheave shell (Steel :40070) |
-| `shank_painter_diameter` | 0.032 | 0 ft 1.3 in | SECONDARY | §13.3 Steel :40292 and :44589, stopper bolts 1¼ in — the shank painter chain is of that bar |
-| `shank_painter_bolt_from_stem` | 6.096 | 20 ft 0 in | RECONSTRUCTED | §13.3 "a chain bolted through the topside, abaft the cathead" (Steel :4552) |
-| `shank_painter_on_shank` | 0.78 | — | RECONSTRUCTED | §13.3 the painter takes the shank near the crown |
-| `anchor_lining_from_stem` | 6.096 | 20 ft 0 in | RECONSTRUCTED | §13.3 the lining laid where the fluke bears, forward of the crown |
-| `anchor_lining_length` | 2.1336 | 6 ft 12 in | RECONSTRUCTED | §13.3 Steel :42535 gives 10 ft 6 in for a 110-gun ship, scaled to the rate |
-| `anchor_lining_height` | 0.4572 | 1 ft 6 in | RECONSTRUCTED | §13.3 a sacrificial plank deep enough to take the fluke |
-| `anchor_lining_thickness` | 0.0762 | 0 ft 3 in | RECONSTRUCTED | §13.3 a thick strake laid on the topside |
+| `anchor_count_total` | 4 | — | SECONDARY | §6 a 74 carried four large anchors: best bower and small bower catted at the catheads, and the sheet and spare stowed on the fore channels (Lavery, The Ship of the Line, vol. 2) |
+| `anchor_count_bower` | 2 | — | SECONDARY | §6 best bower and small bower, one to each cathead |
+| `anchor_bower_weight_cwt` | 74 | — | RECONSTRUCTED | §6 the best bower of a 74 in the 1790s weighed 70-80 cwt (Steel 1805); 74 cwt taken, 3.76 tonnes |
+| `anchor_best_bower_scale` | 1 | — | RECONSTRUCTED | §6 the best bower is the size the other rows give |
+| `anchor_small_bower_scale` | 0.98 | — | RECONSTRUCTED | §6 the small bower a little lighter than the best, cube root of 71/74 |
+| `anchor_sheet_scale` | 1.02 | — | RECONSTRUCTED | §6 the sheet anchor, the heaviest, cube root of 77/74 |
+| `anchor_spare_scale` | 0.98 | — | RECONSTRUCTED | §6 the spare anchor stowed with the sheet |
+| `anchor_shank_length` | 6.0452 | 19 ft 10 in | RECONSTRUCTED | §6 Steel (1805), a 74-gun ship's bower of 74 cwt; shank and stock equal, the shank scaled by the cube root of the weight from Steel's 22 ft for a first-rate bower of about 100 cwt: 22 ft x (74/100)^(1/3) = 19 ft 10 in |
+| `anchor_shank_square_trend` | 0.2794 | — | RECONSTRUCTED | §6 shank square at the trend, about 1/22 of the shank, the smith's proportion |
+| `anchor_shank_square_head` | 0.1778 | — | RECONSTRUCTED | §6 shank square at the head, two thirds of the square at the trend |
+| `anchor_arm_span` | 3.3274 | — | RECONSTRUCTED | §6 fluke tip to fluke tip at 0.55 of the shank, the standard long-shank proportion |
+| `anchor_arm_angle_deg` | 60 | — | RECONSTRUCTED | §6 the arm stands 60 degrees off the shank on the Admiralty long-shank pattern |
+| `anchor_arm_square_crown` | 0.254 | — | RECONSTRUCTED | §6 the arm at the crown, a little under the shank at the trend |
+| `anchor_arm_square_tip` | 0.0889 | — | RECONSTRUCTED | §6 the arm tapering to the bill |
+| `anchor_palm_length` | 1.2192 | 4 ft 0 in | RECONSTRUCTED | §6 palm at 0.20 of the shank |
+| `anchor_palm_width` | 0.7366 | 2 ft 5 in | RECONSTRUCTED | §6 palm breadth at 0.6 of its length, the usual proportion |
+| `anchor_palm_thickness` | 0.0889 | 0 ft 3.5 in | RECONSTRUCTED | §6 palm thickness, forged out of the arm |
+| `anchor_palm_along_arm` | 0.6 | — | RECONSTRUCTED | §6 the palm centred at 0.60 of the arm out from the crown |
+| `anchor_ring_diameter` | 0.7874 | 2 ft 7 in | RECONSTRUCTED | §6 ring diameter for a 74 cwt anchor, wide enough for the cable's clinch |
+| `anchor_ring_bar_diameter` | 0.0889 | 0 ft 3.5 in | RECONSTRUCTED | §6 the ring bar at about one eighth of the ring |
+| `anchor_nut_length` | 0.2286 | 0 ft 9 in | RECONSTRUCTED | §6 the nuts under the stock that stop it turning on the shank |
+| `anchor_stock_length` | 6.0452 | 19 ft 10 in | RECONSTRUCTED | §6 Steel (1805), a 74-gun ship's bower of 74 cwt; shank and stock equal, the shank scaled by the cube root of the weight from Steel's 22 ft for a first-rate bower of about 100 cwt; the stock as long as the shank |
+| `anchor_stock_square_middle` | 0.4572 | — | RECONSTRUCTED | §6 Steel (1805), a 74-gun ship's bower of 74 cwt; shank and stock equal, the shank scaled by the cube root of the weight from Steel's 22 ft for a first-rate bower of about 100 cwt; scaled from Steel's stock at the middle |
+| `anchor_stock_square_ends` | 0.254 | — | RECONSTRUCTED | §6 Steel (1805), a 74-gun ship's bower of 74 cwt; shank and stock equal, the shank scaled by the cube root of the weight from Steel's 22 ft for a first-rate bower of about 100 cwt; at the ends |
+| `anchor_stock_gap_middle` | 0.1778 | — | SECONDARY | §6 Steel, the opening left between the two pieces at the middle for the shank |
+| `anchor_stock_below_head` | 0.2794 | — | RECONSTRUCTED | §6 the stock seated one shank-square below the head, under the nuts |
+| `anchor_stock_hoop_count` | 4 | — | SECONDARY | §6 Steel, four iron hoops to each stock |
+| `anchor_stock_hoop_breadth` | 0.076 | 0 ft 3 in | SECONDARY | §6 Steel, hoops 3 in broad |
+| `anchor_stock_hoop_thickness` | 0.016 | 0 ft 0.6 in | SECONDARY | §6 Steel, hoops 5/8 in thick |
+| `anchor_ring_below_cathead` | 0.9144 | — | RECONSTRUCTED | §6 a three-sheave cat block, its strop and the hook into the ring, hanging from the sheaves in the cathead |
+| `anchor_bed_below_rail` | 0.3048 | — | RECONSTRUCTED | §6 the fore channel's top a foot below the rail; the bill-board is built to this height whatever the channel does |
+| `anchor_crown_above_bed` | 0.1016 | — | RECONSTRUCTED | §6 the arm bearing on the bill-board, not sunk into it |
+| `anchor_crown_outboard_of_side` | 0.762 | — | RECONSTRUCTED | §6 the crown stands out from the side on the bill-board |
+| `anchor_stock_cant_deg` | 52 | — | RECONSTRUCTED | §6 the stock of a fished anchor stands nearly upright, canted outboard, with its arms lying flat |
+| `anchor_billboard_length` | 2.4384 | 8 ft 0 in | RECONSTRUCTED | §6 the bill-board under the crown, long enough for the palm |
+| `anchor_billboard_projection` | 0.8128 | — | RECONSTRUCTED | §6 projecting beyond the planking |
+| `anchor_billboard_thickness` | 0.2032 | 0 ft 8 in | RECONSTRUCTED | §6 |
+| `anchor_lining_height` | 0.6096 | 2 ft 0 in | RECONSTRUCTED | §6 the anchor lining on the topside, deep enough to take the fluke |
+| `anchor_lining_thickness` | 0.1016 | 0 ft 4 in | RECONSTRUCTED | §6 a thick strake laid on the topside |
+| `anchor_stowed_ring_forward_of_foremast` | 0.3048 | — | RECONSTRUCTED | §6 the fore channel begins a little forward of the mast; the ring is made fast there |
+| `anchor_stowed_outboard_of_side` | 0.4064 | — | RECONSTRUCTED | §6 the shank lies on the channel, a foot and a third off the planking |
+| `anchor_stowed_ring_above_bed` | 0.3048 | — | RECONSTRUCTED | §6 the ring raised to the lashing |
+| `anchor_stowed_cant_deg` | 80 | — | RECONSTRUCTED | §6 the arms of a stowed anchor lie nearly flat: the inboard fluke over the rail, the outboard one over the water |
+| `anchor_stowed_stock_beside_shank` | 0.4572 | — | RECONSTRUCTED | §6 the unshipped stock lashed alongside its own shank |
+| `anchor_stowed_stock_above_shank` | 0.2032 | — | RECONSTRUCTED | §6 and a little above it |
+| `hawse_hole_count_total` | 4 | — | MEASURED | §2 the Washington draught shows two hawse holes a side (OFFSETS.hawse lists them) |
+| `hawse_liner_depth` | 0.508 | 1 ft 8 in | RECONSTRUCTED | §6 the lining of the hole, sunk into the bow |
+| `hawse_bolster_projection` | 0.0762 | — | SECONDARY | §6 Steel, the hawse bolsters project from the planking |
+| `anchor_cable_diameter` | 0.178 | 0 ft 7 in | RECONSTRUCTED | §6 a 74's bower cable of 22 in circumference (Steel 1805), 7 in through |
+| `anchor_cable_sag` | 0.06 | — | RECONSTRUCTED | §6 the slack in a heavy cable bent to a catted anchor |
+| `cat_block_length` | 0.6858 | 2 ft 3 in | RECONSTRUCTED | §6 a three-sheave cat block to match the three sheaves in the cathead |
+| `cat_block_width` | 0.4064 | 1 ft 4 in | RECONSTRUCTED | §6 three sheaves of 12 in and their partitions |
+| `cat_block_thickness` | 0.2794 | 0 ft 11 in | RECONSTRUCTED | §6 sheaves 2 in thick in a three-sheave shell |
+| `shank_painter_diameter` | 0.035 | 0 ft 1.4 in | SECONDARY | §6 Steel, the shank painter's chain 1 3/8 in bar |
+| `shank_painter_bolt_abaft_end` | 4.2672 | — | RECONSTRUCTED | §6 "a chain bolted through the topside, abaft the cathead" (Steel); 14 ft abaft the loft's foremost station |
+| `shank_painter_on_shank` | 0.78 | — | RECONSTRUCTED | §6 the painter takes the shank near the crown |
 
 ### Colours
 
 | key | metric | period figure | grade | source |
 |---|---|---|---|---|
-| `ensign_staff_length` | 4.8768 | 16 ft 0 in | RECONSTRUCTED | §12.4 staff long enough to fly an 8-breadth ensign clear of the taffrail |
 | `canton_post_1801` | 1 | — | PRIMARY | §5 the Union of 1801 stood from 1 Jan 1801; she is modelled in 1811, and the ruse flies the British ensign of that date |
 | `ensign_at_staff` | 0 | — | SECONDARY | §5 ensign at the gaff peak under sail |
 | `jack_worn_under_way` | 1 | — | RECONSTRUCTED | §5 research 05: the jack is built and shown on its staff by default; a host can hide it |
@@ -1074,6 +1106,20 @@ chasers, the topgallants); period rules fill the rest, and every row says which 
 | `topsail_sheet_bitt_from_mast` | 1.0668 | — | SECONDARY | §6 Steel 1805 :17592, a pair forward of and a pair abaft the mast |
 | `lifeline_stations` | 6 | — | RECONSTRUCTED | §6 the lifeline is rigged through this many stanchion points between the forecastle and the quarterdeck, so that it follows the gangway down and up again |
 | `quarter_cutter_length` | 7.3152 | 24 ft 0 in | RECONSTRUCTED | §8.3 Steel 1805 / Lavery boat establishment for a 74, the second cutter, the same 24 ft as the first |
+| `main_topgallant_head` | 0.9339 | — | RECONSTRUCTED | §4 Steel 1794 v1 p.42, masthead rule (5 in to the yard of the mast for the main and fore, 4 in for the mizzen and for the main and fore topmasts, 3 1/2 in for the mizzen topmast and the topgallants), applied to the §4 lengths |
+| `fore_topgallant_head` | 0.8301 | — | RECONSTRUCTED | §4 Steel 1794 v1 p.42, masthead rule (5 in to the yard of the mast for the main and fore, 4 in for the mizzen and for the main and fore topmasts, 3 1/2 in for the mizzen topmast and the topgallants), applied to the §4 lengths |
+| `mizzen_topgallant_head` | 0.6933 | — | RECONSTRUCTED | §4 Steel 1794 v1 p.42, masthead rule (5 in to the yard of the mast for the main and fore, 4 in for the mizzen and for the main and fore topmasts, 3 1/2 in for the mizzen topmast and the topgallants), applied to the §4 lengths |
+| `topgallant_pole_tip_ratio` | 0.4 | — | SECONDARY | §4 Rijksmuseum Vrijheid model (NG-MC-500), seen in the museum's public-domain photographs: the pole tapers to a point above the shoulder; its diameter at the truck is two fifths of that at the hounds |
+| `topgallant_shoulder_ratio` | 1.16 | — | SECONDARY | §4 Rijksmuseum Vrijheid model (NG-MC-500), seen in the museum's public-domain photographs: a small shoulder near the head of the pole, a sixth thicker than the spar below it |
+| `topgallant_shoulder_fraction` | 0.03 | — | SECONDARY | §4 Rijksmuseum Vrijheid model (NG-MC-500), seen in the museum's public-domain photographs: and about a thirtieth of the pole's length deep |
+| `topgallant_stay_above_hounds` | 0.6 | — | RECONSTRUCTED | §4 the topgallant stay is set up on the pole above the shoulder, at three fifths of the pole head, so that it leads clear above the yard and not through its sail |
+| `crosstrees_width_fraction` | 0.125 | — | SECONDARY | §4 Rijksmuseum Vrijheid model (NG-MC-500), seen in the museum's public-domain photographs: light crosstrees, athwartships an eighth of the topmast's length |
+| `crosstrees_length_ratio` | 0.8 | — | SECONDARY | §4 Rijksmuseum Vrijheid model (NG-MC-500), seen in the museum's public-domain photographs: and four fifths of that fore and aft |
+| `top_length_ratio` | 0.9 | — | SECONDARY | §4 Rijksmuseum Vrijheid model (NG-MC-500), seen in the museum's public-domain photographs: the top is nearly square, so its length fore and aft is nine tenths of its breadth; Steel gives three quarters for a British top |
+| `top_corner_radius_ratio` | 0.2 | — | SECONDARY | §4 Rijksmuseum Vrijheid model (NG-MC-500), seen in the museum's public-domain photographs: the corners are well rounded; a fifth of the breadth |
+| `cap_breadth_ratio` | 2.1 | — | SECONDARY | §4 Rijksmuseum Vrijheid model (NG-MC-500), seen in the museum's public-domain photographs: the cap is a plain block, athwartships about twice the mast's diameter |
+| `jib_clew_along_bowsprit` | 0.72 | — | RECONSTRUCTED | §4 the jib is sheeted in to the bowsprit, at about three quarters of its length, to bring its area to the 74 figure of Steel Table IV |
+| `flying_jib_clew_along_bowsprit` | 0.97 | — | RECONSTRUCTED | §4 the flying jib is sheeted in to the bowsprit cap |
 
 ---
 

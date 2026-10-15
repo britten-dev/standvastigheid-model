@@ -121,8 +121,8 @@ export const HEAD_SPEC = {
   // --------------------------------------- knightheads, partners and the bowsprit
   // THE BOWSPRIT ITSELF IS THE RIG'S. These rows fix where it passes the bulkhead so that
   // the knightheads stand either side of it. The heel and steeve are the rig's
-  // (bowsprit_steeve_deg and the heel at the foremast, src/ship/rig.js).
-  bowsprit_heel_abaft_foremast: m(0.9, 'RECONSTRUCTED the rig steps the heel 0.9 m abaft the fore mast\'s station (src/ship/rig.js); repeated here so the knightheads agree', { noAudit: true }),
+  // (bowsprit_steeve_deg and bowsprit_heel_abaft_foremast, both in src/spec/parts/rig.js;
+  // the rig owns the bowsprit and the head reads the same rows, so the two cannot disagree).
   bowsprit_heel_above_deck: m(0.15, 'RECONSTRUCTED the rig sets the spar\'s centre 0.15 m above the deck at its heel (src/ship/rig.js)', { noAudit: true }),
   bowsprit_partner_thickness: m(ft(0, 8), `${ST}; the partners under and over the spar at the bulkhead`, { noAudit: true }),
   knighthead_sided: m(ft(1, 3), `${ST}; the knightheads, sided`, { noAudit: true }),
