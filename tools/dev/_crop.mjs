@@ -1,0 +1,20 @@
+import { chromium } from 'playwright';
+import fs from 'fs';
+const [src, out, x, y, w, h, scale] = process.argv.slice(2);
+const b64 = fs.readFileSync(src).toString('base64');
+const ext = src.toLowerCase().endsWith('.png') ? 'png' : 'jpeg';
+const S = Number(scale || 4);
+const browser = await chromium.launch();
+const page = await browser.newPage({ viewport: { width: Math.round(w*S), height: Math.round(h*S) } });
+await page.setContent(`<style>html,body{margin:0}canvas{display:block}</style><canvas id=c width=${Math.round(w*S)} height=${Math.round(h*S)}></canvas>`);
+await page.evaluate(async ({b64, ext, x, y, w, h, S}) => {
+  const img = new Image();
+  img.src = `data:image/${ext};base64,${b64}`;
+  await img.decode();
+  const c = document.getElementById('c');
+  const g = c.getContext('2d');
+  g.imageSmoothingEnabled = true; g.imageSmoothingQuality = 'high';
+  g.drawImage(img, x, y, w, h, 0, 0, w*S, h*S);
+}, { b64, ext, x: +x, y: +y, w: +w, h: +h, S });
+await page.locator('#c').screenshot({ path: out });
+await browser.close();

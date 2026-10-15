@@ -1,0 +1,56 @@
+{
+  "name": "waakzaamheid-model",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Parametric 3D model of the Dutch 74 Waakzaamheid from O'Brian's Desolation Island, lofted from the lines of the Dutch 74 Washington (Amsterdam, 1796)",
+  "scripts": {
+    "build": "node tools/build.js",
+    "audit": "node tools/audit.js",
+    "trace": "node tools/trace.js",
+    "render": "node tools/render.js",
+    "check": "node tools/make-specs.js && node tools/trace.js && node tools/audit.js && node tools/check-afterdeck.mjs && node tools/check-motion.js && node tools/check-bunting.mjs && node tools/check-flags.js && node tools/check-rigging-anchors.mjs && node tools/check-port-fittings.js && node tools/check-deadeyes.mjs && node tools/check-window-joinery.mjs && node tools/check-hull-sides.mjs && node tools/build.js && node tools/verify-glb.js",
+    "test": "node tools/check-exports.mjs",
+    "viewer": "node tools/serve.js",
+    "site": "node tools/build-site.js",
+    "verify": "node tools/verify-glb.js",
+    "specs": "node tools/make-specs.js",
+    "motion": "node tools/check-motion.js"
+  },
+  "devDependencies": {
+    "@gltf-transform/core": "^4.5.1",
+    "@gltf-transform/extensions": "^4.5.1",
+    "meshoptimizer": "^1.3.0",
+    "playwright": "^1.49.0",
+    "sharp": "^0.35.5",
+    "three": "^0.180.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/britten-dev/waakzaamheid-model.git"
+  },
+  "license": "UNLICENSED",
+  "exports": {
+    ".": "./src/ship/index.js",
+    "./spec": "./src/spec/spec.js",
+    "./hull": "./src/ship/hull.js",
+    "./lod": "./src/ship/lod.js",
+    "./views": "./viewer/views.js",
+    "./package.json": "./package.json",
+    "./motion": "./src/ship/motion.js",
+    "./crew": "./src/ship/crew.js",
+    "./detail": "./src/ship/detail-lod.js",
+    "./damage": "./src/ship/damage.js"
+  },
+  "files": [
+    "src",
+    "viewer/views.js",
+    "SPECS.md",
+    "docs",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "peerDependencies": {
+    "three": ">=0.180.0 <1"
+  }
+}

@@ -1,0 +1,185 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Surprise build harness</title>
+<script src="/viewer/importmap.js"></script>
+<body style="margin:0;background:#111;color:#ccc;font:13px ui-monospace,monospace">
+<pre id="log">booting…</pre>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
+import { buildShip, LODS, SAIL_STATES } from '/src/ship/index.js';
+import { measureShip } from '/src/audit/measure.js';
+import { createMotion } from '/src/ship/motion.js';
+import { preloadSurfaceAssets } from '/src/ship/surface-assets.js';
+await preloadSurfaceAssets();
+
+const log = (m) => { document.getElementById('log').textContent += '\n' + m; };
+
+window.THREE = THREE;
+window.LODS = LODS;
+window.SAIL_STATES = SAIL_STATES;
+
+// Build once and cache, because build + audit + render all want the same object and
+// rebuilding is the expensive part.
+const cache = new Map();
+window.build = (opts) => {
+  const key = JSON.stringify(opts);
+  if (!cache.has(key)) {
+    const t0 = performance.now();
+    cache.set(key, buildShip(opts));
+    log(`built ${key} in ${(performance.now() - t0).toFixed(0)} ms`);
+  }
+  return cache.get(key);
+};
+
+window.exportGLB = async (opts) => {
+  const ship = window.build(opts);
+  const scene = new THREE.Scene();
+  scene.add(ship);
+  const exporter = new GLTFExporter();
+  const buf = await exporter.parseAsync(scene, { binary: true, onlyVisible: true });
+  // Base64 so the result crosses the CDP bridge as a plain string.
+  let bin = '';
+  const bytes = new Uint8Array(buf);
+  const CHUNK = 0x8000;
+  for (let i = 0; i < bytes.length; i += CHUNK) {
+    bin += String.fromCharCode.apply(null, bytes.subarray(i, i + CHUNK));
+  }
+  return btoa(bin);
+};
+
+window.stats = (opts) => {
+  const ship = window.build(opts);
+  let tris = 0, verts = 0, meshes = 0, lines = 0, materials = new Set();
+  ship.traverse((o) => {
+    if (o.isMesh) {
+      meshes++;
+      const g = o.geometry;
+      const n = g.index ? g.index.count : g.attributes.position.count;
+      const inst = o.isInstancedMesh ? o.count : 1;
+      tris += (n / 3) * inst;
+      verts += g.attributes.position.count * inst;
+      (Array.isArray(o.material) ? o.material : [o.material]).forEach((m) => materials.add(m.uuid));
+    } else if (o.isLineSegments) {
+      lines += o.geometry.attributes.position.count / 2;
+    }
+  });
+  return { tris: Math.round(tris), verts, meshes, lines, materials: materials.size };
+};
+
+window.measure = (opts) => measureShip(window.build(opts));
+
+/**
+ * Run the motion layer over a fresh ship and report how far every moving part actually
+ * moved between two instants.
+ *
+ * This exists because motion.js finds what it moves *by name*. Rename a mesh, merge two
+ * groups, or change the shape of the rig, and nothing throws: the ship simply stops
+ * moving, every other check still passes, and the loss is invisible until somebody looks
+ * at her. So the check has to be "did she move", and it has to be measured.
+ *
+ * A ship of her own is built rather than the cached one, because createMotion swaps the
+ * materials of the ship it is given.
+ */
+window.motionProbe = ({ lod = 'game', sails = 'storm', t0 = 0, t1 = 1.7 } = {}) => {
+  const ship = buildShip({ lod, sails });
+  const motion = createMotion(ship);
+  // The two instants differ in the ship's attitude as well as in the clock, because some
+  // of what moves is driven by the clock and some by what she is doing. The helm above
+  // all: the wheel is turned by the helmsman and not by the passage of time, so a probe
+  // that holds the helm still and waits proves only that the wheel is where it was.
+  const at = (helm, heel) => ({
+    windSpeed: 24, windDeg: 155, heel, pitch: 0.05, helm, spray: 1,
+  });
+
+  // The parts that move by shader do not move on the processor at all — their vertices
+  // are the same numbers before and after — so they are probed through the uniforms they
+  // are driven by, and the parts that move on the processor are probed by their positions.
+  const snapshot = () => {
+    const nodes = {};
+    ship.traverse((o) => {
+      if (!o.isMesh && !o.isGroup) return;
+      if (!o.name) return;
+      nodes[o.name] = [o.position.x, o.position.y, o.position.z,
+        o.rotation.x, o.rotation.y, o.rotation.z];
+    });
+    const flags = {};
+    for (const f of motion.parts.flags) {
+      const a = f.node.geometry.attributes.position.array;
+      let sum = 0;
+      for (let i = 0; i < a.length; i++) sum += a[i] * (1 + (i % 7));
+      flags[f.node.name] = sum;
+    }
+    const u = motion.uniforms;
+    return {
+      nodes,
+      flags,
+      uniforms: {
+        time: u.uTime.value,
+        whip: [u.uWhipWorld.value.x, u.uWhipWorld.value.y, u.uWhipWorld.value.z],
+        wind: u.uWind.value,
+        wetness: u.uWetness.value,
+      },
+    };
+  };
+
+  motion.update(t0, at(-0.4, -0.16));
+  const a = snapshot();
+  motion.update(t1, at(0.35, 0.12));
+  const b = snapshot();
+
+  const moved = (k) => {
+    const x = a.nodes[k], y = b.nodes[k];
+    if (!x || !y) return null;
+    return Math.max(...x.map((v, i) => Math.abs(v - y[i])));
+  };
+
+  return {
+    // What the layer found. A count of zero anywhere is the failure this is for.
+    found: {
+      flags: motion.parts.flags.length,
+      crew: motion.parts.crew.length,
+      wheel: motion.parts.wheel ? 1 : 0,
+      patchedMaterials: motion.parts.patchedCount ?? null,
+    },
+    // What actually changed.
+    flags: Object.fromEntries(Object.entries(a.flags)
+      .map(([k, v]) => [k, Math.abs(v - b.flags[k])])),
+    crew: motion.parts.crew.map((c) => moved(c.node.name)).filter((v) => v !== null),
+    wheel: motion.parts.wheel ? moved(motion.parts.wheel.name) : null,
+    rudder: motion.parts.rudder ? moved(motion.parts.rudder.name) : null,
+    yards: {
+      found: motion.parts.yards.length,
+      // The yards are hauled round at a rate, so between two instants they should have
+      // moved some way toward the angle the wind asks for — and their sails with them,
+      // which is the whole point of hanging the canvas on the spars.
+      braced: Math.max(0, ...motion.parts.yards.map((y) => moved(y.node.name) ?? 0)),
+      sailFollowed: (() => {
+        const sail = ship.getObjectByName('main_topsail_sail') ?? ship.getObjectByName('fore_course_sail');
+        if (!sail) return null;
+        return sail.parent && /_yard$/.test(sail.parent.name) ? sail.parent.name : false;
+      })(),
+    },
+    whipChanged: Math.max(...a.uniforms.whip.map((v, i) => Math.abs(v - b.uniforms.whip[i]))),
+    timeAdvanced: b.uniforms.time - a.uniforms.time,
+    wind: b.uniforms.wind,
+    wetness: b.uniforms.wetness,
+    // The shader-driven meshes: not that they moved, but that they were given a shader
+    // that can move them. A material with no motion program is a part that will never
+    // move however long the clock runs.
+    shaderParts: (() => {
+      const want = ['main_topsail_sail', 'fore_course_sail', 'fore_and_aft_sails',
+        'shrouds_and_stays', 'running_rigging_ropes', 'main_lower_mast', 'main_yard'];
+      const out = {};
+      for (const n of want) {
+        const o = ship.getObjectByName(n);
+        out[n] = o ? Boolean(o.material?.customProgramCacheKey?.().startsWith('motion:')) : null;
+      }
+      return out;
+    })(),
+  };
+};
+
+window.SHIP_READY = true;
+log('ready');
+</script>

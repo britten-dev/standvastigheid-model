@@ -1,0 +1,370 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HMS Surprise — model viewer</title>
+<script src="/viewer/importmap.js"></script>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #0b0e11; color: #d6d9dd;
+         font: 13px/1.5 ui-sans-serif, system-ui, -apple-system, sans-serif; overflow: hidden; }
+  /* The width and height matter. `setSize(w, h, false)` deliberately does not touch the
+     canvas's style, so without these the canvas falls back to its intrinsic size — the
+     drawing buffer, which is twice the viewport on a retina screen — and the page shows
+     the top-left quarter of the render with the ship somewhere off the bottom right. */
+  #c { position: fixed; inset: 0; display: block; width: 100%; height: 100%; }
+  .panel { position: fixed; background: #151a20e6; border: 1px solid #2b3440;
+           border-radius: 8px; padding: 10px 12px; backdrop-filter: blur(8px); }
+  #ui { top: 12px; left: 12px; width: 210px; }
+  #ui h1 { font-size: 13px; margin: 0 0 2px; letter-spacing: .02em; }
+  #ui .sub { color: #7b8794; font-size: 11px; margin-bottom: 10px; }
+  #ui label { display: block; color: #8b97a5; font-size: 10px; text-transform: uppercase;
+              letter-spacing: .07em; margin: 10px 0 4px; }
+  .seg { display: flex; flex-wrap: wrap; gap: 3px; }
+  .seg button { flex: 1 1 auto; background: #1e262f; color: #b9c2cc; border: 1px solid #2b3440;
+                border-radius: 5px; padding: 4px 7px; font: inherit; font-size: 11px; cursor: pointer; }
+  .seg button:hover { background: #26313c; }
+  .seg button[aria-pressed="true"] { background: #3d6ea8; border-color: #4d84c4; color: #fff; }
+  #stats { bottom: 12px; left: 12px; font-family: ui-monospace, SFMono-Regular, monospace;
+           font-size: 11px; color: #8b97a5; white-space: pre; }
+  #stats b { color: #d6d9dd; font-weight: 600; }
+  #views { top: 12px; right: 12px; width: 132px; }
+  /* The reference photograph is not shipped with this project — it is The Model
+     Shipyard's, not ours. Anyone with their own copy in reference/ sees the overlay;
+     everyone else does not get the button. See reference/README.md. */
+  #ref { position: fixed; inset: 0; pointer-events: none; opacity: 0; transition: opacity .15s;
+         background: center/contain no-repeat url(/reference/surprise-reference.jpg); }
+  #ref.on { opacity: .45; }
+  #err { position: fixed; left: 50%; top: 40%; transform: translateX(-50%); max-width: 640px;
+         color: #ff9a8a; font-family: ui-monospace, monospace; font-size: 12px;
+         white-space: pre-wrap; display: none; }
+</style>
+<body>
+<canvas id="c"></canvas>
+<div id="ref"></div>
+<div id="err"></div>
+
+<div class="panel" id="ui">
+  <h1>HMS Surprise</h1>
+  <div class="sub">ex-<i>Unité</i>, 1794</div>
+  <label>Detail</label><div class="seg" id="lod"></div>
+  <label>Canvas</label><div class="seg" id="sails"></div>
+  <label>Display</label><div class="seg" id="disp"></div>
+  <label>Weather</label><div class="seg" id="weather"></div>
+  <label>Download</label><div class="seg" id="dl"></div>
+  <div class="sub" style="margin:6px 0 0;font-size:10px;line-height:1.45">
+    The ship is generated in your browser from the source in this page. The files below
+    are the same model exported to glTF.
+  </div>
+</div>
+
+<div class="panel" id="views"><label style="margin-top:0">Camera</label><div class="seg" id="viewbtns"></div></div>
+<div class="panel" id="stats">building…</div>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { buildShip, LODS, SAIL_STATES } from '/src/ship/index.js';
+import { VIEWS, applyView, framingFor } from '/viewer/views.js';
+import { makeEnvironment, makeSea, makeStormSea } from '/viewer/scene.js';
+import { createMotion } from '/src/ship/motion.js';
+import { createPostStack } from '/viewer/post.js';
+
+const canvas = document.getElementById('c');
+// `antialias` is left off here for the same reason it is dropped in render.html: once a
+// composer stands between the scene and the screen, the only thing that ever reaches the
+// canvas's own default framebuffer is the composer's final full-screen blit, which has no
+// edge of its own for MSAA to smooth. See the "Anti-aliasing" section at the top of
+// viewer/post.js — SMAAPass is what actually antialiases the rigging now.
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: false });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+// Left set here even though a composer is in the chain: OutputPass reads all three of
+// these off the renderer itself, so this is still the one place that decides them, and
+// nothing downstream of OutputPass is allowed to touch colour again. See viewer/post.js.
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.92;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+// Two scenes, not one: the fine-weather rig this viewer has always had, and the gale the
+// ship is actually built for. They are separate THREE.Scenes because the light rigs are
+// different objects, and swapping a light rig in place is a way of ending up with both.
+const envs = { fair: makeEnvironment(renderer, { studio: false }), storm: makeEnvironment(renderer, { storm: true }) };
+const seas = { fair: Object.assign(makeSea(), { name: 'sea' }), storm: makeStormSea() };
+envs.fair.scene.add(seas.fair);
+envs.storm.scene.add(seas.storm);
+let scene = envs.fair.scene;
+
+const camera = new THREE.PerspectiveCamera(35, 1, 0.05, 3000);
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
+controls.dampingFactor = 0.07;
+controls.maxDistance = 400;
+
+// One composer for the life of the page. Its scene is swapped in place when the weather
+// toggles — see setWeather() below and createPostStack's own header for why that is
+// cheaper and safer than building a new composer per rig. `fair` is graded as grade.js's
+// `sea` rig: this viewer has no studio backdrop of its own, that comparison only exists
+// in the offline renders, so the only two rigs a live viewer ever needs are the fine day
+// and the gale.
+const post = createPostStack(renderer, scene, camera, { rig: 'sea' });
+
+const state = { lod: 'hero', sails: 'full', wire: false, grid: false, ref: false, weather: false };
+const cache = new Map();
+let ship = null;
+let motion = null;
+// The helm, worked by hand from the keyboard, because the one thing that proves the
+// motion layer is wired to something is being able to put the wheel over and watch two
+// men and a rudder follow it.
+let helm = 0, helmWanted = 0;
+
+function seg(id, items, get, set) {
+  const el = document.getElementById(id);
+  el.innerHTML = '';
+  for (const it of items) {
+    const b = document.createElement('button');
+    b.textContent = it.label;
+    b.onclick = () => { set(it.value); paintSegs(); };
+    b.dataset.value = it.value;
+    el.appendChild(b);
+  }
+  el._get = get;
+}
+function paintSegs() {
+  for (const id of ['lod', 'sails', 'disp', 'weather']) {
+    const el = document.getElementById(id);
+    for (const b of el.children) b.setAttribute('aria-pressed', String(el._get(b.dataset.value)));
+  }
+}
+
+seg('lod', LODS.map((v) => ({ label: v, value: v })), (v) => state.lod === v, (v) => { state.lod = v; rebuildSoon(); });
+seg('sails', SAIL_STATES.map((v) => ({ label: v, value: v })), (v) => state.sails === v, (v) => { state.sails = v; rebuildSoon(); });
+
+/**
+ * Rebuild, but let the page say so first.
+ *
+ * Building the ship is synchronous and it is not quick: the `cinematic` level spends
+ * several seconds, most of it drawing 2048-pixel procedural textures. Called straight
+ * from a button handler that locks the tab solid with no explanation, and the honest
+ * reading of that is that the viewer has crashed. So the panel is told what is happening
+ * and the build is deferred by two frames — one to run the style change, one to paint it.
+ *
+ * The first build at start-up deliberately does NOT go through this. `window.SHIP_READY`
+ * is set at the end of this script and the tools wait on it, so that build has to have
+ * finished by the time the flag goes up or every automated check races it.
+ */
+function rebuildSoon() {
+  const key = `${state.lod}/${state.sails}`;
+  if (cache.has(key)) return rebuild();
+  const panel = document.getElementById('stats');
+  panel.innerHTML = `<b>${key}</b>\nbuilding…`;
+  requestAnimationFrame(() => requestAnimationFrame(() => rebuild()));
+}
+const DISPLAY_TOGGLES = [
+  { label: 'wire', value: 'wire' }, { label: 'grid', value: 'grid' }, { label: 'photo', value: 'ref' },
+];
+seg('weather', [{ label: 'fine', value: false }, { label: 'gale', value: true }],
+  (v) => state.weather === (v === 'true'),
+  (v) => { state.weather = v === true || v === 'true'; setWeather(); });
+// The photo overlay only exists for whoever has put their own copy of the reference
+// photograph in reference/. Ask for it once; if it is not there, drop the button.
+fetch('/reference/surprise-reference.jpg', { method: 'HEAD' })
+  .then((r) => { if (!r.ok) throw new Error('absent'); })
+  .catch(() => {
+    const el = document.getElementById('disp');
+    for (const b of [...el.children]) if (b.dataset.value === 'ref') b.remove();
+  });
+
+seg('disp', DISPLAY_TOGGLES, (v) => state[v], (v) => {
+  state[v] = !state[v];
+  document.getElementById('ref').classList.toggle('on', state.ref);
+  grid.visible = state.grid;
+  applyWire();
+});
+
+const viewBtns = document.getElementById('viewbtns');
+for (const name of Object.keys(VIEWS)) {
+  const b = document.createElement('button');
+  b.textContent = name;
+  b.onclick = () => goToView(name);
+  viewBtns.appendChild(b);
+}
+
+// The exported models, if the site was built with them.
+(async () => {
+  const el = document.getElementById('dl');
+  try {
+    const manifest = await (await fetch('/build/manifest.json')).json();
+    const here = new Set();
+    for (const row of manifest) {
+      const label = row.lod === 'hero' ? 'hero' : row.lod;
+      if (here.has(row.name)) continue;
+      here.add(row.name);
+      const ok = await fetch(`/build/${row.name}`, { method: 'HEAD' }).then((r) => r.ok).catch(() => false);
+      if (!ok) continue;
+      const a = document.createElement('a');
+      a.href = `/build/${row.name}`;
+      a.download = row.name;
+      a.textContent = `${label}·${row.sails}`;
+      a.style.cssText = 'flex:1 1 auto;background:#1e262f;color:#b9c2cc;border:1px solid #2b3440;'
+        + 'border-radius:5px;padding:4px 7px;font-size:11px;text-decoration:none;text-align:center';
+      a.title = `${row.name} — ${row.tris.toLocaleString()} triangles, ${row.kb} kB`;
+      el.appendChild(a);
+    }
+    if (!el.children.length) el.innerHTML = '<span style="color:#6b7683;font-size:11px">not exported</span>';
+  } catch {
+    el.innerHTML = '<span style="color:#6b7683;font-size:11px">not exported</span>';
+  }
+})();
+
+const grid = new THREE.GridHelper(120, 120, 0x35506a, 0x1e2c3a);
+grid.visible = false;
+grid.position.y = 0.001;
+envs.fair.scene.add(grid);
+
+/**
+ * Swap between the fine day and the gale.
+ *
+ * The ship is moved between the two scenes rather than duplicated, and her motion layer
+ * is thrown away and rebuilt with her, because the layer patches her materials and a
+ * ship that is not in the weather should be wearing the materials she was built with.
+ */
+function setWeather() {
+  scene = state.weather ? envs.storm.scene : envs.fair.scene;
+  grid.parent?.remove(grid);
+  scene.add(grid);
+  post.setScene(scene, camera);
+  post.setRig(state.weather ? 'storm' : 'sea');
+  rebuild(true);
+}
+
+function applyWire() {
+  if (!ship) return;
+  ship.traverse((o) => { if (o.isMesh) o.material.wireframe = state.wire; });
+}
+
+function rebuild() {
+  try {
+    const key = `${state.lod}/${state.sails}`;
+    if (ship) ship.parent?.remove(ship);
+    if (motion) { motion.dispose(); motion = null; }
+    if (!cache.has(key)) {
+      const t0 = performance.now();
+      const g = buildShip({ lod: state.lod, sails: state.sails });
+      g.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
+      cache.set(key, { g, ms: performance.now() - t0 });
+    }
+    ship = cache.get(key).g;
+    ship.position.set(0, 0, 0);
+    ship.rotation.set(0, 0, 0);
+    scene.add(ship);
+    if (state.weather) {
+      ship.rotation.order = 'YXZ';
+      motion = createMotion(ship);
+    }
+    applyWire();
+    showStats(key);
+  } catch (e) {
+    document.getElementById('err').style.display = 'block';
+    document.getElementById('err').textContent = e.stack || String(e);
+    throw e;
+  }
+}
+
+function showStats(key) {
+  let tris = 0, meshes = 0, lines = 0;
+  ship.traverse((o) => {
+    if (o.isMesh) {
+      meshes++;
+      const n = o.geometry.index ? o.geometry.index.count : o.geometry.attributes.position.count;
+      tris += (n / 3) * (o.isInstancedMesh ? o.count : 1);
+    } else if (o.isLineSegments) lines += o.geometry.attributes.position.count / 2;
+  });
+  const box = new THREE.Box3().setFromObject(ship);
+  const s = box.getSize(new THREE.Vector3());
+  document.getElementById('stats').innerHTML =
+    `<b>${key}</b>\n` +
+    `${tris.toLocaleString()} tris · ${meshes} meshes · ${lines.toLocaleString()} ropes\n` +
+    `hull+rig  ${s.z.toFixed(1)} × ${s.x.toFixed(1)} × ${s.y.toFixed(1)} m\n` +
+    `built in ${cache.get(key).ms.toFixed(0)} ms`;
+}
+
+let currentView = 'reference';
+
+function goToView(name) {
+  currentView = name;
+  const { bounds, frame } = framingFor(THREE, ship);
+  const { target } = applyView(camera, VIEWS[name], bounds, frame);
+  controls.target.set(...target);
+  controls.update();
+}
+
+function resize() {
+  const w = innerWidth, h = Math.max(1, innerHeight);
+  renderer.setSize(w, h, false);
+  // The composer does not track the renderer's size on its own — it owns its own render
+  // targets, sized when it was built, and a resize handler that only calls
+  // renderer.setSize leaves every one of those targets the size the window used to be.
+  // That mismatch is silent rather than an error: the composer just keeps compositing at
+  // the old resolution into a canvas that has moved on, which shows up as a blurred or
+  // cropped frame and nothing in the console to explain it. Hence this line.
+  post.setSize(w, h);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+  // If the camera was framed before the page had a size, its position is NaN and it
+  // will stay that way for ever, showing a black screen and reporting no error. A
+  // resize is the moment to notice and put it right.
+  if (!Number.isFinite(camera.position.x)) goToView(currentView);
+}
+addEventListener('resize', resize);
+
+rebuild();
+paintSegs();
+resize();
+goToView('reference');
+// Her own motion in the water. It belongs to the host in a game — this model has none of
+// its own and says so — but the viewer has to float her on something to judge her, and a
+// ship standing on a flat plane cannot be judged at all.
+addEventListener('keydown', (e) => {
+  if (e.key === 'a' || e.key === 'ArrowLeft') helmWanted = -1;
+  if (e.key === 'd' || e.key === 'ArrowRight') helmWanted = 1;
+  if (e.key === ' ') helmWanted = 0;
+});
+
+const clock = new THREE.Clock();
+let t = 0;
+renderer.setAnimationLoop(() => {
+  const dt = Math.min(0.05, clock.getDelta());
+  t += dt;
+  controls.update();
+  if (state.weather && ship) {
+    const seaMesh = seas.storm;
+    seaMesh.userData.uniforms.uTime.value = t;
+    // Sampled at the bow, the quarter and each beam, exactly as a host would: the ship
+    // takes her trim from the water under her, not from a clock.
+    const h = seaMesh.userData.heightAt;
+    const L = 13, B = 4.6;
+    const fwd = h(0, -L, t), aft = h(0, L, t), port = h(-B, 0, t), stbd = h(B, 0, t);
+    ship.position.y = (fwd + aft + port + stbd) / 4;
+    ship.rotation.x = Math.atan2(aft - fwd, 2 * L);
+    ship.rotation.z = Math.atan2(stbd - port, 2 * B) * 1.35;
+    seaMesh.userData.followShip(ship);
+    helm += (helmWanted - helm) * Math.min(1, dt * 2.2);
+    motion?.update(t, {
+      windSpeed: 24, windDeg: 155,
+      heel: ship.rotation.z, pitch: ship.rotation.x,
+      helm,
+      // A sea comes aboard when she buries her bow, and she dries out afterwards.
+      spray: fwd < -1.6 ? 1 : 0,
+    });
+  }
+  post.render(dt);
+});
+
+// So that automated checks can wait for the page rather than guess at a delay, and so
+// that the camera and the scene can be inspected from the console.
+window.VIEWER = { get camera() { return camera; }, get controls() { return controls; },
+  get scene() { return scene; }, get ship() { return ship; }, goToView };
+window.SHIP_READY = true;
+</script>

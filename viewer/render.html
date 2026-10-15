@@ -1,0 +1,125 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Surprise render</title>
+<script src="/viewer/importmap.js"></script>
+<body style="margin:0;background:#000;overflow:hidden">
+<script type="module">
+import * as THREE from 'three';
+import { buildShip } from '/src/ship/index.js';
+import { VIEWS, applyView, framingFor } from '/viewer/views.js';
+import { makeEnvironment, makeSea, makeStormSea } from '/viewer/scene.js';
+import { createMotion } from '/src/ship/motion.js';
+import { createPostStack } from '/viewer/post.js';
+
+// Four by three, the same shape as the reference photograph, so that the verification
+// render and the photograph can be laid side by side without either being letterboxed.
+const W = 1440, H = 1080;
+const canvas = document.createElement('canvas');
+canvas.width = W; canvas.height = H;
+canvas.id = 'shot';
+canvas.style.cssText = `width:${W / 2}px;height:${H / 2}px`;
+document.body.appendChild(canvas);
+
+// `antialias` is left off deliberately now that a composer sits between the scene and
+// the screen — see the "Anti-aliasing" section of viewer/post.js for why asking the
+// context for MSAA no longer buys anything once nothing renders straight to the canvas.
+// `preserveDrawingBuffer` still has to stay on: the harness reads this canvas back with
+// `element.screenshot()` after the frame has already been swapped, and without it the
+// buffer the screenshot reads can already have been cleared for the next frame.
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1);
+renderer.setSize(W, H, false);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+// These three stay set on the renderer even though a composer is in the chain: OutputPass
+// reads them off the renderer itself rather than taking its own copies, so this is still
+// the one place that decides the tone curve, the exposure and the output encoding. See
+// viewer/post.js for why nothing else in the chain is allowed to touch any of the three.
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.92;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+const camera = new THREE.PerspectiveCamera(35, W / H, 0.05, 2000);
+
+let current = null, currentKey = null, motion = null;
+const envs = {};
+
+function ensureEnv(kind) {
+  return (envs[kind] ??= makeEnvironment(renderer, { studio: kind === 'studio', storm: kind === 'storm' }));
+}
+
+// One composer for the life of the page, its scene swapped per shot rather than rebuilt
+// per shot — see createPostStack's own header for why. It starts pointed at nothing in
+// particular; `setup()` below points it at whichever rig's scene is about to be shot.
+const post = createPostStack(renderer, ensureEnv('sea').scene, camera, { rig: 'sea' });
+
+window.setup = ({ lod = 'hero', sails = 'full', studio = false, storm = false, sea = true,
+                 time = 12.5, state = {} } = {}) => {
+  const kind = storm ? 'storm' : studio ? 'studio' : 'sea';
+  const key = JSON.stringify({ lod, sails, kind, sea, time, state });
+  if (key === currentKey) return;
+  const { scene } = ensureEnv(kind);
+  if (current) scene.remove(current);
+  if (motion) { motion.dispose(); motion = null; }
+  current = buildShip({ lod, sails });
+  current.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
+  scene.add(current);
+
+  const seaMesh = scene.getObjectByName('sea');
+  if (seaMesh) scene.remove(seaMesh);
+  if (sea) scene.add(storm ? makeStormSea() : Object.assign(makeSea(), { name: 'sea' }));
+
+  // A still frame of a moving ship. The verification renders have to be repeatable, so
+  // the clock is not started — it is set once, to a stated instant, and everything that
+  // moves is asked where it is at that instant. Change `time` and you get a different
+  // frame of the same motion; leave it and two runs give the same picture.
+  if (storm) {
+    const sea3 = scene.getObjectByName('sea');
+    if (sea3?.userData.uniforms) sea3.userData.uniforms.uTime.value = time;
+    const attitude = { heel: -0.16, pitch: 0.05, windSpeed: 24, windDeg: 155, helm: -0.35, spray: 0.6, ...state };
+    // She sits in the sea rather than on it: her own trim comes from the water under her
+    // bow and her quarter, which is the whole difference between a ship and a model of
+    // one standing on a mirror.
+    if (sea3?.userData.heightAt) {
+      const h = sea3.userData.heightAt(0, 0, time);
+      current.position.y = h;
+    }
+    current.rotation.order = 'YXZ';
+    current.rotation.z = attitude.heel;
+    current.rotation.x = attitude.pitch;
+    motion = createMotion(current);
+    motion.update(time, attitude);
+    // Exposed so that a tool can run the clock on and watch something that takes time —
+    // the yards, above all, which are hauled round at a rate and are not where the wind
+    // wants them until the watch has had a few seconds to get them there.
+    window.MOTION = motion;
+    window.STATE = attitude;
+    current.updateMatrixWorld(true);
+    sea3?.userData.followShip?.(current);
+  }
+  currentKey = key;
+  window.SCENE = scene;
+  // The grade is per rig, not per shot: `kind` is exactly the rig name grade.js keys its
+  // table by, so this is the only line that has to know the two are the same set of names.
+  post.setScene(scene, camera);
+  post.setRig(kind);
+};
+
+window.shoot = (viewName, overrides = {}) => {
+  const view = { ...VIEWS[viewName], ...overrides };
+  if (!view.azimuth && view.azimuth !== 0) throw new Error(`unknown view "${viewName}"`);
+  const { bounds, frame } = framingFor(THREE, current);
+  applyView(camera, view, bounds, frame);
+  // A fixed step rather than a wall-clock delta: this harness renders exactly one frame
+  // per call and has no notion of "since the last frame", so the grain pass is handed a
+  // nominal 1/60 s each time. It only has to advance the grain's seed by something, and a
+  // repeat run of the same shot getting a different grain pattern than the last run is
+  // expected — the render is a still frame of a moving ship, not a still frame of a still
+  // camera, and the grain is the camera's, not the scene's.
+  post.render(1 / 60);
+  const size = new THREE.Box3().setFromObject(current).getSize(new THREE.Vector3());
+  return { size: { x: size.x, y: size.y, z: size.z } };
+};
+
+window.SHIP_READY = true;
+</script>

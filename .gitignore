@@ -1,0 +1,25 @@
+node_modules/
+.DS_Store
+*.log
+build/*.glb
+build/*.blend*
+build/*-reference.png
+build/* colour.png
+build/* normal.png
+build/* roughness-metal.png
+build/hero-dimensions.json
+build/crew-prototype/
+__pycache__/
+renders/*.png
+!build/.gitkeep
+!renders/.gitkeep
+dist/
+
+# Scratch files. Anything named this way is a working file, not part of the project.
+_scratch*
+
+# The reference photograph is a third party's work and is not redistributed here.
+# See reference/README.md. Keep your own copy in this folder; it stays out of git.
+reference/*.jpg
+reference/*.jpeg
+reference/*.png
