@@ -2,6 +2,7 @@ import * as T from 'three';
 import {asTexture,normalFrom,woodGrain} from './textures.js';
 import {SPEC} from '../spec/spec.js';
 import {mergeGeometries} from '../util/loft.js';
+import {deckEdgeHeight} from './deck-level.js';
 const cache=new WeakMap();
 
 // A dedicated walking-surface finish: sharing the old deck material with boats,
@@ -40,13 +41,18 @@ export function walkingDeckMaterial(cfg,base){
 // A narrow waterway timber follows the real inside of the ship, with camber and
 // a rounded inner edge. It catches a grazing highlight without floating above
 // the deck or covering the drains. No independent decorative planks per frame.
+//
+// `ranges` is a list of [deck, zFrom, zTo]. The deck names are the ones decks.js uses for
+// its meshes, with `gundeck` kept as it has always been passed in for the waist (the
+// upper deck): 'lower', 'upper' (or 'gundeck'), 'gangway', 'forecastle', 'quarterdeck'.
+const WATERWAY_DECK={lower:'lower',upper:'upper',gundeck:'upper',gangway:'gangway',forecastle:'standing',quarterdeck:'standing'};
 export function deckWaterways(cfg,model,ranges){
  if(!cfg.surfaceDetail)return null;
  const parts=[],S=SPEC.side_thickness.value;
  for(const [which,start,end]of ranges)for(const side of [-1,1]){
   const n=Math.max(12,Math.ceil((end-start)*3)),pos=[],uv=[],idx=[];
   for(let i=0;i<=n;i++){
-   const z=T.MathUtils.lerp(start,end,i/n),edgeY=which==='gundeck'?model.featureYAt(z).deck:model.standingDeckAt(z);
+   const z=T.MathUtils.lerp(start,end,i/n),edgeY=deckEdgeHeight(model,z,WATERWAY_DECK[which]??'standing');
    const edge=model.halfBreadthAt(z,edgeY),outer=Math.max(.06,edge-S),width=Math.min(.22,outer*.35);
    for(const [inset,rise]of [[0,.007],[width-.012,.007],[width,.002],[width,-.006]]){
     const x=(outer-inset)*side,y=edgeY+SPEC.deck_camber.value*(1-(x/Math.max(.01,edge))**2)+rise;
@@ -72,16 +78,21 @@ export function deckWaterways(cfg,model,ranges){
 export function finishDeckContact(ship,cfg){
  if(!cfg.surfaceDetail)return;
  ship.updateMatrixWorld(true);
- const decks=['gundeck','forecastle','quarterdeck','gangway_starboard','gangway_port'].map(n=>ship.getObjectByName(n)).filter(Boolean);
+ // Every deck a gun can stand on: the lower deck (`gundeck`, the RN name), the upper deck,
+ // the quarterdeck, the forecastle and the gangways.
+ const decks=['gundeck','upper_deck','forecastle','quarterdeck','gangway_starboard','gangway_port'].map(n=>ship.getObjectByName(n)).filter(Boolean);
  const feet=[],m=new T.Matrix4();
- for(const name of ['nine_pounder_carriages','four_pounder_carriages','carronade_slides']){
-  const mesh=ship.getObjectByName(name);if(!mesh)continue;
+ // Whatever the guns module calls its carriage meshes, a carriage or a slide is one.
+ const carriages=[];
+ ship.traverse(o=>{if(o.isMesh&&/(carriages|slides)$|_housed_/.test(o.name))carriages.push(o);});
+ for(const mesh of carriages){
   const p=mesh.geometry.attributes.position,points=new Map();
   for(let i=0;i<p.count;i++)if(p.getY(i)<.009){
    const v=new T.Vector3().fromBufferAttribute(p,i),key=[v.x,v.z].map(x=>Math.round(x*20)).join(',');points.set(key,v);
   }
-  for(let i=0;i<mesh.count;i++){
-   mesh.getMatrixAt(i,m);
+  const count=mesh.isInstancedMesh?mesh.count:1;
+  for(let i=0;i<count;i++){
+   if(mesh.isInstancedMesh){mesh.getMatrixAt(i,m);m.premultiply(mesh.matrixWorld);}else m.copy(mesh.matrixWorld);
    for(const p of points.values())feet.push(p.clone().applyMatrix4(m));
   }
  }

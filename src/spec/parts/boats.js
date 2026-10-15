@@ -1,37 +1,51 @@
 // Dimensions for the boats of the ship. See src/spec/parts/index.js for the shape
 // of an entry and for the rule that every key must also appear in SPECS.md.
 //
-// No boat list survives for SURPRISE. Research file 06 §8.3 reconstructs the outfit of
-// a 578-ton ship of 20-24 guns from period practice — launch, pinnace, cutter and jolly
-// boat — and that is what is built here. The lengths and beams below are §8.3's; the
-// depths, the scantlings and every shape parameter are reconstructed from Steel's boat
-// proportions, because the Folio LVII/LVIII scantling plates that would settle them are
-// too degraded to read in the archive.org scan (§8.5).
+// No boat list survives for the Waakzaamheid, who is fictional, and the Washington's own
+// is not in the draught. The outfit is reconstructed from the Royal Navy's boat
+// establishments for a 74 (Steel, Elements and Practice of Naval Architecture, 1805; Lavery,
+// The Arming and Fitting of English Ships of War, 1987): a launch, a pinnace, two cutters
+// and a jolly boat. The Dutch Admiralties' lists were not found, and a Dutch 74 of 1811
+// under French command would have carried much the same — all grades are RECONSTRUCTED,
+// and the lengths are the middle of the range those establishments give for a third rate,
+// not any one ship's.
+//
+// Stowage: the launch (with a cutter nested in her) and the pinnace lie on the skid beams
+// across the waist, which the furniture module builds; the second cutter and the jolly boat
+// hang in davits at the quarters. The depths, the scantlings and every shape parameter
+// below are reconstructed from Steel's boat proportions; the Folio LVII/LVIII scantling
+// plates that would settle them are too degraded to read in the archive.org scan.
 import { ft, m, n } from '../units.js';
+
+const R8 = 'RECONSTRUCTED §8.3 Steel 1805 / Lavery boat establishment for a 74';
 
 export const BOATS_SPEC = {
   // ------------------------------------------------------------------ the outfit
-  boat_count: n(4, 'RECONSTRUCTED §8.3 launch, pinnace, cutter and jolly boat — the outfit of a sixth rate of 578 tons; no boat list for Surprise was found', { tolerance: 0.001 }),
+  boat_count: n(5, `${R8}: launch, pinnace, two cutters and a jolly boat`, { tolerance: 0.001 }),
 
-  // The launch: the largest boat, which replaced the long boat in the RN from 1780.
-  launch_length: m(ft(24, 0), 'RECONSTRUCTED §8.3 24 ft launch for a ship of this rate', { tolerance: 0.05 }),
-  launch_beam: m(ft(7, 0), 'RECONSTRUCTED §8.3 launch beam 7 ft 0 in', { noAudit: true }),
-  launch_depth: m(ft(2, 10), 'RECONSTRUCTED §8.5 depth amidships at length/8.5, Steel\'s boat proportion; the scantling folio is illegible', { noAudit: true }),
+  // The launch: the largest boat, which replaced the long boat in the RN from 1780. A
+  // cutter is nested in her on the skids.
+  launch_length: m(ft(32, 0), `${R8}, launch 30-34 ft`, { tolerance: 0.05 }),
+  launch_beam: m(ft(9, 3), `${R8}, launch beam about 0.29 of her length`, { noAudit: true }),
+  launch_depth: m(ft(3, 9), 'RECONSTRUCTED §8.5 depth amidships at length/8.5, Steel\'s boat proportion; the scantling folio is illegible', { noAudit: true }),
 
   // The pinnace, stowed on the skids beside the launch.
-  pinnace_length: m(ft(24, 0), 'RECONSTRUCTED §8.3 pinnace 24-26 ft; the shorter figure taken so that she stows on the same skid beams as the launch', { tolerance: 0.05 }),
-  pinnace_beam: m(ft(5, 9), 'RECONSTRUCTED §8.3 pinnace beam 5 ft 9 in', { noAudit: true }),
-  pinnace_depth: m(ft(2, 3), 'RECONSTRUCTED §8.5 length/10.7; a pinnace is shallower and finer than a launch', { noAudit: true }),
+  pinnace_length: m(ft(28, 0), `${R8}, pinnace 26-28 ft`, { tolerance: 0.05 }),
+  pinnace_beam: m(ft(6, 3), `${R8}, a pinnace is long and narrow`, { noAudit: true }),
+  pinnace_depth: m(ft(2, 8), 'RECONSTRUCTED §8.5 length/10.5; a pinnace is shallower and finer than a launch', { noAudit: true }),
 
-  // The cutter, nested inside the launch as the research describes boats being stowed.
-  cutter_length: m(ft(18, 0), 'RECONSTRUCTED §8.3 cutter 18-22 ft; the shortest taken so that she nests inside the 24 ft launch', { tolerance: 0.05 }),
-  cutter_beam: m(ft(6, 0), 'RECONSTRUCTED §8.3 cutter beam 6 ft 0 in — "shorter, broader and deeper in proportion", Steel', { noAudit: true }),
-  cutter_depth: m(ft(2, 4), 'RECONSTRUCTED §8.5 length/7.7; a cutter is deep for her length', { noAudit: true }),
+  // The cutter nested in the launch.
+  cutter_length: m(ft(24, 0), `${R8}, cutter 22-25 ft; the 24 ft taken so that she nests in the 32 ft launch`, { tolerance: 0.05 }),
+  cutter_beam: m(ft(6, 10), `${R8}, "shorter, broader and deeper in proportion", Steel`, { noAudit: true }),
+  cutter_depth: m(ft(3, 0), 'RECONSTRUCTED §8.5 length/8; a cutter is deep for her length', { noAudit: true }),
 
-  // The jolly boat, at the quarter davits.
-  jolly_length: m(ft(16, 0), 'RECONSTRUCTED §8.3 jolly boat 16-18 ft, the smaller taken', { tolerance: 0.06 }),
-  jolly_beam: m(ft(5, 6), 'RECONSTRUCTED §8.3 jolly boat beam 5 ft 6 in', { noAudit: true }),
-  jolly_depth: m(ft(2, 0), 'RECONSTRUCTED §8.5 length/8', { noAudit: true }),
+  // The second cutter, hung in the port quarter davits.
+  quarter_cutter_length: m(ft(24, 0), `${R8}, the second cutter, the same 24 ft as the first`, { tolerance: 0.05 }),
+
+  // The jolly boat, in the starboard quarter davits.
+  jolly_length: m(ft(18, 0), `${R8}, jolly boat 16-18 ft, the larger taken for a 74`, { tolerance: 0.06 }),
+  jolly_beam: m(ft(5, 9), `${R8}, jolly boat beam`, { noAudit: true }),
+  jolly_depth: m(ft(2, 3), 'RECONSTRUCTED §8.5 length/8', { noAudit: true }),
 
   // ------------------------------------------------------------------ boat shape
   // The lofting rule. One boat geometry serves all four, so these are the parameters
@@ -70,37 +84,34 @@ export const BOATS_SPEC = {
   boat_tiller_length: m(ft(3, 0), 'RECONSTRUCTED §8.5 tiller reaching the after thwart', { noAudit: true }),
 
   // ------------------------------------------------------------------ stowage
-  // §8.2 puts the top of the skid beams 5 ft 0 in above the upper deck. The furniture
-  // module owns the skid beams themselves; if it publishes `skid_beam_top_above_deck`
-  // the boats sit on that instead of on this row, which is read at build time.
-  boat_stow_height: m(ft(5, 0), 'RECONSTRUCTED §8.2 top of the skid beams 5 ft 0 in above the upper deck; used only where the furniture module has not defined skid_beam_top_above_deck', { noAudit: true }),
+  // The furniture module owns the skid beams (skid_beam_* in its spec); the boats sit on
+  // their tops and take their chocks on the two middle beams. These rows are only the
+  // boats' own part of it.
   boat_chock_height: m(ft(0, 8), 'RECONSTRUCTED §8.2 "boat chocks, two per boat, shaped to the boat\'s bilges"', { noAudit: true }),
   boat_chock_width: m(ft(0, 6), 'RECONSTRUCTED §8.2 chock sided 6 in', { noAudit: true }),
   boat_chock_spread: n(0.62, 'RECONSTRUCTED §8.2 the chocks take the boat under her bilges, at 0.62 of the half breadth', { noAudit: true }),
-  boat_chock_station: n(0.28, 'RECONSTRUCTED §8.2 the two chocks stand this fraction of the length either side of the boat\'s midlength', { noAudit: true }),
-
-  boat_stow_station: m(ft(56, 0), 'RECONSTRUCTED §8.2 midway along the four skid beams; the furniture module lays them from X = 44 ft at 8 ft centres, so their middle is X = 56 ft', { noAudit: true }),
-  launch_stow_offset: m(ft(3, 6), 'RECONSTRUCTED §8.2 launch stowed to starboard of the centreline so that the pinnace stows beside her inside the 24 ft clear of the waist', { noAudit: true }),
-  pinnace_stow_offset: m(ft(3, 6), 'RECONSTRUCTED §8.2 pinnace to port, the mirror of the launch', { noAudit: true }),
-  cutter_nest_rise: m(ft(2, 6), 'RECONSTRUCTED §8.2 "nested one atop the other"; the rise that lands the cutter\'s keel on top of the launch\'s thwarts rather than through them', { noAudit: true }),
-  cutter_nest_shift: m(ft(1, 0), 'RECONSTRUCTED §8.2 the nested cutter set a foot aft in the launch to clear her stem', { noAudit: true }),
+  boat_stow_beam_first: n(1, 'RECONSTRUCTED §8.2 the chocks stand on the second and third of the four skid beams, the middle two', { noAudit: true }),
+  launch_stow_offset: m(ft(5, 6), 'RECONSTRUCTED §8.2 launch stowed to starboard of the centreline so that the pinnace stows beside her, both inside the gangways', { noAudit: true }),
+  pinnace_stow_offset: m(ft(5, 6), 'RECONSTRUCTED §8.2 pinnace to port, the mirror of the launch', { noAudit: true }),
+  cutter_nest_rise: m(ft(3, 0), 'RECONSTRUCTED §8.2 "nested one atop the other"; the rise that lands the cutter\'s keel on top of the launch\'s thwarts rather than through them', { noAudit: true }),
+  cutter_nest_shift: m(ft(1, 6), 'RECONSTRUCTED §8.2 the nested cutter set a foot and a half aft in the launch to clear her stem', { noAudit: true }),
+  boat_gripe_pairs: n(2, 'RECONSTRUCTED §8.3 in heavy weather every stowed boat is double-gripped: two pairs of gripes, one pair either side of her middle', { noAudit: true }),
 
   // ------------------------------------------------------------------ quarter davits
-  // §8.4: quarter davits enter the RN in the 1790s and are defensible for 1798, while
-  // transom davits are marginal before 1800. The photograph's boat aft is therefore
-  // hung on the port quarter rather than over the taffrail.
-  davit_station: m(ft(116, 0), 'RECONSTRUCTED §8.4 quarter davits stepped on the starboard quarterdeck rail 10 ft forward of the sternpost, where the photograph carries a boat aft', { noAudit: true }),
-  davit_spacing: m(ft(9, 0), 'RECONSTRUCTED §8.4 the two davits set to take the jolly boat a little inside her stem and stern', { noAudit: true }),
+  // Quarter davits enter the RN in the 1790s and are usual on a 74 of 1811. They are
+  // stepped on the quarterdeck rail, centred this far forward of the sternpost.
+  davit_station_forward_of_sternpost: m(ft(18, 0), 'RECONSTRUCTED §8.4 davits stepped on the quarterdeck rail abaft the mizzen channels, clear of the quarter gallery', { noAudit: true }),
+  davit_spacing_of_boat: n(0.56, 'RECONSTRUCTED §8.4 the two davits stand this fraction of the boat\'s length apart, so the falls hook in a little inside her stem and stern', { noAudit: true }),
   davit_height_above_rail: m(ft(4, 6), 'RECONSTRUCTED §8.4 davit head high enough to swing the boat clear of the rail', { noAudit: true }),
-  davit_outreach: m(ft(5, 0), 'RECONSTRUCTED §8.4 the davits reach far enough outboard to swing the boat clear of the quarterdeck rail; §8.4 gives 6 ft of projection for the longer transom davit', { noAudit: true }),
-  davit_diameter: m(ft(0, 5), 'RECONSTRUCTED §8.4 davit 5 in in diameter at the step', { noAudit: true }),
-  davit_fall_diameter: m(ft(0, 1.5), 'RECONSTRUCTED §8.4 boat fall of 1½ in rope', { noAudit: true }),
-  jolly_hang_below_davit: m(ft(2, 9), 'RECONSTRUCTED §8.4 boat griped up close under the davit heads for sea', { noAudit: true }),
+  davit_outreach: m(ft(5, 6), 'RECONSTRUCTED §8.4 the davits reach far enough outboard to swing the boat clear of the quarterdeck rail', { noAudit: true }),
+  davit_diameter: m(ft(0, 6), 'RECONSTRUCTED §8.4 davit 6 in in diameter at the step, for a heavier boat than a frigate\'s', { noAudit: true }),
+  davit_fall_diameter: m(ft(0, 1.75), 'RECONSTRUCTED §8.4 boat fall of 1¾ in rope', { noAudit: true }),
+  boat_hang_below_davit: m(ft(2, 9), 'RECONSTRUCTED §8.4 boat griped up close under the davit heads for sea', { noAudit: true }),
 
   // ------------------------------------------------------------------ boat gear
   // Hero level of detail only.
-  boat_oar_count: n(10, 'RECONSTRUCTED §8.3 Steel: "Pinnaces never row more than eight oars, whereas Barges are constructed to row with ten"', { noAudit: true }),
-  boat_oar_length: m(ft(15, 0), 'RECONSTRUCTED §8.3 oar length by Steel\'s rule for a boat of this beam, stowed fore and aft', { noAudit: true }),
+  boat_oar_count: n(8, 'RECONSTRUCTED §8.3 Steel: "Pinnaces never row more than eight oars; the pinnace is the boat whose oars are stowed in her"', { noAudit: true }),
+  boat_oar_length: m(ft(16, 0), 'RECONSTRUCTED §8.3 oar length by Steel\'s rule for a boat of this beam, stowed fore and aft', { noAudit: true }),
   boat_oar_diameter: m(ft(0, 3), 'RECONSTRUCTED §8.5 loom of the oar 3 in', { noAudit: true }),
   boat_oar_blade_width: m(ft(0, 5.5), 'RECONSTRUCTED §8.5 blade of the oar', { noAudit: true }),
   boat_hook_count: n(2, 'RECONSTRUCTED §8.3 a pair of boat hooks stowed along the thwarts', { noAudit: true }),

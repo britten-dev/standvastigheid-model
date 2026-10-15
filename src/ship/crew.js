@@ -1,11 +1,10 @@
-// The watch on deck.
+// The watch on deck of a Dutch 74 of 1811.
 //
-// Twelve figures do more for this ship than any other twelve thousand triangles in her,
+// Two dozen figures do more for this ship than any other twenty thousand triangles in her,
 // and not because anybody looks at them. They are what she is measured against. Without
-// a man on her, a frigate is a shape with no size: the eye has nothing it knows the
-// height of, so the gunports could be a foot high or four feet, and the whole ship reads
-// as a model on a bench. Put one man at the wheel and every dimension on board is fixed
-// at once.
+// a man on her, a 74 is a shape with no size: the eye has nothing it knows the height of,
+// so the gunports could be a foot high or four feet, and the whole ship reads as a model
+// on a bench. Put one man at the wheel and every dimension on board is fixed at once.
 //
 // So they are built to be right at the two things that carry that: **height**, which
 // comes from the muster rolls by way of the spec, and **posture**, which is what says
@@ -14,47 +13,53 @@
 // tarpaulin, and at any distance where you could see a face there is a whole ship in the
 // way of it.
 //
+// They are Dutch (research 05, §1): officers in dark blue coats with light-blue or red
+// facings and cocked hats; the captain, as the book describes him, in a LIGHT-BLUE coat with
+// brass buttons, smoking a short clay pipe; seamen in short jackets and round hats.
+//
 // Every figure is its own Group with its arms as separate children, because
 // src/ship/motion.js poses them: the helmsmen work the wheel, the men aloft sway with
 // the mast, and everyone leans against the heel. A figure merged into the deck could not
 // do any of that.
 import * as THREE from 'three';
-import { authoredFigure } from './authored-assets.js';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
-import { SPEC, PAINT } from '../spec/spec.js';
+import { SPEC, PAINT, OFFSETS } from '../spec/spec.js';
 import { mergeGeometries } from '../util/loft.js';
 import { deg, rng } from '../util/math.js';
 import { audit } from '../audit/measure.js';
+import { deckYAt, deckHalfBreadth } from './deck-level.js';
+import { fittingStations } from './furniture.js';
 
 const S = (k) => SPEC[k].value;
 
 /**
- * One figure, built about the origin at his feet, facing +Z.
- *
- * Roles differ only in what they are wearing and how they stand. `pose` is not an
- * animation — the motion layer does that — it is the attitude the figure is built in:
- * a man hauling stands differently from a man at a rail, and it reads from across the
- * ship when nothing else about him does.
- */
-/**
  * The dress of the ship's company.
  *
- * A frigate's people are not a uniform. The officers wear a blue coat with white lapels,
- * waistcoat and breeches, and a cocked hat athwartships; the seamen wear a short blue
- * jacket, white duck trousers and a low round hat, and about one in four has a red
- * waistcoat from the purser's slops. Those are different silhouettes and different
- * patterns of light and dark, and at any distance where a face is a smudge they are the
- * whole of how one man is told from another.
+ * A 74's people are not a uniform. The officers wear a dark blue coat with a facing colour
+ * at collar, lapels and cuffs (light blue or red) and a cocked hat athwartships; the
+ * captain's coat is light blue, with brass buttons; the seamen wear a short blue jacket,
+ * white duck trousers and a low round hat, and about one in four has a red waistcoat from
+ * the purser's slops. Those are different silhouettes and different patterns of light and
+ * dark, and at any distance where a face is a smudge they are the whole of how one man is
+ * told from another.
  *
  * `tails` is the officer's coat; `cocked` his hat. Between them they are most of what the
- * eye reads as rank.
+ * eye reads as rank. `trim` is the colour of the lapel panel on the chest and of the
+ * cuffs.
  */
 const DRESS = {
-  captain: { coat: 'officer_coat', legs: 'officer_facing', trim: 'officer_facing', hat: 'cocked', tails: true, tall: 1.03 },
-  officer: { coat: 'officer_coat', legs: 'officer_facing', trim: 'officer_facing', hat: 'cocked', tails: true, tall: 1.0 },
-  midshipman: { coat: 'officer_coat', legs: 'slop_duck', trim: 'officer_facing', hat: 'round', tails: false, tall: 0.93 },
+  captain: { coat: 'dutch_captain_coat', legs: 'officer_facing', trim: 'officer_facing', cuff: 'dutch_captain_coat',
+    hat: 'cocked', tails: true, officer: true, buttons: true, pipe: true, tall: 1.03 },
+  officer: { coat: 'officer_coat', legs: 'officer_facing', trim: 'dutch_facing_light_blue', cuff: 'dutch_facing_light_blue',
+    hat: 'cocked', tails: true, officer: true, buttons: true, tall: 1.0 },
+  officer_red: { coat: 'officer_coat', legs: 'officer_facing', trim: 'dutch_facing_red', cuff: 'dutch_facing_red',
+    hat: 'cocked', tails: true, officer: true, buttons: true, tall: 1.0 },
+  midshipman: { coat: 'officer_coat', legs: 'slop_duck', trim: 'dutch_facing_light_blue', cuff: 'dutch_facing_light_blue',
+    hat: 'round', tails: false, officer: true, buttons: false, tall: 0.93 },
   bosun: { coat: 'slop_jacket', legs: 'slop_duck', trim: 'slop_red', hat: 'round', tails: false, tall: 1.0 },
   seaman: { coat: 'slop_jacket', legs: 'slop_duck', trim: 'slop_tarpaulin', hat: 'round', tails: false, tall: 1.0 },
+  // One man in four has a red waistcoat from the purser's slops.
+  seaman_red: { coat: 'slop_jacket', legs: 'slop_duck', trim: 'slop_red', hat: 'round', tails: false, tall: 1.0 },
   // The men on deck in a gale are in tarpaulin over everything else, and the tarpaulin is
   // what is seen. Kept as its own rank so that a fair-weather watch and a foul-weather one
   // are not the same figures in different colours.
@@ -70,12 +75,15 @@ const DRESS = {
  * jacket over pale trousers, a hat wider than his head, a coat with tails: those work at
  * two hundred metres. A face does not work at two.
  *
+ * Roles differ only in what they are wearing and how they stand. `pose` is not an
+ * animation — the motion layer does that — it is the attitude the figure is built in:
+ * a man hauling stands differently from a man at a rail, and it reads from across the
+ * ship when nothing else about him does.
+ *
  * Colour is written into the vertices rather than carried by materials, so a man can have
  * six colours about him and still be one draw call. See `mats.crew`.
  */
-function figure(mats, { rank = 'seaman', pose = 'stand', seed = 0, detail = false, cfg } = {}) {
-  const authored = cfg && authoredFigure(cfg, { rank, pose, seed });
-  if (authored) return authored;
+function figure(mats, { rank = 'seaman', pose = 'stand', seed = 0, detail = false, bake = false } = {}) {
   const group = new THREE.Group();
   const dress = DRESS[rank] ?? DRESS.seaman;
   const r = rng(seed * 7 + 3);
@@ -84,7 +92,7 @@ function figure(mats, { rank = 'seaman', pose = 'stand', seed = 0, detail = fals
   // figures than any amount of work on any one of them.
   const vary = S('crew_build_variation');
   const scale = dress.tall * (1 + (r() - 0.5) * 2 * vary);
-  const h = (dress.coat === 'officer_coat' ? S('crew_officer_height') : S('crew_figure_height')) * scale;
+  const h = (dress.officer ? S('crew_officer_height') : S('crew_figure_height')) * scale;
   const broad = 1 + (r() - 0.5) * 2 * vary;
 
   const legH = h * S('crew_leg_fraction');
@@ -166,6 +174,16 @@ function figure(mats, { rank = 'seaman', pose = 'stand', seed = 0, detail = fals
   // dozen triangles and it is the difference between a coat and a tube.
   box(shoulder * 0.42, torsoH * 0.42, depth * 0.62, 0, legH + torsoH * 0.5, depth * 0.3, dress.trim);
 
+  // The brass buttons down the front of an officer's coat: two columns of three. They are
+  // 72 triangles, and on the captain's light-blue coat they are what the book remarks on.
+  if (dress.buttons) {
+    const b = S('crew_button_size');
+    const zFront = depth * 0.3 + depth * 0.31 + b * 0.25;
+    for (const sx of [-1, 1]) for (const f of [0.40, 0.52, 0.64]) {
+      box(b, b, b * 0.5, sx * shoulder * 0.09, legH + torsoH * f - b / 2, zFront, 'dutch_button_brass');
+    }
+  }
+
   // The officer's coat tails, hanging behind from the waist. This is the single most
   // recognisable thing about a naval officer of this date at any distance at all.
   if (dress.tails) {
@@ -208,6 +226,20 @@ function figure(mats, { rank = 'seaman', pose = 'stand', seed = 0, detail = fals
     paint(q, 'slop_tarpaulin', solid);
   }
 
+  // The captain's short clay pipe: a stem from the corner of his mouth, tilted a little up,
+  // and a bowl at the end of it. Fourteen triangles.
+  if (dress.pipe) {
+    const stemLen = S('crew_pipe_stem_length');
+    const stem = new THREE.CylinderGeometry(headW * 0.035, headW * 0.035, stemLen, 4, 1);
+    stem.rotateX(Math.PI / 2 - deg(14));
+    stem.translate(headW * 0.12, headY + headH * 0.2 + stemLen * 0.12, headW * 0.38 + stemLen * 0.46);
+    paint(stem, 'officer_facing', solid);
+    const bowlH = S('crew_pipe_bowl_height');
+    const bowl = new THREE.CylinderGeometry(headW * 0.09, headW * 0.06, bowlH, 6, 1);
+    bowl.translate(headW * 0.12, headY + headH * 0.2 + stemLen * 0.24 + bowlH * 0.2, headW * 0.38 + stemLen * 0.93);
+    paint(bowl, 'slop_tarpaulin', solid);
+  }
+
   // ----------------------------------------------------------------------- the hat
   const crownY = headY + headH * 0.78;
   if (dress.hat === 'cocked') {
@@ -229,10 +261,6 @@ function figure(mats, { rank = 'seaman', pose = 'stand', seed = 0, detail = fals
     taper(headW * 0.44, headW * 0.46, S('crew_hat_crown'), 0, crownY + headH * 0.09, 0, 'slop_tarpaulin', 8);
   }
 
-  const body = new THREE.Mesh(mergeGeometries(solid), mats.crew);
-  body.name = 'body';
-  group.add(body);
-
   // ---------------------------------------------------------------------- the arms
   // Two nodes each: the shoulder, which the motion layer swings, and the elbow hanging
   // off it. The elbow is what makes a pose read as a man doing something rather than a
@@ -242,6 +270,7 @@ function figure(mats, { rank = 'seaman', pose = 'stand', seed = 0, detail = fals
   const upper = armLen * S('crew_upper_arm_fraction');
   const fore = armLen - upper;
   const hand = S('crew_hand_length');
+  const cuffDepth = dress.cuff ? S('crew_cuff_depth') : 0;
   const arms = [];
   for (const sx of [-1, 1]) {
     const pivot = new THREE.Group();
@@ -260,9 +289,15 @@ function figure(mats, { rank = 'seaman', pose = 'stand', seed = 0, detail = fals
     elbow.name = 'elbow';
     elbow.position.set(0, -upper, 0);
     const lower = [];
-    const cuff = new THREE.CylinderGeometry(armT * 0.34, armT * 0.4, fore - hand, detail ? 12 : 5, 1);
-    cuff.translate(0, -(fore - hand) / 2, 0);
+    const cuff = new THREE.CylinderGeometry(armT * 0.34, armT * 0.4, fore - hand - cuffDepth, detail ? 12 : 5, 1);
+    cuff.translate(0, -(fore - hand - cuffDepth) / 2, 0);
     paint(cuff, dress.coat, lower);
+    // The facing at the wrist of an officer's sleeve.
+    if (cuffDepth) {
+      const ring = new THREE.CylinderGeometry(armT * 0.42, armT * 0.34, cuffDepth, detail ? 12 : 5, 1);
+      ring.translate(0, -(fore - hand - cuffDepth) - cuffDepth / 2, 0);
+      paint(ring, dress.cuff, lower);
+    }
     // The hand: bare skin at the end of a dark sleeve, which is what says the arm is an
     // arm and not a stick.
     const fist = new THREE.CylinderGeometry(armT * 0.36, armT * 0.3, hand, detail ? 12 : 5, 1);
@@ -325,25 +360,31 @@ function figure(mats, { rank = 'seaman', pose = 'stand', seed = 0, detail = fals
   // The elbow bends the same way on both arms; the shoulders are what differ.
   for (const a of arms) a.getObjectByName('elbow').rotation.x = pick.elbow;
 
+  // At the coarse levels of detail a man is one draw call, not five: his arms are baked into
+  // his body in the pose they were built in. He can then no longer swing them — the motion
+  // layer finds no arms on him and leaves him to sway with the ship — which is not a thing
+  // anyone sees at the range the game LOD is for.
+  if (bake) {
+    group.updateMatrixWorld(true);
+    for (const a of arms) {
+      a.traverse((o) => {
+        if (!o.isMesh) return;
+        const g = o.geometry.clone();
+        g.applyMatrix4(o.matrixWorld);
+        solid.push(g);
+      });
+      group.remove(a);
+    }
+  }
+  const body = new THREE.Mesh(mergeGeometries(solid), mats.crew);
+  body.name = 'body';
+  group.add(body);
+
   group.userData.crew = {
     pose, rank, armLen, shoulderY, height: h, lean: pick.lean, elbow: pick.elbow,
-    officer: dress.tails,
+    officer: Boolean(dress.tails),
   };
   return group;
-}
-
-/**
- * Put a figure on deck at a station, facing a direction.
- *
- * `side` is which side of the ship he stands on and `out` how far toward the rail, as a
- * fraction of the half-breadth there — because a man stands by the rail or at a fitting,
- * never on the centreline for no reason.
- */
-function station(model, { fromStem, side = 1, out = 0.6, facing = Math.PI }) {
-  const z = model.fromStem(fromStem);
-  const y = model.standingDeckAt(z);
-  const x = side * model.halfBreadthAt(z, y) * out;
-  return { position: new THREE.Vector3(x, y + S('deck_camber') * (1 - out * out), z), facing };
 }
 
 export function buildCrew(cfg, mats, model, ctx) {
@@ -351,111 +392,177 @@ export function buildCrew(cfg, mats, model, ctx) {
   group.name = 'crew';
   if (!cfg.crew) return group;
 
+  const full = cfg.crew === 'full';
+  // Rounded limbs and a modelled face only at the level that is willing to pay for them
+  // (about 3,000 triangles a man); every other level gets the plain, cheap figure, and the
+  // game level bakes his arms into his body so that he is one draw call.
+  const detail = cfg.textureSize >= 2048;
+  const bake = !full;
+  const st = fittingStations();
+  const zFore = S('furniture_foremast_z'), zMain = S('furniture_mainmast_z'), zMiz = S('furniture_mizzenmast_z');
+
   // What the watch is wearing. In heavy weather every man on deck is in tarpaulin over
   // whatever else he has on, and the tarpaulin is what is seen — except the officers,
   // whose coats go on over the top of it and who are known by them.
   const heavy = Boolean(ctx.heavyWeather);
   const hand = heavy ? 'oilskin' : 'seaman';
+  // One man in four has a red waistcoat; in a gale it is under his tarpaulin.
+  const hands = (i) => (heavy ? 'oilskin' : i % 4 === 1 ? 'seaman_red' : 'seaman');
 
   // Every man gets a seed of his own, so that no two are the same height or build.
   let seed = 0;
-  const place = (name, at, opts) => {
-    const f = figure(mats, { seed: seed++, detail: cfg.textureSize >= 1024, cfg, ...opts });
-    f.position.copy(at.position);
+
+  /**
+   * Put a figure on deck. `z` and `x` are ship coordinates, `which` the deck he stands on
+   * (deck-level.js), and `facing` the way he looks about the vertical: 0 is aft, PI is
+   * forward, +PI/2 is to starboard.
+   */
+  const place = (name, { z, x = 0, which = 'standing', facing = Math.PI, rank, pose = 'stand', role }) => {
+    const f = figure(mats, { seed: seed++, detail, bake, rank, pose });
+    f.position.set(x, deckYAt(model, z, which, x), z);
     // Heading first, then the lean of the pose about his own athwartships axis. YXZ
     // order is what makes that read the way it is written: turn him, then tip him.
     f.rotation.order = 'YXZ';
-    f.rotation.y = at.facing;
+    f.rotation.y = facing;
     f.rotation.x = f.userData.crew.lean;
     f.name = name;
+    if (role) f.userData.crew.role = role;
     // Which way is up for this man, before the ship heels: the motion layer leans him
     // off it. Kept here because a figure has to know its own upright to be leaned.
     f.userData.crew.home = { y: f.rotation.y };
     group.add(f);
     return f;
   };
+  /** The turn that puts a man facing the rail on a given side. */
+  const toRail = (side) => side * Math.PI / 2;
+  const half = (z, which = 'standing') => deckHalfBreadth(model, z, which);
 
   // ------------------------------------------------------------------- the wheel
-  // Two men share the single wheel, standing either side and facing the spokes. This
-  // is the pair that carries the whole scene: they are the tallest thing on the after
-  // deck that is not a mast, and everything else on board is measured off them.
+  // The double wheel has two men to each wheel, standing either side of it and facing the
+  // spokes. This is the group that carries the whole scene: they are the tallest thing on
+  // the after deck that is not a mast, and everything else on board is measured off them.
+  // At game only the after wheel is manned.
   {
-    const zWheel = model.fromStem(SPEC.wheel_station_from_stem.value);
-    const y = model.standingDeckAt(zWheel);
-    for (const sx of [-1, 1]) {
-      const f = figure(mats, { pose: 'helm', rank: heavy ? 'oilskin' : 'seaman', seed: seed++, detail: cfg.textureSize >= 1024, cfg });
-      f.position.x = sx * .68;
-      f.position.z = zWheel - S('wheel_barrel_length') / 2 - .05 + .40;
-      const halfBeam = model.halfBreadthAt(f.position.z, y);
-      f.position.y = model.standingDeckAt(f.position.z)
-        + S('deck_camber') * (1 - (f.position.x / halfBeam) ** 2);
-      f.rotation.order = 'YXZ';
-      f.rotation.y = Math.PI;                       // facing forward, at the wheel
-      f.rotation.x = f.userData.crew.lean;
-      f.name = sx < 0 ? 'helmsman_port' : 'helmsman_starboard';
-      f.userData.crew.role = 'helm';
-      f.userData.crew.home = { y: f.rotation.y };
-      group.add(f);
+    const wheels = full ? [st.wheelAfter, st.wheelForward] : [st.wheelAfter];
+    for (const [k, zw] of wheels.entries()) {
+      for (const sx of [-1, 1]) {
+        place(`helmsman_${k ? 'fore_' : ''}${sx < 0 ? 'port' : 'starboard'}`, {
+          z: zw + S('crew_helm_abaft_wheel'), x: sx * S('crew_helm_off_centre'),
+          facing: Math.PI, rank: hands(seed), pose: 'helm', role: 'helm',
+        });
+      }
     }
   }
 
   // ----------------------------------------------------------------- the officers
-  // The officer of the watch by the binnacle, where he can see the compass; a second
-  // aft at the taffrail with his eye on the following sea, which in this weather is the
-  // whole of the ship's business.
+  // The officer of the watch by the binnacles, where he can see the compass; the master
+  // on the weather side; the captain abaft the mizzen with his pipe and his eye on the
+  // sea; and the signal midshipman at the forward end of the quarterdeck.
   {
-    const zBin = SPEC.binnacle_station_from_stem.value + S('crew_con_abaft_binnacle');
-    place('officer_of_the_watch',
-      station(model, { fromStem: zBin - .45, side: -1, out: 0.58, facing: Math.PI - .25 }),
-      { rank: 'officer', pose: 'stand' });
-    // The captain, aft at the taffrail with his eye on the following sea, which running
-    // before a gale is the whole of the ship's business. He is the tallest figure on
-    // board, in a tailed coat and a cocked hat, and he is the one the eye finds first.
-    place('captain',
-      station(model, { fromStem: S('crew_taffrail_from_stem'), side: -1, out: S('crew_rail_inset'), facing: 0 }),
-      { rank: 'captain', pose: 'watch' });
+    place('officer_of_the_watch', {
+      z: st.binnacle + S('crew_con_abaft_binnacle'), x: -S('crew_con_off_centre'),
+      facing: Math.PI - 0.25, rank: 'officer', pose: 'stand',
+    });
+    place('captain', {
+      z: zMiz - S('crew_captain_forward_of_mizzen'), x: S('crew_captain_off_centre'),
+      facing: Math.PI + 0.3, rank: 'captain', pose: 'watch',
+    });
+    if (full) place('master', {
+      z: st.binnacle - S('crew_master_forward_of_binnacle'), x: S('crew_master_off_centre'),
+      facing: Math.PI + 0.2, rank: 'officer_red', pose: 'stand',
+    });
+    place('midshipman', {
+      z: st.binnacle - S('crew_midshipman_forward_of_binnacle'), x: -S('crew_midshipman_off_centre'),
+      facing: Math.PI, rank: 'midshipman', pose: 'hold',
+    });
   }
 
-  // -------------------------------------------------------------------- the watch
-  // Hands at the pumps beside the mainmast, hands standing by the braces aft, and a
-  // lookout forward. All of them at the rail or at a fitting, none of them in the
-  // middle of a deck doing nothing.
-  //
-  // They are not all the same man. The bosun is a petty officer and dressed as one; the
-  // midshipman on the quarterdeck is a boy in a blue jacket and a round hat, which is
-  // exactly what he was. Ranks vary the silhouette, and the seed varies the build.
-  const watch = [
-    ['lookout', S('crew_lookout_from_stem'), 1, 'hold', 0, hand],
-    ['pump_hand_port', S('crew_waist_from_stem'), -1, 'haul', Math.PI * 0.5, hand],
-    ['pump_hand_starboard', S('crew_waist_from_stem') + 1.2, 1, 'haul', -Math.PI * 0.5, hand],
-    ['bosun', S('crew_waist_from_stem') - 3.0, -1, 'stand', Math.PI, 'bosun'],
-    ['brace_hand_port', S('crew_brace_from_stem'), -1, 'haul', Math.PI * 0.8, hand],
-    ['brace_hand_starboard', S('crew_brace_from_stem') + 1.6, 1, 'stand', Math.PI, hand],
-    ['midshipman', SPEC.wheel_station_from_stem.value - 5.0, -1, 'hold', Math.PI, 'midshipman'],
-  ];
-  for (const [name, fromStem, side, pose, facing, rank] of watch) {
-    place(name, station(model, { fromStem, side, out: S('crew_rail_inset'), facing }), { pose, rank });
+  // ---------------------------------------------------------------- the braces
+  // Hands standing by the braces: the mizzen's at the quarterdeck rail abreast the mast,
+  // the main's on the gangways at the break of the quarterdeck. They face the rail where
+  // the braces are belayed and haul.
+  {
+    for (const sx of [-1, 1]) {
+      const z = zMain - S('crew_main_brace_forward_of_mainmast');
+      const x = sx * (half(z, 'gangway') - S('side_thickness') - S('gangway_width') * 0.5);
+      place(`main_brace_hand_${sx < 0 ? 'port' : 'starboard'}`, {
+        z, x, which: 'gangway', facing: toRail(sx), rank: hands(seed), pose: sx < 0 ? 'haul' : 'stand',
+      });
+    }
+    if (full) for (const sx of [-1, 1]) {
+      const z = zMiz + S('crew_mizzen_brace_abaft_mizzen');
+      place(`mizzen_brace_hand_${sx < 0 ? 'port' : 'starboard'}`, {
+        z, x: sx * half(z) * S('crew_rail_inset') * 1.3, facing: toRail(sx), rank: hands(seed), pose: sx > 0 ? 'haul' : 'stand',
+      });
+    }
+  }
+
+  // ----------------------------------------------------------- the guns' quarters
+  // A crew at two of the quarterdeck guns, one each side: the gun captain behind the
+  // breech and a man beside him. They stand clear of the recoil, facing the port.
+  if (full) {
+    const ports = [...OFFSETS.ports.quarterdeck].sort((a, b) => a.z - b.z);
+    for (const [side, key] of [[-1, 'crew_gun_quarters_port_index'], [1, 'crew_gun_quarters_starboard_index']]) {
+      const port = ports[Math.min(S(key), ports.length - 1)];
+      if (!port) continue;
+      const x = side * Math.max(0.8, half(port.z) - S('crew_gun_quarters_inboard'));
+      const tag = side < 0 ? 'port' : 'starboard';
+      place(`gun_captain_${tag}`, { z: port.z, x, facing: toRail(side), rank: hands(seed), pose: 'hold' });
+      place(`gun_loader_${tag}`, {
+        z: port.z + S('crew_gun_quarters_loader_abaft'), x, facing: toRail(side), rank: hands(seed), pose: 'haul',
+      });
+    }
+  }
+
+  // ---------------------------------------------------------------- the waist
+  // The hands at the chain pumps, which are at the after end of the waist, and the
+  // boatswain by the capstan with his eye on all of it.
+  {
+    if (full) for (const sx of [-1, 1]) {
+      const z = zMain - S('chain_pump_forward_of_mainmast');
+      place(`pump_hand_${sx < 0 ? 'port' : 'starboard'}`, {
+        z: z + 0.5, x: sx * S('crew_pump_hand_off_centre'), which: 'upper', facing: -toRail(sx), rank: hands(seed), pose: 'haul',
+      });
+    }
+    place('bosun', {
+      z: st.capstan, x: -S('crew_bosun_off_centre'), which: 'upper', facing: Math.PI, rank: 'bosun', pose: 'stand',
+    });
+  }
+
+  // ------------------------------------------------------------------ the forecastle
+  // The lookouts at the bow, one each side of the stem.
+  {
+    const z = zFore - S('crew_lookout_forward_of_foremast');
+    for (const sx of full ? [-1, 1] : [1]) {
+      place(`lookout_${sx < 0 ? 'port' : 'starboard'}`, {
+        z, x: sx * S('crew_lookout_off_centre'), facing: Math.PI, rank: hands(seed), pose: 'hold',
+      });
+    }
   }
 
   // ---------------------------------------------------------------------- aloft
-  // Two hands in the main top. It is the one place on the ship where a figure is seen
+  // Hands in the main top. It is the one place on the ship where a figure is seen
   // against the sky, which is where the eye goes first, and it is the only way of
-  // saying how high the mast is.
-  if (ctx.rig && cfg.crew === 'full') {
-    const m = ctx.rig.masts.find((x) => x.name === 'main') ?? ctx.rig.masts[1];
-    if (m) {
-      const p = m.along(m.houndsH);
-      const half = (m.topBreadth ?? 3.4) / 2;
-      for (const [i, sx] of [-1, 1].entries()) {
-        const f = figure(mats, { pose: i ? 'haul' : 'hold', rank: hand, seed: seed++, detail: cfg.textureSize >= 1024 });
+  // saying how high the mast is. They are stood from the rig's own geometry, so a
+  // rebuilt rig carries them with it; if the rig publishes no main mast they are left out.
+  if (full) {
+    const mast = ctx.rig?.main ?? ctx.rig?.masts?.find((x) => x.name === 'main');
+    if (mast?.along && Number.isFinite(mast.houndsH)) {
+      const p = mast.along(mast.houndsH);
+      const breadth = mast.topBreadth ?? 4.4;
+      const length = mast.topLength ?? breadth;
+      const thick = SPEC.top_platform_thickness?.value ?? 0.1;
+      const topmen = [[-1, 'hold', 0], [1, 'haul', 0], [0, 'hold', -0.5]];
+      for (const [i, [sx, pose, dz]] of topmen.entries()) {
+        const f = figure(mats, { pose, rank: hands(seed), seed: seed++, detail, bake });
         // Stand on the forward part of the top, clear of the topsail's belly aft.
         // At the mast centre the moving cloth sliced through their heads and torsos.
-        f.position.set(sx * half * Math.min(S('crew_top_inset'), 0.36), p.y + SPEC.top_platform_thickness.value,
-          p.z - m.topLength * 0.22);
+        f.position.set(sx * breadth / 2 * Math.min(S('crew_top_inset'), 0.36), p.y + thick,
+          p.z - length * 0.22 + dz);
         f.rotation.order = 'YXZ';
-        f.rotation.y = i ? Math.PI * 0.9 : Math.PI * 1.1;
+        f.rotation.y = Math.PI + (sx || 0.4) * 0.35 * (i % 2 ? -1 : 1);
         f.rotation.x = f.userData.crew.lean;
-        f.name = i ? 'topman_starboard' : 'topman_port';
+        f.name = `topman_${sx < 0 ? 'port' : sx > 0 ? 'starboard' : 'centre'}`;
         f.userData.crew.role = 'aloft';
         f.userData.crew.home = { y: f.rotation.y };
         group.add(f);

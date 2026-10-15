@@ -54,12 +54,15 @@ export { createDetailLOD } from './detail-lod.js';
  *   It is separable because the two are not quite the same claim: a ship can be under her
  *   topsails in a rising sea with her ports already in.
  * @param {boolean} [opts.animatedSails=false] Keep separate fore-and-aft cloth for createSailHandling. Use full sails.
- * @param {'blue'|'white'|'red'} [opts.ensign='blue'] Naval squadron colours.
- * @param {number} [opts.flagYear] Select the pre/post-1801 Union; defaults to the 1798 specification.
+ * @param {'dutch'|'blue'|'french'|'white'|'red'} [opts.ensign='dutch'] What she flies. 'dutch': the red-white-blue
+ *   horizontal tricolour, a long tricolour pennant and a small tricolour jack. 'blue': the British blue ensign
+ *   (post-1801 Union), her ruse. 'french': the vertical blue-white-red tricolour. 'white' and 'red' are the
+ *   other British squadron colours.
+ * @param {number} [opts.flagYear] Select the pre/post-1801 Union of the British ensigns; defaults to 1811.
  * @param {boolean} [opts.crew=true] Omit visible figures and their rendering cost when false.
  */
-export function buildShip({ lod = 'hero', sails = 'full', weather, ports: portState, crew = true, animatedSails = false, adaptiveDetail = false, ensign='blue',flagYear } = {}) {
-  if(!['blue','white','red'].includes(ensign))throw new Error(`Unknown ensign: ${ensign}`);
+export function buildShip({ lod = 'hero', sails = 'full', weather, ports: portState, crew = true, animatedSails = false, adaptiveDetail = false, ensign='dutch',flagYear } = {}) {
+  if(!['dutch','blue','french','white','red'].includes(ensign))throw new Error(`Unknown ensign: ${ensign}`);
   if(flagYear!==undefined&&(!Number.isFinite(flagYear)||flagYear<1606))throw new Error(`Invalid flag year: ${flagYear}`);
   if (!SAIL_STATES.includes(sails)) {
     throw new Error(`unknown sail state "${sails}" — expected one of ${SAIL_STATES.join(', ')}`);

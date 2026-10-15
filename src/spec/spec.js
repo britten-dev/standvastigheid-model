@@ -308,6 +308,7 @@ export const PAINT = {
   ensign_blue: { hex: '#22375E', roughness: 0.9, source: 'SECONDARY §8 blue ensign bunting, desaturated from the Flag Institute blue' },
   ensign_red: { hex: '#A32D34', roughness: 0.9, source: 'SECONDARY §8 bunting red' },
   ensign_white: { hex: '#E8E2D4', roughness: 0.9, source: 'SECONDARY §8 bunting white' },
+  ensign_tricolour_blue: { hex: '#2F4F94', roughness: 0.9, source: 'RECONSTRUCTED §5 the blue of the Dutch and French tricolours, a brighter cobalt than the British ensign navy, faded a little as working wool bunting is' },
 
   // ----------------------------------------------------------------- the people
   // Slop clothing, issued from the purser's store, and an officer's coat. Both are dull
@@ -326,6 +327,10 @@ export const PAINT = {
   crew_skin: { hex: '#A97D5E', roughness: 0.72, source: 'RECONSTRUCTED §9 a seaman\'s face and hands after a year in the open: weathered a long way past whatever he started as' },
   officer_coat: { hex: '#1E2A44', roughness: 0.82, source: 'RECONSTRUCTED §9 undress blue coat, faded by sun and salt from the deep indigo of a new one' },
   officer_facing: { hex: '#D8D2C2', roughness: 0.84, source: 'RECONSTRUCTED §9 white lapels, waistcoat and breeches. On a dark coat they are what says "officer" from clear across the deck, before any detail of the man is visible at all' },
+  dutch_captain_coat: { hex: '#86A9D2', roughness: 0.82, source: 'FICTIONAL §1 the book\'s Dutch captain wears a light-blue coat with brass buttons; faded a little by salt and sun' },
+  dutch_facing_light_blue: { hex: '#6F93C2', roughness: 0.84, source: 'RECONSTRUCTED §9 light-blue collar, cuffs and lapels on a Dutch officer\'s dark blue coat; the facings of 1811 are not documented, so this is the better-known of the two colours the brief names' },
+  dutch_facing_red: { hex: '#9C2F33', roughness: 0.84, source: 'RECONSTRUCTED §9 red collar and cuffs on a Dutch officer\'s dark blue coat, the alternative to light blue' },
+  dutch_button_brass: { hex: '#C9A24B', roughness: 0.45, source: 'RECONSTRUCTED §9 the brass buttons of an officer\'s coat; the captain\'s are what the book remarks on' },
 
   // ------------------------------------------------------------------ weathering
   // What the sea does to her. These are not evidence in the way the rows above are —
