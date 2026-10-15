@@ -10,12 +10,11 @@
 // means a view keeps working when the ship changes size, and that the same view of the
 // full suit and of the furled state is shot from the same place.
 export const VIEWS = {
-  // Matched to The Model Shipyard's photograph: a museum model photographed from the
-  // port bow, a little above deck level, the whole rig in frame.
-  // Matched to The Model Shipyard's photograph by laying the two side by side: the
-  // photograph is taken from the port bow but much closer to the beam than it first
-  // looks, from a little above the rail, with the ship filling the frame.
-  reference: { azimuth: 308, elevation: 9, fill: 0.84, fov: 30, aim: [0, 0.44, 0.02] },
+  // Matched to the Rijksmuseum's public-domain photograph of the model of the Dutch 74
+  // Vrijheid (NG-MC-500, Amsterdam c.1782): her port side from abaft the beam, a little
+  // above the rail, the whole rig in frame. The model is unrigged and carries no sails,
+  // so the comparison is made with the canvas furled.
+  reference: { azimuth: 247, elevation: 11, fill: 0.88, fov: 30, aim: [0, 0.40, 0.02] },
 
   bow: { azimuth: 348, elevation: 9, fill: 1.04, fov: 34, aim: [0, 0.44, 0] },
   beam: { azimuth: 270, elevation: 7, fill: 1.02, fov: 32, aim: [0, 0.48, 0] },
@@ -26,6 +25,8 @@ export const VIEWS = {
   // shows the guns, the boats on the skid beams and the waist. Far enough aft and high
   // enough to clear the spanker and the ensign, which otherwise fill the frame.
   deck: { azimuth: 209, elevation: 19, fill: 0.44, fov: 50, aim: [0, 0.26, 0.02] },
+  // The bow chasers in their bridle ports, from fine on the port bow, low.
+  chasers: { azimuth: 335, elevation: 3, fill: 0.24, fov: 36, aim: [0, 0.10, -0.44] },
 
   // Close studies, used when iterating on one region.
   head: { azimuth: 322, elevation: 6, fill: 0.30, fov: 36, aim: [0, 0.17, -0.40] },
