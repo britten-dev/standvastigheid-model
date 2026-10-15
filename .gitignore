@@ -26,3 +26,6 @@ reference/*.png
 
 # Draught scans fetched from the Nationaal Archief for tracing. Viewed and measured, not redistributed.
 .cache/
+
+# Agent worktrees
+.claude/

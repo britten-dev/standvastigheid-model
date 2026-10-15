@@ -80,7 +80,8 @@ function hullPaintStrip(size = 1024, cfg) {
     g.fillRect(0, y0, 8, y1 - y0);
   }
 
-  // The moulding: the thin ochre line that follows the sheer strake, down in the black
+  // (Surprise had a thin ochre moulding along the sheer strake here. This ship is black
+  // all over — §6 — so there is none.)
   // topside below the ports. It reads as trim because it is lighter than the black either
   // side and only a few rows tall. Its line comes from the hull's own feature table, so
   // it follows the sheer rather than the horizon and cannot drift from the surface.

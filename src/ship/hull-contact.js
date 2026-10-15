@@ -19,13 +19,15 @@ export function finishHullContact(ship,cfg,model,ports) {
   const nearby=ports.filter(p=>Math.abs(z-p.z)<p.width*.65);
   for(let side=0;side<2;side++)for(let j=0;j<rows;j++){
    const y=T.MathUtils.lerp(yMin,yMax,j/(rows-1));
-   let shade=.32*below(y,f.wale_bottom,.14)+.18*below(y,f.sheer_strake,.08),runoff=0;
+   let shade=.32*below(y,f.wale_bottom,.14)+.26*below(y,f.middle_wale_bottom,.1),runoff=0;
    for(const p of nearby){
     const dz=Math.abs(z-p.z),edge=1-T.MathUtils.smoothstep(dz,p.width*.43,p.width*.65);
-    shade+=edge*.30*below(y,f.port_sill,.13);
+    // Each port has its own sill; both tiers shade and run below theirs.
+    const sill=p.y0??f.port_sill;
+    shade+=edge*.30*below(y,sill,.13);
     const distance=Math.min(Math.abs(z-p.z-p.width*.34),Math.abs(z-p.z+p.width*.34));
     const streak=Math.exp(-distance*distance/(.032*.032));
-    runoff+=streak*below(y,f.port_sill, .65+side*.16)*.65;
+    runoff+=streak*below(y,sill, .65+side*.16)*.65;
    }
    for(const c of channels)if(z>c.lo-.15&&z<c.hi+.15){
     const fade=T.MathUtils.smoothstep(z,c.lo-.15,c.lo+.16)*(1-T.MathUtils.smoothstep(z,c.hi-.16,c.hi+.15));

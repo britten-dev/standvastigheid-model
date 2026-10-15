@@ -16,13 +16,16 @@ export function hullSideDetails(cfg, sections) {
     return [0, 1].map(k => (p[r][k] * (1-b) + p[r+1][k] * b) * (1-a)
       + (q[r][k] * (1-b) + q[r+1][k] * b) * a).concat(sections[s].z * (1-a) + sections[s+1].z * a);
   };
-  const beamAllowance = (SPEC.hull_beam_extreme.value - SPEC.hull_beam_moulded.value) / 2;
-  const bands = [{ name: 'main-wale', v0: V.wale_bottom, v1: V.wale_top,
-    projection: Math.min(.1016, beamAllowance), bevel: .008 }];
-  if (cfg.hullSideJoinery === 'full') bands.push({ name: 'sheer-moulding',
-    v0: V.sheer_strake - PAINT.ochre_moulding_v.value / 2,
-    v1: V.sheer_strake + PAINT.ochre_moulding_v.value / 2,
-    projection: .026, bevel: .005 });
+  // Two wales stand proud of her side: the main wale about the waterline and the middle
+  // wale between the two tiers of ports. Their projections are measured off the ends of
+  // the bands in the body plan (§7). The upper band the draught draws above the upper
+  // ports is a strake of plank, not a wale, and is left flush.
+  const bands = [
+    { name: 'main-wale', v0: V.wale_bottom, v1: V.wale_top,
+      projection: SPEC.wale_projection.value, bevel: .012 },
+    { name: 'middle-wale', v0: V.middle_wale_bottom, v1: V.middle_wale_top,
+      projection: SPEC.middle_wale_projection.value, bevel: .01 },
+  ];
   const counts = [];
   for (const band of bands) {
     const { v0, v1, projection, bevel } = band;
@@ -39,8 +42,8 @@ export function hullSideDetails(cfg, sections) {
         const t = Math.min(1,u/.02,(1-u)/.02), taper = .015 + .985*t*t*(3-2*t);
         const k=pos.length/3;
         pos.push((p[0] + (out+.008)*taper-.008)*side,p[1],p[2]);
-        // Stay clear of the copper/paint filter boundary: timber must not
-        // inherit the metalness of the adjacent copper sheathing.
+        // Stay clear of the bottom/paint boundary: timber must not inherit the bottom's
+        // finish.
         const inset = band.name === 'main-wale' ? .002 : .0003;
         uv.push(u*SPEC.hull_length_gundeck.value/PAINT.hull_map_metres.value,
           Math.max(v0+inset,Math.min(v1-inset,v)));

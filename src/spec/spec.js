@@ -202,7 +202,7 @@ export const PAINT = {
   // them, which was a negative amount.
   bottom_sheathed: { value: false, source: 'RECONSTRUCTED §6 the plan\'s default: a white bottom, not copper', noAudit: true },
   bottom_metalness: { value: 0, source: 'RECONSTRUCTED §6 white stuff is not a metal', noAudit: true },
-  white_stuff_blotch: { value: 0.9, source: 'RECONSTRUCTED §6 how strongly the hand-paid stuff is blotched', noAudit: true },
+  white_stuff_blotch: { value: 0.35, source: 'RECONSTRUCTED §6 how strongly the hand-paid stuff is blotched', noAudit: true },
   copper_line_above_wl_v: { value: 0.015, source: 'MEASURED §8 the main wale\'s lower edge is 15.2 ft above the moulded base line, 2.4 ft above the load waterline; the sheathing was carried to 2 ft 6 in - 3 ft, so the two coincide' },
 
   // The sheathing pattern. A sheet was 4 ft by 14 in, laid like slates with each course
