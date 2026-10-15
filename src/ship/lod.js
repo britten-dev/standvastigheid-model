@@ -359,7 +359,8 @@ const CONFIG = {
     sternGalleries: false,
     sternOrnament: 'none',
     rudderIrons: false,
-    figurehead: 'none',
+    // A few dozen triangles of gilt lion, so the head still ends in a shape on the horizon.
+    figurehead: 'silhouette',
     headRails: false,
     headDetail: 'none',
     headStations: 5,
