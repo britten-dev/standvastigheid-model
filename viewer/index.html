@@ -1,7 +1,7 @@
 <!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>HMS Surprise — model viewer</title>
+<title>Waakzaamheid — model viewer</title>
 <script src="/viewer/importmap.js"></script>
 <style>
   :root { color-scheme: dark; }
@@ -29,28 +29,25 @@
            font-size: 11px; color: #8b97a5; white-space: pre; }
   #stats b { color: #d6d9dd; font-weight: 600; }
   #views { top: 12px; right: 12px; width: 132px; }
-  /* The reference photograph is not shipped with this project — it is The Model
-     Shipyard's, not ours. Anyone with their own copy in reference/ sees the overlay;
-     everyone else does not get the button. See reference/README.md. */
-  #ref { position: fixed; inset: 0; pointer-events: none; opacity: 0; transition: opacity .15s;
-         background: center/contain no-repeat url(/reference/surprise-reference.jpg); }
-  #ref.on { opacity: .45; }
+  #rigpanel { top: 12px; right: 156px; width: 200px; max-height: calc(100vh - 24px); overflow: auto; }
+  #rigpanel .seg button { flex: 1 1 45%; }
+  #rigpanel .seg button.away { background: #5a2a26; border-color: #7a3a33; color: #f0c9c2; }
   #err { position: fixed; left: 50%; top: 40%; transform: translateX(-50%); max-width: 640px;
          color: #ff9a8a; font-family: ui-monospace, monospace; font-size: 12px;
          white-space: pre-wrap; display: none; }
 </style>
 <body>
 <canvas id="c"></canvas>
-<div id="ref"></div>
 <div id="err"></div>
 
 <div class="panel" id="ui">
-  <h1>HMS Surprise</h1>
-  <div class="sub">ex-<i>Unité</i>, 1794</div>
+  <h1>Waakzaamheid</h1>
+  <div class="sub">Dutch 74, 1811 · lines of the <i>Washington</i>, 1796</div>
   <label>Detail</label><div class="seg" id="lod"></div>
   <label>Canvas</label><div class="seg" id="sails"></div>
   <label>Display</label><div class="seg" id="disp"></div>
   <label>Weather</label><div class="seg" id="weather"></div>
+  <label>Colours</label><div class="seg" id="ensign"></div>
   <label>Download</label><div class="seg" id="dl"></div>
   <div class="sub" style="margin:6px 0 0;font-size:10px;line-height:1.45">
     The ship is generated in your browser from the source in this page. The files below
@@ -59,6 +56,9 @@
 </div>
 
 <div class="panel" id="views"><label style="margin-top:0">Camera</label><div class="seg" id="viewbtns"></div></div>
+<div class="panel" id="rigpanel"><label style="margin-top:0">Shoot away</label>
+  <div class="sub" style="margin:0 0 6px;font-size:10px">Click a part to carry it away with everything it carries. Click again to restore.</div>
+  <div class="seg" id="rigparts"></div></div>
 <div class="panel" id="stats">building…</div>
 
 <script type="module">
@@ -110,7 +110,7 @@ controls.maxDistance = 400;
 // and the gale.
 const post = createPostStack(renderer, scene, camera, { rig: 'sea' });
 
-const state = { lod: 'hero', sails: 'full', wire: false, grid: false, ref: false, weather: false };
+const state = { lod: 'hero', sails: 'full', wire: false, grid: false, weather: false, ensign: 'dutch' };
 const cache = new Map();
 let ship = null;
 let motion = null;
@@ -132,7 +132,7 @@ function seg(id, items, get, set) {
   el._get = get;
 }
 function paintSegs() {
-  for (const id of ['lod', 'sails', 'disp', 'weather']) {
+  for (const id of ['lod', 'sails', 'disp', 'weather', 'ensign']) {
     const el = document.getElementById(id);
     for (const b of el.children) b.setAttribute('aria-pressed', String(el._get(b.dataset.value)));
   }
@@ -155,30 +155,21 @@ seg('sails', SAIL_STATES.map((v) => ({ label: v, value: v })), (v) => state.sail
  * finished by the time the flag goes up or every automated check races it.
  */
 function rebuildSoon() {
-  const key = `${state.lod}/${state.sails}`;
+  const key = `${state.lod}/${state.sails}/${state.ensign}`;
   if (cache.has(key)) return rebuild();
   const panel = document.getElementById('stats');
   panel.innerHTML = `<b>${key}</b>\nbuilding…`;
   requestAnimationFrame(() => requestAnimationFrame(() => rebuild()));
 }
-const DISPLAY_TOGGLES = [
-  { label: 'wire', value: 'wire' }, { label: 'grid', value: 'grid' }, { label: 'photo', value: 'ref' },
-];
+const DISPLAY_TOGGLES = [{ label: 'wire', value: 'wire' }, { label: 'grid', value: 'grid' }];
+seg('ensign', [{ label: 'Dutch', value: 'dutch' }, { label: 'French', value: 'french' }, { label: 'ruse', value: 'blue' }],
+  (v) => state.ensign === v, (v) => { state.ensign = v; rebuildSoon(); });
 seg('weather', [{ label: 'fine', value: false }, { label: 'gale', value: true }],
   (v) => state.weather === (v === 'true'),
   (v) => { state.weather = v === true || v === 'true'; setWeather(); });
-// The photo overlay only exists for whoever has put their own copy of the reference
-// photograph in reference/. Ask for it once; if it is not there, drop the button.
-fetch('/reference/surprise-reference.jpg', { method: 'HEAD' })
-  .then((r) => { if (!r.ok) throw new Error('absent'); })
-  .catch(() => {
-    const el = document.getElementById('disp');
-    for (const b of [...el.children]) if (b.dataset.value === 'ref') b.remove();
-  });
 
 seg('disp', DISPLAY_TOGGLES, (v) => state[v], (v) => {
   state[v] = !state[v];
-  document.getElementById('ref').classList.toggle('on', state.ref);
   grid.visible = state.grid;
   applyWire();
 });
@@ -246,12 +237,12 @@ function applyWire() {
 
 function rebuild() {
   try {
-    const key = `${state.lod}/${state.sails}`;
+    const key = `${state.lod}/${state.sails}/${state.ensign}`;
     if (ship) ship.parent?.remove(ship);
     if (motion) { motion.dispose(); motion = null; }
     if (!cache.has(key)) {
       const t0 = performance.now();
-      const g = buildShip({ lod: state.lod, sails: state.sails });
+      const g = buildShip({ lod: state.lod, sails: state.sails, ensign: state.ensign });
       g.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
       cache.set(key, { g, ms: performance.now() - t0 });
     }
@@ -265,6 +256,7 @@ function rebuild() {
     }
     applyWire();
     showStats(key);
+    paintRigParts();
   } catch (e) {
     document.getElementById('err').style.display = 'block';
     document.getElementById('err').textContent = e.stack || String(e);
@@ -290,7 +282,29 @@ function showStats(key) {
     `built in ${cache.get(key).ms.toFixed(0)} ms`;
 }
 
-let currentView = 'reference';
+// The shot-away parts, from the registry the rig publishes (waakzaamheid-model/damage).
+let damage = null;
+import('/src/ship/damage.js').then((m) => { damage = m; paintRigParts(); }).catch(() => {
+  document.getElementById('rigpanel').style.display = 'none';
+});
+function paintRigParts() {
+  const el = document.getElementById('rigparts');
+  if (!damage || !ship || !ship.userData.rigParts) { el.innerHTML = ''; return; }
+  el.innerHTML = '';
+  const away = new Set(ship.userData.carriedAway ?? []);
+  for (const name of Object.keys(ship.userData.rigParts)) {
+    const b = document.createElement('button');
+    b.textContent = name.replace(/_/g, ' ');
+    if (away.has(name)) b.className = 'away';
+    b.onclick = () => {
+      if (away.has(name)) damage.restore(ship, name); else damage.carryAway(ship, name);
+      paintRigParts();
+    };
+    el.appendChild(b);
+  }
+}
+
+let currentView = 'beam';
 
 function goToView(name) {
   currentView = name;
@@ -322,7 +336,7 @@ addEventListener('resize', resize);
 rebuild();
 paintSegs();
 resize();
-goToView('reference');
+goToView('beam');
 // Her own motion in the water. It belongs to the host in a game — this model has none of
 // its own and says so — but the viewer has to float her on something to judge her, and a
 // ship standing on a flat plane cannot be judged at all.
@@ -344,7 +358,8 @@ renderer.setAnimationLoop(() => {
     // Sampled at the bow, the quarter and each beam, exactly as a host would: the ship
     // takes her trim from the water under her, not from a clock.
     const h = seaMesh.userData.heightAt;
-    const L = 13, B = 4.6;
+    // Her own lever arms: about 0.7 of her half-length, and her half-breadth.
+    const L = 18, B = 6.5;
     const fwd = h(0, -L, t), aft = h(0, L, t), port = h(-B, 0, t), stbd = h(B, 0, t);
     ship.position.y = (fwd + aft + port + stbd) / 4;
     ship.rotation.x = Math.atan2(aft - fwd, 2 * L);
