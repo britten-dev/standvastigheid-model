@@ -90,7 +90,10 @@ export function buildPorts(cfg, mats, model, ports, ctx = {}) {
         linings.push(new THREE.Mesh(g, mats.red));
       }
 
-      if (cfg.portLids) lids.push(portLid(cfg, mats, model, p, side, !!ctx.portsShut));
+      // A manned bow chaser keeps its bridle port open in any weather: the book has her
+      // firing them in a full gale.
+      const shut = !!ctx.portsShut && !(p.kind === 'bridle' && ctx.chasers !== 'secured');
+      if (cfg.portLids) lids.push(portLid(cfg, mats, model, p, side, shut));
     }
   }
 
