@@ -18,7 +18,9 @@ const undocumented = codeKeys.filter((k) => !inDoc.has(k));
 // The material table and the level-of-detail table use the same Markdown shape as the
 // dimension tables, so their first cells look like spec keys. They are documented
 // elsewhere in the file and are not generator dimensions.
-const NOT_DIMENSIONS = new Set([...Object.keys(PAINT), 'station', 'hero', 'game', 'distant']);
+const NOT_DIMENSIONS = new Set([...Object.keys(PAINT), 'station', 'hero', 'game', 'distant',
+  // The offset table's synthetic end stations (docs/research/07-tracing.md §2).
+  'stem_a', 'stem_b', 'stem_c', 'post_a', 'post_b']);
 const unused = [...inDoc].filter((k) => !(k in SPEC) && !NOT_DIMENSIONS.has(k));
 
 // A source citation on every row is the other half of traceability.

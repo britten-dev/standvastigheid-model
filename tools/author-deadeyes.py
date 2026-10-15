@@ -90,6 +90,6 @@ bpy.ops.export_scene.gltf(filepath=str(OUT),export_format='GLB',use_selection=Tr
     export_materials='EXPORT',export_texcoords=True,export_normals=True)
 # Save a separate editable workbench without rebuilding the discarded crew prototype.
 scene.render.engine='CYCLES';scene.cycles.samples=32;scene.view_settings.view_transform='AgX'
-bpy.ops.wm.save_as_mainfile(filepath=str(ROOT/'build/HMS Surprise - Rigging Workshop.blend'))
+bpy.ops.wm.save_as_mainfile(filepath=str(ROOT/'build/Waakzaamheid - Rigging Workshop.blend'))
 (ROOT/'build/deadeye-asset.json').write_text(json.dumps({'triangles':triangles,'bytes':OUT.stat().st_size,'blender':bpy.app.version_string},indent=2))
 print('DEADEYE',triangles,'triangles;',OUT.stat().st_size,'bytes')

@@ -20,7 +20,7 @@ const report = [];
 let failures = 0;
 
 for (const opts of MATRIX) {
-  const name = `surprise-${opts.lod}-${opts.sails}.glb`;
+  const name = `waakzaamheid-${opts.lod}-${opts.sails}.glb`;
   const b64 = await h.page.evaluate((o) => window.exportGLB(o), opts);
   const bytes = Buffer.from(b64, 'base64');
   await fs.writeFile(path.join(ROOT, 'build', name), bytes);

@@ -30,11 +30,11 @@ const GRADE = (src) => (src.match(/^(PRIMARY|SECONDARY|RECONSTRUCTED|FICTIONAL|M
 
 // Which keys belong in which table, in the order they should be read.
 const GROUPS = [
-  ['Principal dimensions', /^hull_(length|beam|depth|tons|draught|tumblehome)/],
-  ['Decks and bulwarks', /^(gundeck|quarterdeck|forecastle|deck_camber|bulwark|side_thickness|rail_cap|gangway)/],
+  ['Principal dimensions', /^hull_(length|beam|depth|tons|draught|tumblehome|displacement)/],
+  ['Decks and bulwarks', /^(gundeck|weather_deck|between_decks|deck_thickness|quarterdeck|forecastle|deck_camber|bulwark|side_thickness|rail_cap|gangway)/],
   ['Backbone', /^keel_/],
-  ['Gunports', /^(gunport|qd_port|fc_port)/],
-  ['Wales', /^wale_/],
+  ['Gunports', /^(gunport|lower_gunport|lower_port|qd_port|fc_port|bridle_port)/],
+  ['Wales', /^(wale_|middle_wale)/],
   ['Masts and their stations', /^(fore_mast|main_mast|mizzen_mast|mast_step)/],
   ['Topmasts, topgallants and poles', /^(fore_topmast|main_topmast|mizzen_topmast|fore_topgallant_(length|diameter)|main_topgallant_(length|diameter)|mizzen_topgallant_(length|diameter)|fore_royal_pole|main_royal_pole|mizzen_royal_pole)/],
   ['Bowsprit, jibboom and dolphin striker', /^(bowsprit|jibboom|dolphin_striker|gammoning)/],
@@ -85,10 +85,10 @@ const offsetTable = () => {
     + `Station \`z\` is metres from the station of maximum breadth, negative forward. Waterline \`y\`\n`
     + `is metres above the design load waterline, so most are negative. \`—\` means the station does\n`
     + `not reach that waterline.\n\n`;
-  s += '| station | z | rabbet y | ' + wl.map((y) => `y ${y}`).join(' | ') + ' | deck y | deck half-b | top of side y | top of side half-b |\n';
+  s += '| station | z | rabbet y | ' + wl.map((y) => `y ${y}`).join(' | ') + ' | lower deck y | half-b | top of side y | half-b |\n';
   s += '|---|---|---|' + wl.map(() => '---').join('|') + '|---|---|---|---|\n';
   for (let i = 0; i < OFFSETS.stationZ.length; i++) {
-    s += `| ${i} | ${OFFSETS.stationZ[i].toFixed(2)} | ${OFFSETS.rabbetY[i].toFixed(2)} | `
+    s += `| ${OFFSETS.stationLabel[i]} | ${OFFSETS.stationZ[i].toFixed(2)} | ${OFFSETS.rabbetY[i].toFixed(2)} | `
       + OFFSETS.halfBreadth[i].map((v) => (v === null ? '—' : v.toFixed(3))).join(' | ')
       + ` | ${OFFSETS.deckAtSideY[i].toFixed(2)} | ${OFFSETS.deckAtSideX[i].toFixed(3)}`
       + ` | ${OFFSETS.topOfSideY[i].toFixed(2)} | ${OFFSETS.railX[i].toFixed(3)} |\n`;
@@ -99,7 +99,7 @@ const offsetTable = () => {
 const paintTable = () => {
   let s = '| key | colour | roughness | metalness | source |\n|---|---|---|---|---|\n';
   for (const [key, row] of Object.entries(PAINT)) {
-    s += `| \`${key}\` | ${row.hex ?? (row.value !== undefined ? Number(row.value.toFixed(4)) : '—')} `
+    s += `| \`${key}\` | ${row.hex ?? (typeof row.value === 'number' ? Number(row.value.toFixed(4)) : row.value !== undefined ? String(row.value) : '—')} `
       + `| ${row.roughness ?? '—'} | ${row.metalness ?? (row.hex ? 0 : '—')} | ${row.source} |\n`;
   }
   return s;
@@ -108,60 +108,52 @@ const paintTable = () => {
 const groupSections = GROUPS.map(([title, re]) => `### ${title}\n\n${table(rowsFor(re))}`).join('\n');
 const leftovers = Object.entries(SPEC).filter(([k]) => !used.has(k));
 
-const doc = `# HMS Surprise — specification
+const D = OFFSETS.dimensions;
+const doc = `# Waakzaamheid — specification
 
 The contract this model is built against. Every dimension in the generator traces to a
 row below, and \`npm run audit\` measures the geometry that was actually produced and
 diffs it against these numbers.
 
-**How this file is maintained.** The prose is written by hand. The dimension tables are
-generated from \`src/spec/spec.js\` and \`docs/offsets.json\` by \`node tools/make-specs.js\`,
-so they cannot drift from the code. What a person maintains here is the part a machine
-cannot: where each number came from, how far it is to be trusted, and what is still
-guesswork. \`npm run trace\` closes the loop from the other side — it fails the build if a
-generator dimension has no row here, or if a row has no source.
+**How this file is maintained.** The prose is written by hand in \`tools/make-specs.js\`.
+The dimension tables are generated from \`src/spec/spec.js\` and \`docs/offsets.json\`, so
+they cannot drift from the code. \`npm run trace\` fails the build if a generator dimension
+has no row here, or if a row has no source.
 
 ---
 
 ## 1. What ship this is
 
-The French corvette **Unité**, launched 16 January 1794 at Le Havre, built by Jean
-Fouache to a design attributed to Pierre-Alexandre Forfait. She was taken on 20 April
-1796 in the Mediterranean by HMS Inconstant, bought into the Royal Navy, and renamed
-**Surprise** because the Navy already had a Unité. Rated a sixth rate; 126 ft on the
-gundeck, 31 ft 8 in extreme breadth, 578 73/94 tons burthen. Fitted at Plymouth
-January–May 1798 at a cost of £6,992, which is when the only surviving draught of her was
-made. She is the ship of Patrick O'Brian's Aubrey–Maturin novels.
+The **Waakzaamheid** is fictional: the Dutch seventy-four that chases the Leopard through
+the Southern Ocean in Patrick O'Brian's *Desolation Island* (1978), set in early 1811, and
+is lost when a shot brings down her foremast and she broaches in a breaking sea. The book
+gives her 32-pounders on the lower deck and 24-pounders above, a black hull, a broad stern,
+bluff bows, bridle-port chasers and pole topgallant masts (\`docs/research/01-the-book.md\`).
 
-The model is of the **real ship as she was in 1798**, not of the San Diego replica used
-in the 2003 film — that vessel is a 1970 reconstruction of the 1757 HMS Rose, a
-different ship of a different navy and a different generation.
+Her **hull is real**: it is lofted from the lines of the Dutch 74 **Washington**, laid down
+at Amsterdam in 1795 and launched on 9 August 1796, taken by the British at the Vlieter in
+1799 and renamed HMS Princess of Orange. Her draught survives at the Nationaal Archief
+(4.MST inv. 59), in Amsterdam feet: 179 ft on the lower deck, 48 9/11 ft inside the plank,
+22 ft in the hold.
 
 ### The modelling rule
 
-Where the published plans and the reference photograph disagree, **the plans decide
-dimensions and the photograph decides paint and character**. The photograph is a
-hand-crafted museum model and is itself an interpretation; it is trusted for how the
-ship should look and read, not for how big anything is.
+The draught decides the hull; the book decides what is fictional (guns, paint, the
+chasers, the topgallants); period rules fill the rest, and every row says which is which.
 
 ## 2. Source register
 
 | # | Source | Grade | What it gives |
 |---|---|---|---|
-| 1 | RMG **ZAZ3067**, "Lines & Profile", Plymouth Yard February 1798, signed John Marshall, titled "SURPRISE late L'UNITE". [Catalogue](https://www.rmg.co.uk/collections/objects/rmgc-object-82858) · [scan](https://collections.rmg.co.uk/media/2/440/707/j5948.jpg) | PRIMARY | The only surviving lines plan of this ship. Her recorded dimensions, the midship section, the sheer, the wales, the stem and stern profiles. |
-| 2 | RMG **ZAZ3068**, "Deck, Quarter & Forecastle", same yard, date and hand. [Catalogue](https://www.rmg.co.uk/collections/objects/rmgc-object-82859) | PRIMARY | The deck plan: the waist, the gangways, the catheads, the round bow. |
-| 3 | **David Steel, "The Elements and Practice of Rigging and Seamanship" (1794)**, vol 1 p.50, the column headed "28 GUNS. 594 Tons." [Scan](https://archive.org/download/bim_eighteenth-century_the-elements-and-practic_steel-david_1794_1/page/n67.jpg) | SECONDARY | Every spar length and diameter. This is *her own* establishment column, not an interpolation. |
-| 4 | Steel 1794 vol 1 p.42, the fractional taper table and the head and hounds rules. [Scan](https://archive.org/download/bim_eighteenth-century_the-elements-and-practic_steel-david_1794_1/page/n59.jpg) | SECONDARY | How every spar tapers; masthead, doubling and pole lengths. |
-| 5 | Steel 1794 vol 2, the rigging warrant for a 28-gun ship of 594 tons. | SECONDARY | Shroud, backstay and bobstay counts; ratlines at thirteen inches. |
-| 6 | Steel, "The Elements and Practice of Naval Architecture", the "CENTRES OF MASTS" folio. | SECONDARY | Mast stations, mast rake, bowsprit steeve. |
-| 7 | Rif Winfield, *British Warships in the Age of Sail 1793–1817*, via [threedecks 6983](https://threedecks.org/index.php?display_type=show_ship&id=6983) and [Wikipedia](https://en.wikipedia.org/wiki/HMS_Surprise_(1796)) | SECONDARY | Dimensions, tonnage, armament, complement, career. |
-| 8 | A museum model by **The Model Shipyard**, [published on their site](https://www.stephensandkenau.com/ship/hms-surprise/). Read pixel by pixel in \`docs/PHOTO-ANALYSIS.md\`; the photograph itself is their work and is not redistributed here. | INTERPRETATION | Paint, ornament, sail set, character. Never dimensions. |
-| 9 | \`docs/research/\` — eight sourced research files behind all of the above. | — | Every citation, and an honest account of what could not be found. |
-
-**A trap worth recording.** The RMG catalogue links four plans (ZAZ3181–3184) to
-"Surprise (captured 1796)". They are of a **different ship**: HMS Unite, ex-*Gracieuse*,
-a 32-gun fifth rate of 142 ft 5½ in. The title cartouche of ZAZ3067 reads "SURPRISE late
-L'UNITE"; that of ZAZ3181 reads only "L'UNITE". Do not use ZAZ3181–3184.
+| 1 | Nationaal Archief **4.MST inv. 59**, "Aftekening van het Schip de Washington à 76 Stukken Canon", I. Vos, 1795. [Record](https://www.nationaalarchief.nl/onderzoeken/archief/4.MST/invnr/59) | PRIMARY | The hull: every station of the body plan, the sheer, the decks, both tiers of ports, the wales, the stem and sternpost, the masts' stations. |
+| 2 | British survey of HMS Princess of Orange (ex-Washington), via [Wikipedia](https://en.wikipedia.org/wiki/HMS_Princess_of_Orange_(1799)) | PRIMARY | Length 168 ft 5 in, breadth 46 ft 2 in, 1,565 tons bm. |
+| 3 | RMG SLR0591, dockyard model of the Washington, 1797. [Catalogue](https://www.rmg.co.uk/collections/objects/rmgc-object-66552) | SECONDARY | Her stern, head and figurehead. |
+| 4 | Rijksmuseum NG-MC-500, rigged model of the Dutch 74 Vrijheid, 1782 (public domain) | SECONDARY | Dutch tops, caps, pole topgallants; black wales, red port linings; the crowned lion. |
+| 5 | **David Steel, "The Elements and Practice of Rigging and Seamanship" (1794)**, vol 1 p.49, "74 GUNS. 1799 Tons." [Scan](https://archive.org/download/bim_eighteenth-century_the-elements-and-practic_steel-david_1794_1/page/n66.jpg) | SECONDARY | Every spar, scaled by Steel's own rule to her size. |
+| 6 | A. Ruijter, *In dienst van twee republieken: het linieschip Staten-Generaal/Bato*, RCE | SECONDARY | The Dutch rules for 74s: lower ports 6 1/2 ft above the water, 6 7/11 ft between decks. |
+| 7 | C. Toussaint, drawing of the Batavian 74 Jupiter, 1800, Rijksmuseum RP-T-1889-A-2234 | SECONDARY | Her paint: black, no bands, ochre masts. |
+| 8 | Patrick O'Brian, *Desolation Island* (1978) | FICTIONAL | Everything marked FICTIONAL. |
+| 9 | \`docs/research/\` | — | Every citation, and an honest account of what could not be found. |
 
 ---
 
@@ -173,27 +165,19 @@ ${leftovers.length ? `### Other\n\n${table(leftovers)}` : ''}
 
 ## 4. Hull form
 
-The offsets below were taken off source 1. **The midship section is measured**; the other
-stations are that section scaled by a measured breadth line, lifted by a rising line of
-floor and sharpened toward the ends, then tuned until the displacement came right. So
-they are a reconstruction, but one anchored at both ends of the problem: a measured
-midship shape and a measured displacement.
+Every station of the body plan was followed by machine off the archive's scan, calibrated
+on the drawing's own scale of feet, and the ends of the ship closed on the traced stem and
+sternpost rabbets (\`docs/research/07-tracing.md\`). The dead flat is drawn in both halves
+of the body plan and the two agree to within a few centimetres.
 
-### It was verified, not just drawn
-
-| Quantity | Model | Record | Verdict |
-|---|---|---|---|
-| Displacement | 656.1 tons | 657 tons | 0.1 per cent |
-| Burthen, Builder's Old Measurement | 578.79 tons | 578 73/94 | exact |
-| Midship coefficient Cm | 0.777 | frigates 0.75–0.78 | in band |
-| Prismatic coefficient Cp | 0.614 | frigates 0.60–0.64 | in band |
-| Block coefficient Cb | 0.477 | frigates 0.45–0.48 | in band |
-| Longitudinal centre of buoyancy | 0.502 L | just abaft amidships | correct for a fine hull |
-| Maximum beam | 0.51 of the LWL from forward | — | essentially amidships |
-
-Tumblehome above the maximum breadth measures **15.6 degrees from the vertical**, which
-is a lot — and contradicts the common claim that a French hull tumbles home less than a
-British one. The measurement is what is built.
+| Quantity | Model | Record |
+|---|---|---|
+| Length on the lower deck | ${(179 * 0.283133).toFixed(2)} m | 179 Amsterdam ft |
+| Moulded breadth | ${D.beam_moulded_m.toFixed(2)} m | 48 9/11 ft = 13.82 m |
+| Length on the waterline | ${D.length_lwl_m.toFixed(2)} m | — |
+| Draught, to the false keel | ${D.draught_m.toFixed(2)} m | not recorded; set by the Dutch rule for the lower ports |
+| Displacement | ${D.displacement_t_seawater.toFixed(0)} t | not recorded |
+| Block / midship / prismatic | ${D.Cb} / ${D.Cm} / ${D.Cp} | full, as a Dutch hull is |
 
 ${offsetTable()}
 
@@ -201,10 +185,8 @@ ${offsetTable()}
 
 ## 5. Materials and paint
 
-Colours are sRGB hex as they should appear under neutral light. Roughness and metalness
-are linear. The paint bands are applied in the hull's own surface coordinate, so each one
-follows the line of the ship it belongs to — the copper follows the waterline, the wale
-and the ochre strake follow the sheer.
+Colours are sRGB hex as they should appear under neutral light. She is black all over, with
+tarred wales, a white-stuff bottom, red ochre linings and ochre-and-gilt carving.
 
 ${paintTable()}
 
@@ -212,42 +194,28 @@ ${paintTable()}
 
 ## 6. Levels of detail
 
-| LOD | Triangles | Carries | Drops |
-|---|---|---|---|
-| \`hero\` | 200–500 k | Every ratline, gun, port lid, gallery light and deadeye. Ropes as tubes. | Nothing. |
-| \`game\` | 30–60 k | Hull, decks, guns, boats, full spar plan, shrouds and stays as tubes. Hull about 38 m, sized to replace the host game's procedural ship. | Ratlines become lines, footropes and blocks go, deck furniture reduced to the principal items. |
-| \`distant\` | under 5 k | Silhouette: hull, masts, yards, sails, lower shrouds and stays as lines. | Everything else. |
+See \`src/ship/lod.js\` (\`TRI_BUDGET\`) and \`docs/GAME-INTEGRATION.md\` for the measured
+cost of each level.
 
-Sail states: \`full\` (courses, topsails, topgallants, staysails, three headsails and the
-spanker, as in the reference photograph), \`topsails\`, \`storm\` (reefed foresail and
-close-reefed main topsail) and \`furled\`.
+Sail states: \`full\`, \`topsails\`, \`storm\` (reefed foresail and close-reefed main topsail)
+and \`furled\` — the same as HMS Surprise's, by the same names.
 
 ---
 
 ## 7. What is honestly not known
 
-* **Her lines below the midship section.** One draught survives, at 1:48, readable here
-  only as a 1280-pixel scan. The midship section is measured off it; the rest is a fair
-  reconstruction that reproduces her recorded displacement.
-* **Her figurehead.** Not documented anywhere reachable. The "woman with sword and
-  shield" belongs to the film ship, not to her. What is modelled is conjectural and is
-  marked so.
-* **The exact arrangement of her stern lights.** The body plan shows a single row of
-  seven with a quarter gallery each side; the detail is reconstructed.
-* **Her moulded breadth.** The row exists on the draught but is illegible at this
-  resolution.
-* **Which ensign she wore, and when.** That depended on her admiral's squadron. The
-  pre-1801 Union canton is correct for 1798 and is what is built.
-* **The height the copper was carried to.** Reconstructed at 2 ft 6 in to 3 ft above the
-  load waterline.
-* **The spanker.** Steel gives a 52 ft driver boom; the photograph shows a much shorter
-  gaff spanker. The photograph decides character, so the spanker is what is built and
-  the driver boom is recorded beside it.
-
-Every one of these would be closed by two purchases: Karl Heinz Marquardt, *The Frigate
-Surprise* (Anatomy of the Ship, 2003), and full-size prints of RMG J5947 and J5948.
+* **Her topsides above the main wale.** The stations vanish into the hatched wales on the
+  scan; the dead flat's tumblehome is read off the body plan and the other stations are
+  reconstructed from it.
+* **Her waterline.** The draught does not mark one. It is set by the Dutch Admiralties'
+  rule for the lower ports, on an even keel.
+* **Her masts and yards.** No Dutch masting table was found. The lengths are a British table
+  fitted to her size; only the mast stations are hers.
+* **Her paint, her bottom and her colours in 1811.** One drawing, a few models and the book.
+  White stuff or copper is a guess either way; history leans to French colours in 1811,
+  the book to Dutch.
+* **Her bridle ports.** The book's, not the draught's.
 `;
-
 await fs.writeFile(path.join(ROOT, 'SPECS.md'), doc);
 console.log(`SPECS.md written — ${Object.keys(SPEC).length} dimension rows, ${Object.keys(PAINT).length} material rows, ${OFFSETS.stationZ.length} stations`);
 if (leftovers.length) console.log(`  ${leftovers.length} key(s) fell into "Other": ${leftovers.map(([k]) => k).join(', ')}`);

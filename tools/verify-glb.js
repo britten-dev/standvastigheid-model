@@ -6,8 +6,8 @@ import path from 'node:path';
 import { openHarness, ROOT } from './harness.js';
 
 // Authored fittings/crew are a separate asset library with their own export checks;
-// they cannot meet the dimensions of a complete frigate.
-const files = (await fs.readdir(path.join(ROOT, 'build'))).filter((f) => /^surprise-.*\.glb$/.test(f));
+// they cannot meet the dimensions of a complete ship.
+const files = (await fs.readdir(path.join(ROOT, 'build'))).filter((f) => /^waakzaamheid-.*\.glb$/.test(f));
 if (!files.length) throw new Error('No exported ships found in build/');
 const h = await openHarness();
 
@@ -49,9 +49,9 @@ const rows = await h.page.evaluate(async (names) => {
 let bad = 0;
 for (const r of rows) {
   if (!r.ok) { bad++; console.log(`FAIL ${r.name}: ${r.error}`); continue; }
-  // A ship whose keel is not below the waterline, or whose hull is not about 38 m, has
-  // been exported with a transform or a unit error somewhere.
-  const sane = r.tris > 0 && r.meshes > 0 && r.minY < -3 && r.size[2] > 30;
+  // A ship whose keel is not 5-6 m below the waterline, or who is not 50-80 m from the
+  // jib-boom to the taffrail, has been exported with a transform or a unit error.
+  const sane = r.tris > 0 && r.meshes > 0 && r.minY < -5 && r.minY > -6.5 && r.size[2] > 50 && r.size[2] < 85;
   if (!sane) bad++;
   console.log(
     `${sane ? 'ok  ' : 'BAD '} ${r.name.padEnd(32)} ${String(r.tris).padStart(7)} tris  ` +
