@@ -10,7 +10,7 @@ import { makeMaterials } from './materials.js';
 import { buildHull, hullModel } from './hull.js';
 import { portLayout, makePortCutter, buildPorts } from './ports.js';
 import { buildDecks } from './decks.js';
-import { buildStern } from './stern.js';
+import { buildStern, sternHullSkip } from './stern.js';
 import { buildHead } from './head.js';
 import { buildChannels } from './channels.js';
 import { buildFurniture } from './furniture.js';
@@ -95,7 +95,7 @@ export function buildShip({ lod = 'hero', sails = 'full', weather, ports: portSt
 
   // The hull first, with the gunports cut out of the loft grid as it is built.
   const ports = portLayout(model);
-  const hull = buildHull(cfg, mats, model, { skipQuad: makePortCutter(model, ports) });
+  const hull = buildHull(cfg, mats, model, { skipQuad: sternHullSkip(model, makePortCutter(model, ports)) });
   ship.add(hull.group);
 
   const decks = buildDecks(cfg, mats, model);

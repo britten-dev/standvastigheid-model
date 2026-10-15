@@ -1,13 +1,13 @@
+// The timber finish of the stern's shell, and the carved work on it.
 import * as T from 'three';
-import {FontLoader} from 'three/addons/loaders/FontLoader.js';
-import lettering from './stern-lettering.js';
-import {SPEC,PAINT} from '../spec/spec.js';
+import {PAINT} from '../spec/spec.js';
 import {mergeGeometries} from '../util/loft.js';
-import {audit} from '../audit/measure.js';
+import {S} from './stern-profile.js';
+import {carved,giltUV,plain,standingFigure,seatedWarrior,lionCouchant,trophyOfArms,scrollRun} from './stern-carving.js';
 import {normalFrom,asTexture} from './textures.js';
-import {joineryFinish,carvedGiltFinish} from './stern-finishes.js';
+import {carvedGiltFinish} from './stern-finishes.js';
 
-const font=new FontLoader().parse(lettering), finishes=new Map();
+const finishes=new Map();
 const hash=n=>{const x=Math.sin(n*127.1+31.7)*43758.5453;return x-Math.floor(x);};
 
 // Four metres of horizontal painted planking. The hull atlas pins its upper V
@@ -67,19 +67,22 @@ export function finishSternShell(shell,cfg,sp){
  shell.material=[shell.material,sternFinish(Math.min(2048,cfg.textureSize))];
 }
 
-export function addSternOrnament(cfg,mats,sp,lights,group){
+
+/**
+ * The carved work of the stern, gilt on the black: the device on the counter between the
+ * two chase ports, the bosses on the pilasters of the lights, the frieze over them and the
+ * frieze of the taffrail, the crest of the taffrail with its seated warrior, lions and
+ * trophies of arms, and a Hercules at each corner. None of it carries a name.
+ */
+export function addSternOrnament(cfg,mats,sp,lights,walk,group){
  if(cfg.sternOrnament==='none')return;
  const fine=cfg.sternOrnament==='carved',gold=carvedGiltFinish(cfg);
- const giltUV=g=>{
-  const p=g.attributes.position,uv=[];
-  for(let i=0;i<p.count;i++)uv.push(p.getX(i)/.28,p.getY(i)/.22);
-  g.setAttribute('uv1',new T.Float32BufferAttribute(uv,2));return g;
- };
- const details=[],grounds=[];
+ const seg=Math.max(5,Math.round(cfg.latheSegments/(fine?2:3)));
+ const details=[],grounds=[],figures=[];
  const on=(x,y,d)=>sp.surfaceAtX(y,x,d);
  const tube=(points,radius=.009,steps=32)=>{
   const curve=new T.CatmullRomCurve3(points.map(([x,y,d])=>on(x,y,d)));
-  return new T.TubeGeometry(curve,fine?steps:Math.max(6,Math.round(steps/3)),radius,fine?6:3,false);
+  return plain(new T.TubeGeometry(curve,fine?steps:Math.max(6,Math.round(steps/3)),radius,fine?6:3,false));
  };
  const oval=(cx,cy,rx,ry,d,r=.009)=>tube(Array.from({length:33},(_,i)=>{
   const a=i/32*Math.PI*2;return [cx+Math.cos(a)*rx,cy+Math.sin(a)*ry,d];
@@ -107,62 +110,83 @@ export function addSternOrnament(cfg,mats,sp,lights,group){
   const g=new T.ExtrudeGeometry(s,{depth,bevelEnabled:true,bevelSize:.004,bevelThickness:.003,bevelSegments:2,curveSegments:fine?12:4,steps:1});
   const p=g.attributes.position;
   for(let i=0;i<p.count;i++){const v=on(cx+p.getX(i),cy+p.getY(i),.004+p.getZ(i));p.setXYZ(i,v.x,v.y,v.z);}
-  g.computeVertexNormals();return g;
+  g.computeVertexNormals();return plain(g);
  };
- const nameY=T.MathUtils.lerp(sp.yTuck,sp.yWing,.78),w=SPEC.stern_cartouche_width.value,h=SPEC.stern_cartouche_height.value;
- const depth=.026;
- const boardGeometry=panel(0,nameY,w,h,depth,.025),boardUV=[];
- const boardP=boardGeometry.attributes.position;
- for(let i=0;i<boardP.count;i++)boardUV.push(boardP.getX(i)/1.25,boardP.getY(i)/.22);
- boardGeometry.setAttribute('uv1',new T.Float32BufferAttribute(boardUV,2));
- const boardMaterial=joineryFinish(cfg).clone();boardMaterial.vertexColors=false;boardMaterial.userData.bakedOcclusion=false;
- boardMaterial.color.set(PAINT.topside_black.hex);boardMaterial.roughness=.87;
- const board=new T.Mesh(boardGeometry,boardMaterial);board.name='stern_nameboard';group.add(board);
- // Thin, inset frame instead of a swollen brass lozenge.
- const frame=[[-w/2+.09,-h/2+.03],[w/2-.09,-h/2+.03],[w/2-.035,-h/2+.065],
-  [w/2-.035,h/2-.065],[w/2-.09,h/2-.03],[-w/2+.09,h/2-.03],[-w/2+.035,h/2-.065],[-w/2+.035,-h/2+.065],[-w/2+.09,-h/2+.03]];
- details.push(tube(frame.map(([x,y])=>[x,nameY+y,depth+.01]),.0045,128));
- const shapes=font.generateShapes('SURPRISE',SPEC.stern_name_letter_height.value);
- // A single sloping chisel cut gives a crisp edge; densely rounded bevels
- // look cast in plastic and spend more triangles than the whole cabin.
- const text=fine?new T.ExtrudeGeometry(shapes,{depth:.0075,bevelEnabled:true,bevelSize:.002,bevelThickness:.002,bevelSegments:1,curveSegments:6,steps:1}):new T.ShapeGeometry(shapes,3);
- text.computeBoundingBox();const box=text.boundingBox,size=box.getSize(new T.Vector3()),center=box.getCenter(new T.Vector3()),p=text.attributes.position;
- for(let i=0;i<p.count;i++){
-  const x=(p.getX(i)-center.x)*SPEC.stern_name_length.value/size.x;
-  const y=nameY+(p.getY(i)-center.y)*SPEC.stern_name_letter_height.value/size.y;
-  const v=on(x,y,depth+.008+p.getZ(i));p.setXYZ(i,v.x,v.y,v.z);
+ const relief=S('stern_carving_relief'),bevel=S('stern_carving_bevel');
+ const nb=fine?12:8;
+
+ // ------------------------------------------------ the device on the counter
+ // Between the two chase ports: a shield in a wreath under a crown, with scrolls
+ // running out toward the quarters over the ports.
+ {
+  const f=sp.f,cy=(f.lower_port_head+sp.yCounterTop)/2+.02;
+  const w=S('stern_counter_device_width'),h=S('stern_counter_device_height');
+  grounds.push(panel(0,cy,w,h,.012,h*.32));
+  details.push(oval(0,cy,w*.46,h*.43,.035,.012));
+  details.push(oval(0,cy,w*.34,h*.33,.034,.006));
+  details.push(plain(carved((u,v,o)=>on(u,v,o+.012),0,w*.2,cy-h*.02,h*.26,{crown:relief,bevel,corner:2.6,nu:nb,nv:4})));
+  // The laurel either side of the shield, and a crown over it.
+  for(const sgn of [-1,1])for(let i=0;i<5;i++){
+   const a=(i/4)*1.0+.25,r=w*.3;
+   details.push(leaf(sgn*Math.sin(a)*r*.82,cy-Math.cos(a)*h*.34,sgn*Math.sin(a+.28)*r,cy-Math.cos(a+.28)*h*.4,h*.16,.034));
+  }
+  for(let i=0;i<5;i++){const x=(i-2)*w*.045;details.push(tube([[x,cy+h*.3,.035],[x,cy+h*.42+(2-Math.abs(i-2))*h*.04,.04]],.009,6));}
+  details.push(tube([[-w*.1,cy+h*.3,.035],[w*.1,cy+h*.3,.035]],.01,6));
+  if(fine)for(const sgn of [-1,1])details.push(scrollRun((u,y,d)=>on(sgn*u,y,d+.01),1.95,3.3,cy,h*.7,3,{relief:S('stern_scroll_relief'),radius:.011,fine}));
  }
- text.computeVertexNormals();text.computeBoundingBox();text.computeBoundingSphere();const name=new T.Mesh(giltUV(text),gold);name.name='stern_name';audit(name,'stern_name_length','extent_x');group.add(name);
- const cy=T.MathUtils.lerp(lights.yHead+SPEC.stern_light_munion.value*2,sp.yTaff,.42);
- const ow=SPEC.taffrail_ornament_width.value,oh=SPEC.taffrail_ornament_height.value;
- grounds.push(panel(0,cy,ow*.94,oh*.82,.012,oh*.32));
- details.push(oval(0,cy,ow*.48,oh*.44,.035,.012));
- details.push(oval(0,cy,ow*.42,oh*.35,.034,.006));
- // A shallow shell fan in the centre, with mirrored scrolling foliage.
- // This is restrained period-style reconstruction, not a claimed portrait carving.
- for(let i=0;i<9;i++){
-  const a=(i/8-.5)*2.25;
-  details.push(tube([[0,cy-oh*.24,.025],[Math.sin(a)*ow*.15,cy+oh*.04,.048],[Math.sin(a)*ow*.29,cy+Math.cos(a)*oh*.26,.025]],.006,12));
-  details.push(leaf(0,cy-oh*.22,Math.sin(a)*ow*.29,cy+Math.cos(a)*oh*.26,ow*.073,.029));
- }
- for(const side of [-1,1]){
-  const start=ow*.55,end=lights.halfSpan*.84;
-  for(let k=0;k<2;k++){
-   const cx=T.MathUtils.lerp(start,end,(k+.5)/2),rx=(end-start)*.23,ry=oh*(k?.23:.29);
-   const points=[];
-   for(let i=0;i<=32;i++){const t=i/32,a=t*Math.PI*3.1,r=1-t*.88;
-    points.push([side*(cx+Math.cos(a)*rx*r),cy+Math.sin(a)*ry*r,.024]);}
-   details.push(tube(points,.01,48));
-   for(let j=0;j<3;j++){
-    const x=side*(cx-rx*.7+j*rx*.55),y=cy-ry*.7;
-    details.push(tube([[x,y,.02],[x+side*rx*.18,y-ry*.3,.036],[x+side*rx*.42,y-ry*.16,.02]],.008,14));
-    details.push(leaf(x,y,x+side*rx*.47,y-ry*.35,ry*.30));
+
+ // ------------------------------------------------ the pilasters of the lights
+ // A gilt boss at the head and the foot of each, on the ochre of the pilaster.
+ if(fine){
+  const depth=.016+S('stern_light_frame_depth');
+  for(let i=0;i<=lights.count;i++){
+   const x=(i-lights.count/2)*lights.pitch+(i===0?-S('stern_quarter_piece_width')/2:i===lights.count?S('stern_quarter_piece_width')/2:0);
+   const half=(i===0||i===lights.count?S('stern_quarter_piece_width'):S('stern_light_munion'))*.3;
+   for(const y of [lights.yHead-.14,lights.ySill+.14,lights.yHead+.12]){
+    details.push(plain(carved((u,v,o)=>on(u,v,o+depth),x,half,y,y>lights.yHead?.045:.09,{crown:relief*.5,bevel,nu:fine?10:6,nv:3})));
    }
   }
-  // Paired narrow channels give the end pieces relief without large gold blobs.
-  const x=side*(sp.halfBreadth(cy)-SPEC.stern_term_piece_width.value);
-  for(const offset of [-.03,.03])details.push(tube([[x+offset,lights.yHead+.10,.022],[x+offset-side*.035,cy,.034],[x+offset,sp.yTaff-.16,.022]],.011,24));
  }
+
+ // ------------------------------------------------ the frieze over the lights
+ {
+  const y0=lights.yHead+S('stern_glazing_bar')*2+.015,y1=sp.yWalk-S('stern_counter_rail_depth')*1.2;
+  if(fine&&y1>y0+.05)details.push(scrollRun((u,y,d)=>on(u,y,d+.012),-lights.halfSpan,lights.halfSpan,(y0+y1)/2,y1-y0,Math.max(8,lights.count*2),
+   {relief:S('stern_scroll_relief'),radius:.008,fine}));
+ }
+
+ // ------------------------------------------------ the taffrail: frieze, crest, figures
+ const fr=walk.frieze,hf=S('stern_figure_height'),pedestal=S('stern_figure_pedestal');
+ if(fine)details.push(scrollRun((u,y,d)=>on(u,y,d-.035),-fr.xHalf+.15,fr.xHalf-.15,(fr.yTop+fr.yBot)/2,fr.depth*.9,14,
+  {relief:S('stern_scroll_relief')*.6,radius:.009,fine}));
+ {
+  const top=sp.yTaff,zc=sp.surfaceAtX(top,0).z;
+  const crestW=S('stern_crest_width'),crestH=S('stern_crest_height');
+  // The arched ground of the crest, in black, carved through its middle.
+  const s=new T.Shape();
+  s.moveTo(-crestW/2,0);s.lineTo(crestW/2,0);s.lineTo(crestW/2,crestH*.28);
+  s.quadraticCurveTo(crestW/2,crestH*.62,crestW*.2,crestH*.72);
+  s.quadraticCurveTo(crestW*.07,crestH*.76,0,crestH);
+  s.quadraticCurveTo(-crestW*.07,crestH*.76,-crestW*.2,crestH*.72);
+  s.quadraticCurveTo(-crestW/2,crestH*.62,-crestW/2,crestH*.28);s.closePath();
+  const gg=new T.ExtrudeGeometry(s,{depth:.07,bevelEnabled:true,bevelSize:.012,bevelThickness:.01,bevelSegments:1,curveSegments:fine?10:4,steps:1});
+  gg.translate(0,0,zc-.2);gg.translate(0,top,0);
+  grounds.push(plain(gg));
+  const at=(g,x,y,z,ry=0)=>{g.rotateY(ry);g.translate(x,y,z);return g;};
+  // The seated warrior in the middle, a lion couchant either side, a trophy beyond each.
+  figures.push(at(seatedWarrior(crestH*.86,seg),0,top+crestH*.0,zc-.06));
+  for(const sgn of [-1,1]){
+   figures.push(at(lionCouchant(crestH*.34,seg),sgn*crestW*.28,top,zc-.06,sgn>0?.25:-.25));
+   if(fine)figures.push(at(trophyOfArms(crestH*.82,seg),sgn*crestW*.42,top,zc-.16,sgn*.35));
+  }
+  // The corner giants, a Hercules each, on their piers, facing aft and a little outboard.
+  for(const sgn of [-1,1]){
+   const c=walk.corner[sgn];
+   figures.push(at(standingFigure(hf,seg,{pedestal}),c.x,c.y,c.z-.02,sgn*.45));
+  }
+ }
+
  const base=new T.Mesh(mergeGeometries(grounds),mats.black);base.name='stern_carving_ground';group.add(base);
- const carving=new T.Mesh(giltUV(mergeGeometries(details)),gold);carving.name='stern_carving';group.add(carving);
+ const carving=new T.Mesh(giltUV(mergeGeometries(details.map(plain))),gold);carving.name='stern_carving';group.add(carving);
+ const figs=new T.Mesh(giltUV(mergeGeometries(figures.map(plain))),gold);figs.name='stern_figures';group.add(figs);
 }

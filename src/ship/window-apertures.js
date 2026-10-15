@@ -2,6 +2,10 @@ import * as T from 'three';
 
 // Subtract each window prism from the existing loft, preserving interpolated
 // UVs and normals. This cuts the timber itself; transparent glass is not a hole.
+//
+// `nominalY` undoes the round-up of the stern at a point, so a window cut at one height is
+// cut at that height across the whole curved row. A window may carry its own `nominalY`,
+// because a chase port in the counter and a light at the cabin do not share a round-up.
 export function cutWindowApertures(geometry, windows, nominalY) {
   const attrs=Object.entries(geometry.attributes);
   const source=geometry.index?.array ?? Array.from({length:geometry.attributes.position.count},(_,i)=>i);
@@ -24,7 +28,8 @@ export function cutWindowApertures(geometry, windows, nominalY) {
       const next=[];
       for(const poly of polys) {
         let remain=poly;
-        for(const distance of [p=>p[0]-w.x0,p=>w.x1-p[0],p=>nominalY(p)-w.y0,p=>w.y1-nominalY(p)]) {
+        const ny=w.nominalY??nominalY;
+        for(const distance of [p=>p[0]-w.x0,p=>w.x1-p[0],p=>ny(p)-w.y0,p=>w.y1-ny(p)]) {
           if(remain.length<3)break;
           const outside=clip(remain,distance,false);if(outside.length>=3)next.push(outside);
           remain=clip(remain,distance,true);

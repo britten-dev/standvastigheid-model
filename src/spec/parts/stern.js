@@ -1,190 +1,160 @@
 // Dimensions for the stern of the ship. See src/spec/parts/index.js for the shape
 // of an entry and for the rule that every key must also appear in SPECS.md.
 //
-// Two kinds of number live here. The stern *profile* — the tuck, the counter, the
-// taffrail, the breadths of the transom — is MEASURED off the stern elevation that is
-// superimposed on the body plan of ZAZ3067, as reported in research 05 §6. The
-// *ornament* — the lights, the galleries, the carved work — is almost entirely
-// RECONSTRUCTED, because no source states any of it for this ship. Every such row
-// names the period rule it was built from.
+// WHAT THIS IS. The stern of a Dutch two-decker of 1796, drawn on the Washington's
+// lines (Nationaal Archief 4.MST inv. 59) and on her 1797 dockyard model (RMG SLR0591);
+// see research 02 and 06. From the bottom up: a round tuck; a hollow counter with two
+// stern-chase ports; a closed screen of eight stern lights, three panes wide and four
+// deep, lighting the great cabin on the upper deck; a carved frieze; a carved
+// balustrade round an OPEN stern walk at quarterdeck level with its door and windows
+// behind; and a tall carved taffrail with a central device, trophies and a figure at
+// each corner. Two-tier quarter galleries stand on the quarters. There is no name on
+// her stern: no Dutch ship of the period shows one.
 //
-// Heights are given above the design load waterline, which is y = 0. The draught is
-// dimensioned above the moulded base line, which lies 12.83 ft below the LWL, so a
-// figure quoted from the draught as "Z ft above base" appears here as Z - 12.83.
+// WHERE THE NUMBERS COME FROM. The draught is a body plan, a sheer and a half-breadth
+// plan: it fixes the hull, and the stern elevation is drawn on it, but the tracing in
+// docs/offsets.json stops at the sternpost. So the HEIGHTS of the stern come from the
+// hull model at the sternpost (the wale, the upper deck, the quarterdeck, the rail),
+// and this file carries only what stands above, beside or abaft them: overhangs,
+// half-breadths, the size of a light, a baluster, a figure. Those are RECONSTRUCTED from
+// the stern elevation on the draught and the 1797 model, scaled to the traced beam, and
+// each row says so. The Amsterdam foot of eleven inches is `aft(feet, inches)`.
 //
-// Fore-and-aft positions are given as distances abaft the *tuck*, which the model
-// places at the hull's aftmost station. The stern profile table in 05 §6 is
-// self-consistent about those distances; its summary bullets are not, and quote a
-// counter overhang (7.7 ft) and a taffrail overhang (10.5 ft) that its own measured
-// points contradict. The measured points are used.
-import { ft, m, n } from '../units.js';
+// Fore-and-aft positions are given as distances abaft the sternpost rabbet, which the
+// model places at its aftmost station (`model.zAft`).
+import { ft, aft, m, n } from '../units.js';
 
 export const STERN_SPEC = {
   // ------------------------------------------------------------- stern profile
-  // The tuck is the furthest-forward point of the stern profile and the place where
-  // the lower counter leaves the sternpost. Everything aft of the hull hangs off it.
-  stern_tuck_above_wl: m(ft(2, 2), 'MEASURED §6 the tuck at 15.0 ft above the moulded base line, LWL at 12.83 ft', { noAudit: true }),
-  stern_wing_transom_above_wl: m(ft(6, 9), 'MEASURED §6 wing transom at about 19.6 ft above the moulded base line', { noAudit: true }),
-  stern_upper_counter_above_wl: m(ft(12, 2), 'MEASURED §6 stern profile point at 25.0 ft above the moulded base line', { noAudit: true }),
-  // The taffrail is set off the hull's own rail line rather than off the waterline, so
-  // that it keeps station with the sheer if the offsets change. The two agree: the rail
-  // line stands 24.4 ft above base and the taffrail 29.5 ft.
-  stern_taffrail_above_rail: m(ft(5, 1), 'MEASURED §6 taffrail 29.5 ft above the moulded base line, rail line 24.4 ft', { noAudit: true }),
-  // The same measurement read against the quarterdeck instead of against the rail, and
-  // the one that actually governs. The traced offsets carry the rail line dead level from
-  // amidships to the sternpost, with no sheer at all, so setting the taffrail off it puts
-  // the taffrail BELOW the quarterdeck's own bulwark and the wheel stands over the stern
-  // in plain sight. Taking the greater of the two heights keeps the measured figure as a
-  // floor and lets the deck arrangement lift it where the rail line cannot be trusted.
-  stern_taffrail_above_quarterdeck: m(ft(1, 11), 'MEASURED §5/§6 taffrail 29.5 ft above the moulded base line; gun deck at side at the after perpendicular 20.90 ft, quarterdeck 6 ft 8 in above that at 27.57 ft', { noAudit: true }),
-  stern_taffrail_above_wl: m(ft(16, 8), 'MEASURED §6 taffrail 29.5 ft above the moulded base line, LWL at 12.83 ft. This is the figure the taffrail is built to; the height above the quarterdeck follows from it'),
+  stern_tuck_below_wale: m(aft(1, 0), 'RECONSTRUCTED §2 the round tuck, where the counter leaves the sternpost, sits a foot under the main wale at the post (draught, stern elevation)', { noAudit: true }),
+  stern_tuck_overhang: m(aft(3, 6), 'RECONSTRUCTED §6 the underside of the counter reaches this far abaft the post at the tuck; least that carries the counter over the rudder head', { noAudit: true }),
+  stern_tuck_flare_height: m(aft(2, 10), 'RECONSTRUCTED §2 height over which the quarter swings from the narrow tuck out to the full side; the round of the tuck', { noAudit: true }),
+  stern_overhang_mid_counter: m(aft(5, 0), 'RECONSTRUCTED §6 the hollow counter, 1797 model: half way up it stands 5 ft abaft the post', { noAudit: true }),
+  stern_overhang_counter_top: m(aft(8, 6), 'RECONSTRUCTED §6 the foot of the lights stands 8 ft 6 in abaft the post, between the 7.7 ft counter overhang and the 10.5 ft taffrail overhang the research notes give for a 74', { noAudit: true }),
+  stern_overhang_walk: m(aft(11, 0), 'RECONSTRUCTED §6 the edge of the stern walk, over the lights, 11 ft abaft the post: the taffrail overhang of the 1797 model', { noAudit: true }),
+  stern_overhang_taffrail_extra: m(aft(0, 8), 'RECONSTRUCTED §6 the taffrail beam stands a little proud of the walk edge', { noAudit: true }),
+  stern_counter_top_below_sill: m(aft(0, 8), 'RECONSTRUCTED §6 the lower counter rail, under the sills of the lights', { noAudit: true }),
 
-  // How far abaft the tuck each of those heights lies. This is the rake of the counter
-  // and of the transom above it, and 05 §6 gives two irreconcilable answers. Its measured
-  // profile points put the wing transom 2.2 ft abaft the tuck and the taffrail 5.0 ft;
-  // its summary bullets put the counter 7.7 ft abaft the sternpost and the taffrail
-  // 10.5 ft. The first pair is too little: with only 2.2 ft of overhang the counter does
-  // not carry over the rudder head, and the rudder stands out abaft the counter in plain
-  // sight, which no ship's stern does. The second pair is more than the drawn points can
-  // support. The model takes values between the two, set by the hard requirement that the
-  // counter clear the rudder, and grades them RECONSTRUCTED rather than pretending either
-  // reading was followed.
-  stern_wing_transom_abaft_tuck: m(ft(4, 6), 'RECONSTRUCTED §6 between the 2.2 ft of the measured profile points and the 7.7 ft of the counter-overhang bullet; least that carries the counter clear of the rudder head', { noAudit: true }),
-  stern_upper_counter_abaft_tuck: m(ft(6, 6), 'RECONSTRUCTED §6 between the measured 4.5 ft and the summary bullets, on a fair curve between the wing transom and the taffrail', { noAudit: true }),
-  stern_taffrail_abaft_tuck: m(ft(7, 6), 'RECONSTRUCTED §6 between the measured 5.0 ft and the 10.5 ft of the taffrail-overhang bullet', { noAudit: true }),
+  // Half-breadths. The stern is never made narrower than the hull's own side where it
+  // lands on it, so these are floors the hull can overrule. The hull's after body closes
+  // in fast over the last three metres (the traced stations run to the post), so the
+  // transom is drawn at about 0.57 of the moulded beam, which is where the hull itself
+  // is at the last gunport.
+  stern_half_breadth_tuck: m(aft(6, 0), 'RECONSTRUCTED §2 the counter at the tuck, a narrow round-bottomed bowl', { noAudit: true }),
+  stern_half_breadth_mid_counter: m(aft(10, 6), 'RECONSTRUCTED §2 the counter half way up', { noAudit: true }),
+  stern_half_breadth_counter_top: m(aft(14, 0), 'RECONSTRUCTED §2 the stern at the lights, 28 Amsterdam ft across, 0.57 of the moulded breadth, read off the stern elevation on the draught', { noAudit: true }),
+  stern_half_breadth_walk: m(aft(14, 0), 'RECONSTRUCTED §2 the stern at the walk edge; the stern tumbles home very little above the lights', { noAudit: true }),
+  stern_half_breadth_taffrail: m(aft(13, 0), 'RECONSTRUCTED §2 the taffrail, tumbled home a little from the walk edge', { noAudit: true }),
+  // The same figure as a breadth, which is what the counter rails span and so the one
+  // dimension of the stern the audit can measure off the built surface.
+  stern_transom_breadth_wing: m(aft(28, 4), 'RECONSTRUCTED §2 the widest of the counter rails, across the wing transom: twice the half-breadth at the lights and the rail proud of the planking each side', { tolerance: 0.04 }),
 
-  // Half-breadths of the stern, measured off the same elevation. The hull's traced
-  // after body is a little narrower than these at the window band, which is what gives
-  // the quarters their flare aft of the last station.
-  stern_half_breadth_at_tuck: m(ft(3, 0), 'MEASURED §6 tuck / lower counter at the post, 3.0 ft half-breadth', { noAudit: true }),
-  stern_half_breadth_wing_transom: m(ft(9, 6), 'MEASURED §6 wing transom half-breadth 9.5 ft, 0.61 of the moulded breadth', { noAudit: true }),
-  stern_half_breadth_at_lights: m(ft(10, 0), 'MEASURED §6 stern at the window band, 10.0 ft half-breadth, 0.65 of the moulded breadth', { noAudit: true }),
-  stern_half_breadth_at_taffrail: m(ft(7, 0), 'RECONSTRUCTED §6 taffrail half-breadth 7.0 ft, 0.45 of the moulded breadth, read off the same elevation', { noAudit: true }),
-  // The same wing-transom figure as a breadth, which is what the counter rails span and
-  // therefore the one dimension of the stern the audit can measure off the built surface.
-  stern_transom_breadth_wing: m(ft(19, 0), 'MEASURED §6 wing transom 19.0 ft across the stern elevation on the ZAZ3067 body plan', { tolerance: 0.05 }),
+  // Round-up and round-aft: the curve of every stern rail in plan and in elevation. The
+  // upper rails carry more of both.
+  stern_round_aft_lower: m(aft(0, 4), 'RECONSTRUCTED §2 round-aft of the lower counter, least at the bottom', { noAudit: true }),
+  stern_round_aft_upper: m(aft(2, 0), 'RECONSTRUCTED §2 round-aft of the taffrail: the middle of a rail stands further aft than its ends, increasing upward', { noAudit: true }),
+  stern_round_up_taffrail: m(aft(1, 0), 'RECONSTRUCTED §2 round-up of the taffrail: the ends of the rail drop below its middle', { noAudit: true }),
 
-  // Steel: every stern rail must have "a handsome round-up and round-aft … each rail
-  // continuing to have more round-up in proceeding upwards". Round-aft is how much
-  // further aft the middle of a rail stands than its ends; round-up is how much higher.
-  stern_round_aft_lower: m(ft(0, 4), 'RECONSTRUCTED §12.2 Steel, round-aft of the lower counter rail; least at the bottom', { noAudit: true }),
-  stern_round_aft_upper: m(ft(0, 10), 'RECONSTRUCTED §12.2 Steel, round-aft increasing in proceeding upwards', { noAudit: true }),
-  stern_round_up_taffrail: m(ft(0, 8), 'RECONSTRUCTED §12.2 Steel, the taffrail carries the most round-up of any stern rail', { noAudit: true }),
+  // How far forward of the sternpost the quarter lands on the side of the hull. It has
+  // to be abaft the last upper gunport, which ends 1.5 m forward of the post.
+  stern_quarter_run: m(aft(5, 0), 'RECONSTRUCTED §6 the closure lands on the hull 5 ft forward of the post, which is just abaft the last upper-deck port on the traced sheer plan', { noAudit: true }),
+  stern_corner_radius: m(aft(1, 6), 'RECONSTRUCTED §2 the corner of the stern in plan is rounded, not square: the 1797 model', { noAudit: true }),
 
-  // How far forward of the hull's last station the quarter begins to sweep up to the
-  // taffrail. Below this the bulwark is the hull's own; above it the stern timbers.
-  stern_quarter_run: m(ft(8, 0), 'RECONSTRUCTED §12.4 the quarter pieces run forward far enough to carry the sheer up to the taffrail without a step', { noAudit: true }),
-
-  // Mouldings across the counter, named from the bottom up by Steel: tuck rail, lower
-  // counter rail, upper counter rail.
-  stern_counter_rail_depth: m(ft(0, 5), 'RECONSTRUCTED §12.2 Steel names five stern rails; scantling taken from the sheer mouldings of the same ship', { noAudit: true }),
-  stern_counter_rail_proud: m(ft(0, 3), 'RECONSTRUCTED §12.2 a counter rail stands proud of the planking by about its own thickness', { noAudit: true }),
-  taffrail_cap_width: m(ft(0, 11), 'RECONSTRUCTED §12.4 Steel, taffrail transom 4½ in thick with the taffarel rail over it', { noAudit: true }),
-  taffrail_cap_thickness: m(ft(0, 5), 'RECONSTRUCTED §12.4 Steel, taffarel rail over the taffrail transom', { noAudit: true }),
+  // Mouldings across the counter, named from the bottom up: tuck rail, lower counter
+  // rail, upper counter rail.
+  stern_counter_rail_depth: m(aft(0, 5), 'RECONSTRUCTED §2 a counter rail, scantling taken from the wales of the same ship', { noAudit: true }),
+  stern_counter_rail_proud: m(aft(0, 3), 'RECONSTRUCTED §2 a counter rail stands proud of the planking by about its own thickness', { noAudit: true }),
+  stern_taffrail_above_rail: m(aft(0, 8), 'RECONSTRUCTED §2 the taffrail cap stands over the quarterdeck rail line at the post', { noAudit: true }),
+  stern_taffrail_above_wl: m(aft(29, 10), 'RECONSTRUCTED §2 the taffrail at the quarterdeck rail height aft (29 ft 2 in above the waterline, the traced rail at the post) and its cap of 8 in. The carved crest stands above it', { tolerance: 0.03 }),
+  taffrail_cap_width: m(aft(0, 11), 'RECONSTRUCTED §2 the taffrail cap, as broad as the rail of the quarterdeck bulwark', { noAudit: true }),
+  taffrail_cap_thickness: m(aft(0, 5), 'RECONSTRUCTED §2 the cap over the taffrail beam', { noAudit: true }),
+  stern_taffrail_frieze_depth: m(aft(0, 9), 'RECONSTRUCTED §6 the carved board under the cap, closing the top of the open walk', { noAudit: true }),
 
   // ------------------------------------------------------------- stern lights
-  // The count is the one place the sources openly disagree. 05 §6 reports a single row
-  // of SEVEN lights read off the stern elevation drawn on the ZAZ3067 body plan; 06
-  // §12.2 and 08 §5.2 both reconstruct FIVE from a breadth rule, and 08 gives that
-  // rule's own range as 5 to 7. The drawing beats the rule, so seven it is.
-  stern_light_count: n(7, 'MEASURED §6 the stern elevation on the ZAZ3067 body plan shows a single row of seven lights; 06 §12.2 and 08 §5.2 reconstruct five from a breadth rule whose stated range is 5 to 7', { tolerance: 0.001 }),
-  stern_light_height: m(ft(3, 0), 'RECONSTRUCTED §12.2 lights 3 ft 0 in deep for a Sixth Rate great cabin', { noAudit: true }),
-  stern_light_sill_above_deck: m(ft(2, 6), 'RECONSTRUCTED §12.2 sill height of a great-cabin light above the gun deck at side', { noAudit: true }),
-  stern_light_munion: m(ft(0, 6), 'RECONSTRUCTED §12.2 munions 6 in wide between the lights', { noAudit: true }),
-  stern_quarter_piece_width: m(ft(1, 0), 'RECONSTRUCTED §12.2 the quarter piece bounding the row of lights each side', { noAudit: true }),
-  stern_light_frame_depth: m(ft(0, 4), 'RECONSTRUCTED §5.2 the sash frame stands proud of the transom planking', { noAudit: true }),
-  // How deep the glass sits inside the face of its frame. A sash is rebated: the frame
-  // stands proud of the planking and the glass is set into the back of it. Without the
-  // rebate the pane is the frontmost thing on the stern and every light reads as a slab
-  // of glass laid over the joinery rather than as a window in it.
-  stern_glazing_rebate: m(ft(0, 1.5), 'RECONSTRUCTED §5.2 the rebate a crown-glass pane is bedded in, from contemporary sash practice', { noAudit: true }),
-  stern_glazing_bar: m(ft(0, 1), 'SECONDARY §5.2 wooden glazing bars about 1 in, following contemporary domestic sash practice', { noAudit: true }),
-  stern_panes_wide: n(2, 'SECONDARY §5.2 rectangular panes 2 wide per light, not leaded diamonds', { noAudit: true }),
-  stern_panes_high: n(3, 'RECONSTRUCTED §12.2 sash bars dividing each light into 6 panes, 2 wide by 3 high', { noAudit: true }),
+  stern_light_count: n(8, 'PRIMARY §2 the Washington draught: the lower tier is four lights each side of the centreline, so eight across; the 1797 model agrees', { tolerance: 0.001 }),
+  stern_panes_wide: n(3, 'PRIMARY §2 the draught: each light three panes wide', { noAudit: true }),
+  stern_panes_high: n(4, 'PRIMARY §2 the draught: each light four panes deep', { noAudit: true }),
+  stern_light_height: m(aft(4, 6), 'RECONSTRUCTED §2 the most a light can stand: the cabin is only two metres high, so the head is governed by the quarterdeck over it', { noAudit: true }),
+  stern_light_sill_above_deck: m(aft(1, 11), 'RECONSTRUCTED §2 sill of a great-cabin light above the upper deck at side', { noAudit: true }),
+  stern_cabin_ceiling_below_quarterdeck: m(aft(0, 9), 'RECONSTRUCTED §3 the quarterdeck planking and its beams over the great cabin', { noAudit: true }),
+  stern_light_munion: m(aft(0, 11), 'RECONSTRUCTED §2 the carved pilaster between two lights', { noAudit: true }),
+  stern_quarter_piece_width: m(aft(1, 0), 'RECONSTRUCTED §2 the quarter piece bounding the screen of lights each side', { noAudit: true }),
+  stern_light_frame_depth: m(aft(0, 4), 'RECONSTRUCTED §5 the sash frame stands proud of the transom planking', { noAudit: true }),
+  // A sash is rebated: the frame stands proud of the planking and the glass is set into
+  // the back of it, so a light reads as a window in the joinery and not a pane laid over.
+  stern_glazing_rebate: m(ft(0, 1.5), 'RECONSTRUCTED §5 the rebate a crown-glass pane is bedded in, from contemporary sash practice', { noAudit: true }),
+  stern_glazing_bar: m(ft(0, 1), 'SECONDARY §5 wooden glazing bars about 1 in, following contemporary sash practice', { noAudit: true }),
+
+  // ----------------------------------------------------------- the chase ports
+  stern_chase_port_width: m(aft(3, 3), 'SECONDARY §6 the two stern-chase ports of the 1797 model: a little narrower than a lower-deck broadside port', { noAudit: true }),
+  stern_chase_port_height: m(aft(2, 10), 'MEASURED §7 the mean lower-deck port, 2 ft 10 in', { noAudit: true }),
+  stern_chase_port_offset: m(aft(4, 6), 'RECONSTRUCTED §6 each port stands this far off the centreline, clear of the rudder head and the central device', { noAudit: true }),
+  stern_chase_lid_thickness: m(aft(0, 2), 'RECONSTRUCTED §6 a port lid of two-inch plank, hinged at the head', { noAudit: true }),
+  stern_chase_lid_open_degrees: n(100, 'RECONSTRUCTED §6 a lid triced up under the counter rail when the port is open', { noAudit: true }),
+
+  // ------------------------------------------------------------- the stern walk
+  stern_walk_depth: m(aft(4, 3), 'RECONSTRUCTED §6 the open stern walk, 1797 model: the wall of the cabin front stands this far forward of the balustrade', { noAudit: true }),
+  stern_walk_wall_thickness: m(aft(0, 5), 'RECONSTRUCTED §6 the panelled wall at the back of the walk', { noAudit: true }),
+  stern_walk_floor_thickness: m(aft(0, 3), 'RECONSTRUCTED §6 planking of the walk, standing proud of the deck edge', { noAudit: true }),
+  stern_balustrade_height: m(aft(2, 8), 'RECONSTRUCTED §6 the carved balustrade round the walk, 1797 model', { noAudit: true }),
+  stern_baluster_pitch: m(aft(0, 9), 'RECONSTRUCTED §6 spacing of the turned balusters', { noAudit: true }),
+  stern_baluster_radius: m(aft(0, 1.6), 'RECONSTRUCTED §6 the swell of a turned baluster', { noAudit: true }),
+  stern_balustrade_rail_depth: m(aft(0, 5), 'RECONSTRUCTED §6 the top and bottom rails of the balustrade', { noAudit: true }),
+  stern_walk_opening_count: n(7, 'SECONDARY §6 the wall behind the walk, 1797 model: a door in the middle with a window and then an arched light each side, three openings a side', { noAudit: true }),
+  stern_walk_door_width: m(aft(3, 2), 'RECONSTRUCTED §6 the door to the walk', { noAudit: true }),
+  stern_walk_window_width: m(aft(2, 3), 'RECONSTRUCTED §6 a window of the walk wall', { noAudit: true }),
+  stern_walk_window_sill: m(aft(1, 6), 'RECONSTRUCTED §6 the sill of a walk window above the walk floor', { noAudit: true }),
+  stern_walk_head_below_frieze: m(aft(0, 5), 'RECONSTRUCTED §6 the heads of the door and the windows stop short of the frieze', { noAudit: true }),
+
+  // ---------------------------------------------------------- the carved figures
+  stern_crest_width: m(aft(8, 0), 'RECONSTRUCTED §6 the central device of the taffrail, with its seated warrior, trophies of arms, cannon and lion: 1797 model', { noAudit: true }),
+  stern_crest_height: m(aft(5, 0), 'RECONSTRUCTED §6 the crest stands well proud of the cap: a tall carved taffrail', { noAudit: true }),
+  stern_figure_height: m(aft(4, 6), 'RECONSTRUCTED §6 the carved giant at each corner of the taffrail, a Hercules with his club, 1797 model', { noAudit: true }),
+  stern_figure_pedestal: m(aft(1, 6), 'RECONSTRUCTED §6 the carved pedestal under a corner figure', { noAudit: true }),
+  stern_trophy_height: m(aft(3, 0), 'RECONSTRUCTED §6 a trophy of arms: pikes, a cannon, a shield and a drum', { noAudit: true }),
 
   // ---------------------------------------------------------- quarter galleries
-  // Closed quarter badges, not walk-in galleries: standard on a post ship, and French
-  // corvette practice favoured the light bouteille.
-  quarter_gallery_light_count: n(2, 'RECONSTRUCTED §12.3 two lights in each gallery facing aft and outboard', { noAudit: true }),
-  quarter_gallery_length: m(ft(7, 0), 'RECONSTRUCTED §12.3 lower rim about 7 ft, Steel: "the lower-rim should be as long as possible"', { tolerance: 0.08 }),
-  quarter_gallery_projection: m(ft(1, 3), 'RECONSTRUCTED §12.3 a closed badge stands about 15 in off the ship\'s side', { noAudit: true }),
-  quarter_gallery_rim_depth: m(ft(1, 0), 'RECONSTRUCTED §12.3 the lower stool and rim below the lights', { noAudit: true }),
-  quarter_gallery_hood_depth: m(ft(1, 2), 'RECONSTRUCTED §12.3 the bell-top hood over the lights; Steel, the upper stool hollowed', { noAudit: true }),
-  // The bracket under the badge is cut on the ship's own side, and the side falls away
-  // fast here in both directions at once — the hull narrows toward the sternpost and
-  // tumbles home above the wale. A bracket of any size therefore comes out warped, so it
-  // is kept to the foot it needs to be rather than the foot and a half a bracket on a
-  // flatter part of the side could carry.
-  quarter_gallery_bracket_drop: m(ft(1, 0), 'RECONSTRUCTED §5.2 the carved bracket under the badge, gadrooned on its underside; about a foot deep on a Sixth Rate badge', { noAudit: true }),
-  quarter_gallery_bracket_length: m(ft(0, 9), 'RECONSTRUCTED §5.2 the bracket seen fore and aft, rather less than it is deep', { noAudit: true }),
-  quarter_gallery_frame_proud: m(ft(0, 1.5), 'RECONSTRUCTED §12.3 the sash frame of a badge light stands proud of the badge planking', { noAudit: true }),
-  quarter_gallery_carving_relief: m(ft(0, 2), 'RECONSTRUCTED §5.2 the gilt carving on a quarter badge, cut a little shallower than the work on the counter because it is seen edge-on from abaft the beam', { noAudit: true }),
+  // Two tiers of three lights, a carved frieze between, an acanthus crest above and a
+  // pendant drop below (research 02 and 06).
+  quarter_gallery_length: m(aft(10, 0), 'RECONSTRUCTED §2 length of the lower rim of the quarter gallery, the 1797 model and the stern elevation', { tolerance: 0.08 }),
+  quarter_gallery_projection: m(aft(2, 6), 'RECONSTRUCTED §2 how far a gallery stands off the quarter at its after end', { noAudit: true }),
+  quarter_gallery_aft_margin: m(aft(1, 0), 'RECONSTRUCTED §2 the gallery starts this far forward of the corner of the stern, clear of the pier', { noAudit: true }),
+  quarter_gallery_light_count: n(3, 'PRIMARY §2 each tier of the quarter gallery has three lights; the draught and the 1797 model agree', { noAudit: true }),
+  quarter_gallery_tier_count: n(2, 'PRIMARY §2 two tiers: one in line with the stern lights, one at the level of the walk', { noAudit: true }),
+  quarter_gallery_upper_sill_above_walk: m(aft(0, 9), 'RECONSTRUCTED §2 the sill of the upper tier over the walk floor', { noAudit: true }),
+  quarter_gallery_upper_height: m(aft(3, 6), 'RECONSTRUCTED §2 the upper tier is as deep as the walk wall allows, up under the rail', { noAudit: true }),
+  quarter_gallery_frieze_depth: m(aft(1, 4), 'RECONSTRUCTED §2 the carved scroll frieze between the two tiers', { noAudit: true }),
+  quarter_gallery_crest_height: m(aft(1, 8), 'RECONSTRUCTED §2 the acanthus crest over the upper tier', { noAudit: true }),
+  quarter_gallery_pendant_drop: m(aft(2, 6), 'RECONSTRUCTED §2 the carved pendant that hangs from the after end below the lower tier', { noAudit: true }),
+  quarter_gallery_frame_proud: m(aft(0, 1.5), 'RECONSTRUCTED §2 the sash frame of a gallery light stands proud of the gallery planking', { noAudit: true }),
+  quarter_gallery_pilaster: m(aft(0, 6), 'RECONSTRUCTED §2 the carved post between two lights of a gallery', { noAudit: true }),
 
   // ------------------------------------------------------------------- ornament
-  // English practice for a ship in RN service: "Stern, Stern Galleries, Quarter Badges:
-  // black with yellow carvings." The ground is therefore the hull's own black and the
-  // carving gilt, which is what the reference photograph shows.
-  //
-  // Every piece of that carving is cut out of the ground and left standing proud of it,
-  // and each row below says how far. The figure matters more than it looks: gilt is a
-  // metal, and a flat gilt shape takes one shade over its whole face and reads as a
-  // painted decal however bright the gold is. It is the chamfer round the edge of a
-  // boss, catching the light at a different angle from the field inside it, that makes
-  // carved work read as carving. `stern_carving_bevel` is how much of the half-width
-  // that chamfer takes.
-  stern_carving_bevel: n(0.42, 'RECONSTRUCTED §12.1 the ground cut away round a piece of carved work; about two fifths of its half-width taken by the chamfer, leaving a field in the middle', { noAudit: true }),
-  // The outline of a piece of carved work: 2 is an oval, and the larger the figure the
-  // squarer the piece. A boss is an oval; a name board and the bracket under a badge are
-  // panels with rounded corners, and drawn as ovals they pinch away to nothing at the
-  // ends — which cuts the first and last letters off the name and leaves the brackets
-  // hanging under the badge as two gilt crescents.
-  stern_carving_panel_corner: n(3.0, 'RECONSTRUCTED §12.1 a carved panel is worked square with the corners rounded off, not drawn as a lens', { noAudit: true }),
-  stern_cartouche_width: m(ft(6, 0), 'RECONSTRUCTED §12.1 the name cartouche on the counter, drawn on ZAZ3067 and on the parallel Unite plan ZAZ3181; wide enough to carry the eight letters of the name at the letter width below, with a margin each end', { noAudit: true }),
-  stern_cartouche_height: m(ft(1, 4), 'RECONSTRUCTED §12.1 proportion of a period name cartouche to its width', { noAudit: true }),
-  stern_cartouche_relief: m(ft(0, 3), 'RECONSTRUCTED §12.1 depth of the carved relief', { noAudit: true }),
-  // The name board is a flat field with a chamfer round it, not a dome: the letters
-  // have to stand on something flat or they follow the swell of the boss and lean.
-  stern_cartouche_bevel: n(0.18, 'RECONSTRUCTED §12.1 a name board is chamfered round its edge and left flat inside, so the chamfer takes much less of it than a boss does', { noAudit: true }),
-  taffrail_ornament_width: m(ft(3, 6), 'RECONSTRUCTED §5.2 the central carved and gilded cartouche of the taffrail, "a centre of attention within all the decoration"', { noAudit: true }),
-  taffrail_ornament_height: m(ft(1, 2), 'RECONSTRUCTED §5.2 flanked by scrollwork and trophies of arms', { noAudit: true }),
-  taffrail_ornament_relief: m(ft(0, 4), 'RECONSTRUCTED §5.2 the centre of attention of the stern, and the boldest cut of any of it', { noAudit: true }),
-  stern_scroll_relief: m(ft(0, 2.5), 'RECONSTRUCTED §5.2 the scrollwork either side of the taffrail cartouche, cut shallower than the cartouche and dying away toward the quarters', { noAudit: true }),
-  stern_term_piece_width: m(ft(0, 9), 'RECONSTRUCTED §12.4 Steel, term pieces: carved work under each end of the taffrail', { noAudit: true }),
-  stern_term_piece_relief: m(ft(0, 3), 'RECONSTRUCTED §12.4 the term piece stands out from the quarter piece it is cut on', { noAudit: true }),
-
-  // The ship's name on the counter. It is set out from the letters rather than from the
-  // cartouche, so that the letters keep their own width and the space between them
-  // whatever the board they are cut on: laying eight letters out as eight equal shares
-  // of a board leaves no gap between one and the next and the name reads as a smear.
-  stern_name_letter_height: m(ft(0, 8), 'RECONSTRUCTED §12.1 name letters 8 in high, half the depth of the cartouche they are cut on', { noAudit: true }),
-  stern_name_letter_width: m(ft(0, 4.5), 'RECONSTRUCTED §12.1 a condensed letter about four ninths of its height, as period name boards are lettered', { noAudit: true }),
-  stern_name_letter_gap: m(ft(0, 2.5), 'RECONSTRUCTED §12.1 the space between one letter and the next, rather more than half a letter width', { noAudit: true }),
-  stern_name_stroke: m(ft(0, 1), 'RECONSTRUCTED §12.1 the width of the cut stroke of a letter', { noAudit: true }),
-  stern_name_relief: m(ft(0, 1.5), 'RECONSTRUCTED §12.1 the letters stand proud of the field of the cartouche', { noAudit: true }),
-  stern_name_length: m(ft(4, 6.5), 'RECONSTRUCTED §12.1 SURPRISE: eight letters of 4½ in with 2½ in between them, and the cut stroke over the ends', { tolerance: 0.03 }),
+  // Ochre and gilt carving on a black ground: the Toussaint drawing of the Jupiter and
+  // the 1797 model (research 06). Every carved piece is cut out of the ground and left
+  // standing proud of it, and each row says how far; it is the chamfer round a boss,
+  // catching the light at a different angle from the field, that reads as carving.
+  stern_carving_bevel: n(0.42, 'RECONSTRUCTED §6 the ground cut away round a piece of carved work; about two fifths of its half-width taken by the chamfer, leaving a field in the middle', { noAudit: true }),
+  stern_carving_panel_corner: n(3.0, 'RECONSTRUCTED §6 a carved panel is worked square with the corners rounded off, not drawn as a lens', { noAudit: true }),
+  stern_carving_relief: m(aft(0, 3), 'RECONSTRUCTED §6 the depth of a carved boss on the counter and the frieze', { noAudit: true }),
+  stern_counter_device_width: m(aft(5, 6), 'RECONSTRUCTED §6 the carved device on the counter between the two chase ports', { noAudit: true }),
+  stern_counter_device_height: m(aft(1, 8), 'RECONSTRUCTED §6 proportion of the counter device to its width', { noAudit: true }),
+  stern_scroll_relief: m(aft(0, 3), 'RECONSTRUCTED §6 scrollwork of the frieze, cut shallower than the device and dying away toward the quarters', { noAudit: true }),
+  stern_term_piece_width: m(aft(1, 2), 'RECONSTRUCTED §6 the carved pier under each corner figure', { noAudit: true }),
 
   // -------------------------------------------------------------------- rudder
-  // Nothing is recorded for this ship. The blade is set out from the measured sternpost
-  // rake of 2.7 degrees and from Steel's proportions for the main piece.
-  rudder_breadth_at_heel: m(ft(3, 6), 'RECONSTRUCTED §6 blade breadth at the heel, about a quarter of the draught', { noAudit: true }),
-  rudder_breadth_at_head: m(ft(1, 6), 'RECONSTRUCTED §6 the main piece at the head, sided a little more than the post', { noAudit: true }),
-  rudder_thickness: m(ft(0, 10), 'RECONSTRUCTED §6 the main piece moulded, from the measured sternpost siding of 1 ft 1 in', { noAudit: true }),
-  rudder_head_above_wl: m(ft(13, 6), 'RECONSTRUCTED §2.2 the head carried up through the counter to the tiller under the quarterdeck', { noAudit: true }),
-  rudder_height: m(ft(27, 6.5), 'RECONSTRUCTED §6 heel at the 14 ft 0.5 in aft draught plus head 13 ft 6 in above the LWL; corrected former 17 ft 6 in total which stopped above the keel', { tolerance: 0.02 }),
-  rudder_post_rake_deg: n(2.7, 'MEASURED §6 sternpost rake 0.67 ft over 14 ft of height, taken on the rudder\'s after edge', { noAudit: true }),
+  // Nothing is recorded for the rudder of this ship. It is hung on the sternpost and
+  // stops under the tuck, so its length is the draught aft and the height of the tuck;
+  // the post's rake is traced on the sheer plan.
+  rudder_breadth_at_heel: m(aft(4, 4), 'RECONSTRUCTED §6 blade breadth at the heel, about a fifth of the draught', { noAudit: true }),
+  rudder_breadth_at_head: m(aft(2, 0), 'RECONSTRUCTED §6 the main piece at the head, narrower than at the heel', { noAudit: true }),
+  rudder_thickness: m(aft(1, 0), 'RECONSTRUCTED §6 the main piece moulded, a little more than the post is sided', { noAudit: true }),
+  rudder_head_below_tuck: m(aft(0, 1), 'RECONSTRUCTED §6 the blade ends under the counter, and the head goes up through the tuck to the tiller on the lower deck', { noAudit: true }),
+  rudder_height: m(aft(28, 1), 'RECONSTRUCTED §6 heel at the underside of the false keel, 5.82 m below the waterline, to the head just under the tuck, 2.1 m above it: about 28 Amsterdam ft for a 74', { tolerance: 0.02 }),
+  rudder_post_rake_deg: n(1.86, 'MEASURED §7 sternpost rabbet traced on the sheer plan: 0.26 m of rake over 7.9 m of height', { noAudit: true }),
   rudder_pintle_count: n(5, 'RECONSTRUCTED §6 five pairs of pintles and gudgeons on a rudder of this depth', { noAudit: true }),
-  rudder_iron_width: m(ft(0, 4), 'RECONSTRUCTED §6 the straps of the pintles and gudgeons', { noAudit: true }),
-  rudder_iron_thickness: m(ft(0, 1.5), 'RECONSTRUCTED §6 wrought-iron strap thickness', { noAudit: true }),
-  tiller_length: m(ft(11, 0), 'RECONSTRUCTED §2.2 long enough to reach the sweep abaft the wheel at 107 ft 6 in from the stem', { noAudit: true }),
-  tiller_diameter: m(ft(0, 7), 'RECONSTRUCTED §2.2 tiller at the rudder head, tapering forward', { noAudit: true }),
-
-  // ----------------------------------------------------- agreement with the rig
-  // The rig is built in parallel and must not have to guess where the stern furniture
-  // stands. These two rows are the stern's half of that agreement: the ensign staff
-  // steps in the stern timbers on the centreline of the taffrail, and the stern lantern
-  // sits on the taffrail above it.
-  ensign_staff_step_abaft_tuck: m(ft(4, 0), 'RECONSTRUCTED §12.4 Steel, "the ensign staff is secured in the stern timbers"', { noAudit: true }),
-  ensign_staff_length: m(ft(16, 0), 'RECONSTRUCTED §12.4 staff long enough to fly an 8-breadth ensign clear of the taffrail', { noAudit: true }),
-  stern_lantern_height: m(ft(2, 0), 'RECONSTRUCTED §12.4 one lantern for a Sixth Rate, on an iron crank in the taffrail', { noAudit: true }),
-  stern_lantern_breadth: m(ft(1, 3), 'RECONSTRUCTED §12.4 octagonal, copper and glass', { noAudit: true }),
+  rudder_iron_width: m(aft(0, 5), 'RECONSTRUCTED §6 the straps of the pintles and gudgeons', { noAudit: true }),
+  rudder_iron_thickness: m(aft(0, 2), 'RECONSTRUCTED §6 wrought-iron strap thickness', { noAudit: true }),
+  tiller_length: m(aft(11, 0), 'RECONSTRUCTED §6 the tiller on the lower deck, long enough to reach the tiller ropes abaft the mizzen', { noAudit: true }),
+  tiller_diameter: m(aft(0, 7), 'RECONSTRUCTED §6 tiller at the rudder head, tapering forward', { noAudit: true }),
 };
