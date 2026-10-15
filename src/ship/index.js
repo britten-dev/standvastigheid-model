@@ -53,12 +53,14 @@ export { createDetailLOD } from './detail-lod.js';
  * @param {string} [opts.ports] 'open' | 'shut'. Follows the weather unless it is given.
  *   It is separable because the two are not quite the same claim: a ship can be under her
  *   topsails in a rising sea with her ports already in.
+ * @param {'manned'|'secured'} [opts.chasers='manned'] Whether the bow and stern chasers stay manned in
+ *   heavy weather. 'manned' keeps the bridle ports open and the chasers run out (ship.userData.chasers).
  * @param {boolean} [opts.animatedSails=false] Keep separate fore-and-aft cloth for createSailHandling. Use full sails.
  * @param {'blue'|'white'|'red'} [opts.ensign='blue'] Naval squadron colours.
  * @param {number} [opts.flagYear] Select the pre/post-1801 Union; defaults to the 1798 specification.
  * @param {boolean} [opts.crew=true] Omit visible figures and their rendering cost when false.
  */
-export function buildShip({ lod = 'hero', sails = 'full', weather, ports: portState, crew = true, animatedSails = false, adaptiveDetail = false, ensign='blue',flagYear } = {}) {
+export function buildShip({ lod = 'hero', sails = 'full', weather, ports: portState, chasers = 'manned', crew = true, animatedSails = false, adaptiveDetail = false, ensign='blue',flagYear } = {}) {
   if(!['blue','white','red'].includes(ensign))throw new Error(`Unknown ensign: ${ensign}`);
   if(flagYear!==undefined&&(!Number.isFinite(flagYear)||flagYear<1606))throw new Error(`Invalid flag year: ${flagYear}`);
   if (!SAIL_STATES.includes(sails)) {
@@ -69,6 +71,9 @@ export function buildShip({ lod = 'hero', sails = 'full', weather, ports: portSt
   }
   if (portState !== undefined && !['open', 'shut'].includes(portState)) {
     throw new Error(`unknown port state "${portState}" — expected "open" or "shut"`);
+  }
+  if (!['manned', 'secured'].includes(chasers)) {
+    throw new Error(`unknown chasers "${chasers}" — expected "manned" or "secured"`);
   }
   const heavyWeather = weather === undefined ? sails === 'storm' : weather === 'heavy';
   const portsShut = portState === undefined ? heavyWeather : portState === 'shut';
@@ -81,6 +86,7 @@ export function buildShip({ lod = 'hero', sails = 'full', weather, ports: portSt
   ship.userData.lod = lod;
   ship.userData.sails = sails;
   ship.userData.ports = portsShut ? 'shut' : 'open';
+  ship.userData.chasers = chasers;
   ship.userData.weather = heavyWeather ? 'heavy' : 'fair';
   ship.userData.visibleCrew = !!cfg.crew;
 
@@ -93,13 +99,15 @@ export function buildShip({ lod = 'hero', sails = 'full', weather, ports: portSt
   ship.add(decks.group);
 
   const ctx = {
-    cfg, mats, model, sails, lod, ports, portsShut, heavyWeather, animatedSails, ensign,flagYear,
+    cfg, mats, model, sails, lod, ports, portsShut, heavyWeather, chasers, animatedSails, ensign,flagYear,
     zFcBreak: decks.zFcBreak,
     zQdBreak: decks.zQdBreak,
   };
 
   ship.add(buildPorts(cfg, mats, model, ports, ctx));
-  ship.add(buildStern(cfg, mats, model, ctx));
+  const stern = buildStern(cfg, mats, model, ctx);
+  ctx.sternChasePorts = stern.userData.chasePorts;
+  ship.add(stern);
   ship.add(buildHead(cfg, mats, model, ctx));
   ship.add(buildChannels(cfg, mats, model, ctx));
   ship.add(buildFurniture(cfg, mats, model, ctx));
