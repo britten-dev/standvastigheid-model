@@ -18,7 +18,7 @@ try {
    const assemblies=[];
    for(const p of ports)for(const side of [1,-1]) {
     const open=portLid(cfg,mats,model,p,side,false),shut=portLid(cfg,mats,model,p,side,true);
-    const label=`${lod}/${side}/${p.index}`;
+    const label=`${lod}/${p.kind}/${side}/${p.index}`;
     const a=open.userData.portLid,b=shut.userData.portLid;
     check(a.width===b.width&&a.height===b.height,`${label}: lid changes size when raised`);
     check(a.innerNormal[1]<-.7,`${label}: inner face does not face down when raised`);
@@ -27,7 +27,7 @@ try {
     // Shoot through the actual quantised aperture. A closed lid must block every
     // sampled ray, including near the four edges, on both sides and at phone LOD.
     for(const fz of [.015,.25,.5,.75,.985])for(const fy of [.015,.25,.5,.75,.985]){
-     const z=z0+(z1-z0)*fz,f=model.featureYAt(z),y=f.port_sill+(f.port_head-f.port_sill)*fy;
+     const z=z0+(z1-z0)*fz,y=p.y0+(p.y1-p.y0)*fy;
      const origin=new T.Vector3(side*12,y,z),dir=new T.Vector3(-side,0,0);
      const hits=new T.Raycaster(origin,dir).intersectObject(shut,true);
      check(hits.length>0,`${label}: unsealed aperture at ${fz},${fy}`);

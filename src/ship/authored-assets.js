@@ -1,43 +1,14 @@
 import * as THREE from 'three';
 import { SPEC } from '../spec/spec.js';
 
-const libraries = new Map(), pending = new Map();
-export async function preloadAuthoredAssets({ crew = true } = {}) {
-  const key = crew ? 'full' : 'fittings';
-  if (!pending.has(key)) pending.set(key, (async () => {
-    const abort = new AbortController();
-    const timeout = setTimeout(() => abort.abort(), 25000);
-    try {
-      const url = crew ? new URL('../assets/quarterdeck-detail.glb', import.meta.url)
-        : new URL('../assets/quarterdeck-fittings.glb', import.meta.url);
-      const response = await fetch(url, { signal: abort.signal });
-      if (!response.ok) throw new Error(`Detailed ship assets: HTTP ${response.status}`);
-      const bytes = await response.arrayBuffer();
-      const [{ GLTFLoader },{ MeshoptDecoder }] = await Promise.all([
-        import('three/addons/loaders/GLTFLoader.js'),
-        import('three/addons/libs/meshopt_decoder.module.js'),
-      ]);
-      const gltf = await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).parseAsync(bytes, '');
-      const library = gltf.scene;
-      libraries.set(key, library);
-      library.traverse(o => {
-        if (!o.isMesh) return;
-        o.castShadow = o.receiveShadow = true;
-        for (const m of [o.material].flat()) {
-          m.envMapIntensity = .65;
-          for (const key of ['map', 'normalMap', 'roughnessMap', 'metalnessMap']) {
-            if (m[key]) m[key].anisotropy = 4;
-          }
-        }
-      });
-      return true;
-    } catch (error) {
-      // The original ship remains usable on a slow/offline connection.
-      console.warn('Using the procedural ship detail.', error.message);
-      return false;
-    } finally { clearTimeout(timeout); }
-  })());
-  return pending.get(key);
+// HMS Surprise loads a library of Blender-authored helm fittings and Royal Navy figures
+// here. The Waakzaamheid has none (PLAN.md, "What I am NOT doing"): a Dutch helm and Dutch
+// seamen would have to be authored from scratch. The loader stays so the API matches —
+// `preloadSurfaceAssets()` still awaits it — and resolves at once with no library, so
+// every caller below falls back to the procedural fittings without a network request.
+const libraries = new Map();
+export async function preloadAuthoredAssets() {
+  return false;
 }
 
 export function authoredPart(name, cfg) {
