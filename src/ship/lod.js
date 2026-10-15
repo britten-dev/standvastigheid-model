@@ -44,6 +44,10 @@ const CONFIG = {
     blocks: true,
     gunBarrels: true,
     gunCarriages: true,
+    // Guns, owned by src/ship/guns.js: the radial count of a barrel and a truck, and whether
+    // the batteries behind SHUT port lids are built at all (nobody sees them; the lids hide them).
+    gunRadial: 24,
+    gunsBehindShutLids: true,
     gunBarrelStages: 'full',
     gunBreechings: true,
     gunTackles: true,
@@ -146,6 +150,10 @@ const CONFIG = {
     blocks: true,
     gunBarrels: true,
     gunCarriages: true,
+    // Guns, owned by src/ship/guns.js: the radial count of a barrel and a truck, and whether
+    // the batteries behind SHUT port lids are built at all (nobody sees them; the lids hide them).
+    gunRadial: 20,
+    gunsBehindShutLids: true,
     // The turned stages of a gun barrel: 'full' gives the base ring, both reinforce
     // rings, the muzzle astragal and the swell; 'coarse' keeps only the stations they
     // stand between.
@@ -249,6 +257,10 @@ const CONFIG = {
     blocks: false,
     gunBarrels: true,
     gunCarriages: 'simple',
+    // Guns, owned by src/ship/guns.js: the radial count of a barrel and a truck, and whether
+    // the batteries behind SHUT port lids are built at all (nobody sees them; the lids hide them).
+    gunRadial: 5,
+    gunsBehindShutLids: false,
     gunBarrelStages: 'coarse',
     gunBreechings: true,
     gunTackles: false,
@@ -325,6 +337,10 @@ const CONFIG = {
     blocks: false,
     gunBarrels: false,
     gunCarriages: false,
+    // Guns, owned by src/ship/guns.js: the radial count of a barrel and a truck, and whether
+    // the batteries behind SHUT port lids are built at all (nobody sees them; the lids hide them).
+    gunRadial: 4,
+    gunsBehindShutLids: false,
     gunBarrelStages: 'coarse',
     gunBreechings: false,
     gunTackles: false,
