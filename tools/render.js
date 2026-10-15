@@ -13,8 +13,11 @@ const studio = args.includes('--studio');
 // heel and trim on it, and the motion layer, all set to one stated instant so that the
 // render is repeatable.
 const storm = args.includes('--storm');
+// --carry=fore_lower_mast,main_topgallant shoots her with those parts carried away.
+const carryAway = ((args.find((a) => a.startsWith('--carry=')) || '--carry=').split('=')[1] || '').split(',').filter(Boolean);
+const ensign = (args.find((a) => a.startsWith('--ensign=')) || '--ensign=dutch').split('=')[1];
 
-const ALL = ['reference', 'bow', 'beam', 'quarter', 'stern', 'masthead', 'deck'];
+const ALL = ['reference', 'bow', 'beam', 'quarter', 'stern', 'masthead', 'deck', 'chasers'];
 const views = only.length ? only : ALL;
 
 // Some views exist to show something the canvas covers up. Under a full suit the deck of
@@ -33,11 +36,12 @@ for (const view of views) {
   const asStudio = (studio || view === 'reference') && !storm;
   const useSails = !sailsGiven && FURLED_BY_DEFAULT.has(view) ? 'furled' : sails;
   await h.page.evaluate((o) => window.setup(o), {
-    lod, sails: useSails, studio: asStudio, storm, sea: !asStudio,
+    lod, sails: useSails, studio: asStudio, storm, sea: !asStudio, ensign, carryAway,
   });
   const info = await h.page.evaluate(([v]) => window.shoot(v), [view]);
   const el = await h.page.$('#shot');
-  const suffix = (useSails === 'full' && lod === 'hero' ? '' : `-${lod}-${useSails}`) + (storm ? '-weather' : '');
+  const suffix = (useSails === 'full' && lod === 'hero' ? '' : `-${lod}-${useSails}`) + (storm ? '-weather' : '')
+    + (carryAway.length ? `-without-${carryAway.join('+')}` : '') + (ensign !== 'dutch' ? `-${ensign}` : '');
   const file = path.join(ROOT, 'renders', `${view}${suffix}.png`);
   await el.screenshot({ path: file });
   console.log(`${view.padEnd(10)} -> renders/${path.basename(file)}   bbox ${info.size.x.toFixed(1)} x ${info.size.y.toFixed(1)} x ${info.size.z.toFixed(1)} m`);

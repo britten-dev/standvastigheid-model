@@ -54,14 +54,16 @@ function ensureEnv(kind) {
 const post = createPostStack(renderer, ensureEnv('sea').scene, camera, { rig: 'sea' });
 
 window.setup = ({ lod = 'hero', sails = 'full', studio = false, storm = false, sea = true,
-                 time = 12.5, state = {} } = {}) => {
+                 time = 12.5, state = {}, ensign = 'dutch', carryAway = [] } = {}) => {
   const kind = storm ? 'storm' : studio ? 'studio' : 'sea';
-  const key = JSON.stringify({ lod, sails, kind, sea, time, state });
+  const key = JSON.stringify({ lod, sails, kind, sea, time, state, ensign, carryAway });
   if (key === currentKey) return;
   const { scene } = ensureEnv(kind);
   if (current) scene.remove(current);
   if (motion) { motion.dispose(); motion = null; }
-  current = buildShip({ lod, sails });
+  current = buildShip({ lod, sails, ensign });
+  // Parts shot away, for renders of a damaged rig (src/ship/damage.js).
+  for (const part of carryAway) window.DAMAGE.carryAway(current, part);
   current.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
   scene.add(current);
 
@@ -121,5 +123,5 @@ window.shoot = (viewName, overrides = {}) => {
   return { size: { x: size.x, y: size.y, z: size.z } };
 };
 
-window.SHIP_READY = true;
+import('/src/ship/damage.js').then((m) => { window.DAMAGE = m; window.SHIP_READY = true; });
 </script>

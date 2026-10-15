@@ -1,6 +1,7 @@
 # Plan — the Waakzaamheid model
 
-Status: **draft for Matthew's yes. Nothing is built yet.**
+Status: **approved by Matthew on 15 October 2026, and built.** What came out differently
+from the plan is at the end, under "As built".
 
 ## In one paragraph
 
@@ -192,3 +193,18 @@ behind shut lids are not built at `game` and `distant`, and ratlines stop at `ga
 - **Guns:** 32-pdrs below and 24-pdrs above, as the book says; long 12-pdrs on the
   quarterdeck and forecastle.
 - **Budgets:** as in the table above.
+
+## As built
+
+* **Budgets.** `game` 95 k triangles and `distant` 7.8 k are inside the plan. `hero` is
+  1.01 M (plan 1.0 M) and `cinematic` 1.72 M without people (plan 1.6 M): two decks of
+  guns and ports, and close detail for the flyby. Draw calls at `game` are 150 and at
+  `distant` 88, against about 120 planned: static fittings are batched, but every rig
+  part keeps its own meshes so it can be shot away. `docs/GAME-INTEGRATION.md`, "Cost".
+* **Stern chasers** were added (two in the counter's chase ports, which her own 1797 model
+  shows), beside the bow chasers in bridle ports.
+* **Her stern** turned out, from her 1797 model, to have an open upper stern walk; built so.
+* **Her lines** were traced in full, every station, not only the midship section; the
+  ends are closed on the traced stem and sternpost (`docs/research/07-tracing.md`).
+* **Blender-authored detail**: none, as planned. Surprise's authored helm and figures are
+  not loaded.

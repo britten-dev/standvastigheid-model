@@ -43,10 +43,10 @@ def load(p):
 
 seeds = load('docs/trace/body-seeds.json')
 read = load('docs/trace/sheer-readings.json')
-traces = load('.cache/draught/body-traces.json')
-sheer = load('.cache/draught/sheer_lines.json')
-stem = load('.cache/draught/stem_lines.json')
-edges = load('.cache/draught/wale_edges.json')
+traces = load('docs/trace/body-traces.json')
+sheer = load('docs/trace/sheer_lines.json')
+stem = load('docs/trace/stem_lines.json')
+edges = load('docs/trace/wale_edges.json')
 
 C = seeds['centreline_x']
 KB = seeds['keel_bottom_y']

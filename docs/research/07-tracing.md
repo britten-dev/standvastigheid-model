@@ -1,9 +1,11 @@
 # Tracing the Washington's lines
 
 How `docs/offsets.json` was measured from Nationaal Archief 4.MST inv. 59, and how far
-to trust it. The scans are not in the repository (`.cache/draught/`, git-ignored);
-`tools/draught/` fetches nothing itself — the region crops were pulled by IIIF and are
-listed in `docs/trace/*.json` so every number can be re-measured.
+to trust it. The scans are not in the repository: `tools/draught/fetch.sh` pulls the
+regions the tracer reads into `.cache/draught/` (git-ignored). What was measured off them
+is: the seeds and readings, and every traced line as a pixel polyline, in `docs/trace/`, so
+`tools/draught/extract.py` rebuilds the offset table without the scans. See
+`tools/draught/README.md`.
 
 ## 1. Calibration
 

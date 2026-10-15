@@ -3,7 +3,7 @@
     "key": "anchor_arm_span",
     "metric": "extent_caliper",
     "expected": 3.3274,
-    "actual": 3.373021749868385,
+    "actual": 3.373021749868388,
     "tolerance": 0.05,
     "source": "RECONSTRUCTED §6 fluke tip to fluke tip at 0.55 of the shank, the standard long-shank proportion"
   },
@@ -19,7 +19,7 @@
     "key": "anchor_shank_length",
     "metric": "extent_caliper",
     "expected": 6.0452,
-    "actual": 6.053838236761331,
+    "actual": 6.053838236761332,
     "tolerance": 0.03,
     "source": "RECONSTRUCTED §6 Steel (1805), a 74-gun ship's bower of 74 cwt; shank and stock equal, the shank scaled by the cube root of the weight from Steel's 22 ft for a first-rate bower of about 100 cwt: 22 ft x (74/100)^(1/3) = 19 ft 10 in"
   },
@@ -27,7 +27,7 @@
     "key": "anchor_stock_length",
     "metric": "extent_caliper",
     "expected": 6.0452,
-    "actual": 6.055862724496252,
+    "actual": 6.055862724496251,
     "tolerance": 0.03,
     "source": "RECONSTRUCTED §6 Steel (1805), a 74-gun ship's bower of 74 cwt; shank and stock equal, the shank scaled by the cube root of the weight from Steel's 22 ft for a first-rate bower of about 100 cwt; the stock as long as the shank"
   },
@@ -59,7 +59,7 @@
     "key": "bowsprit_length",
     "metric": "extent_caliper",
     "expected": 19.64817,
-    "actual": 19.65926341081905,
+    "actual": 19.659263410819054,
     "tolerance": 0.02,
     "source": "RECONSTRUCTED §4 Steel 1794 v1 p.49, \"74 GUNS. 1799 Tons.\" column, x0.955 to her size by his own main-mast rule (p.39)"
   },
@@ -91,7 +91,7 @@
     "key": "cathead_spread",
     "metric": "extent_x",
     "expected": 12.9,
-    "actual": 12.958393096923828,
+    "actual": 12.957867622375488,
     "tolerance": 0.03,
     "source": "RECONSTRUCTED §6 twice the half-breadth of the hull at the rail at the cathead (4.85 m, from the traced offsets) plus the overhang; the athwartships span over the two outer ends"
   },
@@ -171,7 +171,7 @@
     "key": "fore_topgallant_length",
     "metric": "extent_max",
     "expected": 8.538464,
-    "actual": 8.539153073684474,
+    "actual": 8.539153073684481,
     "tolerance": 0.02,
     "source": "RECONSTRUCTED §4 Steel 1794 v1 p.49, \"74 GUNS. 1799 Tons.\" column, x0.955 to her size by his own main-mast rule (p.39)"
   },
@@ -187,7 +187,7 @@
     "key": "fore_topmast_length",
     "metric": "extent_max",
     "expected": 17.076928,
-    "actual": 17.078366224556486,
+    "actual": 17.078366224556483,
     "tolerance": 0.02,
     "source": "RECONSTRUCTED §4 Steel 1794 v1 p.49, \"74 GUNS. 1799 Tons.\" column, x0.955 to her size by his own main-mast rule (p.39)"
   },
@@ -243,7 +243,7 @@
     "key": "gundeck_above_wl_at_midships",
     "metric": "origin_y",
     "expected": 1.4259755454545455,
-    "actual": 1.4259755454545455,
+    "actual": 1.4259755454545453,
     "tolerance": 0.03,
     "source": "MEASURED §7 the lower deck at side 2 ft 1 in below the lower port sills, plus the camber; the 22 ft depth of hold agrees within 0.3 ft"
   },
@@ -258,8 +258,8 @@
   {
     "key": "gunport_height",
     "metric": "extent_y",
-    "expected": 0.7800714285714287,
-    "actual": 0.7800714373588562,
+    "expected": 0.7800571428571431,
+    "actual": 0.7800571322441101,
     "tolerance": 0.03,
     "source": "MEASURED §7 mean of the fourteen upper-deck ports, 2 ft 9 in Amsterdam"
   },
@@ -291,7 +291,7 @@
     "key": "head_knee_projection",
     "metric": "extent_z",
     "expected": 4.309,
-    "actual": 4.308801651000977,
+    "actual": 4.309000015258789,
     "tolerance": 0.02,
     "source": "MEASURED §2 the Washington draught, NA 4.MST inv. 59, traced into OFFSETS.stem: the fore edge's top point stands 4.31 m forward of the loft's foremost station (-22.59 m); it is the fore-and-aft length of the built stem and knee"
   },
@@ -306,8 +306,8 @@
   {
     "key": "hull_beam_moulded",
     "metric": "extent_x",
-    "expected": 13.8447,
-    "actual": 13.937273979187012,
+    "expected": 13.8444,
+    "actual": 13.93722915649414,
     "tolerance": 0.012,
     "source": "MEASURED §7 the dead flat on the body plan; the title block gives 48 9/11 Amsterdam ft = 13.82 m \"wyt binnen de huid\""
   },
@@ -323,7 +323,7 @@
     "key": "jolly_length",
     "metric": "extent_max",
     "expected": 5.486400000000001,
-    "actual": 5.5888794290648605,
+    "actual": 5.588876783776481,
     "tolerance": 0.06,
     "source": "RECONSTRUCTED §8.3 Steel 1805 / Lavery boat establishment for a 74, jolly boat 16-18 ft, the larger taken for a 74"
   },
@@ -346,8 +346,8 @@
   {
     "key": "lower_gunport_height",
     "metric": "extent_y",
-    "expected": 0.8081285714285713,
-    "actual": 0.8081285953521729,
+    "expected": 0.8081142857142857,
+    "actual": 0.8081142902374268,
     "tolerance": 0.03,
     "source": "MEASURED §7 mean of the fourteen lower-deck ports, 2 ft 10 in Amsterdam"
   },
@@ -403,7 +403,7 @@
     "key": "main_mast_length",
     "metric": "extent_max",
     "expected": 32.310323999999994,
-    "actual": 32.321568891145915,
+    "actual": 32.32156889114591,
     "tolerance": 0.02,
     "source": "RECONSTRUCTED §4 Steel 1794 v1 p.49, \"74 GUNS. 1799 Tons.\" column, x0.955 to her size by his own main-mast rule (p.39)"
   },
@@ -443,7 +443,7 @@
     "key": "main_topmast_length",
     "metric": "extent_max",
     "expected": 19.211544,
-    "actual": 19.216467628761052,
+    "actual": 19.21646762876105,
     "tolerance": 0.02,
     "source": "RECONSTRUCTED §4 Steel 1794 v1 p.49, \"74 GUNS. 1799 Tons.\" column, x0.955 to her size by his own main-mast rule (p.39)"
   },
@@ -507,7 +507,7 @@
     "key": "mizzen_topmast_length",
     "metric": "extent_max",
     "expected": 14.263116,
-    "actual": 14.266264150576614,
+    "actual": 14.266264150576617,
     "tolerance": 0.02,
     "source": "RECONSTRUCTED §4 Steel 1794 v1 p.49, \"74 GUNS. 1799 Tons.\" column, x0.955 to her size by his own main-mast rule (p.39)"
   },
@@ -523,7 +523,7 @@
     "key": "quarter_cutter_length",
     "metric": "extent_max",
     "expected": 7.315200000000001,
-    "actual": 7.426493870179478,
+    "actual": 7.4264894152828695,
     "tolerance": 0.05,
     "source": "RECONSTRUCTED §8.3 Steel 1805 / Lavery boat establishment for a 74, the second cutter, the same 24 ft as the first"
   },
@@ -539,7 +539,7 @@
     "key": "rudder_height",
     "metric": "extent_y",
     "expected": 7.953463363636364,
-    "actual": 8.01152753829956,
+    "actual": 8.011427640914917,
     "tolerance": 0.02,
     "source": "RECONSTRUCTED §6 heel at the underside of the false keel, 5.82 m below the waterline, to the head just under the tuck, 2.1 m above it: about 28 Amsterdam ft for a 74"
   },
@@ -603,7 +603,7 @@
     "key": "weather_deck_above_wl_at_midships",
     "metric": "origin_y",
     "expected": 3.562075545454545,
-    "actual": 3.5620755454545456,
+    "actual": 3.562075545454545,
     "tolerance": 0.03,
     "source": "MEASURED §7 the upper deck at side 2 ft 1 in below the upper port sills, plus the camber. Ruijter's 6 7/11 ft between decks agrees"
   },

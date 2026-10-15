@@ -1,0 +1,122 @@
+[
+  {
+    "name": "waakzaamheid-hero-full.glb",
+    "lod": "hero",
+    "sails": "full",
+    "tris": 1020573,
+    "verts": 1486755,
+    "meshes": 451,
+    "lines": 2852,
+    "materials": 56,
+    "kb": 78663,
+    "inBudget": true
+  },
+  {
+    "name": "waakzaamheid-hero-topsails.glb",
+    "lod": "hero",
+    "sails": "topsails",
+    "tris": 968125,
+    "verts": 1455190,
+    "meshes": 431,
+    "lines": 2852,
+    "materials": 56,
+    "kb": 77328,
+    "inBudget": true
+  },
+  {
+    "name": "waakzaamheid-hero-storm.glb",
+    "lod": "hero",
+    "sails": "storm",
+    "tris": 961049,
+    "verts": 1452296,
+    "meshes": 443,
+    "lines": 2852,
+    "materials": 56,
+    "kb": 77740,
+    "inBudget": true
+  },
+  {
+    "name": "waakzaamheid-hero-furled.glb",
+    "lod": "hero",
+    "sails": "furled",
+    "tris": 937093,
+    "verts": 1436521,
+    "meshes": 420,
+    "lines": 2852,
+    "materials": 55,
+    "kb": 76539,
+    "inBudget": true
+  },
+  {
+    "name": "waakzaamheid-game-full.glb",
+    "lod": "game",
+    "sails": "full",
+    "tris": 99076,
+    "verts": 118041,
+    "meshes": 153,
+    "lines": 1386,
+    "materials": 41,
+    "kb": 11786,
+    "inBudget": true
+  },
+  {
+    "name": "waakzaamheid-game-topsails.glb",
+    "lod": "game",
+    "sails": "topsails",
+    "tris": 98466,
+    "verts": 117691,
+    "meshes": 148,
+    "lines": 1386,
+    "materials": 41,
+    "kb": 11762,
+    "inBudget": true
+  },
+  {
+    "name": "waakzaamheid-game-storm.glb",
+    "lod": "game",
+    "sails": "storm",
+    "tris": 84388,
+    "verts": 103402,
+    "meshes": 150,
+    "lines": 1386,
+    "materials": 41,
+    "kb": 11672,
+    "inBudget": true
+  },
+  {
+    "name": "waakzaamheid-game-furled.glb",
+    "lod": "game",
+    "sails": "furled",
+    "tris": 98196,
+    "verts": 117544,
+    "meshes": 146,
+    "lines": 1386,
+    "materials": 41,
+    "kb": 11752,
+    "inBudget": true
+  },
+  {
+    "name": "waakzaamheid-distant-full.glb",
+    "lod": "distant",
+    "sails": "full",
+    "tris": 7844,
+    "verts": 7803,
+    "meshes": 71,
+    "lines": 392,
+    "materials": 20,
+    "kb": 1261,
+    "inBudget": true
+  },
+  {
+    "name": "waakzaamheid-distant-furled.glb",
+    "lod": "distant",
+    "sails": "furled",
+    "tris": 7880,
+    "verts": 7857,
+    "meshes": 65,
+    "lines": 392,
+    "materials": 20,
+    "kb": 1251,
+    "inBudget": true
+  }
+]

@@ -107,10 +107,32 @@ The book's ending is `carryAway(ship, 'fore_lower_mast')`.
 
 ## Cost
 
-Measured numbers go here when the build is complete: triangles and draw calls per level.
-The `game` level is meant for her as the chaser — mostly seen at a few hundred metres —
-and is kept small in draw calls as well as triangles, because she is the second ship on
-screen.
+Measured with `node tools/check-cost.mjs` (no people, full sail), October 2026:
 
-*Status: in progress. This page is published early so the chase can be built against the
-real names. Names marked here will not change without a note in the shared notes folder.*
+| Level | Triangles | Draw calls | Use |
+| --- | --- | --- | --- |
+| `cinematic` | 1.72 M | 404 | A camera flying close round her |
+| `hero` | 1.01 M | 337 | Close inspection |
+| `game` | 95 k | 150 | The chaser at gameplay range |
+| `distant` | 7.8 k | 88 | On the horizon |
+
+Building her from source takes a few hundred milliseconds at `game` and a few seconds at
+`cinematic`; do it at a loading screen.
+
+Two of the plan's targets are missed, on purpose:
+
+* **Draw calls at `game` and `distant`** (about 120 planned). Static fittings are merged by
+  material at these levels (`src/ship/batch.js`), which took `game` from 250 calls to 150.
+  What is left is mostly the rig, 84 calls at `game`: every mast, yard and sail is its own
+  mesh with its own ropes so that it can be shot away. That is the price of the feature.
+* **Triangles at `cinematic`** (1.6 M planned, 1.72 M built): two decks of guns and their
+  ports cost more than a frigate's one, and the close detail is what a flyby needs.
+  `createDetailLOD()` drops the fine fittings the camera cannot resolve.
+
+**Batching at `game` and `distant` merges named fittings.** The deck, hatch, boat and
+carving meshes are not separately named at those levels; the helm, the rudder, the hull
+shell, the taffrail, the stern glazing, the muzzle locators, every rig part, the guns and
+the colours are. Pass `buildShip({ batchStatic: false })` to keep every fitting separate.
+
+The exported GLB files are large (hero about 78 MB) because the procedural textures are
+baked into them; the game builds her from source and does not need them.
