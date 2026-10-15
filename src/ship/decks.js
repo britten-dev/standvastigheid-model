@@ -15,7 +15,7 @@ import { loftSections, mergeGeometries, weldByPosition } from '../util/loft.js';
 import { sweep } from '../util/solids.js';
 import { lerp, clamp } from '../util/math.js';
 import { audit } from '../audit/measure.js';
-import {sternDeckBoundary} from './stern.js';
+import {sternDeckBoundary,sternLanding} from './stern.js';
 import {walkingDeckMaterial,deckWaterways} from './deck-finish.js';
 import {cutGunOpenings,gunOpenings} from './gun-openings.js';
 
@@ -33,16 +33,25 @@ function deckEdge(model, which, z) {
 
 function deckSurface(model, cfg, which, zFrom, zTo, closeStern=false, rowScale=1) {
   const camber = SPEC.deck_camber.value;
+  // Abaft the station where the stern lands on the hull, the deck is as wide as the stern.
+  let stern=null;
+  const widthAt=(z,edge)=>{
+    const hull=model.halfBreadthAt(Math.min(z,model.zAft),edge);
+    return stern&&z>stern.landing?Math.max(hull,stern.halfBreadthAt(z)):hull;
+  };
   const heightAt=(x,z)=>{
     const station=Math.min(z,model.zAft);
     const edge=deckEdge(model,which,station);
-    const width=Math.max(.001,model.halfBreadthAt(station,edge));
+    const width=Math.max(.001,widthAt(z,edge));
     return edge+camber*(1-(x/width)**2);
   };
-  const stern=closeStern?sternDeckBoundary(cfg,model,heightAt):null;
+  // Where the stern meets the deck is found against the deck at mid-camber, because the
+  // camber's width is not known until the stern is.
+  const meetHeight=(x,z)=>deckEdge(model,which,Math.min(z,model.zAft))+camber*.5;
+  stern=closeStern?sternDeckBoundary(cfg,model,meetHeight):null;
   const baseRows=Math.max(6,Math.round(rowScale*cfg.hullStations*(zTo-zFrom)/model.lengthOnDeck));
   const stations=Array.from({length:baseRows},(_,i)=>lerp(zFrom,zTo,i/(baseRows-1)));
-  if(stern)stations.push(...stern.stations.filter(z=>z>zTo+1e-5),stern.aft);
+  if(stern)stations.push(...stern.stations.filter(z=>z>stern.landing+1e-5),stern.aft);
   stations.sort((a,b)=>a-b);
   const zs=stations.filter((z,i)=>!i||z-stations[i-1]>1e-5),nz=zs.length;
   const nx = Math.max(5, Math.round(cfg.hullPoints / 5));
@@ -52,7 +61,7 @@ function deckSurface(model, cfg, which, zFrom, zTo, closeStern=false, rowScale=1
     const z = zs[i];
     // The deck at side, then the camber added toward the centreline.
     const yEdge = deckEdge(model, which, Math.min(z, model.zAft));
-    const xEdge = stern&&z>=model.zAft?stern.halfBreadthAt(z):model.halfBreadthAt(z, yEdge);
+    const xEdge = stern&&z>stern.landing?stern.halfBreadthAt(z):model.halfBreadthAt(z, yEdge);
     for (let j = 0; j < nx; j++) {
       const t = (j / (nx - 1)) * 2 - 1;           // -1 port, +1 starboard
       const x = t * xEdge;
@@ -147,7 +156,7 @@ export function buildDecks(cfg, mats, model) {
   const zStem = model.zFwd;
   const zFcBreak = model.zFcBreak;
   const zQdBreak = model.zQdBreak;
-  const zStern = model.zAft;
+  const zStern = Math.min(model.zAft, sternLanding(model));
 
   // The lower deck runs the length of her. Nobody sees it except through an open port,
   // so it is built at half the stations of the decks above.
@@ -234,7 +243,7 @@ export function buildDecks(cfg, mats, model) {
 
   // The cap rail all round, port and starboard.
   const caps = [];
-  for (const side of [1, -1]) caps.push(railCap(model, cfg, zStem + 0.5, zStern - 0.3, side));
+  for (const side of [1, -1]) caps.push(railCap(model, cfg, zStem + 0.5, zStern, side));
   const cap = new THREE.Mesh(mergeGeometries(caps), mats.black);
   cap.name = 'rail_cap';
   group.add(cap);
