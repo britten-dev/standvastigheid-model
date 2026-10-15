@@ -225,7 +225,9 @@ const CONFIG = {
   game: {
     hullSideJoinery: 'wale',
     hullStations: 61,
-    hullPoints: 34,
+    // A two-decker has sixteen feature stops up her side (two tiers, two wales), so the
+    // girth needs more points than a frigate's to give each stop a sample of its own.
+    hullPoints: 40,
     sparSegments: 5,
     sparRadial: 6,
     ropeRadial: 3,
@@ -300,8 +302,8 @@ const CONFIG = {
     // and the way it is spent matters: the hull and the spars carry the silhouette, and
     // everything else — ornament, ironwork, the fine work at the head and stern — is
     // invisible and must go.
-    hullStations: 19,
-    hullPoints: 16,
+    hullStations: 21,
+    hullPoints: 24,
     sparSegments: 2,
     sparRadial: 3,
     ropeRadial: 3,
