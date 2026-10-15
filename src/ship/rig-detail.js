@@ -23,16 +23,16 @@ export function mastWooldings(m,cfg,mats,radiusAt) {
   const group=new THREE.Group();group.name=`${m.name}_mast_wooldings`;
   if(cfg.textureSize<2048) return group;
   const ropes=[],hoops=[],coarse=[];
-  const count=m.name==='main'?10:m.name==='fore'?9:1;
+  const count=m.name==='mizzen'?2:Math.max(1,Math.round(m.houndsH/3));
   for(let k=0;k<count;k++) {
     const h=count===1?m.houndsH-.65:3+(m.houndsH-4)*k/(count-1);
     const r=radiusAt(h/m.lowerLength), cord=.012;
     const points=[];
-    for(let j=0;j<=13*24;j++) {
-      const a=j/24*Math.PI*2;
-      points.push(new THREE.Vector3((r+cord)*Math.cos(a),h+(j/(13*24)-.5)*13*cord*2.05,(r+cord)*Math.sin(a)));
+    for(let j=0;j<=13*16;j++) {
+      const a=j/16*Math.PI*2;
+      points.push(new THREE.Vector3((r+cord)*Math.cos(a),h+(j/(13*16)-.5)*13*cord*2.05,(r+cord)*Math.sin(a)));
     }
-    ropes.push(strand(points,cord,13*24));
+    ropes.push(strand(points,cord,13*16));
     if(cfg.adaptiveDetail) {
       // The served band stays on the mast; individual turns resolve only near it.
       coarse.push(new THREE.CylinderGeometry(r+cord*1.6,r+cord*1.6,13*cord*2.05,16,1,true).translate(0,h,0));

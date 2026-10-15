@@ -22,7 +22,7 @@ import { deadeyePair, pairAttachment } from './deadeyes.js';
 import { SPEC } from '../spec/spec.js';
 import { mergeGeometries } from '../util/loft.js';
 import { block } from '../util/solids.js';
-import { lerp, clamp } from '../util/math.js';
+import { lerp, clamp, deg } from '../util/math.js';
 import { audit } from '../audit/measure.js';
 
 const S = (k) => SPEC[k].value;
@@ -144,6 +144,26 @@ function deadeyeGeometry(radius, thickness, cfg) {
   return g;
 }
 
+// --------------------------------------------------------------- the mast stations
+
+/**
+ * Where a lower mast stands: its step on the keelson, its rake, and `along(h)`, the point
+ * `h` up the leaning line of the mast. The rig builds every spar from this, and the
+ * channels aim every shroud at it, so the two cannot disagree about where a mast is.
+ */
+export function mastStation(model, name) {
+  const z0 = S(`${name}_mast_z`);
+  const rake = deg(S(`${name}_mast_rake_deg`));
+  const stepY = model.featureYAt(z0).keel_top + S('mast_step_above_keel_top');
+  const along = (h) => new THREE.Vector3(0, stepY + h * Math.cos(rake), z0 + h * Math.sin(rake));
+  return { name, z0, rake, stepY, along };
+}
+
+/** Height up the mast at which the lower shrouds are gathered: the middle of the masthead. */
+export function mastShroudAim(name) {
+  return S(`${name}_mast_length`) - S(`${name}_mast_head`) * 0.5;
+}
+
 // --------------------------------------------------------------- the channel plan
 
 /**
@@ -154,10 +174,9 @@ function channelPlan(model) {
   const specs = [
     {
       name: 'fore',
-      mastKey: 'fore_mast_from_stem', lengthKey: 'fore_channel_length',
-      foreEndKey: 'channel_fore_end_before_mast', dropKey: 'channel_top_below_rail',
+      mastKey: 'fore_mast_z', lengthKey: 'fore_channel_length',
+      foreEndKey: 'channel_fore_end_before_mast', aboveKey: 'channel_above_middle_wale',
       tInKey: 'channel_thickness_inner', tOutKey: 'channel_thickness_outer',
-      aimKey: 'fore_channel_shroud_aim_y',
       shroudsKey: 'fore_lower_shroud_pairs', backstayKey: 'fore_channel_backstay_deadeyes',
       totalKey: 'fore_channel_deadeyes_per_side',
       shroudDia: 'shroud_deadeye_diameter', thickKey: 'shroud_deadeye_thickness',
@@ -168,10 +187,9 @@ function channelPlan(model) {
     },
     {
       name: 'main',
-      mastKey: 'main_mast_from_stem', lengthKey: 'main_channel_length',
-      foreEndKey: 'channel_fore_end_before_mast', dropKey: 'channel_top_below_rail',
+      mastKey: 'main_mast_z', lengthKey: 'main_channel_length',
+      foreEndKey: 'channel_fore_end_before_mast', aboveKey: 'channel_above_middle_wale',
       tInKey: 'channel_thickness_inner', tOutKey: 'channel_thickness_outer',
-      aimKey: 'main_channel_shroud_aim_y',
       shroudsKey: 'main_lower_shroud_pairs', backstayKey: 'main_channel_backstay_deadeyes',
       totalKey: 'main_channel_deadeyes_per_side',
       shroudDia: 'shroud_deadeye_diameter', thickKey: 'shroud_deadeye_thickness',
@@ -182,10 +200,9 @@ function channelPlan(model) {
     },
     {
       name: 'mizzen',
-      mastKey: 'mizzen_mast_from_stem', lengthKey: 'mizzen_channel_length',
-      foreEndKey: 'mizzen_channel_fore_end_before_mast', dropKey: 'mizzen_channel_top_below_rail',
+      mastKey: 'mizzen_mast_z', lengthKey: 'mizzen_channel_length',
+      foreEndKey: 'mizzen_channel_fore_end_before_mast', aboveKey: 'mizzen_channel_above_middle_wale',
       tInKey: 'mizzen_channel_thickness_inner', tOutKey: 'mizzen_channel_thickness_outer',
-      aimKey: 'mizzen_channel_shroud_aim_y',
       shroudsKey: 'mizzen_lower_shroud_pairs', backstayKey: 'mizzen_channel_backstay_deadeyes',
       totalKey: 'mizzen_channel_deadeyes_per_side',
       shroudDia: 'mizzen_shroud_deadeye_diameter', thickKey: 'mizzen_deadeye_thickness',
@@ -200,7 +217,7 @@ function channelPlan(model) {
     const zLimit = model.zAft - S(
       c.name === 'mizzen' ? 'mizzen_channel_aft_clearance' : 'channel_aft_clearance'
     );
-    const zMast = model.fromStem(S(c.mastKey));
+    const zMast = S(c.mastKey);
     const z0 = zMast - S(c.foreEndKey);
     // The foremost end stays where the source puts it, hard against the mast, because
     // that is what makes every shroud rake aft. Steel's mizzen stands far enough aft
@@ -212,7 +229,7 @@ function channelPlan(model) {
     return {
       ...c, zMast, length, z0, z1: z0 + length,
       nShroud: S(c.shroudsKey), nBackstay: S(c.backstayKey),
-      aimY: S(c.aimKey), drop: S(c.dropKey),
+      above: S(c.aboveKey),
       thickIn: S(c.tInKey), thickOut: S(c.tOutKey),
     };
   });
@@ -225,7 +242,7 @@ function channelEdges(model, c, cfg) {
   for (let i = 0; i < n; i++) {
     const t = i / (n - 1);
     const z = lerp(c.z0, c.z1, t);
-    const y = model.featureYAt(z).rail - c.drop;
+    const y = model.featureYAt(z).middle_wale_top + c.above;
     ts.push(t); zs.push(z); yTop.push(y);
     xIn.push(model.halfBreadthAt(z, y) - S('channel_inboard_inset'));
   }
@@ -295,7 +312,7 @@ export function channelAnchors(model, cfg) {
   for (const c of channelPlan(model)) {
     const e = channelEdges(model, c, cfg);
     const eyes = deadeyeRow(c, e);
-    const aim = new THREE.Vector3(0, c.aimY, c.zMast);
+    const aim = mastStation(model, c.name).along(mastShroudAim(c.name));
     const at = (eye) => cfg.deadeyes === true
       ? eye.centre.clone().addScaledVector(aim.clone().sub(eye.centre).normalize(), pairAttachment(eye.r))
       : new THREE.Vector3(eye.centre.x, eye.centre.y + eye.r, eye.centre.z);
@@ -415,7 +432,7 @@ export function buildChannels(cfg, mats, model, ctx) {
     // The aim point is the hounds, where every lower shroud of this mast is gathered.
     // The line from there through a deadeye is the shroud; the chain below the deadeye
     // is that same line carried on down to its bolt in the ship's side.
-    const aim = new THREE.Vector3(0, c.aimY, c.zMast);
+    const aim = mastStation(model, c.name).along(mastShroudAim(c.name));
 
     for (const eye of eyes) {
       const dir = new THREE.Vector3().subVectors(eye.centre, aim).normalize();  // down and aft

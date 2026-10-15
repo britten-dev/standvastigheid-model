@@ -168,8 +168,11 @@ window.motionProbe = ({ lod = 'game', sails = 'storm', t0 = 0, t1 = 1.7 } = {}) 
     // that can move them. A material with no motion program is a part that will never
     // move however long the clock runs.
     shaderParts: (() => {
-      const want = ['main_topsail_sail', 'fore_course_sail', 'fore_and_aft_sails',
-        'shrouds_and_stays', 'running_rigging_ropes', 'main_lower_mast', 'main_yard'];
+      // Every sail, standing-rigging batch and running-rigging batch is its own mesh now,
+      // one for each assembly, so one of each kind stands for the lot.
+      const want = ['main_topsail_sail', 'fore_course_sail', 'jib_sail', 'spanker_sail',
+        'main_lower_shrouds', 'main_topmast_shrouds', 'main_yard_running_rigging',
+        'main_lower_mast', 'main_yard'];
       const out = {};
       for (const n of want) {
         const o = ship.getObjectByName(n);

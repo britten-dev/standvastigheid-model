@@ -106,7 +106,9 @@ export function buildShip({ lod = 'hero', sails = 'full', weather, ports: portSt
   ship.add(buildGuns(cfg, mats, model, ctx));
   ship.add(buildBoats(cfg, mats, model, ctx));
   ship.add(buildGroundTackle(cfg, mats, model, ctx));
-  ship.add(buildRig(cfg, mats, model, ctx));
+  const rig = buildRig(cfg, mats, model, ctx);
+  ship.add(rig);
+  ship.userData.rigParts = rig.userData.rigParts;   // what can be shot away: see damage.js
   ship.add(buildFlags(cfg, mats, model, ctx));
   // The watch last, because two of them stand in the main top and the rig has to have
   // been built before anything can be stood on it.
