@@ -72,7 +72,13 @@ export function createSailHandling(ship, initial='full') {
     if(!parts.has(meta.name))parts.set(meta.name,{name:meta.name,meshes:[],furl:0,reef:0});
     parts.get(meta.name).meshes.push(mesh);
   });
-  if(parts.size!==15)throw new Error('Sail handling needs buildShip({sails: \'full\', animatedSails: true})');
+  // The suit is fifteen sails, found by name. A part carried away (src/ship/damage.js) is
+  // hidden, not removed, so it is still found and still handled, and handling made before
+  // or after the loss behaves the same. A host that has taken sails out of the scene
+  // altogether leaves fewer than fifteen, which is fine on a ship that was built with the
+  // whole suit; what is refused is a ship that was never built with it.
+  if(!parts.size||(parts.size!==SUIT.full.set.length&&ship.userData.sails!=='full'))
+    throw new Error('Sail handling needs buildShip({sails: \'full\'})');
   let state=initial, elapsed=0, duration=0, effectiveIndex=STATES.indexOf(initial), fromIndex=effectiveIndex;
   function paint(p) {
     const gather=p.furl<=.65?p.furl/.65:(1-p.furl)/.35;

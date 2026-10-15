@@ -85,7 +85,7 @@ export function yardFurniture(length,diameter,tier,cfg,mats,radiusAt){
  if(!simple&&tier==='lower')for(const f of [-.18,-.1,0,.1,.18]){
   const x=length*f,r=radiusAt(f+.5)+.008,b=band(r,.055);b.rotateZ(Math.PI/2);b.translate(x,0,0);iron.push(b);
  }
- if(cfg.footropes&&tier!=='royal')for(const side of [-1,1]){
+ if(cfg.footropes)for(const side of [-1,1]){
   const drop=tier==='lower'?.83:tier==='topsail'?.73:.56;
   const back=diameter*.5+.16;
   const inner=.45,outer=length*.46;

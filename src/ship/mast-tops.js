@@ -4,34 +4,62 @@ import {sparMaterials} from './spar-finish.js';
 import {detailChoice} from './detail-lod.js';
 import {eyeHoles, pairSeparation, pairAttachment, reeveLanyard} from './deadeyes.js';
 
-// Steel (1794), pp.37–39: a broad rectangular opening, an elliptical fore edge,
-// close deal flooring, elm rim, radial ribs and an AFTER rail. Small scantlings
-// and the rail height below are reconstruction, not a surviving Surprise survey.
+// Steel (1794), pp.37–39 gives the breadth and the construction: a broad opening, close
+// deal flooring, elm rim, radial ribs and an AFTER rail. The Dutch top is not Steel's
+// British half-moon: the Rijksmuseum Vrijheid model shows it broad, nearly square, with
+// well-rounded corners and planked radially. Small scantlings and the rail height below
+// are reconstruction.
 export function mastTopLayout(m) {
  const B=m.topBreadth,L=m.topLength,holeWidth=B*2/5,holeDepth=holeWidth*13/14;
  const holeAft=L*.3,holeFore=holeAft-holeDepth,centerZ=-L*.05;
  const beamWidth=m.lowerDia*.27,beamX=m.lowerDia*.41+beamWidth/2;
  return {B,L,centerZ,holeWidth,holeDepth,holeFore,holeAft,beamWidth,beamX,
-  shoulder:Math.min(-L*.18,holeFore-.08),rimWidth:m.name==='mizzen'?.1524:.1778,
-  eyeRadius:m.lowerDia*.14};
+  corner:m.topCorner??Math.min(B,L)*.2,mastDia:m.lowerDia,
+  rimWidth:m.name==='mizzen'?.1524:.1778,eyeRadius:m.lowerDia*.14};
 }
 
 // One coordinate contract for the hardware, topmast shrouds and futtock shrouds.
 export function mastTopAnchor(m,side,i,count,thickness) {
  const l=mastTopLayout(m),r=l.eyeRadius;
- // Keep the shroud fan abaft the mast; the rounded fore working area is not
- // a shroud anchorage. The previous row projected into the drawing topsail.
- const x=side*(l.B/2-l.rimWidth*.55),z=T.MathUtils.lerp(-l.centerZ+.10,l.L/2-.22,count===1?.5:i/(count-1));
+ // Keep the shroud fan abaft the mast: down the side of the rim from just abaft the
+ // mast and on round the aft corner. The fore half is a working area, not an anchorage.
+ const [px,z]=rimAnchor(l,count===1?.5:i/(count-1)),x=side*px;
  const y=thickness/2+r+.04,base=new T.Vector3(x,y,z);
  const origin=m.along(m.houndsH).add(new T.Vector3(0,0,l.centerZ));
  return {base,shroud:base.clone().add(new T.Vector3(0,pairAttachment(r),0)).add(origin),
   futtock:new T.Vector3(x,-thickness/2-.14,z).add(origin),radius:r};
 }
 
+// A point a fraction `f` of the way along the starboard rim path that carries the shroud
+// anchors: down the straight side, then round the aft corner.
+function rimAnchor(l,f) {
+ const inset=l.rimWidth*.55,w=l.B/2-inset,h=l.L/2-inset,r=Math.max(.05,l.corner-inset);
+ const z0=-l.centerZ+Math.max(.10,l.mastDia*1.1),z1=h-r,straight=Math.max(0,z1-z0),arc=Math.PI/2*r;
+ const s=T.MathUtils.clamp(f,0,1)*(straight+arc*.8);
+ if(s<=straight)return [w,z0+s];
+ const a=(s-straight)/r;
+ return [w-r+r*Math.cos(a),h-r+r*Math.sin(a)];
+}
+
+// The rounded-corner outline, counter-clockwise in plan: a rectangle whose four corners
+// are quarter circles. `inset` shrinks it evenly, for the inner edge of the rim and the bead.
 function outline(l,steps=20,inset=0) {
- const w=l.B/2-inset,aft=l.L/2-inset,fore=-l.L/2+inset,pts=[[ -w,aft ],[w,aft],[w,l.shoulder]];
- for(let i=1;i<=steps;i++){const a=Math.PI*i/steps;pts.push([w*Math.cos(a),l.shoulder+(fore-l.shoulder)*Math.sin(a)]);}
+ const w=l.B/2-inset,h=l.L/2-inset,r=Math.max(.05,l.corner-inset),k=Math.max(2,Math.round(steps/4)),pts=[];
+ for(const [sx,sz,start] of [[1,1,0],[-1,1,Math.PI/2],[-1,-1,Math.PI],[1,-1,Math.PI*1.5]])
+  for(let i=0;i<=k;i++){const a=start+Math.PI/2*i/k;pts.push([sx*(w-r)+r*Math.cos(a),sz*(h-r)+r*Math.sin(a)]);}
  return pts;
+}
+// Evenly spaced points round the rim, for the radial ribs.
+function rimPoints(l,count,inset) {
+ const pts=outline(l,160,inset),cum=[0];
+ for(let i=1;i<=pts.length;i++){const a=pts[i-1],b=pts[i%pts.length];cum.push(cum[i-1]+Math.hypot(b[0]-a[0],b[1]-a[1]));}
+ const total=cum[pts.length],out=[];
+ for(let n=0;n<count;n++){
+  const target=total*(n+.5)/count;let i=1;while(cum[i]<target)i++;
+  const a=pts[i-1],b=pts[i%pts.length],f=(target-cum[i-1])/Math.max(1e-6,cum[i]-cum[i-1]);
+  out.push([T.MathUtils.lerp(a[0],b[0],f),T.MathUtils.lerp(a[1],b[1],f)]);
+ }
+ return out;
 }
 function shapeOf(points) {const s=new T.Shape();points.forEach(([x,z],i)=>i?s.lineTo(x,z):s.moveTo(x,z));s.closePath();return s;}
 function holeOf(l) {return new T.Path([new T.Vector2(-l.holeWidth/2,l.holeFore),new T.Vector2(-l.holeWidth/2,l.holeAft),
@@ -58,8 +86,8 @@ function clip(poly,axis,limit,greater) {
   if(ia)out.push(a);if(ia!==ib){const t=(limit-a[axis])/(b[axis]-a[axis]);out.push([T.MathUtils.lerp(a[0],b[0],t),T.MathUtils.lerp(a[1],b[1],t)]);}
  }return out;
 }
-function floorGeometry(l,t,detailed) {
- const poly=outline(l,detailed?32:12);
+function floorGeometry(l,t,detailed,far=false) {
+ const poly=outline(l,detailed?32:far?8:12);
  if(!detailed){const s=shapeOf(poly);s.holes.push(holeOf(l));return woodUV(extrude(s,t,t/2));}
  const cuts=[-l.B/2,l.B/2,-l.holeWidth/2,l.holeWidth/2];
  const n=Math.ceil(l.B/.23);for(let i=1;i<n;i++)cuts.push(-l.B/2+i*l.B/n);cuts.sort((a,b)=>a-b);
@@ -99,11 +127,12 @@ export function buildMastTop(m,t,cfg,mats,count) {
  root.userData.topLayout={...l,thickness:t};
  const finish=sparMaterials(cfg),floorMat=finish.black.clone();floorMat.name='weathered top deals';floorMat.color.setRGB(1.3,1.27,1.2);
  floorMat.vertexColors=true;floorMat.userData.bakedOcclusion=true;
- const floor=new T.Mesh(floorGeometry(l,t,detailed),floorMat);floor.name='top_deal_floor';floor.castShadow=floor.receiveShadow=true;
+ const floor=new T.Mesh(floorGeometry(l,t,detailed,cfg.textureSize<512),floorMat);floor.name='top_deal_floor';floor.castShadow=floor.receiveShadow=true;
  if(detailed&&cfg.adaptiveDetail)detailChoice(floor,.014,floorGeometry(l,t,false));root.add(floor);
  const timbers=[],ribs=[],iron=[],pegs=[],eyes=[],lowEyes=[],hemp=[],strops=[];
  const timber=finish.black.clone();timber.color.setRGB(1.2,1.17,1.1);timber.userData.bakedOcclusion=true;timber.vertexColors=true;
- const rim=shapeOf(outline(l,medium?32:12));rim.holes.push(new T.Path(outline(l,medium?32:12,l.rimWidth).map(p=>new T.Vector2(...p)).reverse()));
+ const far=cfg.textureSize<512,steps=medium?32:far?8:12;
+ const rim=shapeOf(outline(l,steps));rim.holes.push(new T.Path(outline(l,steps,l.rimWidth).map(p=>new T.Vector2(...p)).reverse()));
  timbers.push(woodUV(extrude(rim,.028,t/2+.028)));
  // A raised, narrow outer bead leaves the broad flat rim readable against the deals.
  if(medium){const bead=shapeOf(outline(l,32));bead.holes.push(new T.Path(outline(l,32,.035).map(p=>new T.Vector2(...p)).reverse()));timbers.push(woodUV(extrude(bead,.036,t/2+.064)));}
@@ -111,14 +140,12 @@ export function buildMastTop(m,t,cfg,mats,count) {
  for(const side of [-1,1])timbers.push(woodUV(new T.BoxGeometry(l.beamWidth,.26,l.holeDepth+.44).translate(side*l.beamX,-t/2-.13,(l.holeFore+l.holeAft)/2)));
  for(const z of [l.holeFore-.10,l.holeAft+.10])timbers.push(woodUV(new T.BoxGeometry(l.B*.94,.18,.20).translate(0,-t/2-.085,z)));
  // Inner edging frames the opening without closing the two climbing passages.
- for(const side of [-1,1])timbers.push(woodUV(new T.BoxGeometry(.045,.055,l.holeDepth).translate(side*(l.holeWidth/2+.0225),t/2+.0275,(l.holeFore+l.holeAft)/2)));
- for(const z of [l.holeFore-.0225,l.holeAft+.0225])timbers.push(woodUV(new T.BoxGeometry(l.holeWidth+.09,.055,.045).translate(0,t/2+.0275,z)));
+ // (A silhouette at the distant level has no use for the edging or the rail.)
+ if(!far)for(const side of [-1,1])timbers.push(woodUV(new T.BoxGeometry(.045,.055,l.holeDepth).translate(side*(l.holeWidth/2+.0225),t/2+.0275,(l.holeFore+l.holeAft)/2)));
+ if(!far)for(const z of [l.holeFore-.0225,l.holeAft+.0225])timbers.push(woodUV(new T.BoxGeometry(l.holeWidth+.09,.055,.045).translate(0,t/2+.0275,z)));
  // The raised ribs taper down towards the opening, leaving a working floor.
  if(medium){
-  const edges=[];
-  for(const side of [-1,1])for(let i=0;i<4;i++)edges.push([side*(l.B/2-l.rimWidth*.55),T.MathUtils.lerp(l.shoulder+.14,l.L/2-.22,i/3)]);
-  for(let i=1;i<=7;i++){const a=Math.PI*i/8;edges.push([(l.B/2-l.rimWidth*.55)*Math.cos(a),l.shoulder+(-l.L/2+l.rimWidth*.55-l.shoulder)*Math.sin(a)]);}
-  for(let i=1;i<=3;i++)edges.push([T.MathUtils.lerp(-l.B/2,l.B/2,i/4),l.L/2-l.rimWidth*.5]);
+  const edges=rimPoints(l,28,l.rimWidth*.55);
   const cz=(l.holeFore+l.holeAft)/2;
   for(const [x,z] of edges){const dx=x,dz=z-cz,k=Math.min(l.holeWidth/2/Math.max(.0001,Math.abs(dx)),l.holeDepth/2/Math.max(.0001,Math.abs(dz)));
    const a=new T.Vector3(dx*k,t/2+.001,cz+dz*k),b=new T.Vector3(x,t/2+.001,z);ribs.push(rib(a,b,.07,.085));
@@ -126,20 +153,20 @@ export function buildMastTop(m,t,cfg,mats,count) {
   }
  }
  // Four octagonal stanchions and a rounded after rail, not a crow's-nest fence.
- const railY=t/2+.78,railZ=l.L/2-.07;
- for(let i=0;i<4;i++){
-  const x=T.MathUtils.lerp(-l.B/2+.11,l.B/2-.11,i/3);
+ const railY=t/2+.78,railZ=l.L/2-.07,railHalf=l.B/2-l.corner;
+ for(let i=0;i<(far?0:4);i++){
+  const x=T.MathUtils.lerp(-railHalf,railHalf,i/3);
   timbers.push(woodUV(new T.CylinderGeometry(.036,.042,.76,medium?8:4).translate(x,t/2+.4,railZ)));
   if(medium){iron.push(new T.BoxGeometry(.025,.19,.012).translate(x,t/2+.12,railZ+.043));}
  }
- const rail=new T.CylinderGeometry(.039,.039,l.B-.14,medium?12:6);rail.rotateZ(Math.PI/2);rail.translate(0,railY,railZ);timbers.push(woodUV(rail));
+ if(!far){const rail=new T.CylinderGeometry(.039,.039,railHalf*2+.1,medium?12:6);rail.rotateZ(Math.PI/2);rail.translate(0,railY,railZ);timbers.push(woodUV(rail));}
  for(const side of [-1,1])for(let i=0;i<(cfg.textureSize<512?0:count);i++){
   const a=mastTopAnchor(m,side,i,count,t),r=a.radius,th=r*.52;
   const place=g=>g.rotateY(Math.PI/2).translate(a.base.x,a.base.y,a.base.z);
   eyes.push(place(medium?boredEyes(r,th):simpleEyes(r,th)));if(medium&&cfg.adaptiveDetail)lowEyes.push(place(simpleEyes(r,th)));
   const ly=reeveLanyard(r,th);
   if(medium)hemp.push(place(new T.TubeGeometry(ly.curve,detailed?72:40,ly.radius,detailed?5:3,false)));
-  else for(let j=0;j<3;j++)hemp.push(place(tube(ly.lower[j],ly.upper[j],ly.radius,3)));
+  // Below the medium level the lanyards are not drawn: each would cost a draw call.
   const pts=[new T.Vector3(-.008,pairAttachment(r),0)];
   for(let j=0;j<=20;j++){const angle=2.4+(Math.PI*2+.74-2.4)*j/20;pts.push(new T.Vector3((r+.007)*Math.cos(angle),pairSeparation(r)+(r+.007)*Math.sin(angle),0));}
   pts.push(new T.Vector3(.008,pairAttachment(r),0));
@@ -149,6 +176,9 @@ export function buildMastTop(m,t,cfg,mats,count) {
   iron.push(new T.BoxGeometry(.018,plateTop-plateBottom+.035,.045).translate(a.base.x,(plateTop+plateBottom)/2,a.base.z));
   if(medium){const ring=new T.TorusGeometry(r+.005,.008,4,24);iron.push(place(ring));}
  }
+ // Below the medium level the futtock plates and the deadeyes are folded into the timber
+ // batch: a draw call each on three tops, for fittings the size of a hand.
+ if(!medium)timbers.push(...iron.splice(0),...eyes.splice(0));
  batch(root,timbers,timber,'top_rim_trestles_crosstrees_and_rail');
  batch(root,ribs,timber,'top_tapered_radial_ribs');
  batch(root,iron,mats.iron,'top_futtock_plates');

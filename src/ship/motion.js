@@ -63,6 +63,9 @@ import { clamp, deg } from '../util/math.js';
 
 const S = (k) => SPEC[k].value;
 
+// Is this node still in the ship and shown? A part carried away (src/ship/damage.js) is hidden.
+const shown = (node) => { for (let o = node; o; o = o.parent) if (!o.visible) return false; return true; };
+
 /**
  * How far the rig has swung out of line at a height in the ship's frame, as a fraction
  * of the whip amplitude: nil at the deck, one at the trucks, going as the square of the
@@ -442,14 +445,13 @@ export function createMotion(ship, opts = {}) {
   parts.sheeting=createSailSheeting(ship);
   const named = (n) => ship.getObjectByName(n);
 
-  // The canvas. The fore-and-aft sails are still one merged mesh — they are set on stays
-  // and do not brace — while every square sail is its own mesh hung on its own yard, so
-  // they are matched by the name sails.js gives them rather than by a fixed list. That
-  // pattern is a contract between the two files, and tools/check-motion.js is what holds
-  // them to it: when the square sails were split out of one merged mesh, nothing threw —
-  // they simply stopped shivering, and the check is what noticed.
-  const isSail = (n) => n === 'fore_and_aft_sails' || /_sail$/.test(n);
-  const runningNames = new Set(['running_rigging_ropes']);
+  // The canvas. Every sail is its own mesh — a square sail hung on its own yard, a
+  // fore-and-aft sail on the assembly that carries its stay — so they are matched by the
+  // name sails.js gives them rather than by a fixed list. That pattern is a contract
+  // between the two files, and tools/check-motion.js is what holds them to it: when the
+  // square sails were split out of one merged mesh, nothing threw — they simply stopped
+  // shivering, and the check is what noticed.
+  const isSail = (n) => /_sail$/.test(n);
 
   // Everything aloft shares the mast bend. Standing rigging and ratlines keep
   // their junctions together; running spans sway between pinned attachments.
@@ -458,7 +460,7 @@ export function createMotion(ship, opts = {}) {
     rig.traverse((o) => {
       if (!(o.isMesh || o.isLine || o.isLineSegments)) return;
       if (isSail(o.name)) patch(o, { aloft: true, sail: true });
-      else if (runningNames.has(o.name)) {
+      else if (o.userData.ropeKind === 'running') {
         patch(o, { aloft: true, sway: S('motion_running_rope_factor') });
       } else patch(o, { aloft: true });
     });
@@ -636,6 +638,9 @@ export function createMotion(ship, opts = {}) {
     const step = deg(S('motion_brace_rate_deg')) * dt;
     brace += clamp(braceWant - brace, -step, step);
     for (const y of parts.yards) {
+      // A yard that has been carried away is not braced, and one the host has taken out of
+      // the scene altogether has nothing to brace.
+      if (!shown(y.node)) continue;
       const angle=clamp(brace,-(y.node.userData.braceLimit??Infinity),y.node.userData.braceLimit??Infinity);
       y.node.rotation.y = angle;
       // The truss/parrel carries the spar in front of the mast as it turns;

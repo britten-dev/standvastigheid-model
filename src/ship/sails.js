@@ -16,7 +16,6 @@ import { sailCordage, headRobands } from './sail-detail.js';
 import { canvasDepth } from './canvas-shape.js';
 import { detailChoice } from './detail-lod.js';
 import { SPEC, PAINT } from '../spec/spec.js';
-import { mergeGeometries } from '../util/loft.js';
 import { spar } from '../util/solids.js';
 import { lerp, clamp, deg } from '../util/math.js';
 import { audit } from '../audit/measure.js';
@@ -186,15 +185,25 @@ function furledBundle(yard, cfg) {
   return g;
 }
 
-export function buildSails(cfg, mats, model, ctx, geo, yards) {
-  const group = new THREE.Group();
-  group.name = 'sails';
+/**
+ * Build the sails, each as a part of its own.
+ *
+ * Every sail is a separate mesh hung on the spar or the stay that carries it, and is
+ * entered in the rig's record of parts (`env.reg`) with what it stands on, so that it can
+ * be shot away with its yard or its mast and nothing is left hanging. A square sail is a
+ * child of its head yard, so bracing the yard brings the canvas round; a fore-and-aft sail
+ * is a child of the assembly whose stay or gaff carries it. A sail that is not set is
+ * furled on its yard as a bundle of its own, which stands in for the sail in the record.
+ *
+ * Returns the objects to add to the rig group.
+ */
+export function buildSails(cfg, mats, model, ctx, geo, yards, env) {
+  const { reg, G, bowGroup } = env;
   const suit = SUIT[ctx.sails] ?? SUIT.full;
   const setNames = new Set(suit.set);
   const braceRad = deg(ctx.sails === 'storm' ? 22 : 12);
 
   const squares = [];
-  const furled = [];
   // Which square of the cloth map the next sail takes.
   let cloth = 0;
 
@@ -211,6 +220,19 @@ export function buildSails(cfg, mats, model, ctx, geo, yards) {
     ['main_topgallant', 'main_topgallant_yard', 'main_topsail_yard'],
     ['mizzen_topgallant', 'mizzen_topgallant_yard', 'mizzen_topsail_yard'],
   ];
+  const mastOf = (name) => /^(fore|main|mizzen)_/.test(name) ? name.split('_')[0] : name === 'spanker' ? 'mizzen' : 'bowsprit';
+
+  // A sail not set is stowed on its own yard, unless the whole state is 'furled', in which
+  // case every yard gets a bundle. It is the sail's stand-in in the record of parts.
+  const furl = (sailName, headYard, length, mastName) => {
+    const geometry = retileUV(furledBundle({ length }, cfg), cloth++);
+    const mesh = new THREE.Mesh(geometry, mats.sail);
+    mesh.name = `${sailName}_furled`;
+    mesh.position.y -= S('furled_bundle_diameter') * 0.45;
+    headYard.add(mesh);
+    reg.part(`${sailName}_sail`, { kind: 'sail', mast: mastName, object: mesh.name, needs: [headYard.name] });
+  };
+  const bundles = ctx.sails === 'furled' || cfg.deckFurniture !== 'none';
 
   for (const [sailName, headYardName, footYardName] of SQUARES) {
     const head = yards[headYardName];
@@ -218,16 +240,7 @@ export function buildSails(cfg, mats, model, ctx, geo, yards) {
     const foot = footYardName ? yards[footYardName] : null;
 
     if (!setNames.has(sailName)) {
-      // Not set: it is stowed on its own yard, unless the whole state is 'furled', in
-      // which case every yard gets a bundle.
-      if (ctx.sails === 'furled' || cfg.deckFurniture !== 'none') {
-        const g = retileUV(furledBundle(head, cfg), cloth++);
-        const mesh = new THREE.Mesh(g, mats.sail);
-        mesh.position.copy(head.centre);
-        mesh.position.y -= S('furled_bundle_diameter') * 0.45;
-        mesh.rotation.y = braceRad;
-        furled.push(mesh);
-      }
+      if (bundles) furl(sailName, head.node, head.length, head.mast.name);
       continue;
     }
 
@@ -275,7 +288,7 @@ export function buildSails(cfg, mats, model, ctx, geo, yards) {
     geometry.userData.handling = { name: sailName, kind: 'square', headWidth, tiles: Math.round(PAINT.weather_sail_variants.value), reef: sailName === 'fore_course' ? .62 : .45 };
     geometry.userData.sheetFrame = { foot: foot?.node.name ?? null, footCentre: footCentre.toArray(),
       headCentre: head.centre.toArray(), brace: braceRad };
-    squares.push({ geometry, yard: head, name: `${sailName}_sail` });
+    squares.push({ geometry, yard: head, headName: headYardName, name: `${sailName}_sail`, sailName });
   }
 
   // ------------------------------------------------------------------- fore-and-aft
@@ -283,16 +296,18 @@ export function buildSails(cfg, mats, model, ctx, geo, yards) {
   // Headsails and staysails are narrow. Their tack is far forward and low, on the
   // bowsprit or the jibboom; their head is up the stay; and their clew is sheeted DOWN
   // to the rail a little abaft the tack — not up the mast. Running the clew up to the
-  // masthead, which is what this did, turns each of them into an enormous triangle that
-  // fills the whole space between the masts, hides the square sails behind it and makes
-  // a frigate read as a schooner. The photograph shows the opposite: three slim
-  // headsails and small staysails, with the square pyramid dominating.
+  // masthead turns each of them into an enormous triangle that fills the whole space
+  // between the masts, hides the square sails behind it and makes a ship read as a
+  // schooner. The photograph shows the opposite: slim headsails and small staysails, with
+  // the square pyramid dominating.
   const fa = [];
   const lee = -1;                                  // the sails belly to leeward
-  const addTriangle = (name, head, tack, clew) => {
+  // Each is entered with the assembly that carries it, and the parts it is made fast to:
+  // the stay it is set on and the spar its tack is on.
+  const addTriangle = (name, head, tack, clew, parent, needs) => {
     const g = retileUV(foreAndAftSail([head, tack, clew], cfg, { side: lee }), cloth++);
     g.userData.handling = { name, kind: 'stay', tack: tack.toArray(), tiles: Math.round(PAINT.weather_sail_variants.value) };
-    fa.push(g);
+    fa.push({ geometry: g, name, parent, needs });
   };
 
   // A sheeting point at the rail, so many metres abaft a mast and to leeward.
@@ -307,21 +322,24 @@ export function buildSails(cfg, mats, model, ctx, geo, yards) {
     addTriangle('fore_topmast_staysail',
       geo.fore.along(geo.fore.topmastHeel + (geo.fore.topmastHoundsH - geo.fore.topmastHeel) * 0.72),
       bs.at(bs.length * 0.58),
-      sheetAt(geo.fore, -1.4, 1.1)
+      sheetAt(geo.fore, -1.4, 1.1),
+      G.fore.topmast, ['fore_topmast', 'bowsprit']
     );
   }
   if (setNames.has('jib')) {
     addTriangle('jib',
       geo.fore.along(geo.fore.topmastHoundsH),
       bs.cap.clone().lerp(bs.end, 0.42),
-      sheetAt(geo.fore, -4.2, 1.4)
+      bs.at(bs.length * S('jib_clew_along_bowsprit')).add(new THREE.Vector3(0, -0.5, 0)),
+      G.fore.topmast, ['fore_topmast', 'jibboom']
     );
   }
   if (setNames.has('flying_jib')) {
     addTriangle('flying_jib',
-      geo.fore.along(geo.fore.tgHeel + geo.fore.tgStop * 0.55),
+      geo.fore.along(geo.fore.tgStayH).lerp(bs.end, 0.1),
       bs.end,
-      sheetAt(geo.fore, -7.4, 1.7)
+      bs.at(bs.length * S('flying_jib_clew_along_bowsprit')).add(new THREE.Vector3(0, -0.4, 0)),
+      G.fore.tg, ['fore_topgallant', 'jibboom']
     );
   }
 
@@ -329,24 +347,28 @@ export function buildSails(cfg, mats, model, ctx, geo, yards) {
   // each masthead, and are sheeted to the deck abaft the mast in front. They are modest
   // sails, filling the lower half of the gap and no more.
   if (setNames.has('main_staysail')) {
+    const z = geo.fore.z0 + 2.4;
     addTriangle('main_staysail',
       geo.main.along(geo.main.above(0.86)),
-      new THREE.Vector3(0, model.featureYAt(geo.fore.z0 + 2.4).deck + 0.5, geo.fore.z0 + 2.4),
-      sheetAt(geo.main, -1.6, 0.7)
+      new THREE.Vector3(0, model.standingDeckAt(z) + 0.5, z),
+      sheetAt(geo.main, -1.6, 0.7),
+      G.main.lower, ['main_lower_mast']
     );
   }
   if (setNames.has('main_topmast_staysail')) {
     addTriangle('main_topmast_staysail',
       geo.main.along(geo.main.topmastHeel + (geo.main.topmastHoundsH - geo.main.topmastHeel) * 0.78),
       geo.fore.along(geo.fore.houndsH + 0.4),
-      geo.main.along(geo.main.above(0.42))
+      geo.main.along(geo.main.capH - S('main_topmast_staysail_clew_below_cap')),
+      G.main.topmast, ['main_topmast', 'fore_lower_mast']
     );
   }
   if (setNames.has('mizzen_staysail')) {
     addTriangle('mizzen_staysail',
       geo.mizzen.along(geo.mizzen.above(0.88)),
       geo.main.along(geo.main.above(0.16)),
-      sheetAt(geo.mizzen, -1.2, 0.6)
+      sheetAt(geo.mizzen, -1.2, 0.6),
+      G.mizzen.lower, ['mizzen_lower_mast', 'main_lower_mast']
     );
   }
 
@@ -355,7 +377,7 @@ export function buildSails(cfg, mats, model, ctx, geo, yards) {
     const sp = ctx.spanker;
     const g = retileUV(foreAndAftSail([sp.gaffRoot, sp.boomRoot, sp.boomEnd, sp.gaffEnd], cfg, { side: lee }), cloth++);
     g.userData.handling = { name: 'spanker', kind: 'spanker', root: sp.boomRoot.toArray(), end: sp.boomEnd.toArray(), tiles: Math.round(PAINT.weather_sail_variants.value) };
-    fa.push(g);
+    fa.push({ geometry: g, name: 'spanker', parent: G.mizzen.lower, needs: ['spanker_gaff', 'spanker_boom'] });
   }
 
   // The square sails are hung on their own yards rather than merged into one mesh.
@@ -367,64 +389,61 @@ export function buildSails(cfg, mats, model, ctx, geo, yards) {
   // cannot come round cannot answer a change of wind, which is most of what a square rig
   // is *for*.
   //
-  // So each sail is built in its own yard's frame and added as a child of it. Seven more
-  // draw calls buys a rig that works. The foot of each sail is spread to the yard below,
-  // which is braced with it — yards on a mast come round together — so the sail stays
-  // bent to both spars however far round they go. sail-sheeting.js then follows
-  // the actual lower-yard angle (which can stop sooner at its shrouds) and keeps
-  // course feet sheeted to the hull rather than rigidly orbiting with the head.
-  if (squares.length) {
-    let first = null;
-    for (const { geometry, yard, name } of squares) {
-      const mesh = new THREE.Mesh(geometry, mats.sail);
-      mesh.name = name;
-      yard.node.add(mesh);
-      const ties = headRobands(yard, cfg);
-      if (ties) {
-        const robands = new THREE.Mesh(ties, mats.runningRigging);
-        robands.name = name.replace(/_sail$/, '_robands');
-        detailChoice(robands, .055);
-        yard.node.add(robands);
-      }
-      const cordage = sailCordage(geometry, cfg);
-      if (cordage) {
-        const cord = new THREE.Mesh(cordage, mats.sailCord);
-        cord.name = name.replace(/_sail$/, '_cordage_sail');
-        cord.geometry.userData.handling = geometry.userData.handling;
-        cord.geometry.userData.sheetFrame = geometry.userData.sheetFrame;
-        yard.node.add(cord);
-      }
-      first ??= mesh;
+  // So each sail is built in its own yard's frame and added as a child of it. The foot of
+  // each sail is spread to the yard below, which is braced with it — yards on a mast come
+  // round together — so the sail stays bent to both spars however far round they go.
+  // sail-sheeting.js then follows the actual lower-yard angle (which can stop sooner at
+  // its shrouds) and keeps course feet sheeted to the hull rather than rigidly orbiting
+  // with the head.
+  const out = [];
+  for (const { geometry, yard, headName, name, sailName } of squares) {
+    const mesh = new THREE.Mesh(geometry, mats.sail);
+    mesh.name = name;
+    yard.node.add(mesh);
+    const also = [];
+    const ties = headRobands(yard, cfg);
+    if (ties) {
+      const robands = new THREE.Mesh(ties, mats.runningRigging);
+      robands.name = name.replace(/_sail$/, '_robands');
+      detailChoice(robands, .055);
+      yard.node.add(robands);
+      also.push(robands.name);
     }
+    const cordage = sailCordage(geometry, cfg);
+    if (cordage) {
+      const cord = new THREE.Mesh(cordage, mats.sailCord);
+      cord.name = name.replace(/_sail$/, '_cordage_sail');
+      cord.geometry.userData.handling = geometry.userData.handling;
+      cord.geometry.userData.sheetFrame = geometry.userData.sheetFrame;
+      yard.node.add(cord);
+      also.push(cord.name);
+    }
+    reg.part(name, { kind: 'sail', mast: yard.mast.name, object: name, objects: also, needs: [headName] });
+  }
+  if (squares.length) {
     // The audit counts the suit, and one mesh has to carry the tag. It is put on a marker
-    // in the sails group rather than on a sail, because the sails now live under the rig
-    // and the count is a fact about the suit and not about any one of them.
+    // rather than on a sail, because the sails live under the yards and the count is a
+    // fact about the suit and not about any one of them.
     const tally = new THREE.Object3D();
     tally.name = 'square_sail_tally';
     tally.userData.count = squares.length;
     audit(tally, 'square_sails_set', 'count', { tolerance: 0.001 });
-    group.add(tally);
-  }
-  if (fa.length && ctx.animatedSails) {
-    const pieces = new THREE.Group(); pieces.name = 'fore_and_aft_sails';
-    for (const g of fa) {
-      const mesh = new THREE.Mesh(g, mats.sail);
-      mesh.name = `${g.userData.handling.name}_sail`; pieces.add(mesh);
-    }
-    group.add(pieces);
-  } else if (fa.length) {
-    const mesh = new THREE.Mesh(mergeGeometries(fa), mats.sail);
-    mesh.name = 'fore_and_aft_sails';
-    group.add(mesh);
-  }
-  if (furled.length) {
-    const geoms = furled.map((mm) => { mm.updateMatrix(); return mm.geometry.clone().applyMatrix4(mm.matrix); });
-    const mesh = new THREE.Mesh(mergeGeometries(geoms), mats.sail);
-    mesh.name = 'furled_sails';
-    group.add(mesh);
+    out.push(tally);
   }
 
-  return group;
+  // The fore-and-aft sails, each a mesh of its own so that each can be carried away.
+  for (const { geometry, name, parent, needs } of fa) {
+    const mesh = new THREE.Mesh(geometry, mats.sail);
+    mesh.name = `${name}_sail`;
+    parent.add(mesh);
+    reg.part(mesh.name, { kind: 'sail', mast: mastOf(name), object: mesh.name, needs });
+  }
+
+  // The spritsail is furled on its yard in every state: she is not set in a seaway, and
+  // the yard under the bowsprit is bare without it.
+  if (bundles) furl('spritsail', env.spritsail, S('spritsail_yard_length'), 'bowsprit');
+
+  return out;
 }
 
 /** How many square sails each state sets — the audit checks the built count matches. */
