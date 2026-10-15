@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import * as T from 'three';
 import { hullSideDetails } from '../src/ship/hull-side-details.js';
 import { hullModel, V } from '../src/ship/hull.js';
-import { lodConfig, TRI_BUDGET } from '../src/ship/lod.js';
+import { lodConfig, HOST_BUDGET } from '../src/ship/lod.js';
 import { openHarness } from './harness.js';
 
 const model=hullModel();
@@ -54,6 +54,6 @@ try {
   }
   return rows;
  });
- for(const r of rows)assert.ok(r.triangles<=TRI_BUDGET[r.lod][1],`${r.lod}/${r.weather}: ${r.triangles} triangles over budget`);
+ for(const r of rows)assert.ok(r.triangles<=HOST_BUDGET[r.lod].tris,`${r.lod}/${r.weather}: ${r.triangles} triangles over budget`);
  assert.deepEqual(h.problems,[]);console.log(JSON.stringify(rows,null,2));
 }finally{await h.close();}

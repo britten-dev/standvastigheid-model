@@ -1,0 +1,71 @@
+[
+  {
+    "lod": "game",
+    "withCrew": {
+      "tris": 105162,
+      "verts": 123359,
+      "meshes": 244,
+      "lines": 1386,
+      "materials": 50
+    },
+    "withoutCrew": {
+      "tris": 101074,
+      "verts": 116249,
+      "meshes": 235,
+      "lines": 1386,
+      "materials": 49
+    },
+    "savedTriangles": 4088,
+    "savedMeshes": 9,
+    "figures": 9,
+    "helmsmen": 2,
+    "topmen": 0,
+    "captain": true
+  },
+  {
+    "lod": "hero",
+    "withCrew": {
+      "tris": 1309621,
+      "verts": 1729077,
+      "meshes": 451,
+      "lines": 2852,
+      "materials": 57
+    },
+    "withoutCrew": {
+      "tris": 1298993,
+      "verts": 1710647,
+      "meshes": 331,
+      "lines": 2852,
+      "materials": 56
+    },
+    "savedTriangles": 10628,
+    "savedMeshes": 120,
+    "figures": 24,
+    "helmsmen": 4,
+    "topmen": 3,
+    "captain": true
+  },
+  {
+    "lod": "cinematic",
+    "withCrew": {
+      "tris": 2149389,
+      "verts": 2655466,
+      "meshes": 518,
+      "lines": 2852,
+      "materials": 57
+    },
+    "withoutCrew": {
+      "tris": 2076281,
+      "verts": 2493612,
+      "meshes": 398,
+      "lines": 2852,
+      "materials": 56
+    },
+    "savedTriangles": 73108,
+    "savedMeshes": 120,
+    "figures": 24,
+    "helmsmen": 4,
+    "topmen": 3,
+    "captain": true
+  }
+]

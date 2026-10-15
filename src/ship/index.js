@@ -23,6 +23,7 @@ import { buildCrew } from './crew.js';
 import { detailChoice } from './detail-lod.js';
 import { applyAmbientOcclusion } from './occlusion.js';
 import {finishDeckContact} from './deck-finish.js';
+import { batchStaticMeshes } from './batch.js';
 import { finishHullContact } from './hull-contact.js';
 
 export { LODS };
@@ -133,6 +134,8 @@ export function buildShip({ lod = 'hero', sails = 'full', weather, ports: portSt
   applyAmbientOcclusion(ship, cfg, mats);
   finishHullContact(ship,cfg,model,ports);
   finishDeckContact(ship,cfg);
+  // At the far levels, fewer and larger meshes: see src/ship/batch.js.
+  if (cfg.batchStatic && !adaptiveDetail) batchStaticMeshes(ship);
 
   if(adaptiveDetail)ship.traverse(mesh=>{
     // These are secondary surface details only. Port boards, structural timber,

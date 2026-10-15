@@ -46,12 +46,17 @@ export function reeveLanyard(radius, thickness) {
 }
 
 export function deadeyePair(radius, thickness, cfg, mats, shroudRadius, coarse = false) {
-  const asset = coarse ? null : deadeyeAsset();
+  // The authored, Blender-baked deadeye is spent at cinematic only: sixty-six pairs in her
+  // channels and more in her tops make it the dearest fitting on a two-decker at hero.
+  const asset = coarse || cfg.deadeyeDetail === 'light' ? null : deadeyeAsset();
   const eye = asset ? asset.geometry.clone().scale(radius, radius, thickness) : fallbackEye(radius, thickness, coarse ? {...cfg,latheSegments:6} : cfg);
   const upper = eye.clone().rotateZ(Math.PI).translate(0, pairSeparation(radius), 0);
   const timber = mergeGeometries([eye, upper]);
   const lanyard = reeveLanyard(radius, thickness);
-  const hemp = [new THREE.TubeGeometry(lanyard.curve, coarse ? 18 : cfg.textureSize >= 2048 ? 96 : 64, lanyard.radius, coarse ? 3 : 5, false)];
+  // A two-decker has sixty-six pairs in her channels, so the lanyard's resolution follows
+  // the LOD rather than being spent at the frigate's rate everywhere.
+  const fine = cfg.deadeyeDetail !== 'light';
+  const hemp = [new THREE.TubeGeometry(lanyard.curve, coarse ? 18 : fine ? 64 : 30, lanyard.radius, coarse ? 3 : fine ? 5 : 4, false)];
   // The stopper is a compact walnut knot on the starting end, outside the upper hole.
   const knot = new THREE.TorusGeometry(lanyard.radius * 1.2, lanyard.radius * .8, coarse ? 3 : 5, coarse ? 6 : 10);
   knot.rotateX(.6); knot.translate(lanyard.upper[0].x, lanyard.upper[0].y, lanyard.half + lanyard.radius);
@@ -64,9 +69,9 @@ export function deadeyePair(radius, thickness, cfg, mats, shroudRadius, coarse =
     points.push(new THREE.Vector3((radius * .91 + r * .55) * Math.cos(a), sep + (radius * .91 + r * .55) * Math.sin(a), 0));
   }
   points.push(new THREE.Vector3(r * .8, pairAttachment(radius), 0));
-  dark.push(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(points), coarse ? 12 : 36, r, coarse ? 3 : 6, false));
+  dark.push(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(points), coarse ? 12 : fine ? 36 : 18, r, coarse ? 3 : fine ? 6 : 4, false));
   for (const y of [sep + radius * 1.43, sep + radius * 1.79]) {
-    for (let i = 0; i < (coarse ? 1 : 4); i++) {
+    for (let i = 0; i < (coarse ? 1 : fine ? 4 : 2); i++) {
       const ring = new THREE.TorusGeometry(r * 1.25, radius * (coarse ? .08 : .025), coarse ? 3 : 4, coarse ? 6 : 12);
       ring.rotateX(Math.PI / 2); ring.scale(1.45, 1, 1); ring.translate(0, y + (i - 1.5) * radius * .052, 0); dark.push(ring);
     }

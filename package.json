@@ -9,14 +9,15 @@
     "audit": "node tools/audit.js",
     "trace": "node tools/trace.js",
     "render": "node tools/render.js",
-    "check": "node tools/make-specs.js && node tools/trace.js && node tools/audit.js && node tools/check-afterdeck.mjs && node tools/check-motion.js && node tools/check-rig-parts.mjs && node tools/check-chasers.mjs && node tools/check-bunting.mjs && node tools/check-flags.js && node tools/check-rigging-anchors.mjs && node tools/check-port-fittings.js && node tools/check-deadeyes.mjs && node tools/check-window-joinery.mjs && node tools/check-hull-sides.mjs && node tools/build.js && node tools/verify-glb.js",
+    "check": "node tools/make-specs.js && node tools/trace.js && node tools/audit.js && node tools/check-afterdeck.mjs && node tools/check-motion.js && node tools/check-rig-parts.mjs && node tools/check-chasers.mjs && node tools/check-bunting.mjs && node tools/check-flags.js && node tools/check-rigging-anchors.mjs && node tools/check-port-fittings.js && node tools/check-deadeyes.mjs && node tools/check-window-joinery.mjs && node tools/check-hull-sides.mjs && node tools/check-cost.mjs && node tools/build.js && node tools/verify-glb.js",
     "test": "node tools/check-exports.mjs",
     "viewer": "node tools/serve.js",
     "verify": "node tools/verify-glb.js",
     "specs": "node tools/make-specs.js",
     "motion": "node tools/check-motion.js",
     "rig-parts": "node tools/check-rig-parts.mjs",
-    "chasers": "node tools/check-chasers.mjs"
+    "chasers": "node tools/check-chasers.mjs",
+    "cost": "node tools/check-cost.mjs"
   },
   "devDependencies": {
     "@gltf-transform/core": "^4.5.1",

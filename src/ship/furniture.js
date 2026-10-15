@@ -717,7 +717,8 @@ export function buildFurniture(cfg, mats, model, ctx) {
         timber.push(pin(x, p.y - pl * .35, p.z));
         if (cfg.textureSize >= 2048 && i % 3 === 1) {
           // Hang inboard; mirror the entire hank rather than its vertex winding.
-          const hank = belayedHank(0, 0, 0, pr, i);
+          // Some forty hanks round her pins and rails: spent at the LOD's fitting resolution.
+          const hank = belayedHank(0, 0, 0, pr, i, false, { tubular: Math.max(10, cfg.fittingSegments ?? 16) + 4, radial: (cfg.fittingSegments ?? 8) >= 12 ? 5 : 4 });
           hank.rotateY(-side * Math.PI / 2).translate(x, p.y + .035, p.z);
           belayedRopes.push(hank);
           if (cfg.adaptiveDetail) coarseHanks.push(belayedHank(0, 0, 0, pr, i, true).rotateY(-side * Math.PI / 2).translate(x, p.y + .035, p.z));

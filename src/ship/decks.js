@@ -31,9 +31,15 @@ function deckEdge(model, which, z) {
   return model.standingDeckAt(z);
 }
 
-function deckSurface(model, cfg, which, zFrom, zTo, closeStern=false, rowScale=1) {
+/**
+ * The cambered surface of one deck: its height at (x, z), and its half-breadth at z.
+ * Abaft the station where the stern lands on the hull, a deck that runs into the stern is
+ * as wide as the stern, so its camber spreads with it. Exported so that anything standing
+ * on a deck — the stern chasers on the upper deck under the counter — stands on what is
+ * drawn rather than on a narrower hull section.
+ */
+export function deckSurfaceAt(model, cfg, which, closeStern=false) {
   const camber = SPEC.deck_camber.value;
-  // Abaft the station where the stern lands on the hull, the deck is as wide as the stern.
   let stern=null;
   const widthAt=(z,edge)=>{
     const hull=model.halfBreadthAt(Math.min(z,model.zAft),edge);
@@ -49,6 +55,12 @@ function deckSurface(model, cfg, which, zFrom, zTo, closeStern=false, rowScale=1
   // camber's width is not known until the stern is.
   const meetHeight=(x,z)=>deckEdge(model,which,Math.min(z,model.zAft))+camber*.5;
   stern=closeStern?sternDeckBoundary(cfg,model,meetHeight):null;
+  return { heightAt, widthAt:(z)=>Math.max(.001,widthAt(z,deckEdge(model,which,Math.min(z,model.zAft)))), stern };
+}
+
+function deckSurface(model, cfg, which, zFrom, zTo, closeStern=false, rowScale=1) {
+  const camber = SPEC.deck_camber.value;
+  const { heightAt, stern } = deckSurfaceAt(model, cfg, which, closeStern);
   const baseRows=Math.max(6,Math.round(rowScale*cfg.hullStations*(zTo-zFrom)/model.lengthOnDeck));
   const stations=Array.from({length:baseRows},(_,i)=>lerp(zFrom,zTo,i/(baseRows-1)));
   if(stern)stations.push(...stern.stations.filter(z=>z>stern.landing+1e-5),stern.aft);
@@ -160,9 +172,11 @@ export function buildDecks(cfg, mats, model) {
 
   // The lower deck runs the length of her. Nobody sees it except through an open port,
   // so it is built at half the stations of the decks above.
-  const lower = new THREE.Mesh(deckSurface(model, cfg, 'lower', zStem + 1.4, zStern - 0.6, false, 0.5), surface);
-  lower.name = 'gundeck';
-  group.add(lower);
+  if (cfg.lowerDeck !== false) {
+    const lower = new THREE.Mesh(deckSurface(model, cfg, 'lower', zStem + 1.4, zStern - 0.6, false, 0.5), surface);
+    lower.name = 'gundeck';
+    group.add(lower);
+  }
 
   // The upper deck runs the whole length too. Forward of the forecastle break and abaft
   // the quarterdeck break it is covered over, but it is still there, and in the waist it

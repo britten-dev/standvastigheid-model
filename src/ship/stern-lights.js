@@ -134,7 +134,9 @@ export function sternLights(cfg, mats, sp, group, build = true, ctx = {}) {
   add(c.width, c.height, 0, c.floor + c.height / 2, c.front);
   for (const side of [-1, 1]) add(rear - c.front, c.height, side * c.width / 2, c.floor + c.height / 2, (rear + c.front) / 2, Math.PI / 2);
   for (const y of [c.floor, c.ceiling]) add(c.width, rear - c.front, 0, y, (rear + c.front) / 2, 0, Math.PI / 2).name = y === c.floor ? 'cabin_floor' : 'cabin_ceiling';
-  furnishCabin(cabin, c, cfg, mats);
+  // The furniture is for a camera at the windows; at the far levels the dark lined box
+  // behind the glass is all that can be seen.
+  if (!cfg.batchStatic) furnishCabin(cabin, c, cfg, mats);
   group.add(cabin);
 
   const frame = new THREE.Mesh(mergeGeometries(frames), mats.ochre);

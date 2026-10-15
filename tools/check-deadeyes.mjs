@@ -9,7 +9,7 @@ try {
     const { eyeHoles, reeveLanyard } = await import('/src/ship/deadeyes.js');
     const { channelAnchors } = await import('/src/ship/channels.js');
     const { hullModel } = await import('/src/ship/hull.js');
-    const { lodConfig } = await import('/src/ship/lod.js');
+    const { lodConfig, HOST_BUDGET } = await import('/src/ship/lod.js');
     const asset = deadeyeAsset(), issues = [], rows = [];
     const check = (ok, text) => { if (!ok) issues.push(text); };
     check(!!asset?.material.map, 'Blender wood/material did not load');
@@ -50,7 +50,7 @@ try {
         const mast = o.name.split('_')[0], feet = [...anchors[mast].shrouds, ...anchors[mast].topmastBackstays, ...anchors[mast].topgallantBackstays];
         const records = o.userData.deadeyePairs; pairs += records.length * 2;
         records.forEach((r, i) => {
-          check(r.authored, `${lod}: procedural fallback used unexpectedly`);
+          check(r.authored === (cfg.deadeyeDetail !== 'light'), `${lod}: authored deadeye expected only where deadeyeDetail is full`);
           check(feet[i].distanceTo(new T.Vector3(...r.anchor)) < 1e-6, `${lod}: shroud detached from seized neck`);
           const lanyard = reeveLanyard(r.radius, r.thickness), matrix = new T.Matrix4().fromArray(r.frame);
           // Verify the actual upper/lower bores from BOTH sides after placement.
@@ -66,7 +66,7 @@ try {
       });
       check(pairs === expected, `${lod}: expected ${expected} pairs, got ${pairs}`);
       const stats = window.stats({ lod, sails: 'full', crew: false });
-      check(stats.tris < (lod === 'cinematic' ? 1600000 : lod === 'hero' ? 960000 : 84000), `${lod}: host budget exceeded`);
+      check(stats.tris <= HOST_BUDGET[lod].tris, `${lod}: host budget exceeded (${stats.tris})`);
       rows.push({ lod, pairs, channelTriangles: triangles, channelMeshes: meshes, shipTriangles: stats.tris });
     }
     const sample = build({ lod: 'cinematic', sails: 'full', crew: false }).getObjectByName('main_deadeyes').userData.deadeyePairs[4];

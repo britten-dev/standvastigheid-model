@@ -8,6 +8,8 @@ export const LODS = ['cinematic', 'hero', 'game', 'distant'];
 
 const CONFIG = {
   cinematic: {
+    // Merge static fittings by material within each parent (src/ship/batch.js).
+    batchStatic: false,
     // Hull surface resolution. Half again more stations down her length, and a third
     // more girth points at each one, so the turn of the bilge and the tumblehome read
     // as a fair curve instead of a lofted polygon even with the camera sitting on the
@@ -46,11 +48,15 @@ const CONFIG = {
     gunCarriages: true,
     // Guns, owned by src/ship/guns.js: the radial count of a barrel and a truck, and whether
     // the batteries behind SHUT port lids are built at all (nobody sees them; the lids hide them).
-    gunRadial: 24,
+    gunRadial: 18,
     gunsBehindShutLids: true,
     gunBarrelStages: 'full',
     gunBreechings: true,
     gunTackles: true,
+    // Lids, deadeyes and gun tackle: a 74 has twice the frigate's guns and ports, so the
+    // small fittings are spent where a camera can resolve them.
+    fittingSegments: 12,
+    deadeyeDetail: 'full',
     portLids: true,
     portFittings: true,
     innerBulwarks: true,
@@ -119,6 +125,8 @@ const CONFIG = {
   },
 
   hero: {
+    // Merge static fittings by material within each parent (src/ship/batch.js).
+    batchStatic: false,
     // Hull surface resolution.
     hullSideJoinery: 'full',
     hullStations: 121,
@@ -152,7 +160,7 @@ const CONFIG = {
     gunCarriages: true,
     // Guns, owned by src/ship/guns.js: the radial count of a barrel and a truck, and whether
     // the batteries behind SHUT port lids are built at all (nobody sees them; the lids hide them).
-    gunRadial: 20,
+    gunRadial: 14,
     gunsBehindShutLids: true,
     // The turned stages of a gun barrel: 'full' gives the base ring, both reinforce
     // rings, the muzzle astragal and the swell; 'coarse' keeps only the stations they
@@ -160,6 +168,8 @@ const CONFIG = {
     gunBarrelStages: 'full',
     gunBreechings: true,
     gunTackles: true,
+    fittingSegments: 8,
+    deadeyeDetail: 'light',
     portLids: true,
     portFittings: true,
     innerBulwarks: true,
@@ -231,8 +241,10 @@ const CONFIG = {
   },
 
   game: {
+    // Merge static fittings by material within each parent (src/ship/batch.js).
+    batchStatic: true,
     hullSideJoinery: 'wale',
-    hullStations: 61,
+    hullStations: 55,
     // A two-decker has sixteen feature stops up her side (two tiers, two wales), so the
     // girth needs more points than a frigate's to give each stop a sample of its own.
     hullPoints: 40,
@@ -281,8 +293,9 @@ const CONFIG = {
     headDetail: 'principal',
     headStations: 14,
     boats: 'simple',
-    boatStations: 13,
-    boatPoints: 9,
+    // Seven boats on a 74 against a frigate's four: fewer sections each at gameplay range.
+    boatStations: 9,
+    boatPoints: 7,
     boatGear: false,
     anchorDetail: 'simple',
     // The spares are only read from close alongside, so at gameplay range the two bowers
@@ -309,13 +322,17 @@ const CONFIG = {
   },
 
   distant: {
+    // Merge static fittings by material within each parent (src/ship/batch.js).
+    batchStatic: true,
     // At silhouette range the ship is a few hundred pixels tall, so the whole level has
     // to fit inside five thousand triangles. That is not much for a three-masted ship,
     // and the way it is spent matters: the hull and the spars carry the silhouette, and
     // everything else — ornament, ironwork, the fine work at the head and stern — is
     // invisible and must go.
-    hullStations: 21,
-    hullPoints: 24,
+    hullStations: 19,
+    // The lower deck is seen only through an open port; on the horizon, never.
+    lowerDeck: false,
+    hullPoints: 22,
     sparSegments: 2,
     sparRadial: 3,
     ropeRadial: 3,
@@ -364,7 +381,8 @@ const CONFIG = {
     headRails: false,
     headDetail: 'none',
     headStations: 5,
-    boats: 'block',
+    // Her boats lie inside her bulwarks; on the horizon they are not there.
+    boats: false,
     boatStations: 7,
     boatPoints: 5,
     boatGear: false,
@@ -396,17 +414,27 @@ export function lodConfig(lod) {
   return c;
 }
 
-// The budget, and the one place it is written. tools/build.js imports it rather than
-// keeping a copy, because two copies of a budget is one budget and one lie.
+// The budget, and the one place it is written. tools/build.js and every check import it
+// rather than keeping a copy, because two copies of a budget is one budget and one lie.
 //
-// Mast tops retain open access and load-bearing structure at every tier. The
-// export budgets include the optional crew; the browser host measures its
-// crew-free animated ship separately (1.6m / 960k / 84k).
+// TRI_BUDGET is the exported ship with her watch on deck; HOST_BUDGET is what a browser host
+// may draw of her without people, triangles and draw calls, which is what the game spends.
+// She is the second ship on screen in the chase, so `game` is held to draw calls as well as
+// triangles (PLAN.md, "Levels of detail").
 export const TRI_BUDGET = {
-  // Includes the optional 299k authored watch. The crew-free browser host still
-  // checks its 1.6m cinematic / 960k hero ship limits separately.
-  cinematic: [380000, 1880000],
-  hero: [200000, 1260000],
-  game: [30000, 88000],
-  distant: [1500, 6500],
+  cinematic: [380000, 1850000],
+  hero: [200000, 1040000],
+  game: [40000, 100000],
+  distant: [1500, 8000],
+};
+// Measured October 2026: cinematic 1.72 M without people, hero 1.01 M, game 95 k and 150
+// calls, distant 8 k and 88 calls. Two plan targets are missed and the reasons recorded in
+// docs/GAME-INTEGRATION.md: cinematic (1.6 M planned) carries the close detail a camera
+// flying round her needs; the draw calls at game and distant (about 120 planned) are the
+// price of a rig in which every part can be shot away on its own.
+export const HOST_BUDGET = {
+  cinematic: { tris: 1750000 },
+  hero: { tris: 1020000 },
+  game: { tris: 96000, calls: 155 },
+  distant: { tris: 8000, calls: 90 },
 };

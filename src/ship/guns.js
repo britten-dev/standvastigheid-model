@@ -37,6 +37,7 @@ import { ropeTube } from '../util/solids.js';
 import { clamp, deg } from '../util/math.js';
 import { gunMaterials, metreGrain } from './gun-finish.js';
 import { audit } from '../audit/measure.js';
+import { deckSurfaceAt } from './decks.js';
 
 const HALF = 0.5;
 // Fillets, as fractions of the bore. Where one stage of a gun meets the next there is a
@@ -341,7 +342,9 @@ function makePiece(cfg, pounds) {
 
 /** How far off the centreline a deck reaches at a station. */
 function deckEdgeX(model, level, z) {
-  return Math.max(0.001, model.halfBreadthAt(z, level(z)));
+  // A deck that knows its own width (the upper deck runs on into the stern, wider than the
+  // hull's last sections) says so; otherwise the hull's breadth at the deck is the edge.
+  return Math.max(0.001, level.widthAt ? level.widthAt(z) : model.halfBreadthAt(z, level(z)));
 }
 
 /**
@@ -474,6 +477,7 @@ export function buildGuns(cfg, mats, model, ctx) {
 
   const lowerDeck = (z) => model.lowerDeckAt(z);
   const upperDeck = (z) => model.upperDeckAt(z);
+  upperDeck.widthAt = deckSurfaceAt(model, cfg, 'upper', true).widthAt;
   const standingDeck = (z) => model.standingDeckAt(z);
   const above = S('gun_breeching_bolt_above_sill');
 
@@ -720,7 +724,10 @@ export function buildGuns(cfg, mats, model, ctx) {
     const ropes = [], tackles = [], blocks = [];
     for (const g of ordered) {
       ropes.push(breeching(cfg, g));
-      if (cfg.gunTackles) tackles.push(...gunTackle(cfg, g, blocks));
+      // The lower deck's tackle is seen only through its ports, from outside, over the
+      // gun; at hero it is left off and the guns there keep their breechings.
+      const tackled = cfg.gunTackles === 'all' || (cfg.gunTackles && g.kind !== 'lower');
+      if (tackled) tackles.push(...gunTackle(cfg, g, blocks));
     }
     if (ropes.length) {
       const mesh = new THREE.Mesh(mergeGeometries(ropes), mats.runningRigging);

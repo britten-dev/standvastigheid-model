@@ -1,0 +1,137 @@
+[
+  {
+    "lod": "game",
+    "poses": 48,
+    "segmentTests": 98976,
+    "maxHeadGap": 0.000002030308073311691,
+    "failures": [],
+    "limits": [
+      [
+        "fore_topgallant_yard",
+        45
+      ],
+      [
+        "fore_topsail_yard",
+        45
+      ],
+      [
+        "fore_yard",
+        25
+      ],
+      [
+        "main_topgallant_yard",
+        55
+      ],
+      [
+        "main_topsail_yard",
+        55
+      ],
+      [
+        "main_yard",
+        25.499999999999996
+      ],
+      [
+        "mizzen_topgallant_yard",
+        55
+      ],
+      [
+        "mizzen_topsail_yard",
+        45.5
+      ],
+      [
+        "crossjack_yard",
+        21
+      ]
+    ]
+  },
+  {
+    "lod": "hero",
+    "poses": 48,
+    "segmentTests": 230592,
+    "maxHeadGap": 0.000002869785471212924,
+    "failures": [],
+    "limits": [
+      [
+        "fore_topgallant_yard",
+        45
+      ],
+      [
+        "fore_topsail_yard",
+        45
+      ],
+      [
+        "fore_yard",
+        25
+      ],
+      [
+        "main_topgallant_yard",
+        55
+      ],
+      [
+        "main_topsail_yard",
+        55
+      ],
+      [
+        "main_yard",
+        25.499999999999996
+      ],
+      [
+        "mizzen_topgallant_yard",
+        55
+      ],
+      [
+        "mizzen_topsail_yard",
+        45.5
+      ],
+      [
+        "crossjack_yard",
+        21
+      ]
+    ]
+  },
+  {
+    "lod": "cinematic",
+    "poses": 48,
+    "segmentTests": 271296,
+    "maxHeadGap": 0.0000020694219839963846,
+    "failures": [],
+    "limits": [
+      [
+        "fore_topgallant_yard",
+        45
+      ],
+      [
+        "fore_topsail_yard",
+        45
+      ],
+      [
+        "fore_yard",
+        25
+      ],
+      [
+        "main_topgallant_yard",
+        55
+      ],
+      [
+        "main_topsail_yard",
+        55
+      ],
+      [
+        "main_yard",
+        25.499999999999996
+      ],
+      [
+        "mizzen_topgallant_yard",
+        55
+      ],
+      [
+        "mizzen_topsail_yard",
+        45.5
+      ],
+      [
+        "crossjack_yard",
+        21
+      ]
+    ]
+  }
+]

@@ -100,7 +100,7 @@ export function woodenLeadBlock(cfg,mats) {
 }
 
 /** A pin's crossed turns and a hung working hank, rather than a flat spiral. */
-export function belayedHank(x,y,z,radius,seed=0,coarse=false) {
+export function belayedHank(x,y,z,radius,seed=0,coarse=false,{tubular=32,radial=6}={}) {
   const rope=[];
   for(let turn=0;turn<(coarse?1:3);turn++) {
     const points=[];
@@ -108,7 +108,7 @@ export function belayedHank(x,y,z,radius,seed=0,coarse=false) {
       const a=i/32*Math.PI*2;
       points.push(new THREE.Vector3(x+Math.sin(a)*(radius+.013),y+.083*Math.cos(a),z+Math.sin(a*2)*.028+(turn-1)*.013));
     }
-    rope.push(strand(points,coarse?.015:.009,coarse?12:32,coarse?3:6,false));
+    rope.push(strand(points,coarse?.015:.009,coarse?12:tubular,coarse?3:radial,false));
   }
   for(let turn=0;turn<(coarse?2:4);turn++) {
     const points=[];
@@ -117,7 +117,7 @@ export function belayedHank(x,y,z,radius,seed=0,coarse=false) {
       points.push(new THREE.Vector3(x+(.088+turn*.009)*Math.sin(a)+.014*Math.sin(a*2+seed),
         y-.27+(.24+turn*.009)*Math.cos(a),z+.09+turn*.017+.018*Math.sin(a*3+seed)));
     }
-    rope.push(strand(points,coarse?.015:.009,coarse?12:32,coarse?3:6,false));
+    rope.push(strand(points,coarse?.015:.009,coarse?12:tubular,coarse?3:radial,false));
   }
   if(!coarse)rope.push(strand([new THREE.Vector3(x,y+.03,z+.026),new THREE.Vector3(x+.035,y-.02,z+.07),new THREE.Vector3(x,y-.035,z+.12)],.009,12,6,false));
   return mergeGeometries(rope);

@@ -1,0 +1,70 @@
+{
+  "rows": [
+    {
+      "lod": "cinematic",
+      "pairs": 66,
+      "channelTriangles": 333764,
+      "channelMeshes": 15,
+      "shipTriangles": 2076281
+    },
+    {
+      "lod": "hero",
+      "pairs": 66,
+      "channelTriangles": 293600,
+      "channelMeshes": 15,
+      "shipTriangles": 1298993
+    },
+    {
+      "lod": "game",
+      "pairs": 0,
+      "channelTriangles": 5232,
+      "channelMeshes": 6,
+      "shipTriangles": 101074
+    }
+  ],
+  "sample": {
+    "radius": 0.1778,
+    "thickness": 0.1905,
+    "shroudRadius": 0.0343615522135402,
+    "authored": true,
+    "lower": [
+      6.903923252229178,
+      3.8643908769201465,
+      7.696833333333332
+    ],
+    "upper": [
+      6.650999931588242,
+      4.638628463045755,
+      7.62257938726747
+    ],
+    "anchor": [
+      6.541033270440008,
+      4.9752535004916725,
+      7.590295062891008
+    ],
+    "frame": [
+      -0.04788013056308476,
+      -0.1108454044090528,
+      -0.9926836300748871,
+      0,
+      -0.30924257915701125,
+      0.9466395878681582,
+      -0.09078831376957774,
+      0,
+      0.9497770898129632,
+      0.3026330897344129,
+      -0.0796033458104696,
+      0,
+      6.903923252229178,
+      3.8643908769201465,
+      7.696833333333332,
+      1
+    ]
+  },
+  "assetTriangles": 826,
+  "issues": [
+    "cinematic: host budget exceeded",
+    "hero: host budget exceeded",
+    "game: host budget exceeded"
+  ]
+}

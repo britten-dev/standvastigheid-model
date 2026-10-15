@@ -28,7 +28,7 @@ function add(parent, geometry, material, name, at = [0, 0, 0]) {
 
 function ring(radius, iron, cfg) {
   // A lifting ring stands out from its eye, in the X/Y plane.
-  return new THREE.TorusGeometry(radius, iron, Math.max(6, cfg.ropeRadial), cfg.latheSegments);
+  return new THREE.TorusGeometry(radius, iron, Math.max(4, cfg.ropeRadial), Math.max(8, cfg.fittingSegments ?? cfg.latheSegments));
 }
 
 export function portLid(cfg, mats, model, p, side, shut) {
@@ -76,23 +76,26 @@ export function portLid(cfg, mats, model, p, side, shut) {
       // Moving strap and rolled hinge eye. The fixed leaf lies on the ship's side
       // and bends out to the same axle, rather than floating alongside the lid.
       add(moving, board(strapT, strapL, strapW, strapT / 3), mats.iron, 'hinge_strap', [-r + strapT / 2, -strapL / 2, z]);
-      const barrel = new THREE.CylinderGeometry(r, r, barrelL, cfg.latheSegments);
+      const barrel = new THREE.CylinderGeometry(r, r, barrelL, Math.max(6, cfg.fittingSegments ?? cfg.latheSegments));
       barrel.rotateX(Math.PI / 2); add(root, barrel, mats.iron, 'hinge_barrel', [0, 0, z]);
       add(root, board(strapT, fixedH, strapW, strapT / 3), mats.iron, 'fixed_hinge_leaf', [fixedX, fixedH / 2, z]);
       add(root, new THREE.BoxGeometry(Math.abs(fixedX), strapT, strapW), mats.iron, 'hinge_return', [fixedX / 2, 0, z]);
       for (let i = 0; i < 4; i++) {
-        const bolt = new THREE.SphereGeometry(boltR, Math.max(10, cfg.latheSegments / 2), 6, 0, Math.PI * 2, 0, Math.PI / 2);
+        // Sixty-eight lids a side on a two-decker: the bolt heads are a few pixels across at
+        // any distance but the closest, so their resolution follows the LOD.
+        const bs = cfg.fittingSegments ?? cfg.latheSegments;
+        const bolt = new THREE.SphereGeometry(boltR, Math.max(5, bs / 2), Math.max(2, Math.round(bs / 5)), 0, Math.PI * 2, 0, Math.PI / 2);
         bolt.scale(1, S('gunport_hinge_bolt_height') / boltR, 1); bolt.rotateZ(-Math.PI / 2);
         add(moving, bolt, mats.iron, 'clenched_hinge_bolt', [-r + strapT, -(i + .5) * strapL / 4, z]);
       }
-      const fixedBolt = new THREE.SphereGeometry(boltR, 12, 6);
+      const fixedBolt = new THREE.SphereGeometry(boltR, Math.max(5, (cfg.fittingSegments ?? 12) / 2), Math.max(3, Math.round((cfg.fittingSegments ?? 12) / 4)));
       fixedBolt.scale(S('gunport_hinge_bolt_height') / boltR, 1, 1);
       add(root, fixedBolt, mats.iron, 'fixed_hinge_bolt', [fixedX + strapT / 2, fixedH * .7, z]);
       const liftY = -height + S('gunport_lift_ring_from_bottom');
       // A ring projects out of the face; its eye and the rope splice are visible.
       const lift = new THREE.Vector3(-r + ringR, liftY, z);
       add(moving, ring(ringR, ringIron, cfg), mats.iron, 'lifting_ring', lift.toArray());
-      const eye = new THREE.CylinderGeometry(ringIron, ringIron, ringR * 2, 10);
+      const eye = new THREE.CylinderGeometry(ringIron, ringIron, ringR * 2, Math.max(5, (cfg.fittingSegments ?? 20) / 2));
       eye.rotateZ(Math.PI / 2); add(moving, eye, mats.iron, 'ring_bolt', [-r, liftY, z]);
       moving.updateMatrix();
       const a = lift.clone().add(new THREE.Vector3(ringR, 0, 0)).applyMatrix4(moving.matrix);
