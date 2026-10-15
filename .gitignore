@@ -23,3 +23,6 @@ _scratch*
 reference/*.jpg
 reference/*.jpeg
 reference/*.png
+
+# Draught scans fetched from the Nationaal Archief for tracing. Viewed and measured, not redistributed.
+.cache/

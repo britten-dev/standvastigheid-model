@@ -1,0 +1,465 @@
+[
+  {
+    "key": "anchor_arm_span",
+    "metric": "extent_caliper",
+    "expected": 2.7432000000000003,
+    "actual": 2.782343469384373,
+    "tolerance": 0.05,
+    "source": "RECONSTRUCTED §13.2 fluke tip to fluke tip at 0.55 of the shank, the standard long-shank proportion"
+  },
+  {
+    "key": "anchor_count_total",
+    "metric": "count",
+    "expected": 4,
+    "actual": 4,
+    "tolerance": 0.001,
+    "source": "SECONDARY §13.1 Steel 1805 :43220 — four large stocks and two small to every class; the two bowers, the sheet and the kedge are the four modelled"
+  },
+  {
+    "key": "anchor_shank_length",
+    "metric": "extent_caliper",
+    "expected": 5.0292,
+    "actual": 5.036410816645555,
+    "tolerance": 0.03,
+    "source": "RECONSTRUCTED §13.2 the period rule that the shank equals the stock; stock from Steel's series scaled by the cube root of the weight"
+  },
+  {
+    "key": "anchor_stock_length",
+    "metric": "extent_caliper",
+    "expected": 5.0292,
+    "actual": 5.037403481811888,
+    "tolerance": 0.03,
+    "source": "RECONSTRUCTED §13.2 Steel 1805 :43221 series (22-0 / 21-9 / 20-6 / …) carried to the 32-gun column by cube-root-of-weight scaling"
+  },
+  {
+    "key": "bell_mouth_diameter",
+    "metric": "extent_x",
+    "expected": 0.2794,
+    "actual": 0.2793999910354614,
+    "tolerance": 0.06,
+    "source": "RECONSTRUCTED §6 research 06 deck-layout §7.1, period Sixth-Rate norm; no dimensioned source found"
+  },
+  {
+    "key": "boat_count",
+    "metric": "count",
+    "expected": 4,
+    "actual": 4,
+    "tolerance": 0.001,
+    "source": "RECONSTRUCTED §8.3 launch, pinnace, cutter and jolly boat — the outfit of a sixth rate of 578 tons; no boat list for Surprise was found"
+  },
+  {
+    "key": "bowsprit_steeve_deg",
+    "metric": "steeve_deg",
+    "expected": 21.9,
+    "actual": 21.89999999999998,
+    "tolerance": 0.08,
+    "source": "SECONDARY §8 Steel, Naval Architecture, CENTRES OF MASTS, 28-gun column; 1 ft 2 1/2 in of stive per yard of length"
+  },
+  {
+    "key": "capstan_bar_hole_count",
+    "metric": "count",
+    "expected": 12,
+    "actual": 12,
+    "tolerance": 0.001,
+    "source": "SECONDARY §6 Steel 1805 :38565, bar-holes in the drumhead"
+  },
+  {
+    "key": "capstan_drumhead_diameter",
+    "metric": "extent_x",
+    "expected": 1.2192,
+    "actual": 1.2192000150680542,
+    "tolerance": 0.03,
+    "source": "SECONDARY §6 Steel 1805 :38437, row X"
+  },
+  {
+    "key": "carronade_12pdr_count",
+    "metric": "count",
+    "expected": 6,
+    "actual": 6,
+    "tolerance": 0.001,
+    "source": "PRIMARY §6.3 4 twelve-pounder carronades on the quarterdeck and 2 on the forecastle, Plymouth establishment 6.1796. ALTERNATIVE: 18-pdr carronades, 10 of them, in the 21.4.1798 fit"
+  },
+  {
+    "key": "cathead_spread",
+    "metric": "extent_x",
+    "expected": 8.8392,
+    "actual": 9.173444747924805,
+    "tolerance": 0.06,
+    "source": "SECONDARY §6 research 06-deck-layout §5.4, catheads: twice cathead_outer_half_breadth, the athwartships span over the two outer ends"
+  },
+  {
+    "key": "crew_count",
+    "metric": "count",
+    "expected": 13,
+    "actual": 13,
+    "tolerance": 0.34,
+    "source": "RECONSTRUCTED §9 the watch on deck of a frigate with a company of about two hundred, in weather that has driven everyone else below: two at the wheel, two officers, seven of the watch and two in the main top"
+  },
+  {
+    "key": "crew_figure_height",
+    "metric": "extent_y",
+    "expected": 1.6764000000000001,
+    "actual": 1.6685931162481196,
+    "tolerance": 0.05,
+    "source": "RECONSTRUCTED §9 the average height of a British seaman in the 1790s, from the surviving Marine and Navy muster descriptions. This is the number that gives the ship her scale"
+  },
+  {
+    "key": "cutter_length",
+    "metric": "extent_z",
+    "expected": 5.486400000000001,
+    "actual": 5.530743837356567,
+    "tolerance": 0.05,
+    "source": "RECONSTRUCTED §8.3 cutter 18-22 ft; the shortest taken so that she nests inside the 24 ft launch"
+  },
+  {
+    "key": "dolphin_striker_length",
+    "metric": "extent_caliper",
+    "expected": 2.7432000000000003,
+    "actual": 2.747119050923606,
+    "source": "RECONSTRUCTED §12 about a quarter of the jib boom; not in Steel 1794, but visible in the reference photograph"
+  },
+  {
+    "key": "ensign_peak_height",
+    "metric": "origin_y",
+    "expected": 15.2,
+    "actual": 15.203672324230215,
+    "tolerance": 0.03,
+    "source": "SECONDARY §04-3.2 the peak of the mizzen gaff: throat at 8.93 m, where 0.52 of the run from the mizzen deck to its hounds falls, plus a 32 ft 6 in gaff peaked at 38 degrees, plus the flag head a hand above the peak"
+  },
+  {
+    "key": "figurehead_height",
+    "metric": "extent_caliper",
+    "expected": 1.2192,
+    "actual": 1.248755645740511,
+    "tolerance": 0.05,
+    "source": "RECONSTRUCTED §8 research 08-paint-and-ornament §4.4 — CONJECTURAL: the figurehead of this ship is not documented anywhere; this is a classical female figure reconstructed from the ship's name and period practice, NOT the film ship's woman with sword and shield; research 08 §4.4 — \"the scale was drastically reduced\", so a small figure"
+  },
+  {
+    "key": "fore_channel_deadeyes_per_side",
+    "metric": "count",
+    "expected": 11,
+    "actual": 11,
+    "tolerance": 0.001,
+    "source": "RECONSTRUCTED §04 11.1 seven lower shrouds and four standing backstays"
+  },
+  {
+    "key": "fore_channel_length",
+    "metric": "extent_z",
+    "expected": 6.096,
+    "actual": 6.095999717712402,
+    "tolerance": 0.05,
+    "source": "SECONDARY §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column"
+  },
+  {
+    "key": "fore_mast_rake_deg",
+    "metric": "rake_deg",
+    "expected": 0.1,
+    "actual": 0.1,
+    "tolerance": 0.35,
+    "source": "SECONDARY §8 Steel, Naval Architecture, CENTRES OF MASTS, 28-gun column; 1/16 in of rake per yard of mast"
+  },
+  {
+    "key": "fore_yard_length",
+    "metric": "extent_horizontal",
+    "expected": 18.9484,
+    "actual": 19.093551392033525,
+    "tolerance": 0.02,
+    "source": "SECONDARY §3 Steel 1794 v1 p.50, \"28 GUNS. 594 Tons.\" column"
+  },
+  {
+    "key": "gun_4pdr_count",
+    "metric": "count",
+    "expected": 10,
+    "actual": 10,
+    "tolerance": 0.001,
+    "source": "PRIMARY §6.3 8 long 4-pdr on the quarterdeck and 2 on the forecastle, Plymouth establishment 6.1796. ALTERNATIVE: only the 2 forecastle chase guns survive in the 21.4.1798 fit"
+  },
+  {
+    "key": "gun_9pdr_count",
+    "metric": "count",
+    "expected": 24,
+    "actual": 24,
+    "tolerance": 0.001,
+    "source": "PRIMARY §6.3 threedecks ex Winfield BWAS-1793, Plymouth establishment 6.1796: 24 long 9-pdr on the upper deck. ALTERNATIVE: 24 x 32-pdr carronades in the 21.4.1798 fit"
+  },
+  {
+    "key": "gun_truck_carriage_count",
+    "metric": "count",
+    "expected": 34,
+    "actual": 34,
+    "tolerance": 0.001,
+    "source": "PRIMARY §6.3 one four-truck carriage under each of the 24 long 9-pdr and 10 long 4-pdr; the carronades are on slides and are not counted here"
+  },
+  {
+    "key": "gundeck_above_wl_at_midships",
+    "metric": "origin_y",
+    "expected": 1.89992,
+    "actual": 1.904,
+    "tolerance": 0.05,
+    "source": "MEASURED §5 deck at side 5.82 ft above the LWL at the midship station, plus the full camber to the centreline"
+  },
+  {
+    "key": "gunport_count_per_side",
+    "metric": "count",
+    "expected": 12,
+    "actual": 12,
+    "tolerance": 0.001,
+    "source": "PRIMARY §2 threedecks, 24 x 9-pdr on the upper deck, June 1796"
+  },
+  {
+    "key": "gunport_height",
+    "metric": "extent_y",
+    "expected": 0.7315200000000001,
+    "actual": 0.7095744013786316,
+    "tolerance": 0.05,
+    "source": "MEASURED §8 port sills at 20.4 ft and heads at 22.8 ft above the moulded base line"
+  },
+  {
+    "key": "gunport_spacing",
+    "metric": "origin_z",
+    "expected": 2.5908,
+    "actual": 2.5908,
+    "tolerance": 0.02,
+    "source": "RECONSTRUCTED §4 12 ports spread over the length available between the bow and the transom"
+  },
+  {
+    "key": "gunport_width",
+    "metric": "extent_z",
+    "expected": 0.762,
+    "actual": 0.739139974117279,
+    "tolerance": 0.05,
+    "source": "RECONSTRUCTED §4 Steel, port width for a 9-pounder"
+  },
+  {
+    "key": "head_knee_length",
+    "metric": "extent_z",
+    "expected": 3.81,
+    "actual": 3.809999465942383,
+    "tolerance": 0.05,
+    "source": "MEASURED §2 ZAZ3067 sheer profile, traced off the RMG scan at 6.021 px per foot; stem at x=1112 px, rail at y=141 px: the knee and stem together, from the aft face of the stem timber to the hair bracket — the fore-and-aft extent of the built piece"
+  },
+  {
+    "key": "head_rail_count",
+    "metric": "count",
+    "expected": 3,
+    "actual": 3,
+    "tolerance": 0.001,
+    "source": "SECONDARY §8 the reference photograph shows three rails curving up to the figurehead; Steel :4172 names four (lower, middle, main, upper) plus a false rail, so this is the photograph's reading of a four-rail arrangement"
+  },
+  {
+    "key": "hull_beam_moulded",
+    "metric": "extent_x",
+    "expected": 9.4488,
+    "actual": 9.440433502197266,
+    "tolerance": 0.012,
+    "source": "MEASURED §2 breadth box on the ZAZ3067 body plan at 6.0 px per foot; the title-block row is illegible at this resolution"
+  },
+  {
+    "key": "hull_length_bp",
+    "metric": "extent_z",
+    "expected": 36.8808,
+    "actual": 36.88079833984375,
+    "tolerance": 0.01,
+    "source": "MEASURED §2 126 ft on the gundeck less the stem rake above the LWL and the post rake"
+  },
+  {
+    "key": "jolly_length",
+    "metric": "extent_max",
+    "expected": 4.8768,
+    "actual": 5.007102783357411,
+    "tolerance": 0.06,
+    "source": "RECONSTRUCTED §8.3 jolly boat 16-18 ft, the smaller taken"
+  },
+  {
+    "key": "launch_length",
+    "metric": "extent_z",
+    "expected": 7.315200000000001,
+    "actual": 7.356813669204712,
+    "tolerance": 0.05,
+    "source": "RECONSTRUCTED §8.3 24 ft launch for a ship of this rate"
+  },
+  {
+    "key": "main_channel_deadeyes_per_side",
+    "metric": "count",
+    "expected": 11,
+    "actual": 11,
+    "tolerance": 0.001,
+    "source": "RECONSTRUCTED §04 11.1 seven lower shrouds and four standing backstays"
+  },
+  {
+    "key": "main_channel_length",
+    "metric": "extent_z",
+    "expected": 6.934200000000001,
+    "actual": 6.934200286865234,
+    "tolerance": 0.05,
+    "source": "SECONDARY §06 10 Steel 1805 OUTBOARD folio, 32-gun frigate column"
+  },
+  {
+    "key": "main_hatch_length",
+    "metric": "extent_z",
+    "expected": 2.1336,
+    "actual": 2.1335999965667725,
+    "tolerance": 0.03,
+    "source": "SECONDARY §6 Steel 1805 :33355 fore-and-aft, 32-gun column"
+  },
+  {
+    "key": "main_hatch_width",
+    "metric": "extent_x",
+    "expected": 1.3716000000000002,
+    "actual": 1.3716000318527222,
+    "tolerance": 0.03,
+    "source": "SECONDARY §6 Steel 1805 :33355 thwartships, 32-gun column"
+  },
+  {
+    "key": "main_mast_rake_deg",
+    "metric": "rake_deg",
+    "expected": 0.99,
+    "actual": 0.9900000000000004,
+    "tolerance": 0.12,
+    "source": "SECONDARY §8 Steel, Naval Architecture, CENTRES OF MASTS, 28-gun column; 5/8 in per yard"
+  },
+  {
+    "key": "main_top_breadth",
+    "metric": "extent_x",
+    "expected": 4.953,
+    "actual": 4.953000068664551,
+    "tolerance": 0.03,
+    "source": "SECONDARY §7.1 Steel 1794 v1 p.37, one third of the topmast length"
+  },
+  {
+    "key": "main_topsail_yard_length",
+    "metric": "extent_horizontal",
+    "expected": 15.8496,
+    "actual": 15.959526306498045,
+    "tolerance": 0.02,
+    "source": "SECONDARY §3 Steel 1794 v1 p.50, \"28 GUNS. 594 Tons.\" column"
+  },
+  {
+    "key": "main_yard_length",
+    "metric": "extent_horizontal",
+    "expected": 21.717000000000002,
+    "actual": 21.882149145942705,
+    "tolerance": 0.02,
+    "source": "SECONDARY §3 Steel 1794 v1 p.50, \"28 GUNS. 594 Tons.\" column"
+  },
+  {
+    "key": "mizzen_channel_deadeyes_per_side",
+    "metric": "count",
+    "expected": 7,
+    "actual": 7,
+    "tolerance": 0.001,
+    "source": "RECONSTRUCTED §04 11.1 five lower shrouds and two standing backstays"
+  },
+  {
+    "key": "mizzen_mast_rake_deg",
+    "metric": "rake_deg",
+    "expected": 1.59,
+    "actual": 1.5900000000000005,
+    "tolerance": 0.1,
+    "source": "SECONDARY §8 Steel, Naval Architecture, CENTRES OF MASTS, 28-gun column; 1 in per yard"
+  },
+  {
+    "key": "pennant_height",
+    "metric": "origin_y",
+    "expected": 38.62,
+    "actual": 38.70885991949712,
+    "tolerance": 0.03,
+    "source": "SECONDARY §04-9 main truck by Steel 1794 masting: keelson step, 81 ft 4 in lower mast, 48 ft 9 in topmast and 24 ft 4 in topgallant with their doublings"
+  },
+  {
+    "key": "pinnace_length",
+    "metric": "extent_z",
+    "expected": 7.315200000000001,
+    "actual": 7.350432634353638,
+    "tolerance": 0.05,
+    "source": "RECONSTRUCTED §8.3 pinnace 24-26 ft; the shorter figure taken so that she stows on the same skid beams as the launch"
+  },
+  {
+    "key": "quarter_gallery_length",
+    "metric": "extent_z",
+    "expected": 2.1336,
+    "actual": 2.1336002349853516,
+    "tolerance": 0.08,
+    "source": "RECONSTRUCTED §12.3 lower rim about 7 ft, Steel: \"the lower-rim should be as long as possible\""
+  },
+  {
+    "key": "rudder_height",
+    "metric": "extent_y",
+    "expected": 8.3947,
+    "actual": 8.394700050354004,
+    "tolerance": 0.02,
+    "source": "RECONSTRUCTED §6 heel at the 14 ft 0.5 in aft draught plus head 13 ft 6 in above the LWL; corrected former 17 ft 6 in total which stopped above the keel"
+  },
+  {
+    "key": "skid_beam_count",
+    "metric": "count",
+    "expected": 4,
+    "actual": 4,
+    "tolerance": 0.001,
+    "source": "RECONSTRUCTED §6 research 06 deck-layout §8.2"
+  },
+  {
+    "key": "spanker_boom_length",
+    "metric": "extent_horizontal",
+    "expected": 10.3632,
+    "actual": 10.345559305399574,
+    "tolerance": 0.02,
+    "source": "RECONSTRUCTED from the reference photograph: a gaff spanker whose boom overhangs the taffrail by about 10 ft"
+  },
+  {
+    "key": "square_sails_set",
+    "metric": "count",
+    "expected": 8,
+    "actual": 8,
+    "tolerance": 0.001,
+    "source": "RECONSTRUCTED the full suit in the reference photograph: two courses, three topsails and three topgallants"
+  },
+  {
+    "key": "stern_light_count",
+    "metric": "count",
+    "expected": 7,
+    "actual": 7,
+    "tolerance": 0.001,
+    "source": "MEASURED §6 the stern elevation on the ZAZ3067 body plan shows a single row of seven lights; 06 §12.2 and 08 §5.2 reconstruct five from a breadth rule whose stated range is 5 to 7"
+  },
+  {
+    "key": "stern_name_length",
+    "metric": "extent_x",
+    "expected": 1.3843,
+    "actual": 1.3860008120536804,
+    "tolerance": 0.03,
+    "source": "RECONSTRUCTED §12.1 SURPRISE: eight letters of 4½ in with 2½ in between them, and the cut stroke over the ends"
+  },
+  {
+    "key": "stern_taffrail_above_wl",
+    "metric": "max_y",
+    "expected": 5.080000000000001,
+    "actual": 5.182318210601807,
+    "tolerance": 0.035,
+    "source": "MEASURED §6 taffrail 29.5 ft above the moulded base line, LWL at 12.83 ft. This is the figure the taffrail is built to; the height above the quarterdeck follows from it"
+  },
+  {
+    "key": "stern_transom_breadth_wing",
+    "metric": "extent_x",
+    "expected": 5.7912,
+    "actual": 5.673907279968262,
+    "tolerance": 0.05,
+    "source": "MEASURED §6 wing transom 19.0 ft across the stern elevation on the ZAZ3067 body plan"
+  },
+  {
+    "key": "wheel_count",
+    "metric": "count",
+    "expected": 1,
+    "actual": 1,
+    "tolerance": 0.001,
+    "source": "RECONSTRUCTED §6 research 06 deck-layout §2.1, a 2 ft 3 in barrel will not take a wheel at each end and the rope turns between"
+  },
+  {
+    "key": "wheel_swept_diameter",
+    "metric": "extent_y",
+    "expected": 1.9304000000000001,
+    "actual": 1.930400013923645,
+    "tolerance": 0.03,
+    "source": "RECONSTRUCTED §6 research 06 deck-layout §2.1, the rim plus a turned handle projecting 7 in at each end of a spoke"
+  }
+]

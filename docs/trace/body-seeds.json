@@ -1,0 +1,174 @@
+{
+  "source": "Nationaal Archief 4.MST inv. 59, scan NL-HaNA_4.MST_59_deelopname01, region x 400-3200, y 2600-5600 (the body plan)",
+  "note": "Pixel coordinates in that region. Seeds chosen by eye where each station is clear of its neighbours, the diagonals and the station numbers.",
+  "centreline_x": 1390.0,
+  "rabbet_y": 2811,
+  "stations": {
+    "0": {
+      "seed": [
+        1642,
+        2300
+      ]
+    },
+    "1": {
+      "seed": [
+        1758,
+        2300
+      ]
+    },
+    "2": {
+      "seed": [
+        2058,
+        2300
+      ]
+    },
+    "3": {
+      "seed": [
+        2260,
+        2300
+      ]
+    },
+    "4": {
+      "seed": [
+        2375,
+        2300
+      ]
+    },
+    "5": {
+      "seed": [
+        2436,
+        2300
+      ]
+    },
+    "6": {
+      "seed": [
+        2476,
+        2300
+      ]
+    },
+    "7": {
+      "seed": [
+        2505,
+        2300
+      ]
+    },
+    "8": {
+      "seed": [
+        2524,
+        2300
+      ]
+    },
+    "9": {
+      "seed": [
+        2535,
+        2300
+      ]
+    },
+    "10": {
+      "seed": [
+        2541,
+        2300
+      ],
+      "note": "dead flat, fore half"
+    },
+    "10a": {
+      "seed": [
+        495,
+        2680
+      ],
+      "note": "dead flat, aft half (check)"
+    },
+    "11": {
+      "seed": [
+        507,
+        2680
+      ]
+    },
+    "12": {
+      "seed": [
+        800,
+        2766.5
+      ],
+      "win": 1.6
+    },
+    "13": {
+      "seed": [
+        800,
+        2754.0
+      ],
+      "win": 1.6
+    },
+    "14": {
+      "seed": [
+        487,
+        2590
+      ]
+    },
+    "15": {
+      "seed": [
+        531,
+        2558
+      ]
+    },
+    "16": {
+      "seed": [
+        588,
+        2517
+      ]
+    },
+    "17": {
+      "seed": [
+        658,
+        2467
+      ]
+    },
+    "18": {
+      "seed": [
+        737,
+        2408
+      ]
+    },
+    "19": {
+      "seed": [
+        827,
+        2343
+      ]
+    },
+    "20": {
+      "seed": [
+        922,
+        2274
+      ]
+    },
+    "21": {
+      "seed": [
+        1035,
+        2192
+      ]
+    },
+    "22": {
+      "seed": [
+        1214,
+        2062
+      ],
+      "win": 1.6,
+      "max_turn": 0.6
+    },
+    "fashion_piece": {
+      "seed": [
+        1095,
+        2148
+      ]
+    }
+  },
+  "fore_keel_x": 1425,
+  "aft_keel_x": 1358,
+  "fore_outer_x": 2618,
+  "aft_outer_x": 170,
+  "keel_bottom_y": 2913,
+  "false_keel_bottom_y": 2935,
+  "keel_side_x": [
+    1337,
+    1443
+  ]
+}

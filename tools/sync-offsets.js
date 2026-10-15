@@ -8,7 +8,7 @@ import { ROOT } from './serve.js';
 const traced = path.join(ROOT, 'docs/offsets.json');
 const provisional = path.join(ROOT, 'docs/offsets.provisional.json');
 
-let src = traced, grade = 'TRACED from ZAZ3067';
+let src = traced, grade = 'TRACED from NA 4.MST inv. 59';
 try { await fs.access(traced); } catch { src = provisional; grade = 'PROVISIONAL'; }
 
 const data = JSON.parse(await fs.readFile(src, 'utf8'));
