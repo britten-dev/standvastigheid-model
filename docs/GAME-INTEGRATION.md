@@ -4,7 +4,7 @@ She is built to drop in where `surprise-model` does: same imports, same options,
 conventions (metres, -Z forward, +Y up, origin on the load waterline at station 10).
 
 ```bash
-npm i github:britten-dev/waakzaamheid-model   # once the repo exists
+npm i github:britten-dev/waakzaamheid-model
 ```
 
 ```js
