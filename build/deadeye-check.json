@@ -3,23 +3,23 @@
     {
       "lod": "cinematic",
       "pairs": 66,
-      "channelTriangles": 333764,
+      "channelTriangles": 312644,
       "channelMeshes": 15,
-      "shipTriangles": 2076281
+      "shipTriangles": 1723033
     },
     {
       "lod": "hero",
       "pairs": 66,
-      "channelTriangles": 293600,
+      "channelTriangles": 199352,
       "channelMeshes": 15,
-      "shipTriangles": 1298993
+      "shipTriangles": 1009945
     },
     {
       "lod": "game",
       "pairs": 0,
       "channelTriangles": 5232,
-      "channelMeshes": 6,
-      "shipTriangles": 101074
+      "channelMeshes": 2,
+      "shipTriangles": 94988
     }
   ],
   "sample": {
@@ -62,9 +62,5 @@
     ]
   },
   "assetTriangles": 826,
-  "issues": [
-    "cinematic: host budget exceeded",
-    "hero: host budget exceeded",
-    "game: host budget exceeded"
-  ]
+  "issues": []
 }

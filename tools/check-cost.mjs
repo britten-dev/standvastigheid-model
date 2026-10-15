@@ -19,7 +19,12 @@ try {
           calls += Array.isArray(o.material) ? o.material.length : 1;
         } else if (o.isLine) calls++;
       });
-      out.push({ lod, sails, tris: Math.round(tris), calls });
+      // Batching must only merge, never add or lose a triangle.
+      let unbatched = 0;
+      if (lod === 'game' || lod === 'distant') window.build({ lod, sails, crew: false, batchStatic: false }).traverseVisible((o) => {
+        if (o.isMesh) unbatched += (o.geometry.index ? o.geometry.index.count : o.geometry.attributes.position.count) / 3 * (o.isInstancedMesh ? o.count : 1);
+      });
+      out.push({ lod, sails, tris: Math.round(tris), calls, unbatched: Math.round(unbatched) });
     }
     return out;
   });
@@ -28,6 +33,7 @@ try {
     console.log(`${r.lod.padEnd(9)} ${r.sails.padEnd(5)} ${String(r.tris).padStart(8)} tris (≤ ${b.tris})  ${String(r.calls).padStart(4)} calls${b.calls ? ` (≤ ${b.calls})` : ''}`);
     assert.ok(r.tris <= b.tris, `${r.lod}/${r.sails}: ${r.tris} triangles over ${b.tris}`);
     if (b.calls) assert.ok(r.calls <= b.calls, `${r.lod}/${r.sails}: ${r.calls} draw calls over ${b.calls}`);
+    if (r.unbatched) assert.equal(r.tris, r.unbatched, `${r.lod}/${r.sails}: batching changed the triangle count`);
   }
   assert.deepEqual(h.problems, []);
   console.log('\nevery level is inside the host budget.');

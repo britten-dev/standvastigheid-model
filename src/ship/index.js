@@ -63,8 +63,10 @@ export { createDetailLOD } from './detail-lod.js';
  *   other British squadron colours.
  * @param {number} [opts.flagYear] Select the pre/post-1801 Union of the British ensigns; defaults to 1811.
  * @param {boolean} [opts.crew=true] Omit visible figures and their rendering cost when false.
+ * @param {boolean} [opts.batchStatic] Merge static fittings by material (default: on at game
+ *   and distant). False keeps every fitting a separate, named mesh, for inspection.
  */
-export function buildShip({ lod = 'hero', sails = 'full', weather, ports: portState, chasers = 'manned', crew = true, animatedSails = false, adaptiveDetail = false, ensign='dutch',flagYear } = {}) {
+export function buildShip({ lod = 'hero', sails = 'full', weather, ports: portState, chasers = 'manned', crew = true, animatedSails = false, adaptiveDetail = false, ensign='dutch',flagYear, batchStatic } = {}) {
   if(!['dutch','blue','french','white','red'].includes(ensign))throw new Error(`Unknown ensign: ${ensign}`);
   if(flagYear!==undefined&&(!Number.isFinite(flagYear)||flagYear<1606))throw new Error(`Invalid flag year: ${flagYear}`);
   if (!SAIL_STATES.includes(sails)) {
@@ -135,7 +137,8 @@ export function buildShip({ lod = 'hero', sails = 'full', weather, ports: portSt
   finishHullContact(ship,cfg,model,ports);
   finishDeckContact(ship,cfg);
   // At the far levels, fewer and larger meshes: see src/ship/batch.js.
-  if (cfg.batchStatic && !adaptiveDetail) batchStaticMeshes(ship);
+  // `batchStatic: false` keeps every fitting separate and named, for inspection.
+  if ((batchStatic ?? cfg.batchStatic) && !adaptiveDetail) batchStaticMeshes(ship);
 
   if(adaptiveDetail)ship.traverse(mesh=>{
     // These are secondary surface details only. Port boards, structural timber,

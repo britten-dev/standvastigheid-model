@@ -2,18 +2,18 @@
   {
     "lod": "game",
     "withCrew": {
-      "tris": 105162,
-      "verts": 123359,
-      "meshes": 244,
+      "tris": 99076,
+      "verts": 118041,
+      "meshes": 233,
       "lines": 1386,
-      "materials": 50
+      "materials": 46
     },
     "withoutCrew": {
-      "tris": 101074,
-      "verts": 116249,
-      "meshes": 235,
+      "tris": 94988,
+      "verts": 110931,
+      "meshes": 224,
       "lines": 1386,
-      "materials": 49
+      "materials": 45
     },
     "savedTriangles": 4088,
     "savedMeshes": 9,
@@ -25,18 +25,18 @@
   {
     "lod": "hero",
     "withCrew": {
-      "tris": 1309621,
-      "verts": 1729077,
+      "tris": 1020573,
+      "verts": 1486755,
       "meshes": 451,
       "lines": 2852,
-      "materials": 57
+      "materials": 56
     },
     "withoutCrew": {
-      "tris": 1298993,
-      "verts": 1710647,
+      "tris": 1009945,
+      "verts": 1468325,
       "meshes": 331,
       "lines": 2852,
-      "materials": 56
+      "materials": 55
     },
     "savedTriangles": 10628,
     "savedMeshes": 120,
@@ -48,15 +48,15 @@
   {
     "lod": "cinematic",
     "withCrew": {
-      "tris": 2149389,
-      "verts": 2655466,
+      "tris": 1796141,
+      "verts": 2048976,
       "meshes": 518,
       "lines": 2852,
       "materials": 57
     },
     "withoutCrew": {
-      "tris": 2076281,
-      "verts": 2493612,
+      "tris": 1723033,
+      "verts": 1887122,
       "meshes": 398,
       "lines": 2852,
       "materials": 56

@@ -9,7 +9,7 @@ try{
   const {hullModel}=await import('/src/ship/hull.js'),{gunOpenings}=await import('/src/ship/gun-openings.js');
   const T=THREE,model=hullModel(),rows=[];
   for(const lod of ['cinematic','hero','game'])for(const weather of ['fair','heavy']){
-   const ship=build({lod,sails:'full',weather,crew:false});ship.updateMatrixWorld(true);
+   const ship=build({lod,sails:'full',weather,crew:false,batchStatic:false});ship.updateMatrixWorld(true);
    const sides=['hull_shell','inner_bulwark','lower_deck_lining'].map(n=>ship.getObjectByName(n));
    sides.forEach(o=>o.material.side=T.DoubleSide);
    const ray=new T.Raycaster(),blocked=[];

@@ -6,7 +6,7 @@ try{
  const report=await h.page.evaluate(async()=>{
   const T=window.THREE,{hullModel}=await import('/src/ship/hull.js'),{SPEC}=await import('/src/spec/spec.js'),{sternLanding}=await import('/src/ship/stern.js'),m=hullModel(),landing=sternLanding(m),rows=[];
   for(const lod of ['distant','game','hero','cinematic']){
-   const s=window.build({lod,crew:false});s.updateMatrixWorld(true);
+   const s=window.build({lod,crew:false,batchStatic:false});s.updateMatrixWorld(true);
    const shell=s.getObjectByName('stern_shell'),r=new T.Raycaster(),checks=[];
    for(const name of ['upper_deck','quarterdeck']){
     const deck=s.getObjectByName(name),g=deck.geometry,b=new T.Box3().setFromObject(deck);

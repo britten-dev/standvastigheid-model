@@ -7,7 +7,7 @@ import {writeFile} from 'node:fs/promises';
 const h=await openHarness();
 try {
   const rows=await h.page.evaluate(()=>['game','hero','cinematic'].map(lod=>{
-    const opts={lod,sails:'full'},withCrew=window.stats(opts),withoutCrew=window.stats({...opts,crew:false});
+    const opts={lod,sails:'full',batchStatic:false},withCrew=window.stats(opts),withoutCrew=window.stats({...opts,crew:false});
     const original=window.build(opts),bare=window.build({...opts,crew:false});
     if(bare.getObjectByName('crew').children.length)throw new Error('Visible crew remain');
     const crew=original.getObjectByName('crew');

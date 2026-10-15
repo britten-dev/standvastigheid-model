@@ -26,7 +26,7 @@ try {
   const report=await h.page.evaluate(()=>{
     const rows=[];
     for(const lod of ['cinematic','hero','game'])for(const weather of ['fair','heavy']) {
-      const ship=build({lod,sails:'full',weather,crew:false}),parts=[];
+      const ship=build({lod,sails:'full',weather,crew:false,batchStatic:false}),parts=[];
       ship.traverse(o=>{
         if(!o.isMesh||!/^(stern_light_frames|quarter_gallery_frames|stern_glazing_bars|quarter_gallery_glazing_bars|stern_munions|stern_pane_bedding)$/.test(o.name))return;
         for(const a of Object.values(o.geometry.attributes))if(!a.array.every(Number.isFinite))throw new Error('Nonfinite joinery');
