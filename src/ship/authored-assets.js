@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { SPEC } from '../spec/spec.js';
 
 // HMS Surprise loads a library of Blender-authored helm fittings and Royal Navy figures
-// here. The Waakzaamheid has none (PLAN.md, "What I am NOT doing"): a Dutch helm and Dutch
+// here. The Standvastigheid has none (PLAN.md, "What I am NOT doing"): a Dutch helm and Dutch
 // seamen would have to be authored from scratch. The loader stays so the API matches —
 // `preloadSurfaceAssets()` still awaits it — and resolves at once with no library, so
 // every caller below falls back to the procedural fittings without a network request.

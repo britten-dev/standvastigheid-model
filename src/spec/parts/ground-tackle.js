@@ -1,4 +1,4 @@
-// Dimensions for the ground tackle of the Waakzaamheid: four large anchors, their cables,
+// Dimensions for the ground tackle of the Standvastigheid: four large anchors, their cables,
 // the cat blocks, the hawse holes and the gear that holds an anchor against the bow. See
 // src/spec/parts/index.js for the shape of an entry.
 //

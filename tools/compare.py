@@ -36,7 +36,7 @@ canvas.paste(render, (pad * 2 + photo.width, pad + 34))
 
 d = ImageDraw.Draw(canvas)
 d.text((pad + 4, 10), 'REFERENCE: Rijksmuseum NG-MC-500, model of the Dutch 74 Vrijheid, c.1782', fill=(200, 205, 212))
-d.text((pad * 2 + photo.width + 4, 10), 'MODEL: Waakzaamheid, hero LOD, furled, the same station', fill=(200, 205, 212))
+d.text((pad * 2 + photo.width + 4, 10), 'MODEL: Standvastigheid, hero LOD, furled, the same station', fill=(200, 205, 212))
 
 # Horizontal guides at the fractions of frame height where the eye wants to compare:
 # the trucks, the tops, the rail and the waterline.

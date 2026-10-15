@@ -1,6 +1,6 @@
 [
   {
-    "name": "waakzaamheid-hero-full.glb",
+    "name": "standvastigheid-hero-full.glb",
     "lod": "hero",
     "sails": "full",
     "tris": 1020573,
@@ -8,11 +8,11 @@
     "meshes": 451,
     "lines": 2852,
     "materials": 56,
-    "kb": 78663,
+    "kb": 78664,
     "inBudget": true
   },
   {
-    "name": "waakzaamheid-hero-topsails.glb",
+    "name": "standvastigheid-hero-topsails.glb",
     "lod": "hero",
     "sails": "topsails",
     "tris": 968125,
@@ -20,11 +20,11 @@
     "meshes": 431,
     "lines": 2852,
     "materials": 56,
-    "kb": 77328,
+    "kb": 77329,
     "inBudget": true
   },
   {
-    "name": "waakzaamheid-hero-storm.glb",
+    "name": "standvastigheid-hero-storm.glb",
     "lod": "hero",
     "sails": "storm",
     "tris": 961049,
@@ -36,7 +36,7 @@
     "inBudget": true
   },
   {
-    "name": "waakzaamheid-hero-furled.glb",
+    "name": "standvastigheid-hero-furled.glb",
     "lod": "hero",
     "sails": "furled",
     "tris": 937093,
@@ -44,11 +44,11 @@
     "meshes": 420,
     "lines": 2852,
     "materials": 55,
-    "kb": 76539,
+    "kb": 76540,
     "inBudget": true
   },
   {
-    "name": "waakzaamheid-game-full.glb",
+    "name": "standvastigheid-game-full.glb",
     "lod": "game",
     "sails": "full",
     "tris": 99076,
@@ -60,7 +60,7 @@
     "inBudget": true
   },
   {
-    "name": "waakzaamheid-game-topsails.glb",
+    "name": "standvastigheid-game-topsails.glb",
     "lod": "game",
     "sails": "topsails",
     "tris": 98466,
@@ -72,7 +72,7 @@
     "inBudget": true
   },
   {
-    "name": "waakzaamheid-game-storm.glb",
+    "name": "standvastigheid-game-storm.glb",
     "lod": "game",
     "sails": "storm",
     "tris": 84388,
@@ -84,7 +84,7 @@
     "inBudget": true
   },
   {
-    "name": "waakzaamheid-game-furled.glb",
+    "name": "standvastigheid-game-furled.glb",
     "lod": "game",
     "sails": "furled",
     "tris": 98196,
@@ -96,11 +96,11 @@
     "inBudget": true
   },
   {
-    "name": "waakzaamheid-distant-full.glb",
+    "name": "standvastigheid-distant-full.glb",
     "lod": "distant",
     "sails": "full",
-    "tris": 7844,
-    "verts": 7803,
+    "tris": 7848,
+    "verts": 7805,
     "meshes": 71,
     "lines": 392,
     "materials": 20,
@@ -108,11 +108,11 @@
     "inBudget": true
   },
   {
-    "name": "waakzaamheid-distant-furled.glb",
+    "name": "standvastigheid-distant-furled.glb",
     "lod": "distant",
     "sails": "furled",
-    "tris": 7880,
-    "verts": 7857,
+    "tris": 7884,
+    "verts": 7859,
     "meshes": 65,
     "lines": 392,
     "materials": 20,

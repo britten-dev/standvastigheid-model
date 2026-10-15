@@ -7,7 +7,7 @@ import { openHarness, ROOT } from './harness.js';
 
 // Authored fittings/crew are a separate asset library with their own export checks;
 // they cannot meet the dimensions of a complete ship.
-const files = (await fs.readdir(path.join(ROOT, 'build'))).filter((f) => /^waakzaamheid-.*\.glb$/.test(f));
+const files = (await fs.readdir(path.join(ROOT, 'build'))).filter((f) => /^standvastigheid-.*\.glb$/.test(f));
 if (!files.length) throw new Error('No exported ships found in build/');
 const h = await openHarness();
 

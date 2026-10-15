@@ -1,16 +1,16 @@
-# Waakzaamheid — parametric model
+# Standvastigheid — parametric model
 
-The Dutch seventy-four that chases the Leopard through the Southern Ocean in Patrick
-O'Brian's *Desolation Island*, built for The Helmsman's Watch the way HMS Surprise is
-built in `surprise-model`: a parametric generator that lofts her hull from a real draught
-and builds her at four levels of detail, in four states of canvas, with the same API.
+The Dutch seventy-four that comes up astern in The Helmsman's Watch's chase, built the way
+HMS Surprise is built in `surprise-model`: a parametric generator that lofts her hull from
+a real draught and builds her at four levels of detail, in four states of canvas, with the
+same API.
 
 She is fictional; **her hull is not**. It is lofted from the lines of the Dutch 74
 *Washington* (Amsterdam, launched 1796), whose own draught survives at the Nationaal
 Archief (4.MST inv. 59). Every station of its body plan was followed by machine off the
-archive's scan and calibrated on the drawing's own scale of feet. What the book says of
-her — black-hulled, broad-sterned, bluff-bowed, 32-pounders below and 24s above, chasers
-in bridle ports, pole topgallant masts — is built as the book says it.
+archive's scan and calibrated on the drawing's own scale of feet. Her character —
+black-hulled, broad-sterned, bluff-bowed, 32-pounders below and 24s above, chasers in
+bridle ports, pole topgallant masts — follows the research in `docs/research/`.
 
 | | |
 | --- | --- |
@@ -20,7 +20,7 @@ in bridle ports, pole topgallant masts — is built as the book says it.
 | Displacement | 2,282 t |
 | Guns | 28 × 32-pdr, 28 × 24-pdr, 16 × 12-pdr, two bow chasers, two stern chasers |
 | Rig | Steel's 74, fitted to her size; Dutch tops; pole topgallants; no royals |
-| Colours | Dutch tricolour (default), French tricolour, or the British blue ensign of her ruse |
+| Colours | Dutch tricolour (default), French tricolour, or a false British blue ensign |
 
 `python3 tools/draught/lines_overlay.py out.png` draws her built lines back over the
 draught they were traced from (the archive's scan is fetched into `.cache/` for that and
@@ -42,14 +42,14 @@ the chasers, which stay manned unless `chasers: 'secured'`.
 ## For the game
 
 ```js
-import { buildShip, createMotion, createSailHandling } from 'waakzaamheid-model';
-import { SPEC } from 'waakzaamheid-model/spec';
-import { carryAway, restore } from 'waakzaamheid-model/damage';
+import { buildShip, createMotion, createSailHandling } from 'standvastigheid-model';
+import { SPEC } from 'standvastigheid-model/spec';
+import { carryAway, restore } from 'standvastigheid-model/damage';
 
 const ship = buildShip({ lod: 'game', sails: 'full', animatedSails: true, crew: false });
 const handling = createSailHandling(ship, 'full');
 const motion = createMotion(ship);
-carryAway(ship, 'fore_lower_mast');   // the book's ending
+carryAway(ship, 'fore_lower_mast');   // foremast and all it carries, shot away
 ```
 
 The same exports and subpaths as `surprise-model` (`npm test` holds them to it), plus
@@ -95,7 +95,8 @@ tools/                  build, audit, trace, checks, render, serve
 viewer/                 the inspection page and the render harness
 ```
 
-The code started as a copy of `surprise-model` at commit `81b2ee8`; modules keep their
+The repository was first named `waakzaamheid-model`. The code started as a copy of
+`surprise-model` at commit `81b2ee8`; modules keep their
 names so fixes can be ported file to file. `surprise-model` itself was not changed.
 
 ## Where the evidence is thin
@@ -105,7 +106,7 @@ names so fixes can be ported file to file. `surprise-model` itself was not chang
 * **Her waterline** — set by the Dutch rule for 74s (lower sills 6 ft 6 in above water).
 * **Her masts and yards** — a British table (Steel, 1794) fitted to her; no Dutch table found.
 * **Her paint and bottom** — the book, one Dutch drawing of 1800, and a few models.
-* **Her colours in 1811** — history leans French; the book calls her Dutch.
-* **Her bridle ports** — the book's; Dutch ships of her date chased from the forecastle.
+* **Her colours in 1811** — history leans French; the game flies Dutch.
+* **Her bridle ports** — chosen for the chase; Dutch ships of her date chased from the forecastle.
 
 The research behind every one of these is in `docs/research/`, with sources.

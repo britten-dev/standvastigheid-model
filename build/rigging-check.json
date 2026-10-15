@@ -3,19 +3,19 @@
     "lod": "game",
     "bindings": 36,
     "checks": 7344,
-    "maxGap": 0.0000016303063264227613,
+    "maxGap": 0.0000015866376198419228,
     "aboveTruck": 0,
     "lashings": 0,
-    "meanMotionMs": 0.131862739721934
+    "meanMotionMs": 0.12867647409439087
   },
   {
     "lod": "cinematic",
     "bindings": 52,
     "checks": 10608,
-    "maxGap": 0.000002087803170284163,
+    "maxGap": 0.000002164773279471973,
     "aboveTruck": 0,
     "lashings": 221,
-    "meanMotionMs": 0.7267156827683542
+    "meanMotionMs": 0.7262254824825362
   },
   {
     "sails": "topsails",

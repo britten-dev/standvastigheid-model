@@ -1,4 +1,4 @@
-# Waakzaamheid — specification
+# Standvastigheid — specification
 
 The contract this model is built against. Every dimension in the generator traces to a
 row below, and `npm run audit` measures the geometry that was actually produced and
@@ -13,11 +13,10 @@ has no row here, or if a row has no source.
 
 ## 1. What ship this is
 
-The **Waakzaamheid** is fictional: the Dutch seventy-four that chases the Leopard through
-the Southern Ocean in Patrick O'Brian's *Desolation Island* (1978), set in early 1811, and
-is lost when a shot brings down her foremast and she broaches in a breaking sea. The book
-gives her 32-pounders on the lower deck and 24-pounders above, a black hull, a broad stern,
-bluff bows, bridle-port chasers and pole topgallant masts (`docs/research/01-the-book.md`).
+The **Standvastigheid** is fictional: the Dutch seventy-four that chases the player in The
+Helmsman's Watch, in the Southern Ocean in early 1811. Her character — 32-pounders on the
+lower deck and 24s above, a black hull, a broad stern, bluff bows, bridle-port chasers and
+pole topgallant masts — comes from the literary research in `docs/research/01-the-book.md`.
 
 Her **hull is real**: it is lofted from the lines of the Dutch 74 **Washington**, laid down
 at Amsterdam in 1795 and launched on 9 August 1796, taken by the British at the Vlieter in

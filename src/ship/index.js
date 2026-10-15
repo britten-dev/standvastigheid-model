@@ -88,7 +88,7 @@ export function buildShip({ lod = 'hero', sails = 'full', weather, ports: portSt
   const model = hullModel();
 
   const ship = new THREE.Group();
-  ship.name = `waakzaamheid_${lod}_${sails}`;
+  ship.name = `standvastigheid_${lod}_${sails}`;
   ship.userData.lod = lod;
   ship.userData.sails = sails;
   ship.userData.ports = portsShut ? 'shut' : 'open';

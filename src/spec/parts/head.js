@@ -1,4 +1,4 @@
-// Dimensions for the head of the Waakzaamheid: the stem and knee of the head, the cheeks
+// Dimensions for the head of the Standvastigheid: the stem and knee of the head, the cheeks
 // and trailboards, the head rails and platform, the beakhead bulkhead, the knightheads,
 // the catheads and the crowned lion. See src/spec/parts/index.js for the shape of an
 // entry.
@@ -155,7 +155,7 @@ export const HEAD_SPEC = {
 
   // --------------------------------------------------------------- the figurehead
   // A crowned Dutch lion, rampant, leaning forward over the water, as on the Vrijheid
-  // (NG-MC-500) and NG-MC-661. It is the agreed default for the Waakzaamheid, though the
+  // (NG-MC-500) and NG-MC-661. It is the agreed default for the Standvastigheid, though the
   // Washington herself carried a Roman warrior (RMG SLR0591). Built upright in these
   // dimensions and leaned by figurehead_lean_deg.
   figurehead_height: m(ft(10, 10), `${LION}; plinth to the top of the crown`, { noAudit: true }),

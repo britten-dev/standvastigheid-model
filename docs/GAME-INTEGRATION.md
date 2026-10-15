@@ -4,15 +4,15 @@ She is built to drop in where `surprise-model` does: same imports, same options,
 conventions (metres, -Z forward, +Y up, origin on the load waterline at station 10).
 
 ```bash
-npm i github:britten-dev/waakzaamheid-model
+npm i github:britten-dev/standvastigheid-model
 ```
 
 ```js
 import { buildShip, createMotion, createSailHandling, createDetailLOD,
-         preloadSurfaceAssets, LODS, SAIL_STATES } from 'waakzaamheid-model';
-import { SPEC } from 'waakzaamheid-model/spec';
-import { hullModel } from 'waakzaamheid-model/hull';
-import { carryAway, restore } from 'waakzaamheid-model/damage';
+         preloadSurfaceAssets, LODS, SAIL_STATES } from 'standvastigheid-model';
+import { SPEC } from 'standvastigheid-model/spec';
+import { hullModel } from 'standvastigheid-model/hull';
+import { carryAway, restore } from 'standvastigheid-model/damage';
 
 const ship = buildShip({ lod: 'game', sails: 'full', animatedSails: true, crew: false });
 const handling = createSailHandling(ship, 'full');
@@ -48,13 +48,13 @@ that reads `gundeck_above_wl_at_midships` to mean "the deck people stand on" sho
 
 | Option | Values | Default |
 | --- | --- | --- |
-| `ensign` | `'dutch'` (red-white-blue), `'blue'` (the false British blue ensign of her ruse in the book), `'french'` | `'dutch'` |
+| `ensign` | `'dutch'` (red-white-blue), `'blue'` (a false British blue ensign, as a ruse), `'french'` | `'dutch'` |
 | `chasers` | `'manned'` keeps the bow chasers' bridle ports open even when `weather: 'heavy'` shuts the batteries; `'secured'` shuts them too | `'manned'` |
 
 ## Bow chasers
 
 Two long 32-pounders in bridle ports in the bow, on the lower deck, trained 8° outboard of
-dead ahead, as the book has them. Two long 24-pounders in the counter's chase ports, 5°
+dead ahead. Two long 24-pounders in the counter's chase ports, 5°
 outboard of dead astern.
 
 * Nodes `locator_bow_chaser_port`, `locator_bow_chaser_starboard`,
@@ -84,7 +84,7 @@ rig ─ fore ─ fore_lower_mast, fore_top, fore_yard → fore_course_sail, lowe
 ```
 
 ```js
-import { carryAway, restore, partsCarriedBy, isCarriedAway, rigPartNames } from 'waakzaamheid-model/damage';
+import { carryAway, restore, partsCarriedBy, isCarriedAway, rigPartNames } from 'standvastigheid-model/damage';
 
 carryAway(ship, 'fore_topmast');   // hides it, everything it carries and its ropes; returns the names
 partsCarriedBy(ship, 'fore_lower_mast');  // ['fore_topmast', 'fore_topgallant', 'fore_yard', ...]
@@ -103,7 +103,7 @@ ship.userData.carriedAway;         // names carried away, in order
 * Not modelled: falling wreckage, a sail whose lower yard has gone flogging free, the
   broach. Those are the game's.
 
-The book's ending is `carryAway(ship, 'fore_lower_mast')`.
+`carryAway(ship, 'fore_lower_mast')` brings down her foremast and everything it carries.
 
 ## Cost
 

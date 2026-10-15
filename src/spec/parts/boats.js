@@ -1,7 +1,7 @@
 // Dimensions for the boats of the ship. See src/spec/parts/index.js for the shape
 // of an entry and for the rule that every key must also appear in SPECS.md.
 //
-// No boat list survives for the Waakzaamheid, who is fictional, and the Washington's own
+// No boat list survives for the Standvastigheid, who is fictional, and the Washington's own
 // is not in the draught. The outfit is reconstructed from the Royal Navy's boat
 // establishments for a 74 (Steel, Elements and Practice of Naval Architecture, 1805; Lavery,
 // The Arming and Fitting of English Ships of War, 1987): a launch, a pinnace, two cutters
