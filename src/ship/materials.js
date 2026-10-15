@@ -17,6 +17,7 @@ import {
 } from './textures.js';
 import { hullStains, deckStains, sailStains } from './weathering.js';
 import { getDeckImage } from './surface-assets.js';
+import { getHullScan } from './hull-scan.js';
 import { hullTimber } from './hull-timber.js';
 
 const col = (key) => new THREE.Color(PAINT[key].hex);
@@ -384,7 +385,7 @@ const materialCache = new Map();
 
 export function makeMaterials(cfg) {
   const key = [cfg.textureSize, cfg.hullTextureSize, cfg.copperNails, cfg.hullRelief, cfg.surfaceDetail,
-    cfg.mouldingSweeps, !!getDeckImage()].join(':');
+    cfg.mouldingSweeps, !!getDeckImage(), !!getHullScan()].join(':');
   if (!materialCache.has(key)) materialCache.set(key, buildMaterials(cfg));
   return materialCache.get(key);
 }
@@ -436,7 +437,8 @@ function buildMaterials(cfg) {
         ...copperArgs,
         base: PAINT.copper.hex, edge: PAINT.copper_dark.hex, nail: PAINT.copper_bright.hex,
       })
-      : whiteStuff(hullTimber(hullSize), hullSize),
+      // The drawn planking, not the photographed: her bottom is not to change with the scan.
+      : whiteStuff(hullTimber(hullSize, 'colour', false), hullSize),
     { repeat: [1, 1] }
   );
 
@@ -683,14 +685,26 @@ function buildMaterials(cfg) {
     runningRigging: std({ color: col('rigging_hemp'), roughness: PAINT.rigging_hemp.roughness,
       metalness: 0, normalMap: laidRopeNormal, normalScale: new THREE.Vector2(0.3, 0.3) }),
 
+    // Plain see-through glazing, as the stern lights have always cloned it. Not
+    // `transmission`, for the reason over the sail above and a worse one: while any
+    // transmissive pane is in view, three draws every opaque thing in the scene a second
+    // time, the whole sea included, into a full-size multisampled copy of the frame. A
+    // gallery's panes and a skylight were costing the game 40% of its GPU time.
+    //
+    // One pass, both faces. Left to itself three draws a see-through double-sided material
+    // twice, back faces then front, and marks it for a fresh shader check before each draw,
+    // every frame in every pass. A flat pane has no back faces behind its front ones to
+    // sort, so the second draw buys nothing.
     glass: new THREE.MeshPhysicalMaterial({
       color: col('glazing'),
       roughness: PAINT.glazing.roughness,
       metalness: 0,
-      transmission: 0.85,
-      thickness: 0.01,
       ior: 1.52,
+      transparent: true,
+      opacity: 0.16,
+      depthWrite: false,
       side: THREE.DoubleSide,
+      forceSinglePass: true,
     }),
 
     bunting: (key) => std({
@@ -716,7 +730,8 @@ function buildMaterials(cfg) {
   mats.hullSurface = hullSurfaceMap(Math.min(1024, cfg.textureSize), hullTimber(Math.min(1024, cfg.textureSize),'roughness'), copperTex.image);
 
   mats.hull = std({
-    map: combinePlankAndPaint(hullPlank.image, copperTex.image, mats.hullPaint, hullSize),
+    map: combinePlankAndPaint(hullPlank.image, copperTex.image, mats.hullPaint, hullSize,
+      !!getHullScan() && hullSize >= 1024),
     // The lengthwise wear, which hull.js writes into the vertex colours because the map
     // repeats along her and cannot carry anything that varies from bow to stern.
     vertexColors: true,
@@ -742,7 +757,7 @@ function buildMaterials(cfg) {
               // below the game level the bottom keeps its colour and loses its laps.
               sheathed
                 ? (cfg.copperNails ? copperSheathing({ ...copperArgs, height: true }) : null)
-                : hullTimber(hullSize, 'height'),
+                : hullTimber(hullSize, 'height', false),
               hullSize
             ), Math.min(2048, N)),
             1.8
@@ -756,7 +771,7 @@ function buildMaterials(cfg) {
       : null,
     normalScale: new THREE.Vector2(0.82, 0.82),
   });
-  mats.hull.userData.hullFinish='caulked-timber-v3';
+  mats.hull.userData.hullFinish = getHullScan() && hullSize >= 1024 ? 'scanned-timber-v1' : 'caulked-timber-v3';
 
   return mats;
 }
@@ -805,9 +820,19 @@ function whiteStuff(plankCanvas, size) {
  * exactly the colour the spec says it is while still showing the boards.
  *
  * Below the copper line the shading comes from the sheathing instead, because the
- * underwater body is sheets of copper, not planks.
+ * underwater body is sheets of copper, not planks. On this ship that is white stuff, not
+ * copper (see `whiteStuff`), but it is drawn from the same row.
+ *
+ * `scanned` is the one exception to the paint keeping its colour. A multiply cannot show
+ * a scratch through black paint — near-black times anything is near-black — so where the
+ * photographed boards (src/ship/hull-scan.js) are at their brightest, the worn primer and
+ * timber under the paint is added on top. It is a few per cent of the planking, in scuffs
+ * and scratches, and the drawn planking never reaches the threshold. It stops at the line:
+ * the bottom is not scanned.
  */
-function combinePlankAndPaint(plankCanvas, copperCanvas, paintTex, size) {
+// Weathered primer over grey timber, as it shows through a scratch in the paint.
+const WORN = [62, 55, 45];
+function combinePlankAndPaint(plankCanvas, copperCanvas, paintTex, size, scanned = false) {
   const read = (src) => {
     const c = document.createElement('canvas');
     c.width = c.height = size;
@@ -840,9 +865,10 @@ function combinePlankAndPaint(plankCanvas, copperCanvas, paintTex, size) {
     const depth = underwater ? PAINT.copper_pattern_depth.value : 0.40;
     for (let x = 0; x < size; x++) {
       const i = (y * size + x) * 4;
-      const k = 1 + (lum(src, i) - 0.5) * 2 * depth;
+      const l = lum(src, i), k = 1 + (l - 0.5) * 2 * depth;
+      const worn = scanned && !underwater ? Math.max(0, Math.min(1, (l - 0.70) / 0.25)) : 0;
       for (let c=0;c<3;c++) d[i+c] = Math.min(255, underwater
-        ? copper[i+c] * (0.9 + 0.1*k) : d[i+c] * k);
+        ? copper[i+c] * (0.9 + 0.1*k) : d[i+c] * k + worn * WORN[c]);
       d[i + 3] = 255;
     }
   }

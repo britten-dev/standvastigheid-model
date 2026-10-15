@@ -111,6 +111,7 @@ export const STERN_SPEC = {
   stern_crest_height: m(aft(5, 0), 'RECONSTRUCTED §6 the crest stands well proud of the cap: a tall carved taffrail', { noAudit: true }),
   stern_figure_height: m(aft(4, 6), 'RECONSTRUCTED §6 the carved giant at each corner of the taffrail, a Hercules with his club, 1797 model', { noAudit: true }),
   stern_figure_pedestal: m(aft(1, 6), 'RECONSTRUCTED §6 the carved pedestal under a corner figure', { noAudit: true }),
+  stern_crest_carving_inboard: m(aft(1, 0), 'RECONSTRUCTED §6 the back of the photographed crest stands this far inboard of the stern\'s face at the taffrail, so that its relief stands about flush with it', { noAudit: true }),
   stern_trophy_height: m(aft(3, 0), 'RECONSTRUCTED §6 a trophy of arms: pikes, a cannon, a shield and a drum', { noAudit: true }),
 
   // ---------------------------------------------------------- quarter galleries

@@ -23,6 +23,8 @@ try {
   const by=lod=>rows.find(r=>r.lod===lod);
   assert.ok(by('hero').figures>=18&&by('hero').figures<=26,'a 74\'s watch at hero is 18 to 26 men');
   assert.ok(by('cinematic').figures===by('hero').figures,'cinematic and hero keep the same watch');
+  // Twenty-four photographed figures of about ten thousand triangles each: well worth skipping.
+  assert.ok(by('cinematic').savedTriangles>100000,'the photographed watch is what crew: false saves');
   assert.ok(by('game').figures<by('hero').figures/2+1,'fewer at game');
   assert.ok(by('hero').topmen>=2,'topmen in the main top at hero');
   assert.deepEqual(h.problems.filter(p=>p.startsWith('[pageerror]')),[]);

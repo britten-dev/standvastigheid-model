@@ -15,6 +15,8 @@ const studio = args.includes('--studio');
 const storm = args.includes('--storm');
 // --carry=fore_lower_mast,main_topgallant shoots her with those parts carried away.
 const carryAway = ((args.find((a) => a.startsWith('--carry=')) || '--carry=').split('=')[1] || '').split(',').filter(Boolean);
+// The photographed watch, boats, deck clutter and planking load unless --bare is given.
+const bare = args.includes('--bare');
 const ensign = (args.find((a) => a.startsWith('--ensign=')) || '--ensign=dutch').split('=')[1];
 
 const ALL = ['reference', 'bow', 'beam', 'quarter', 'stern', 'masthead', 'deck', 'chasers'];
@@ -28,6 +30,7 @@ const FURLED_BY_DEFAULT = new Set(['deck', 'waist', 'head', 'channels', 'gallery
 const sailsGiven = args.some((a) => a.startsWith('--sails='));
 
 const h = await openHarness({ page: '/viewer/render.html' });
+if (!bare) await h.page.evaluate(() => window.assets());
 await fs.mkdir(path.join(ROOT, 'renders'), { recursive: true });
 
 // The reference view is shot against the photograph's warm studio backdrop with no

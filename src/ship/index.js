@@ -16,6 +16,7 @@ import { buildChannels } from './channels.js';
 import { buildFurniture } from './furniture.js';
 import { buildGuns } from './guns.js';
 import { buildBoats } from './boats.js';
+import { buildClutter } from './clutter.js';
 import { buildGroundTackle } from './ground-tackle.js';
 import { buildFlags } from './flags.js';
 import { buildRig } from './rig.js';
@@ -119,6 +120,7 @@ export function buildShip({ lod = 'hero', sails = 'full', weather, ports: portSt
   ship.add(buildFurniture(cfg, mats, model, ctx));
   ship.add(buildGuns(cfg, mats, model, ctx));
   ship.add(buildBoats(cfg, mats, model, ctx));
+  ship.add(buildClutter(cfg, mats, model, ctx));
   ship.add(buildGroundTackle(cfg, mats, model, ctx));
   const rig = buildRig(cfg, mats, model, ctx);
   ship.add(rig);

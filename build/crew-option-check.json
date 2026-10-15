@@ -25,21 +25,21 @@
   {
     "lod": "hero",
     "withCrew": {
-      "tris": 1020573,
-      "verts": 1486755,
-      "meshes": 451,
+      "tris": 1348017,
+      "verts": 1915323,
+      "meshes": 360,
       "lines": 2852,
-      "materials": 56
+      "materials": 91
     },
     "withoutCrew": {
-      "tris": 1009945,
-      "verts": 1468325,
-      "meshes": 331,
+      "tris": 1099899,
+      "verts": 1642250,
+      "meshes": 336,
       "lines": 2852,
-      "materials": 55
+      "materials": 67
     },
-    "savedTriangles": 10628,
-    "savedMeshes": 120,
+    "savedTriangles": 248118,
+    "savedMeshes": 24,
     "figures": 24,
     "helmsmen": 4,
     "topmen": 3,
@@ -48,21 +48,21 @@
   {
     "lod": "cinematic",
     "withCrew": {
-      "tris": 1796141,
-      "verts": 2048976,
-      "meshes": 518,
+      "tris": 2032605,
+      "verts": 2316901,
+      "meshes": 427,
       "lines": 2852,
-      "materials": 57
+      "materials": 92
     },
     "withoutCrew": {
-      "tris": 1723033,
-      "verts": 1887122,
-      "meshes": 398,
+      "tris": 1784487,
+      "verts": 2043828,
+      "meshes": 403,
       "lines": 2852,
-      "materials": 56
+      "materials": 68
     },
-    "savedTriangles": 73108,
-    "savedMeshes": 120,
+    "savedTriangles": 248118,
+    "savedMeshes": 24,
     "figures": 24,
     "helmsmen": 4,
     "topmen": 3,

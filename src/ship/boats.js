@@ -23,6 +23,7 @@ import { sweep, spar, ropeCurve, ropeTube } from '../util/solids.js';
 import { clamp, lerp } from '../util/math.js';
 import { audit } from '../audit/measure.js';
 import { skidBeamZ, skidTopAt } from './furniture.js';
+import { propModel } from './prop-assets.js';
 
 const S = (key) => SPEC[key].value;
 const clamp01 = (v) => clamp(v, 0, 1);
@@ -345,7 +346,36 @@ function makeBoat(P, cfg, mats) {
   add(timber, mats.timber, 'inboard');
   add(gear, mats.white, 'rudder');
   add(cloth, mats.sail, 'furled_sail');
-  return { group, shell, lines };
+  return { group, shell: photographed(P, cfg, group, shell) ?? shell, lines };
+}
+
+/**
+ * The photographed boat (src/ship/prop-assets.js) in place of the built one, when it has
+ * been loaded and the level of detail wants it: hero and cinematic.
+ *
+ * She is fitted to the box of the built shell, keel to gunwale and stem to transom, so
+ * she sits in the same chocks, takes the same gripes over her, hangs from the same falls
+ * and passes the same audits as the boat she replaces. The built planking, inboard works
+ * and gear go; she has her own. A rudder, where there is one, stays.
+ */
+function photographed(P, cfg, group, shell) {
+  if (cfg.boats === 'block') return null;
+  const mesh = propModel(P.model ?? P.name, cfg);
+  if (!mesh) return null;
+  shell.geometry.computeBoundingBox();
+  const want = shell.geometry.boundingBox, have = mesh.geometry.boundingBox;
+  const ws = want.getSize(new THREE.Vector3()), hs = have.getSize(new THREE.Vector3());
+  mesh.scale.set(ws.x / hs.x, ws.y / hs.y, ws.z / hs.z);
+  const wc = want.getCenter(new THREE.Vector3()), hc = have.getCenter(new THREE.Vector3());
+  mesh.position.copy(wc).sub(hc.multiply(mesh.scale));
+  mesh.name = `${P.name}_shell`;
+  for (const part of [...group.children]) {
+    if (/_rudder$/.test(part.name)) continue;
+    group.remove(part);
+    part.geometry.dispose();
+  }
+  group.add(mesh);
+  return mesh;
 }
 
 /**
@@ -466,7 +496,8 @@ export function buildBoats(cfg, mats, model, ctx) {
   const cutter = makeBoat({
     name: 'cutter',
     length: S('cutter_length'), beam: S('cutter_beam'), depth: S('cutter_depth'),
-    fullness: fullPull, gear: false, rudder: false,
+    // There is no photograph of a cutter; the launch's, fitted to her lines, does.
+    fullness: fullPull, gear: false, rudder: false, model: 'launch',
   }, cfg, mats);
   cutter.group.position.set(launchX, stowY + S('cutter_nest_rise'), zStow + S('cutter_nest_shift'));
   group.add(cutter.group);
@@ -509,6 +540,8 @@ export function buildBoats(cfg, mats, model, ctx) {
       name,
       length, beam: S(beamKey), depth: S(depthKey),
       fullness: fullPull, gear: false, rudder: true,
+      // The second cutter has no photograph either. The jolly boat has her own.
+      model: name === 'quarter_cutter' ? 'launch' : name,
     }, cfg, mats);
     const mid = new THREE.Vector3().addVectors(heads[0], heads[1]).multiplyScalar(0.5);
     boat.group.position.set(mid.x, mid.y - S('boat_hang_below_davit') - S(depthKey), mid.z);

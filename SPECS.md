@@ -415,6 +415,7 @@ chasers, the topgallants); period rules fill the rest, and every row says which 
 | `stern_crest_height` | 1.4157 | 4 ft 7.7 in | RECONSTRUCTED | §6 the crest stands well proud of the cap: a tall carved taffrail |
 | `stern_figure_height` | 1.287 | 4 ft 2.7 in | RECONSTRUCTED | §6 the carved giant at each corner of the taffrail, a Hercules with his club, 1797 model |
 | `stern_figure_pedestal` | 0.4376 | — | RECONSTRUCTED | §6 the carved pedestal under a corner figure |
+| `stern_crest_carving_inboard` | 0.2831 | — | RECONSTRUCTED | §6 the back of the photographed crest stands this far inboard of the stern's face at the taffrail, so that its relief stands about flush with it |
 | `stern_trophy_height` | 0.8494 | 2 ft 9.4 in | RECONSTRUCTED | §6 a trophy of arms: pikes, a cannon, a shield and a drum |
 | `quarter_gallery_length` | 2.8313 | 9 ft 3.5 in | RECONSTRUCTED | §2 length of the lower rim of the quarter gallery, the 1797 model and the stern elevation |
 | `quarter_gallery_projection` | 0.7207 | — | RECONSTRUCTED | §2 how far a gallery stands off the quarter at its after end |
@@ -596,6 +597,8 @@ chasers, the topgallants); period rules fill the rest, and every row says which 
 | `figurehead_crown_radius` | 0.254 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
 | `figurehead_crown_points` | 5 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive |
 | `figurehead_crown_sits_in_head` | 0.8 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive; the crown's band sits this fraction of the head's radius above its centre |
+| `figurehead_carving_height` | 2.8956 | 9 ft 6 in | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive; the photographed carving, hind paws to the top of the crown as carved |
+| `figurehead_carving_pitch_deg` | 4 | — | RECONSTRUCTED | §6 the crowned Dutch lion of the Vrijheid (NG-MC-500), sized to a 74's head; no dimensions survive; the photographed lion is raised this far on its hind paws, so that it rises off the knee of the head |
 | `bow_chaser_count` | 2 | — | FICTIONAL | §1 the book: chasers "trained sharp forward from the bridle-ports in her bluff bows", one a side (ch. 7) |
 | `bow_chaser_pounds` | 32 | — | FICTIONAL | §1 the bridle ports are on the lower deck, so the chasers are the lower tier's own 32-pounders |
 | `bow_chaser_train_deg` | 8 | — | FICTIONAL | §1 the book: "trained sharp forward"; limited by the after cheek of the bridle port in a side that is 50 degrees off the keel line there. Van Zwijndregt's 1784 bow port would have been dead ahead |
@@ -881,6 +884,50 @@ chasers, the topgallants); period rules fill the rest, and every row says which 
 | `boat_furled_sail_diameter` | 0.254 | 0 ft 10 in | RECONSTRUCTED | §8.3 the boat's lug sail furled round its own yard |
 | `boat_furled_sail_length` | 2.7432 | 9 ft 0 in | RECONSTRUCTED | §8.3 the furl runs over the middle of the mast |
 
+### Deck clutter
+
+| key | metric | period figure | grade | source |
+|---|---|---|---|---|
+| `clutter_scuttlebutt_height` | 1.016 | 3 ft 4 in | RECONSTRUCTED | §6 research 06 deck stores: a scuttlebutt was a cask on a low stand, with its bung about waist height |
+| `clutter_lashed_casks_length` | 1.2446 | 4 ft 1 in | RECONSTRUCTED | §6 research 06 deck stores: two water or beer casks lashed side by side along a chock |
+| `clutter_hen_coop_length` | 1.4986 | 4 ft 11 in | RECONSTRUCTED | §6 research 06 deck stores: a long low crate with a sloping roof, three or four hens |
+| `clutter_fire_buckets_length` | 0.9525 | 3 ft 1.5 in | RECONSTRUCTED | §6 research 06 deck stores: three leather fire buckets side by side in their rack |
+| `clutter_shot_garland_length` | 1.6002 | 5 ft 3 in | RECONSTRUCTED | §6 research 06 deck stores: a plank rack of round shot, a garland, along a hatchway coaming |
+| `clutter_rope_coil_diameter` | 0.6985 | 2 ft 3.5 in | RECONSTRUCTED | §6 research 06 deck stores: the fall of a brace or a sheet, flemished down on deck |
+| `clutter_scuttlebutt_starboard_abaft_forecastle_break` | 0.762 | 2 ft 6 in | RECONSTRUCTED | §6 research 06 deck stores: forward of the foremost skid beam, clear of the fore hatch's coaming |
+| `clutter_scuttlebutt_starboard_off_centre` | 2.4384 | 8 ft 0 in | RECONSTRUCTED | §6 research 06 deck stores: outboard of the fore hatch and inboard of the ladder at the break |
+| `clutter_scuttlebutt_starboard_yaw_deg` | 0 | — | RECONSTRUCTED | §6 research 06 deck stores |
+| `clutter_lashed_casks_port_abaft_forecastle_break` | 0.762 | 2 ft 6 in | RECONSTRUCTED | §6 research 06 deck stores: forward of the foremost skid beam, clear of the housed guns' carriages |
+| `clutter_lashed_casks_port_off_centre` | 2.286 | 7 ft 6 in | RECONSTRUCTED | §6 research 06 deck stores: outboard of the fore hatch and inboard of the ladder at the break |
+| `clutter_lashed_casks_port_yaw_deg` | 0 | — | RECONSTRUCTED | §6 research 06 deck stores: along the deck's width, lashed to a chock |
+| `clutter_shot_garland_starboard_between_upper_ports` | 4 | — | RECONSTRUCTED | §6 research 06 deck stores: between the fifth and sixth ports of the upper battery from forward, in the waist |
+| `clutter_shot_garland_starboard_off_centre` | 3.556 | 11 ft 8 in | RECONSTRUCTED | §6 research 06 deck stores: between the boats' side and the guns' carriages |
+| `clutter_shot_garland_starboard_yaw_deg` | 90 | — | RECONSTRUCTED | §6 research 06 deck stores: along the ship |
+| `clutter_shot_garland_port_between_upper_ports` | 5 | — | RECONSTRUCTED | §6 research 06 deck stores: between the sixth and seventh ports, so the two are not a matched pair |
+| `clutter_shot_garland_port_off_centre` | 3.556 | 11 ft 8 in | RECONSTRUCTED | §6 research 06 deck stores: between the boats' side and the guns' carriages |
+| `clutter_shot_garland_port_yaw_deg` | 90 | — | RECONSTRUCTED | §6 research 06 deck stores: along the ship |
+| `clutter_fire_buckets_port_abaft_quarterdeck_break` | 0.4572 | 1 ft 6 in | RECONSTRUCTED | §6 research 06 deck stores: at the break of the quarterdeck |
+| `clutter_fire_buckets_port_off_centre` | 1.524 | 5 ft 0 in | RECONSTRUCTED | §6 research 06 deck stores: clear of the mainmast's bitts and of the ladder |
+| `clutter_fire_buckets_port_yaw_deg` | 0 | — | RECONSTRUCTED | §6 research 06 deck stores: facing aft |
+| `clutter_rope_coil_main_starboard_abaft_mainmast` | 2.4384 | 8 ft 0 in | RECONSTRUCTED | §6 research 06 deck stores: the main tack and sheet, abaft the mast's bitts |
+| `clutter_rope_coil_main_starboard_off_centre` | 0.9144 | 3 ft 0 in | RECONSTRUCTED | §6 research 06 deck stores |
+| `clutter_rope_coil_main_starboard_yaw_deg` | 17 | — | RECONSTRUCTED | §6 research 06 deck stores: a coil has no front |
+| `clutter_rope_coil_brace_starboard_abaft_mainmast` | 6.096 | 20 ft 0 in | RECONSTRUCTED | §6 research 06 deck stores: the main braces' falls, between the mainmast and the wheel |
+| `clutter_rope_coil_brace_starboard_off_centre` | 2.286 | 7 ft 6 in | RECONSTRUCTED | §6 research 06 deck stores: inboard of the carriages |
+| `clutter_rope_coil_brace_starboard_yaw_deg` | 150 | — | RECONSTRUCTED | §6 research 06 deck stores: a coil has no front |
+| `clutter_rope_coil_mizzen_port_abaft_mizzenmast` | 0.762 | 2 ft 6 in | RECONSTRUCTED | §6 research 06 deck stores: the mizzen's falls, by its bitts |
+| `clutter_rope_coil_mizzen_port_off_centre` | 1.8288 | 6 ft 0 in | RECONSTRUCTED | §6 research 06 deck stores: clear of the skylight and of the carriages |
+| `clutter_rope_coil_mizzen_port_yaw_deg` | 40 | — | RECONSTRUCTED | §6 research 06 deck stores: a coil has no front |
+| `clutter_hen_coop_starboard_forward_of_forecastle_break` | 0.762 | 2 ft 6 in | RECONSTRUCTED | §6 research 06 deck stores: against the after edge of the forecastle |
+| `clutter_hen_coop_starboard_off_centre` | 2.1336 | 6 ft 12 in | RECONSTRUCTED | §6 research 06 deck stores: clear of the forecastle guns' carriages |
+| `clutter_hen_coop_starboard_yaw_deg` | 0 | — | RECONSTRUCTED | §6 research 06 deck stores: slats facing aft |
+| `clutter_hen_coop_port_forward_of_forecastle_break` | 0.762 | 2 ft 6 in | RECONSTRUCTED | §6 research 06 deck stores: against the after edge of the forecastle |
+| `clutter_hen_coop_port_off_centre` | 2.1336 | 6 ft 12 in | RECONSTRUCTED | §6 research 06 deck stores: clear of the forecastle guns' carriages |
+| `clutter_hen_coop_port_yaw_deg` | 0 | — | RECONSTRUCTED | §6 research 06 deck stores: slats facing aft |
+| `clutter_rope_coil_fore_starboard_forward_of_forecastle_break` | 2.4384 | 8 ft 0 in | RECONSTRUCTED | §6 research 06 deck stores: the fore tack, abaft the galley chimney |
+| `clutter_rope_coil_fore_starboard_off_centre` | 0.9144 | 3 ft 0 in | RECONSTRUCTED | §6 research 06 deck stores |
+| `clutter_rope_coil_fore_starboard_yaw_deg` | 115 | — | RECONSTRUCTED | §6 research 06 deck stores: a coil has no front |
+
 ### Ground tackle
 
 | key | metric | period figure | grade | source |
@@ -1010,6 +1057,8 @@ chasers, the topgallants); period rules fill the rest, and every row says which 
 | `crew_leg_thickness` | 0.1397 | 0 ft 5.5 in | RECONSTRUCTED | §9 through a trouser leg |
 | `crew_stance` | 0.3556 | — | RECONSTRUCTED | §9 how wide a man stands with the deck moving under him. It is wider than a man stands ashore, and it is one of the few things about a figure that reads at any distance |
 | `crew_helm_abaft_wheel` | 0.4064 | — | RECONSTRUCTED | §9 a helmsman stands close abaft his wheel with the spokes at arm's length; the double wheel has two men to each |
+| `crew_helm_photographed_closer_abaft` | 0.1397 | — | RECONSTRUCTED | §9 the photographed helmsmen have a real arm's length, shorter than the built figures' reach, so they stand this much nearer the wheel |
+| `crew_helm_photographed_closer_across` | 0.0762 | — | RECONSTRUCTED | §9 and this much nearer the hub, across |
 | `crew_helm_off_centre` | 0.7112 | — | RECONSTRUCTED | §9 each helmsman stands beside the rim of the wheel, a little inside its edge |
 | `crew_con_abaft_binnacle` | 0.762 | — | RECONSTRUCTED | §9 the officer of the watch cons her from beside the binnacles, where he can see the compass and the weather leech together |
 | `crew_con_off_centre` | 1.8288 | — | RECONSTRUCTED | §9 the officer of the watch stands to larboard of the binnacles |

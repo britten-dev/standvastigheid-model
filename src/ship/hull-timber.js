@@ -2,12 +2,18 @@
 // Dimensions are a restrained reconstruction, not measured Surprise scantlings.
 import {FEATURES,hullModel} from './hull.js';
 import {PAINT} from '../spec/spec.js';
+import {getHullScan} from './hull-scan.js';
 const cache=new Map();
 const hash=n=>{const x=Math.sin(n*127.13+31.71)*43758.5453;return x-Math.floor(x);};
 const grey=v=>`rgb(${v},${v},${v})`;
 
-export function hullTimber(size,kind='colour'){
- const key=`${size}:${kind}`;if(cache.has(key))return cache.get(key);
+export function hullTimber(size,kind='colour',scanned=true){
+ // The photographed boards (src/ship/hull-scan.js) replace the drawn grain wherever a
+ // plank is big enough to show it; below 1024 a board is a few pixels deep and the
+ // drawing is the cheaper way to the same blur. `scanned` false asks for the drawing
+ // regardless: her white-stuff bottom is made from it and is not to change.
+ const scan=scanned&&size>=1024?getHullScan():null;
+ const key=`${size}:${kind}:${scan?'scan':'drawn'}`;if(cache.has(key))return cache.get(key);
  const canvas=document.createElement('canvas');canvas.width=canvas.height=size;
  const g=canvas.getContext('2d'),features=hullModel().featureYAt(0);
  const stops=FEATURES.map(([name,v])=>[features[name],v]);
@@ -33,9 +39,25 @@ export function hullTimber(size,kind='colour'){
     cup.addColorStop(.7,'rgba(145,145,145,.12)');cup.addColorStop(1,'rgba(80,80,80,.16)');
     g.fillStyle=cup;g.fillRect(x,y0,w,h);}
    g.save();g.beginPath();g.rect(x,y0,w,h);g.clip();
+   if(scan){
+    // One board of the scan the length of the plank, every other tile mirrored so the
+    // grain runs on through the joins, and overlaid so the plank keeps its own tone.
+    // Roughness reads the colour: worn paint is the rough paint. Board and offset key on
+    // the segment's parity, as the tone does, so the map still wraps every 12.192 m.
+    const parity=((segment%2+2)%2),board=Math.floor(hash(row*7+parity*3+11)*scan.boards);
+    const tile=scan.tileMetres*metre,start=x-hash(row*13+parity*5)*tile;
+    g.globalCompositeOperation='overlay';g.globalAlpha=height?.9:rough?.55:1;
+    g.imageSmoothingQuality='high';
+    for(let t=0,xx=start;xx<x+w;t++,xx+=tile){
+     g.save();g.translate(t%2?xx+tile:xx,y0);g.scale(t%2?-1:1,1);
+     g.drawImage(height?scan.height:scan.colour,0,board*scan.strip,scan.length,scan.strip,0,0,tile,h);
+     g.restore();
+    }
+    g.globalCompositeOperation='source-over';g.globalAlpha=1;
+   }
    // Fine grain follows the timber, underneath intact paint. Sparse irregular
    // streaks are colour/finish variation; they cannot become pits in the normal.
-   for(let k=0;k<(height?12:42);k++){
+   if(!scan)for(let k=0;k<(height?12:42);k++){
     const seed=row*137+k*7+((segment%2+2)%2)*101,t=hash(seed),yy=y0+(k+.5)/(height?12:42)*h;
     g.strokeStyle=height?`rgba(95,95,95,${.025+t*.055})`:rough?'rgba(165,165,165,.15)':`rgba(${t>.5?'71,71,71':'185,185,185'},${.06+t*.12})`;
     g.lineWidth=Math.max(.4,metre*(height?.002:.003));g.beginPath();
@@ -45,7 +67,7 @@ export function hullTimber(size,kind='colour'){
    // Subtle growth-ring deviations and old brush laps interrupt the uniform
    // straight grain. Paint remains intact: these are low-relief fibres, not
    // exposed rotten wood or colour stains converted to bumps.
-   for(let knot=0;knot<2;knot++) {
+   if(!scan)for(let knot=0;knot<2;knot++) {
     const cx=x+w*(.2+hash(row*61+knot*23)*.6),cy=y0+h*(.24+hash(row*83+knot)*.50);
     const rx=metre*(.075+hash(row+knot*17)*.09),ry=h*.09;
     for(let ring=1;ring<=5;ring++) {
@@ -56,7 +78,7 @@ export function hullTimber(size,kind='colour'){
    }
    // A restrained worn edge catches a raking light without a bright uniform
    // outline round every plank. Short exposed flecks occur only at some butts.
-   if(!height&&!rough && hash(row*31+segment)>.62) {
+   if(!scan&&!height&&!rough && hash(row*31+segment)>.62) {
     g.fillStyle='rgba(179,166,134,.19)';
     for(let nick=0;nick<7;nick++) {
      const yy=y0+h*hash(row*19+nick*11);
@@ -91,7 +113,7 @@ export function hullTimber(size,kind='colour'){
    // field; the colour seam is thinner and remains subdued under paint.
    g.fillStyle=grey(height?66:rough?185:85);
    g.fillRect(x,y0,Math.max(.65,metre*.006),h);
-   if(!height&&!rough){
+   if(!scan&&!height&&!rough){
     // Occasional paint abrasion beside a butt, never regularly spaced dots.
     for(let k=0;k<5;k++){const yy=y0+hash(row*29+k)*h;
      g.fillStyle='rgba(177,164,136,.12)';g.fillRect(x+metre*.01,yy,metre*(.012+hash(k+row)*.055),Math.max(.5,metre*.002));}

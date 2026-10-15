@@ -28,6 +28,7 @@ import { sweep, block } from '../util/solids.js';
 import { monotoneCubic } from '../util/interp.js';
 import { lerp, clamp, deg } from '../util/math.js';
 import { audit } from '../audit/measure.js';
+import { carvingModel } from './carving-assets.js';
 
 /** Shorthand for a spec value. Every number in this file comes through here. */
 const S = (key) => SPEC[key].value;
@@ -556,6 +557,22 @@ function lion(cfg, mats) {
 }
 
 
+/**
+ * The photographed lion, when it has loaded and the level carves its figurehead: in the
+ * same `figurehead` group as the built one, so it stands on the same plinth and the caller
+ * leans it the same way. It is carved leaping, near level, so it is turned back up through
+ * the lean and raised on its hind paws by figurehead_carving_pitch_deg.
+ */
+function carvedLion(cfg, L) {
+  const mesh = carvingModel('figurehead_lion', cfg.figurehead === 'carved', S('figurehead_carving_height') / L.lionScale);
+  if (!mesh) return null;
+  const group = new THREE.Group();
+  group.name = 'figurehead';
+  mesh.rotation.x = L.lean + deg(S('figurehead_carving_pitch_deg'));
+  group.add(mesh);
+  return group;
+}
+
 /** The lion at the distance of a silhouette: body, head and crown, a few dozen triangles. */
 function lionSilhouette(cfg, mats) {
   const group = new THREE.Group();
@@ -1012,7 +1029,7 @@ export function buildHead(cfg, mats, model, ctx) {
 
   // ---------------------------------------------------------------- the figurehead
   if (cfg.figurehead && cfg.figurehead !== 'none') {
-    const fig = cfg.figurehead === 'silhouette' ? lionSilhouette(cfg, mats) : lion(cfg, mats);
+    const fig = carvedLion(cfg, L) ?? (cfg.figurehead === 'silhouette' ? lionSilhouette(cfg, mats) : lion(cfg, mats));
     fig.position.copy(L.lionPoint(0, 0, 0));
     // Leaning forward over the water, as a rampant lion on a head does.
     fig.rotation.x = -L.lean;

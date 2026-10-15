@@ -57,3 +57,98 @@ position against the original. Base-colour maps use JPEG quality 94 with 4:4:4
 chroma; normal and roughness data remain PNG. The uncompressed source is kept
 in `build/quarterdeck-detail-uncompressed.glb`, and the editable Blender file
 retains its original packed image maps.
+
+# The watch
+
+`crew/captain.glb`, `crew/officer.glb`, `crew/cadet.glb`, `crew/sailor.glb` and
+`crew/foulweather.glb` were generated with Meshy (meshy.ai) on 15 October 2026 on Meshy
+Pro with the Private licence, and belong to this project. Each is: a reference picture
+from Meshy's image tool (Nano Banana Pro, A-pose, 3:4, one image), image to 3D (Meshy 7.1,
+textured, Ultra 2K), Meshy's remesh to about 10,000 triangles, and Meshy's automatic
+humanoid rig on its Mixamo skeleton template. They are fictional people; no named person's
+likeness is represented. `tools/compress-crew.mjs` turns the downloads into these files
+(stock clips removed, four bone weights per vertex, JPEG maps).
+
+Each picture took as its style reference the seaman's reference picture made for
+`surprise-model` (a ChatGPT image, not shipped here), so the two ships' crews are of a
+piece. The prompts:
+
+> Full-body front view photo of a Dutch naval captain, about 1810, a stout man of about 50, standing in a relaxed A-pose, arms slightly away from the body, feet slightly apart, whole body from hat to shoes in frame. Plain light grey studio background, soft even light, same photographic style as the reference image. Light-blue wool tailcoat with stand-up collar and two rows of brass buttons; buff waistcoat; buff breeches; white stockings; black buckled shoes; black bicorne hat worn side to side. A short white clay pipe in the corner of his mouth. Weathered ruddy face, clean-shaven, grey hair tied back. Clothes worn and salt-stained. No sword, no epaulettes, no props.
+
+> Full-body front view photo of a Dutch naval lieutenant, about 1810, standing in a relaxed A-pose, arms slightly away from the body, feet slightly apart, whole body from hat to shoes in frame. Plain light grey studio background, soft even light, same photographic style as the reference image. Dark navy blue wool tailcoat with light-blue lapels, collar and cuffs and gilt buttons; white waistcoat; white breeches; white stockings; black buckled shoes; black bicorne hat worn side to side. Weathered clean-shaven man of about 35, fair hair tied back. Clothes worn and a little salt-stained. No sword, no epaulettes, no props.
+
+> Full-body front view photo of a Dutch naval cadet, about 1810, a slim boy of about 15, standing in a relaxed A-pose, arms slightly away from the body, feet slightly apart, whole body from hat to shoes in frame. Plain light grey studio background, soft even light, same photographic style as the reference image. Short dark navy blue jacket with a light-blue collar and small gilt buttons; white waistcoat; white trousers to the ankle; plain black shoes; black round hat with a narrow brim. Fair hair, freckles, wind-reddened cheeks. Clothes worn and slightly dirty. No sword, no dirk, no props.
+
+> Full-body front view photo of an ordinary Dutch sailor, about 1810, standing in a relaxed A-pose, arms slightly away from the body, legs slightly apart, feet flat, whole body from cap to shoes in frame. Plain light grey studio background, soft even light, same photographic style as the reference image. Short brown wool jacket, open, with plain horn buttons; blue-and-white striped linen shirt; red neckerchief tied loosely; wide baggy grey canvas trousers to the ankle, worn and a little dirty; plain black shoes; a red knitted wool cap. Weathered, tanned fair-haired man of about 25, stubble. Photographic and realistic, natural creases in the cloth. Not a pirate: no sword, no pistols, no props.
+
+> Full-body front view photo of a Dutch sailor in foul-weather gear, about 1810, standing in a relaxed A-pose, arms slightly away from the body, feet slightly apart, whole body from hat to boots in frame. Plain light grey studio background, soft even light, same photographic style as the reference image. Long tarred canvas coat to mid-thigh, stiff, dark brown-black with a wet sheen, buttoned to the neck; grey knitted wool scarf; wide canvas trousers soaked dark grey; heavy black leather sea boots to the knee; low black tarred round hat with a brim, tied under the chin. Weathered man of about 40 with a short grey-brown beard, rain-soaked face. No props, no weapons.
+
+# The figurehead and the stern's carvings
+
+`carvings/figurehead_lion.glb`, `carvings/taffrail_crest.glb` and
+`carvings/corner_figure.glb` were generated with Meshy (meshy.ai) on 15 October 2026 on
+Meshy Pro with the Private licence, and belong to this project: a reference picture from
+Meshy's image tool (Nano Banana Pro, one image, no style reference), image to 3D (Meshy
+7.1, textured, Ultra 2K), and Meshy's remesh to about 10,000 triangles. They are artistic
+reconstructions in the manner of the carving on the Vrijheid (Rijksmuseum NG-MC-500) and
+the Washington (RMG SLR0591), not copies of either. `tools/compress-carvings.mjs` turns the
+downloads into these files: each one unit high in a frame the ship places, JPEG maps,
+meshopt. The corner figure came back dark bronze; that tool grades its colour map toward
+the ochre and gilt of the rest of the stern.
+
+> Photorealistic product photo of a carved wooden ship's figurehead from a Dutch 74-gun warship, about 1800: a crowned rampant lion, body leaning forward and upward as if leaping, forepaws raised before its chest, thick mane in deep carved curls, mouth open, tail curled up its back, a closed royal crown on its head. Carved oak, painted yellow ochre with gilt highlights, the paint and gilt worn and weathered by salt. Side view from the left, slightly from the front, the whole carving in frame. Plain light grey studio background, soft even light, no shadows. Only the carving: no ship, no stand, no text.
+
+(4:3.)
+
+> Photorealistic product photo of the carved wooden taffrail centrepiece from the stern of a Dutch 74-gun warship, about 1800: a wide arched carved panel in high relief, with a seated classical female figure in a plumed helmet holding a spear and a shield in the middle, a crowned lion lying beside her, and flags, trophies of arms, a cannon and laurel garlands spreading out to either side. Carved oak, painted yellow ochre with gilt highlights, worn and weathered by salt. Straight front view, the whole panel in frame. Plain light grey studio background, soft even light, no shadows. Only the carving: no ship, no text.
+
+(16:9.)
+
+> Photorealistic product photo of a carved wooden corner figure from the stern of a Dutch 74-gun warship, about 1800: a standing Hercules, a bearded muscular man with a lion skin over his head and shoulders, one hand resting on a knotted club, the other on his hip, standing on a small scrolled bracket. Carved oak, painted yellow ochre with gilt highlights, the paint and gilt worn and weathered by salt. Three-quarter front view, the whole figure from head to bracket in frame. Plain light grey studio background, soft even light, no shadows. Only the carving: no ship, no text.
+
+(3:4.)
+
+# Deck clutter and the ship's boats
+
+`props/launch.glb`, `pinnace.glb`, `jolly_boat.glb`, `scuttlebutt.glb`,
+`lashed_casks.glb`, `hen_coop.glb`, `fire_buckets.glb`, `shot_garland.glb` and
+`rope_coil.glb` were generated with Meshy (meshy.ai) on 15 October 2026 on Meshy
+Pro with the Private licence: a reference picture from Meshy's image tool (Nano
+Banana Pro), image to 3D (Meshy 7.1, textured), then Meshy's remesh to about
+3,000 triangles (props) or 10,000 (boats). They are artistic reconstructions,
+not copies of surviving objects. `tools/compress-props.mjs` turns the downloads
+into these files: real size and orientation, JPEG maps, meshopt. The sizes it uses
+are the spec's (`src/spec/parts/boats.js` and `clutter.js`). The launch stands in
+for her two cutters as well; there is no picture of a cutter.
+
+The files were first made for another ship, so the boats are at that ship's sizes
+(a 24 ft launch and pinnace, a 16 ft jolly boat). `src/ship/boats.js` fits each to the
+box of the boat it replaces, so they take her sizes (32 ft, 28 ft and 18 ft) when the
+ship is built; rerunning `tools/compress-props.mjs` on the downloads writes them at her
+sizes to begin with.
+
+Each picture was asked for as a photorealistic product photo, three-quarter view
+from slightly above, on a plain light grey studio background with soft even
+light, of: a coil of tarred hemp rope flemished down on deck; a scuttlebutt (oak
+water cask with iron hoops on a low stand, square hole with hinged lid, tin
+dipper); a hen coop (long low crate, sloping plank roof, slatted front, three
+hens); a shot garland (plank rack of cast-iron round shot); three leather fire
+buckets with a painted crown in a wooden rack; two oak casks lashed to a chock;
+and a 24 ft launch, a 24 ft pinnace and a 16 ft jolly boat, white-painted but
+weathered, chipped and salt-stained, bare oiled wood inside, oars lashed along
+the thwarts.
+
+# Photographed hull planking
+
+`hull/planks-colour.jpg` and `hull/planks-height.jpg` are cut from "Black Painted
+Planks" by Dimitrios Savva, Poly Haven (polyhaven.com/a/black_painted_planks), CC0.
+It needs no credit; it is named here so the source is on record.
+
+`tools/import-scans.mjs` fetches the 2K maps and makes these files: one strip per
+board of the plank scan, each board centred on mid-grey, the height inverted and
+softened from the colour (the scan's own displacement and roughness maps were flat
+or a copy of the colour). The ship's paint colours still come from the spec: the scan
+only brings light and shade. They are loaded with the rest of the detail by
+`preloadSurfaceAssets()` and used on her black topsides at hero and cinematic. She has
+no copper, so there is no sheathing scan; her white-stuff bottom, and the game level
+that phones build, keep their drawn planks.

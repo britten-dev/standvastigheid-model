@@ -12,6 +12,7 @@ import { CHANNELS_SPEC } from './channels.js';
 import { FURNITURE_SPEC } from './furniture.js';
 import { GUNS_SPEC } from './guns.js';
 import { BOATS_SPEC } from './boats.js';
+import { CLUTTER_SPEC } from './clutter.js';
 import { GROUND_TACKLE_SPEC } from './ground-tackle.js';
 import { FLAGS_SPEC } from './flags.js';
 import { RIG_SPEC } from './rig.js';
@@ -26,6 +27,7 @@ const FRAGMENTS = {
   furniture: FURNITURE_SPEC,
   guns: GUNS_SPEC,
   boats: BOATS_SPEC,
+  clutter: CLUTTER_SPEC,
   groundTackle: GROUND_TACKLE_SPEC,
   flags: FLAGS_SPEC,
   rig: RIG_SPEC,

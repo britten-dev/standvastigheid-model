@@ -105,16 +105,32 @@ ship.userData.carriedAway;         // names carried away, in order
 
 `carryAway(ship, 'fore_lower_mast')` brings down her foremast and everything it carries.
 
+## Photographed assets
+
+`await preloadSurfaceAssets()` before `buildShip` loads the Meshy figures for the watch, the
+five boats, the deck clutter, the crowned lion figurehead, the taffrail crest and its two
+corner figures, and the hull planking. They are used at **hero and cinematic
+only**. If it was not awaited, or a file fails to load, she is built with her own figures,
+boats and drawn planking, and nothing throws. At **game and distant** she always has the
+built boats, no clutter and the built figures: five photographed boats alone would add about
+49 k triangles to a level with 1 k to spare. Her white-stuff bottom keeps its drawn planking
+at every level.
+
 ## Cost
 
-Measured with `node tools/check-cost.mjs` (no people, full sail), October 2026:
+Measured with `node tools/check-cost.mjs` (no people, full sail, photographed assets loaded), October 2026:
 
 | Level | Triangles | Draw calls | Use |
 | --- | --- | --- | --- |
-| `cinematic` | 1.72 M | 404 | A camera flying close round her |
-| `hero` | 1.01 M | 337 | Close inspection |
+| `cinematic` | 1.78 M | 409 | A camera flying close round her |
+| `hero` | 1.10 M | 342 | Close inspection |
 | `game` | 95 k | 150 | The chaser at gameplay range |
 | `distant` | 7.8 k | 88 | On the horizon |
+
+Those are with `preloadSurfaceAssets()` finished, which is what hero and cinematic are for:
+the photographed boats, deck clutter and carved figures are in them. With the watch on, add
+about 248 k triangles at hero and cinematic (24 photographed figures); game adds about 4 k
+for its nine built ones.
 
 Building her from source takes a few hundred milliseconds at `game` and a few seconds at
 `cinematic`; do it at a loading screen.
@@ -125,7 +141,7 @@ Two of the plan's targets are missed, on purpose:
   material at these levels (`src/ship/batch.js`), which took `game` from 250 calls to 150.
   What is left is mostly the rig, 84 calls at `game`: every mast, yard and sail is its own
   mesh with its own ropes so that it can be shot away. That is the price of the feature.
-* **Triangles at `cinematic`** (1.6 M planned, 1.72 M built): two decks of guns and their
+* **Triangles at `cinematic`** (1.6 M planned, 1.78 M built): two decks of guns and their
   ports cost more than a frigate's one, and the close detail is what a flyby needs.
   `createDetailLOD()` drops the fine fittings the camera cannot resolve.
 

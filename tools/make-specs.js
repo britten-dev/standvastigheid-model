@@ -48,6 +48,7 @@ const GROUPS = [
   ['Deck furniture', /^(wheel_|binnacle_|capstan_|main_hatch|fore_hatch|after_hatch|ladderway|coaming_|grating_|riding_bitt|jeer_bitt|main_jeer_bitt|main_topsail_sheet_bitt|fore_topsail_sheet_bitt|chain_pump|pump_|elm_pump|belfry_|bell_|galley_|steam_grating|skylight_|companion_|skid_|hammock_|belaying_|fife_|ladder_|furniture_)/],
   ['Armament', /^(gun_|carronade_)/],
   ['Boats', /^(boat_|launch_|pinnace_|cutter_|jolly_|davit_)/],
+  ['Deck clutter', /^clutter_/],
   ['Ground tackle', /^(anchor|cable_|hawse|cat_block|fish_|sheet_anchor|kedge_anchor|stowed_anchor|stowed_stock|shank_painter)/],
   ['Colours', /^(ensign_|pennant_|jack_|union_|flag_|canton_)/],
   ['The watch on deck', /^crew_/],
@@ -71,7 +72,7 @@ const table = (rows) => {
   for (const [key, row] of rows) {
     const v = row.value;
     // Counts and angles are not lengths and must not be shown as feet and inches.
-    const isLength = /_(length|breadth|width|height|depth|diameter|spacing|thickness|siding|moulding|beam|draught|camber|sill|from_stem|step_y|housing|above_wl|above_deck|above_gundeck|below_deck)$|^keel_|^wale_/.test(key)
+    const isLength = /_(length|breadth|width|height|depth|diameter|spacing|thickness|siding|moulding|beam|draught|camber|sill|from_stem|step_y|housing|above_wl|above_deck|above_gundeck|below_deck)$|^keel_|^wale_|^clutter_.*_(abaft|forward_of|off_centre)(_[a-z]+)*$/.test(key)
       && !/_deg$|_pairs$|_count|_ratio$|_u$|_fraction$/.test(key);
     const period = isLength ? toFtIn(v) : '—';
     s += `| \`${key}\` | ${Number(v.toFixed(4))} | ${period} | ${GRADE(row.source)} | ${row.source.replace(/^(PRIMARY|SECONDARY|RECONSTRUCTED|FICTIONAL|MEASURED)\s*/, '')} |\n`;

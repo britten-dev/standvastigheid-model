@@ -6,7 +6,7 @@
     "maxGap": 0.0000015866376198419228,
     "aboveTruck": 0,
     "lashings": 0,
-    "meanMotionMs": 0.12867647409439087
+    "meanMotionMs": 0.15392157260109396
   },
   {
     "lod": "cinematic",
@@ -15,7 +15,7 @@
     "maxGap": 0.000002164773279471973,
     "aboveTruck": 0,
     "lashings": 221,
-    "meanMotionMs": 0.7262254824825362
+    "meanMotionMs": 0.6399509766522575
   },
   {
     "sails": "topsails",

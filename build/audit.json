@@ -107,7 +107,7 @@
     "key": "crew_figure_height",
     "metric": "extent_y",
     "expected": 1.6764000000000001,
-    "actual": 1.6685931162481191,
+    "actual": 1.7282897098272274,
     "tolerance": 0.05,
     "source": "RECONSTRUCTED §9 the average height of a seaman of about 1800, from the surviving British Marine and Navy muster descriptions (no Dutch figures found). This is the number that gives the ship her scale"
   },
@@ -323,7 +323,7 @@
     "key": "jolly_length",
     "metric": "extent_max",
     "expected": 5.486400000000001,
-    "actual": 5.588876783776481,
+    "actual": 5.588876783776485,
     "tolerance": 0.06,
     "source": "RECONSTRUCTED §8.3 Steel 1805 / Lavery boat establishment for a 74, jolly boat 16-18 ft, the larger taken for a 74"
   },
@@ -523,7 +523,7 @@
     "key": "quarter_cutter_length",
     "metric": "extent_max",
     "expected": 7.315200000000001,
-    "actual": 7.4264894152828695,
+    "actual": 7.426489415282873,
     "tolerance": 0.05,
     "source": "RECONSTRUCTED §8.3 Steel 1805 / Lavery boat establishment for a 74, the second cutter, the same 24 ft as the first"
   },

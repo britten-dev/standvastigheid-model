@@ -422,19 +422,33 @@ export function lodConfig(lod) {
 // She is the second ship on screen in the chase, so `game` is held to draw calls as well as
 // triangles (PLAN.md, "Levels of detail").
 export const TRI_BUDGET = {
-  cinematic: [380000, 1850000],
-  hero: [200000, 1040000],
+  // Includes the watch: twenty-four photographed figures of about ten thousand triangles
+  // each, about 248k from hero up (src/ship/crew-assets.js). The ceilings were 1.85 M and
+  // 1.04 M before the watch, the boats and the deck clutter were photographed.
+  cinematic: [380000, 2080000],
+  hero: [200000, 1380000],
   game: [40000, 100000],
   distant: [1500, 8000],
 };
-// Measured October 2026: cinematic 1.72 M without people, hero 1.01 M, game 95 k and 150
-// calls, distant 8 k and 88 calls. Two plan targets are missed and the reasons recorded in
-// docs/GAME-INTEGRATION.md: cinematic (1.6 M planned) carries the close detail a camera
-// flying round her needs; the draw calls at game and distant (about 120 planned) are the
-// price of a rig in which every part can be shot away on its own.
+// Measured October 2026, before the photographed boats, clutter and carvings: cinematic
+// 1.72 M without people, hero 1.01 M, game 95 k and 150 calls, distant 8 k and 88 calls.
+// Two plan targets are missed and the reasons recorded in docs/GAME-INTEGRATION.md: cinematic
+// (1.6 M planned) carries the close detail a camera flying round her needs; the draw calls
+// at game and distant (about 120 planned) are the price of a rig in which every part can be
+// shot away on its own.
+//
+// Raised at hero and cinematic for the photographed objects, which cost what a photograph
+// costs. Her five boats are about 9.8 k triangles each in place of the built ones: net +29 k
+// at hero, +15 k at cinematic, whose built boats were finer. The eleven pieces of deck
+// clutter are 31 k at both. Together +60 k at hero and +46 k at cinematic, measured with
+// crew off and sails full. The rest of each ceiling is room for the carved figures
+// (src/ship/head.js, stern-detail.js), measured with them loaded: about +30 k at hero and
+// -12 k at cinematic against the ship without them. Game and distant are not raised: they
+// keep the built boats and no clutter, because five photographed boats alone would add about
+// 49 k to a level that has 1 k to spare.
 export const HOST_BUDGET = {
-  cinematic: { tris: 1750000 },
-  hero: { tris: 1020000 },
+  cinematic: { tris: 1830000 },
+  hero: { tris: 1115000 },
   game: { tris: 96000, calls: 155 },
   distant: { tris: 8000, calls: 90 },
 };

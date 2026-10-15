@@ -6,6 +6,7 @@ import {S} from './stern-profile.js';
 import {carved,giltUV,plain,standingFigure,seatedWarrior,lionCouchant,trophyOfArms,scrollRun} from './stern-carving.js';
 import {normalFrom,asTexture} from './textures.js';
 import {carvedGiltFinish} from './stern-finishes.js';
+import {carvingModel} from './carving-assets.js';
 
 const finishes=new Map();
 const hash=n=>{const x=Math.sin(n*127.1+31.7)*43758.5453;return x-Math.floor(x);};
@@ -171,22 +172,35 @@ export function addSternOrnament(cfg,mats,sp,lights,walk,group){
   s.quadraticCurveTo(-crestW/2,crestH*.62,-crestW/2,crestH*.28);s.closePath();
   const gg=new T.ExtrudeGeometry(s,{depth:.07,bevelEnabled:true,bevelSize:.012,bevelThickness:.01,bevelSegments:1,curveSegments:fine?10:4,steps:1});
   gg.translate(0,0,zc-.2);gg.translate(0,top,0);
-  grounds.push(plain(gg));
   const at=(g,x,y,z,ry=0)=>{g.rotateY(ry);g.translate(x,y,z);return g;};
-  // The seated warrior in the middle, a lion couchant either side, a trophy beyond each.
-  figures.push(at(seatedWarrior(crestH*.86,seg),0,top+crestH*.0,zc-.06));
-  for(const sgn of [-1,1]){
-   figures.push(at(lionCouchant(crestH*.34,seg),sgn*crestW*.28,top,zc-.06,sgn>0?.25:-.25));
-   if(fine)figures.push(at(trophyOfArms(crestH*.82,seg),sgn*crestW*.42,top,zc-.16,sgn*.35));
+  // The photographed crest, when it has loaded, is the whole device in one carving — its
+  // own arched ground, the seated maid, the lion, the flags and the trophies — sized to
+  // the crest's height and set into the taffrail. Otherwise the crest is built.
+  const crest=carvingModel('taffrail_crest',fine,crestH);
+  if(crest){
+   crest.position.set(0,top,zc-S('stern_crest_carving_inboard'));
+   crest.name='stern_crest_carving';group.add(crest);
+  }else{
+   grounds.push(plain(gg));
+   // The seated warrior in the middle, a lion couchant either side, a trophy beyond each.
+   figures.push(at(seatedWarrior(crestH*.86,seg),0,top+crestH*.0,zc-.06));
+   for(const sgn of [-1,1]){
+    figures.push(at(lionCouchant(crestH*.34,seg),sgn*crestW*.28,top,zc-.06,sgn>0?.25:-.25));
+    if(fine)figures.push(at(trophyOfArms(crestH*.82,seg),sgn*crestW*.42,top,zc-.16,sgn*.35));
+   }
   }
   // The corner giants, a Hercules each, on their piers, facing aft and a little outboard.
   for(const sgn of [-1,1]){
    const c=walk.corner[sgn];
-   figures.push(at(standingFigure(hf,seg,{pedestal}),c.x,c.y,c.z-.02,sgn*.45));
+   const giant=carvingModel('corner_figure',fine,hf+pedestal);
+   if(giant){
+    giant.position.set(c.x,c.y,c.z-.02);giant.rotation.y=sgn*.45;
+    giant.name=`stern_corner_figure_${sgn>0?'starboard':'port'}`;group.add(giant);
+   }else figures.push(at(standingFigure(hf,seg,{pedestal}),c.x,c.y,c.z-.02,sgn*.45));
   }
  }
 
  const base=new T.Mesh(mergeGeometries(grounds),mats.black);base.name='stern_carving_ground';group.add(base);
  const carving=new T.Mesh(giltUV(mergeGeometries(details.map(plain))),gold);carving.name='stern_carving';group.add(carving);
- const figs=new T.Mesh(giltUV(mergeGeometries(figures.map(plain))),gold);figs.name='stern_figures';group.add(figs);
+ if(figures.length){const figs=new T.Mesh(giltUV(mergeGeometries(figures.map(plain))),gold);figs.name='stern_figures';group.add(figs);}
 }

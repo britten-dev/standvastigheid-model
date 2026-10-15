@@ -10,6 +10,12 @@ import { VIEWS, applyView, framingFor } from '/viewer/views.js';
 import { makeEnvironment, makeSea, makeStormSea } from '/viewer/scene.js';
 import { createMotion } from '/src/ship/motion.js';
 import { createPostStack } from '/viewer/post.js';
+import { preloadSurfaceAssets } from '/src/ship/surface-assets.js';
+
+// The photographed watch, boats, deck clutter and planking, which a ship built without
+// them does not have. tools/render.js asks for them unless it is given --bare; the page
+// does not load them on its own, so a check can still build the ship without.
+window.assets = () => preloadSurfaceAssets();
 
 // Four by three, the same shape as the reference photograph, so that the verification
 // render and the photograph can be laid side by side without either being letterboxed.

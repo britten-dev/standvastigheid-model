@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import * as T from 'three';
 import { hullSideDetails } from '../src/ship/hull-side-details.js';
 import { hullModel, V } from '../src/ship/hull.js';
-import { lodConfig, HOST_BUDGET } from '../src/ship/lod.js';
+import { lodConfig, HOST_BUDGET, TRI_BUDGET } from '../src/ship/lod.js';
 import { openHarness } from './harness.js';
 
 const model=hullModel();
@@ -50,10 +50,16 @@ try {
    const ship=build({lod,sails:'full',weather,crew:false}),part=ship.getObjectByName('hull_side_joinery');
    if(!part?.userData.hullWetProfile)throw new Error('Raised timber must share the hull water-contact profile');
    if(part.userData.bands.length!==2)throw new Error('Both wales at every tier that has joinery');
-   rows.push({lod,weather,bands:part.userData.bands,triangles:window.stats({lod,sails:'full',weather,crew:false}).tris});
+   const triangles=window.stats({lod,sails:'full',weather,crew:false}).tris;
+   // The watch as it is actually loaded (the photographed figures, about 248k at hero and
+   // above), not a remembered figure.
+   rows.push({lod,weather,bands:part.userData.bands,triangles,crew:window.stats({lod,sails:'full',weather}).tris-triangles});
   }
   return rows;
  });
- for(const r of rows)assert.ok(r.triangles<=HOST_BUDGET[r.lod].tris,`${r.lod}/${r.weather}: ${r.triangles} triangles over budget`);
+ for(const r of rows){
+  assert.ok(r.triangles<=HOST_BUDGET[r.lod].tris,`${r.lod}/${r.weather}: ${r.triangles} triangles over budget`);
+  assert.ok(r.triangles+r.crew<TRI_BUDGET[r.lod][1],`${r.lod}/${r.weather}: ${r.triangles}+${r.crew} over export budget`);
+ }
  assert.deepEqual(h.problems,[]);console.log(JSON.stringify(rows,null,2));
 }finally{await h.close();}

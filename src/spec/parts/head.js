@@ -208,4 +208,9 @@ export const HEAD_SPEC = {
   figurehead_crown_radius: m(ft(0, 10), LION, { noAudit: true }),
   figurehead_crown_points: n(5, LION, { noAudit: true }),
   figurehead_crown_sits_in_head: n(0.8, `${LION}; the crown\'s band sits this fraction of the head\'s radius above its centre`, { noAudit: true }),
+  // The photographed lion (src/ship/carving-assets.js), used at hero and cinematic when it
+  // has loaded. It is carved leaping, its body near level, so it is raised on its hind
+  // paws on the plinth rather than leaned like the built one.
+  figurehead_carving_height: m(ft(9, 6), `${LION}; the photographed carving, hind paws to the top of the crown as carved`, { noAudit: true }),
+  figurehead_carving_pitch_deg: n(4, `${LION}; the photographed lion is raised this far on its hind paws, so that it rises off the knee of the head`, { noAudit: true }),
 };

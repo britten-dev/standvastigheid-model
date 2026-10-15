@@ -9,6 +9,7 @@ build/* normal.png
 build/* roughness-metal.png
 build/hero-dimensions.json
 build/crew-prototype/
+build/meshy/
 __pycache__/
 renders/*.png
 !build/.gitkeep
@@ -25,3 +26,4 @@ _scratch*
 
 # Agent worktrees
 .claude/
+build/scans/

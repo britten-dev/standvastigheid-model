@@ -55,20 +55,26 @@ export function createRiggingBindings(ship) {
   const meshes=[];
   ship.traverse(o=>{if(o.geometry?.userData.riggingBindings?.length)meshes.push(o);});
   const batches=meshes.map(mesh=>{
-    const g=mesh.geometry,p=g.attributes.position;
+    const g=mesh.geometry,p=g.attributes.position,n=g.attributes.normal;
     const anchor=desc=>{
       if(!desc)return null;
       const node=ship.getObjectByName(desc.node);
       // A part the host has already removed is simply not there to hold a rope.
       return {...desc,node:node??null,point:desc.point?new T.Vector3().fromArray(desc.point):null};
     };
-    const bindings=g.userData.riggingBindings.map(r=>({...r,mesh,from:anchor(r.from),to:anchor(r.to),
-      restA:new T.Vector3().fromArray(r.a),restB:new T.Vector3().fromArray(r.b),
-      deltaA:new T.Vector3(),deltaB:new T.Vector3()}));
+    // `along` is the gradient of the rope's own coordinate, its chord over its length
+    // squared: t runs 0 to 1 from one end of the span to the other.
+    const bindings=g.userData.riggingBindings.map(r=>{
+      const restA=new T.Vector3().fromArray(r.a),restB=new T.Vector3().fromArray(r.b);
+      const along=restB.clone().sub(restA),length2=along.lengthSq();
+      return {...r,mesh,from:anchor(r.from),to:anchor(r.to),restA,restB,
+        along:length2>1e-12?along.divideScalar(length2):along.set(0,0,0),
+        deltaA:new T.Vector3(),deltaB:new T.Vector3()};
+    });
     mesh.frustumCulled=false;
-    return {mesh,g,p,t:g.attributes.aRopeT,rest:p.array.slice(),bindings,inverse:new T.Matrix4()};
+    return {mesh,g,p,n,t:g.attributes.aRopeT,rest:p.array.slice(),restN:n?.array.slice(),bindings,inverse:new T.Matrix4()};
   });
-  const a=new T.Vector3(),b=new T.Vector3();
+  const a=new T.Vector3(),b=new T.Vector3(),d=new T.Vector3();
   function resolve(binding,out,restPoint,inverse) {
     if(!binding)return out.copy(restPoint);
     // getVertexPosition includes the current reef/furl morph, including reversals.
@@ -78,7 +84,7 @@ export function createRiggingBindings(ship) {
   }
   function update() {
     for(const batch of batches) {
-      const {mesh,g,p,t,rest,bindings,inverse}=batch;
+      const {mesh,p,n,t,rest,restN,bindings,inverse}=batch;
       if(!live(mesh,ship))continue;
       mesh.updateWorldMatrix(true,false);inverse.copy(mesh.matrixWorld).invert();
       let changed=false;
@@ -88,12 +94,27 @@ export function createRiggingBindings(ship) {
         resolve(r.from,a,r.restA,inverse).sub(r.restA);resolve(r.to,b,r.restB,inverse).sub(r.restB);
         if(a.distanceToSquared(r.deltaA)+b.distanceToSquared(r.deltaB)<1e-14)continue;
         r.deltaA.copy(a);r.deltaB.copy(b);changed=true;
+        // Each span is moved by its two ends' displacements blended along it, p + dA(1-t) + dB t:
+        // a shear, whose Jacobian is I + (dB-dA) along^T. Normals go through its inverse
+        // transpose, which Sherman-Morrison gives in closed form,
+        //   n' = n - along ((dB-dA).n) / (1 + (dB-dA).along),
+        // so only the spans that moved are touched, from the normals the rope was built with.
+        // Recomputing every normal of every rope from its faces each frame was the slowest
+        // thing here, and left a crease along the seam of each tube, where the ring's first
+        // and last vertices are separate and each saw only the faces on its own side.
+        const grad=r.along;
+        // A span squashed to nothing has no normals to speak of; keep the sum off zero.
+        const stretch=Math.max(1e-3,1+d.subVectors(b,a).dot(grad));
         for(let i=r.start;i<r.start+r.count;i++) {
           const u=t.getX(i),v=1-u,k=i*3;
           p.setXYZ(i,rest[k]+a.x*v+b.x*u,rest[k+1]+a.y*v+b.y*u,rest[k+2]+a.z*v+b.z*u);
+          if(!n)continue;
+          const s=(d.x*restN[k]+d.y*restN[k+1]+d.z*restN[k+2])/stretch;
+          const x=restN[k]-grad.x*s,y=restN[k+1]-grad.y*s,z=restN[k+2]-grad.z*s,m=1/Math.hypot(x,y,z);
+          n.setXYZ(i,x*m,y*m,z*m);
         }
       }
-      if(changed){p.needsUpdate=true;if(g.attributes.normal)g.computeVertexNormals();}
+      if(changed){p.needsUpdate=true;if(n)n.needsUpdate=true;}
     }
   }
   update();

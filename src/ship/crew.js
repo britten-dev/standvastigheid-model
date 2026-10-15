@@ -26,6 +26,7 @@ import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.j
 import { SPEC, PAINT, OFFSETS } from '../spec/spec.js';
 import { mergeGeometries } from '../util/loft.js';
 import { deg, rng } from '../util/math.js';
+import { crewFigure } from './crew-assets.js';
 import { audit } from '../audit/measure.js';
 import { deckYAt, deckHalfBreadth } from './deck-level.js';
 import { fittingStations } from './furniture.js';
@@ -54,8 +55,9 @@ const DRESS = {
     hat: 'cocked', tails: true, officer: true, buttons: true, tall: 1.0 },
   officer_red: { coat: 'officer_coat', legs: 'officer_facing', trim: 'dutch_facing_red', cuff: 'dutch_facing_red',
     hat: 'cocked', tails: true, officer: true, buttons: true, tall: 1.0 },
+  // A boy of about fifteen: not yet a man's height, which is how he is known from the officers.
   midshipman: { coat: 'officer_coat', legs: 'slop_duck', trim: 'dutch_facing_light_blue', cuff: 'dutch_facing_light_blue',
-    hat: 'round', tails: false, officer: true, buttons: false, tall: 0.93 },
+    hat: 'round', tails: false, officer: true, buttons: false, tall: 0.88 },
   bosun: { coat: 'slop_jacket', legs: 'slop_duck', trim: 'slop_red', hat: 'round', tails: false, tall: 1.0 },
   seaman: { coat: 'slop_jacket', legs: 'slop_duck', trim: 'slop_tarpaulin', hat: 'round', tails: false, tall: 1.0 },
   // One man in four has a red waistcoat from the purser's slops.
@@ -83,16 +85,30 @@ const DRESS = {
  * Colour is written into the vertices rather than carried by materials, so a man can have
  * six colours about him and still be one draw call. See `mats.crew`.
  */
-function figure(mats, { rank = 'seaman', pose = 'stand', seed = 0, detail = false, bake = false } = {}) {
-  const group = new THREE.Group();
+function figure(mats, { rank = 'seaman', pose = 'stand', seed = 0, detail = false, bake = false, cfg } = {}) {
   const dress = DRESS[rank] ?? DRESS.seaman;
   const r = rng(seed * 7 + 3);
 
   // No two men are the same size. It is a few per cent and it does more for a group of
   // figures than any amount of work on any one of them.
   const vary = S('crew_build_variation');
+  const base = dress.officer ? S('crew_officer_height') : S('crew_figure_height');
   const scale = dress.tall * (1 + (r() - 0.5) * 2 * vary);
-  const h = (dress.officer ? S('crew_officer_height') : S('crew_figure_height')) * scale;
+  const h = base * scale;
+
+  // The photographed watch when it has been loaded (src/ship/crew-assets.js), at hero and
+  // cinematic only: a man of ten thousand triangles is not for the game, which keeps the
+  // figures built below.
+  //
+  // The photographed men take their few per cent from a hash of the seed, not from `r`.
+  // The generator's first draw is always close to nought for seeds this small, which has
+  // left every built figure the same five per cent short; the built ones are left as they
+  // were, because the exports and audits are measured against them.
+  const spread = Math.abs((Math.sin(seed * 12.9898 + 1.7) * 43758.5453) % 1);
+  const real = cfg && cfg.textureSize >= 1024
+    && crewFigure({ rank, pose, seed, height: base * dress.tall * (1 + (spread - 0.5) * 2 * vary) });
+  if (real) return real;
+  const group = new THREE.Group();
   const broad = 1 + (r() - 0.5) * 2 * vary;
 
   const legH = h * S('crew_leg_fraction');
@@ -418,8 +434,11 @@ export function buildCrew(cfg, mats, model, ctx) {
    * forward, +PI/2 is to starboard.
    */
   const place = (name, { z, x = 0, which = 'standing', facing = Math.PI, rank, pose = 'stand', role }) => {
-    const f = figure(mats, { seed: seed++, detail, bake, rank, pose });
-    f.position.set(x, deckYAt(model, z, which, x), z);
+    const f = figure(mats, { seed: seed++, detail, bake, rank, pose, cfg });
+    // The photographed helmsmen have a real arm's length: they stand a little nearer the wheel.
+    const close = role === 'helm' && f.userData.crew.skinned;
+    f.position.set(close ? x - Math.sign(x) * S('crew_helm_photographed_closer_across') : x,
+      deckYAt(model, z, which, x), close ? z - S('crew_helm_photographed_closer_abaft') : z);
     // Heading first, then the lean of the pose about his own athwartships axis. YXZ
     // order is what makes that read the way it is written: turn him, then tip him.
     f.rotation.order = 'YXZ';
@@ -554,7 +573,7 @@ export function buildCrew(cfg, mats, model, ctx) {
       const thick = SPEC.top_platform_thickness?.value ?? 0.1;
       const topmen = [[-1, 'hold', 0], [1, 'haul', 0], [0, 'hold', -0.5]];
       for (const [i, [sx, pose, dz]] of topmen.entries()) {
-        const f = figure(mats, { pose, rank: hands(seed), seed: seed++, detail, bake });
+        const f = figure(mats, { pose, rank: hands(seed), seed: seed++, detail, bake, cfg });
         // Stand on the forward part of the top, clear of the topsail's belly aft.
         // At the mast centre the moving cloth sliced through their heads and torsos.
         f.position.set(sx * breadth / 2 * Math.min(S('crew_top_inset'), 0.36), p.y + thick,

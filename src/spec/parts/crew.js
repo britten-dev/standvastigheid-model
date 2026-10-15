@@ -43,6 +43,8 @@ export const CREW_SPEC = {
   // draught fixes (a mast, the capstan, the wheel), never as a number on the ship, so the
   // watch moves with them.
   crew_helm_abaft_wheel: m(ft(1, 4), `${R} a helmsman stands close abaft his wheel with the spokes at arm's length; the double wheel has two men to each`, { noAudit: true }),
+  crew_helm_photographed_closer_abaft: m(ft(0, 5.5), `${R} the photographed helmsmen have a real arm's length, shorter than the built figures' reach, so they stand this much nearer the wheel`, { noAudit: true }),
+  crew_helm_photographed_closer_across: m(ft(0, 3), `${R} and this much nearer the hub, across`, { noAudit: true }),
   crew_helm_off_centre: m(ft(2, 4), `${R} each helmsman stands beside the rim of the wheel, a little inside its edge`, { noAudit: true }),
   crew_con_abaft_binnacle: m(ft(2, 6), `${R} the officer of the watch cons her from beside the binnacles, where he can see the compass and the weather leech together`, { noAudit: true }),
   crew_con_off_centre: m(ft(6, 0), `${R} the officer of the watch stands to larboard of the binnacles`, { noAudit: true }),

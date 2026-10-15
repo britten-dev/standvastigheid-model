@@ -30,8 +30,8 @@ is not redistributed here).
 
 | LOD | Triangles (no people) | Draw calls | Use |
 | --- | --- | --- | --- |
-| `cinematic` | 1.72 M | 404 | A camera flying close round her |
-| `hero` | 1.01 M | 337 | Close inspection |
+| `cinematic` | 1.78 M | 409 | A camera flying close round her |
+| `hero` | 1.10 M | 342 | Close inspection |
 | `game` | 95 k | 150 | The chaser at gameplay range |
 | `distant` | 7.8 k | 88 | On the horizon |
 
