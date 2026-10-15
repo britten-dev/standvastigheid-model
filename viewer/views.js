@@ -14,7 +14,7 @@ export const VIEWS = {
   // Vrijheid (NG-MC-500, Amsterdam c.1782): her port side from abaft the beam, a little
   // above the rail, the whole rig in frame. The model is unrigged and carries no sails,
   // so the comparison is made with the canvas furled.
-  reference: { azimuth: 247, elevation: 11, fill: 0.88, fov: 30, aim: [0, 0.40, 0.02] },
+  reference: { azimuth: 250, elevation: 5, fill: 0.86, fov: 30, aim: [0, 0.38, 0.02] },
 
   bow: { azimuth: 348, elevation: 9, fill: 1.04, fov: 34, aim: [0, 0.44, 0] },
   beam: { azimuth: 270, elevation: 7, fill: 1.02, fov: 32, aim: [0, 0.48, 0] },

@@ -53,38 +53,57 @@ that reads `gundeck_above_wl_at_midships` to mean "the deck people stand on" sho
 
 ## Bow chasers
 
-Two long guns in bridle ports in the bow, on the lower deck, trained right forward, as
-the book has them. Also two stern chasers in the counter.
+Two long 32-pounders in bridle ports in the bow, on the lower deck, trained 8° outboard of
+dead ahead, as the book has them. Two long 24-pounders in the counter's chase ports, 5°
+outboard of dead astern.
 
-* Nodes `locator_bow_chaser_port`, `locator_bow_chaser_starboard` (and
-  `locator_stern_chaser_*`) sit at the muzzles; their pointing axis is given in
-  `guns.userData.gunnery`.
-* They are entries in `guns.userData.gunnery.guns` in exactly Surprise's record format,
-  with `side: 'bow'` or `'stern'` and `kind: 'chaser'`, so a broadside order to `port` or
-  `starboard` never fires them, and `gunnery.js` can recoil them unchanged.
-* `ship.userData.chasers === 'manned'` means the chasers may fire although
-  `ship.userData.ports === 'shut'`. The game's "guns secured" rule should let them through.
+* Nodes `locator_bow_chaser_port`, `locator_bow_chaser_starboard`,
+  `locator_stern_chaser_port`, `locator_stern_chaser_starboard` sit at the muzzle face.
+  **Local +X is the bore, muzzle first** (`userData.bore === '+X'`, `userData.gunId`) —
+  the same axis as the barrel instance matrices, so `gunnery.js`'s
+  `new Vector3(1,0,0).transformDirection(home)` agrees with the locator.
+* They are entries in `guns.userData.gunnery.guns` in Surprise's record format, with
+  `side: 'bow'` or `'stern'`, `kind: 'chaser'` and `locator`. A broadside order to
+  `port` or `starboard` never fires them. Broadside guns carry `kind` `'lower'`,
+  `'upper'`, `'quarterdeck'` or `'forecastle'`.
+* `ship.userData.chasers === 'manned'` (the default) keeps the bridle and counter ports
+  open and the chasers run out even when `ship.userData.ports === 'shut'`. The game's
+  "ports shut, guns secured" rule should let `kind: 'chaser'` through.
 
 ## Shooting away her rig
 
-Every mast, topmast, topgallant, yard, sail, the bowsprit and the jib-boom is a separate
-named part, nested the way it is fitted, with its own standing and running rigging:
+Every mast, topmast, topgallant, yard, sail, the bowsprit, the jib-boom and the spanker's
+gaff and boom is a part of its own (39 parts), nested the way it is fitted, with its own
+standing and running rigging:
 
 ```
 rig ─ fore ─ fore_lower_mast, fore_top, fore_yard → fore_course_sail, lower rigging
           └─ fore_topmast_assembly ─ fore_topmast, fore_topsail_yard → fore_topsail_sail, …
                                    └─ fore_topgallant_assembly ─ fore_topgallant, …
+    main …, mizzen …, bowsprit_assembly …
 ```
 
 ```js
-carryAway(ship, 'fore_topmast');   // hides it and everything it carries; returns their names
-ship.userData.rigParts;            // the registry: what each part carries and its ropes
-restore(ship);                     // puts it all back
+import { carryAway, restore, partsCarriedBy, isCarriedAway, rigPartNames } from 'waakzaamheid-model/damage';
+
+carryAway(ship, 'fore_topmast');   // hides it, everything it carries and its ropes; returns the names
+partsCarriedBy(ship, 'fore_lower_mast');  // ['fore_topmast', 'fore_topgallant', 'fore_yard', ...]
+restore(ship, 'fore_topmast');     // mends one part (or everything, with no name)
+ship.userData.rigParts;            // { name: { kind, mast, object, objects, needs, carries, ropes, attachments } }
+ship.userData.carriedAway;         // names carried away, in order
 ```
 
-The motion layer and sail handling skip what has been carried away. Mesh names are
-Surprise's (`*_yard`, `*_sail`), so code that finds parts by name keeps working. No
-falling wreckage or broaching is modelled here — that is the game's.
+* `carries` is the whole chain: `fore_lower_mast` takes the topmast, the topgallant and
+  every yard and sail above. The jib needs both the fore topmast and the jib-boom.
+* A rope goes when either of its ends goes, including braces led to another mast.
+* The pennant goes with the main topgallant, the ensign with the spanker gaff, the
+  topmen with the main lower mast.
+* Nothing is removed from the scene, only hidden, so `createMotion` and
+  `createSailHandling` keep working through a loss, whether created before or after it.
+* Not modelled: falling wreckage, a sail whose lower yard has gone flogging free, the
+  broach. Those are the game's.
+
+The book's ending is `carryAway(ship, 'fore_lower_mast')`.
 
 ## Cost
 

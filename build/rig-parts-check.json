@@ -1,0 +1,35 @@
+{
+  "rows": [
+    {
+      "lod": "hero",
+      "sailAreaSquareMetres": 2746,
+      "mainTopsailDepthMetres": 17.26,
+      "steelDepthMetres": 17.25
+    },
+    {
+      "lod": "hero",
+      "parts": 39,
+      "ropeMeshes": 40,
+      "rigMeshes": 130,
+      "rigLines": 6,
+      "rigTriangles": 190304
+    },
+    {
+      "lod": "game",
+      "parts": 39,
+      "ropeMeshes": 32,
+      "rigMeshes": 78,
+      "rigLines": 6,
+      "rigTriangles": 13658
+    },
+    {
+      "lod": "distant",
+      "parts": 38,
+      "ropeMeshes": 17,
+      "rigMeshes": 51,
+      "rigLines": 17,
+      "rigTriangles": 1578
+    }
+  ],
+  "issues": []
+}
